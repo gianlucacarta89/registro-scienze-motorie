@@ -12,6 +12,7 @@
     return {
       schema: 1,
       classi: [],
+      archivio: { test: [] },            // elenco dei test del docente (fuori dalle classi)
       preferenze: { classeAttiva: null, modulo: 'test', prova: 1, annoInizio: null, statTest: null },
       ultimaModifica: null,
       ultimoBackup: null
@@ -37,6 +38,7 @@
     n.preferenze.annoInizio = typeof p.annoInizio === 'number' ? p.annoInizio : null;
     n.ultimaModifica = d.ultimaModifica || null;
     n.ultimoBackup = d.ultimoBackup || null;
+    n.archivio = { test: d.archivio && Array.isArray(d.archivio.test) ? d.archivio.test : [] };
     return n;
   }
 

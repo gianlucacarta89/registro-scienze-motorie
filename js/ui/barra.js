@@ -36,6 +36,8 @@
       barra.appendChild(el('div', { class: 'gruppo-btn' },
         classe ? el('button', { type: 'button', class: 'btn btn-neutro', text: '👥 Alunni',
           onclick: function () { App.UI.FinestraAlunni.apri(App.Stato.classe()); } }) : null,
+        el('button', { type: 'button', class: 'btn btn-neutro', text: '📚 Test',
+          onclick: function () { App.UI.FinestraElencoTest.apri(App.Stato.classe()); } }),
         el('button', { type: 'button', class: 'btn btn-neutro', text: '🏫 Classi',
           onclick: function () { App.UI.FinestraClassi.apri(); } }),
         el('button', { type: 'button', class: 'btn btn-info', text: '💾 Backup',

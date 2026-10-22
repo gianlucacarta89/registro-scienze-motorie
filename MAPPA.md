@@ -1,4 +1,4 @@
-# MAPPA — Registro Scienze Motorie v3.0
+# MAPPA — Registro Scienze Motorie v3.1
 
 Indice dei file: cosa c'è dentro e quale parte dell'app ne dipende.
 Tutti i moduli stanno nell'oggetto globale `App`. Ordine di caricamento in `index.html`:
@@ -48,6 +48,7 @@ Nome, versione, nome dell'archivio, mesi (set–giu), prove, tipi di test, **sim
 | `test.js` | `App.Test` | `copia` (test in un'altra classe), `valida` (numeri e tempi), `etichetteStrumento` (uno per tutti o ♂/♀), `crea`, `modifica`, `elimina`, `sposta`, `valore`, `imposta`, `confronto`, `quantiRisultati` |
 | `voti.js` | `App.Voti` | `scala` (4–10 con i mezzi voti), `controlla` (tabella in ordine), `calcola` (voto da risultato e ♂/♀), `votoAlunno`, `media`, `haTabella`, `sufficiente` |
 | `statistiche.js` | `App.Statistiche` | `test` (svolti, media, migliore, peggiore, ♂/♀, quanti per voto), `miglioramenti`, `mediaVotiPerTest`, `testoValore` |
+| `elenco-test.js` | `App.ElencoTest` | `contenitore` (l'elenco con la forma di una classe), `tutti`, `aggiungiAClasse`, `prendiDaClasse` |
 | `giustificazioni.js` | `App.Giust` | `errore` (mese, doppioni, simbolo), `aggiungi`, `modifica`, `elimina`, `delMese`, `totaleAnno`, `contaClasse` |
 
 ## js/dati/
@@ -68,6 +69,7 @@ Nome, versione, nome dell'archivio, mesi (set–giu), prove, tipi di test, **sim
 | `tabella-test.js` | `App.UI.TabellaTest` | Scheda 📊 Test (nome alunno toccabile): ➕ Nuovo test, 1ª / 2ª prova / ⇄ Confronto, caselle dei risultati |
 | `finestra-voti.js` | `App.UI.FinestraVoti` | 📏 Tabella dei voti: una riga per voto, soglia ♂ e ♀, ➕ riga, 🗑️ Svuota |
 | `finestra-copia-test.js` | `App.UI.FinestraCopiaTest` | 📋 Copia test in un'altra classe |
+| `finestra-elenco-test.js` | `App.UI.FinestraElencoTest` | 📚 Test (in alto) e 📚 Dall'elenco: elenco dei test, ➕ Nuovo test nell'elenco, ✏️, 📥 Prendi i test della classe, ➕ Aggiungi alla classe |
 | `grafici.js` | `App.UI.Grafici` | `colonne`, `barre` (grafici HTML/CSS) |
 | `statistiche.js` | `App.UI.Statistiche` | Scheda 📈 Statistiche |
 | `finestra-test.js` | `App.UI.FinestraTest` | ➕ Nuovo test e ✏️ intestazione colonna: nome, tipologia, strumento (uno o ♂/♀), tipo, unità, migliore, ◀ ▶ sposta, 🗑️ |
@@ -85,6 +87,7 @@ Nome, versione, nome dell'archivio, mesi (set–giu), prove, tipi di test, **sim
 ## Struttura dei dati (`App.Stato.dati`)
 ```
 { schema: 1, ultimaModifica, ultimoBackup,
+  archivio: { test: [ come classe.test ] },   // 📚 elenco dei test, fuori dalle classi
   preferenze: { classeAttiva, modulo: 'test'|'giust'|'stat', prova: 1|2|'c', annoInizio: null|2026, statTest },
   classi: [{ id, nome,
     alunni: [{ id, nome, sesso: 'M'|'F'|'' }],

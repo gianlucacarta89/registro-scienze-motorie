@@ -67,6 +67,8 @@
       App.UI.TabellaTest.disegna(main, classe);
     }
     piede();
+    // se la finestra dell'elenco dei test è aperta, si aggiorna anche lei
+    if (App.UI.FinestraElencoTest && App.UI.FinestraElencoTest.ridisegna) App.UI.FinestraElencoTest.ridisegna();
   };
 
   App.UI.piede = piede;

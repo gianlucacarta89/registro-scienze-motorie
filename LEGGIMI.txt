@@ -1,4 +1,4 @@
-REGISTRO SCIENZE MOTORIE — v3.0
+REGISTRO SCIENZE MOTORIE — v3.1
 ================================
 
 PUBBLICAZIONE SU GITHUB PAGES (una volta sola, dal computer)
@@ -43,6 +43,8 @@ COSA FA
 - 📊 Test: aggiungi i test come colonne (nome, tipologia, strumento: uno per tutti
   o diverso per alunni e alunne) e scrivi i risultati. Ci sono due prove
   (es. inizio e fine anno) e la vista "Confronto" con i miglioramenti in verde.
+- 📚 Test (in alto): l'elenco dei tuoi test. Li crei una volta (nome, tipologia, strumento,
+  tabella dei voti) e li aggiungi alle classi; nella classe puoi poi adattarli all'età.
 - 📏 Voti automatici: nel test tocca "📏 Tabella dei voti" e copia i parametri del libro
   (per ogni voto il risultato minimo, o massimo per i tempi), separati per alunni e alunne.
   Indica ♂/♀ di ogni alunno in 👥 Alunni. Il voto compare sotto ogni risultato.

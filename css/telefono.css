@@ -10,11 +10,13 @@
 @media (max-width: 480px) {
   body { font-size: 14px; }
   h1 { font-size: 1.05rem; }
-  .barra .btn { padding: 6px 9px; font-size: .9rem; }
+  .barra .btn { padding: 6px 7px; font-size: .85rem; }
+  .barra .gruppo-btn { gap: 5px; }
   .scelta-classe .etichetta { display: none; }
   .scelta-classe select { max-width: 7em; }
   .strumenti { gap: 8px; }
-  .strumenti > .btn, .segmenti { width: 100%; }
+  .segmenti { width: 100%; order: 9; }
+  .strumenti > .btn { flex: 1 1 auto; padding: 8px 8px; font-size: .88rem; }
   .segmento { flex: 1; padding: 8px 4px; font-size: .9rem; }
   .tabella .col-nome { min-width: 8.5em; max-width: 9.5em; padding: 6px 8px; font-size: .9rem; }
   .col-test { min-width: 6em; }

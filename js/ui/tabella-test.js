@@ -120,6 +120,8 @@
       cont.appendChild(el('div', { class: 'strumenti' },
         el('button', { type: 'button', class: 'btn btn-ok', text: '➕ Nuovo test',
           onclick: function () { App.UI.FinestraTest.apri(classe, null); } }),
+        el('button', { type: 'button', class: 'btn btn-neutro', text: '📚 Dall\'elenco',
+          onclick: function () { App.UI.FinestraElencoTest.apri(classe); } }),
         barraProve(prova),
         classe.test.length ? el('button', { type: 'button', class: 'btn btn-neutro', text: '📋 Copia test',
           onclick: function () { App.UI.FinestraCopiaTest.apri(classe); } }) : null));

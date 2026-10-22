@@ -276,3 +276,11 @@ textarea { resize: vertical; }
 .riga-barra .barra { height: 100%; border-radius: 0 4px 4px 0; }
 .riga-barra .riferimento { position: absolute; top: -3px; bottom: -3px; border-left: 2px dashed var(--tenue); }
 .riga-barra .valore { font-weight: 700; font-variant-numeric: tabular-nums; text-align: right; }
+
+/* Elenco dei test */
+.riga-test { align-items: flex-start; }
+.riga-test input[type=checkbox] { margin-top: 4px; }
+.testo-test { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.testo-test .piccolo { overflow-wrap: anywhere; }
+.aggiungi-a-classe { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--bordo); }
+.aggiungi-a-classe select { min-height: 40px; border: 1px solid var(--bordo-forte); border-radius: 8px; background: var(--campo); padding: 4px 10px; }

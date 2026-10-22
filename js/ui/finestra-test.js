@@ -1,8 +1,9 @@
 /* finestra-test.js
  * Cosa fa: finestra per creare, modificare, spostare o cancellare un test (colonna del modulo 1).
- * Dipende da: App.U, App.Config (tipiTest), App.Test, App.Voti, App.UI.FinestraVoti, App.Stato, App.Avvisi, App.Finestra,
+ * Dipende da: App.U, App.Config (tipiTest), App.Test, App.Voti, App.ElencoTest, App.UI.FinestraVoti, App.Stato, App.Avvisi, App.Finestra,
  *             App.UI.disegnaContenuto
- * Usato da: ui/tabella-test.js (pulsante ➕ Nuovo test e intestazioni delle colonne)
+ * Usato da: ui/tabella-test.js (pulsante ➕ Nuovo test e intestazioni delle colonne),
+ *           ui/finestra-elenco-test.js (test dell'elenco: "classe" = App.ElencoTest.contenitore())
  */
 (function (App) {
   'use strict';
@@ -82,7 +83,15 @@
           el('p', { class: 'piccolo', text: t && App.Voti.haTabella(t)
             ? '📏 Tabella inserita: ' + t.voti.righe.length + ' voti, separati per alunni e alunne.'
             : 'Inserisci i parametri di riferimento (es. del libro) per calcolare il voto da solo.' }),
-          el('button', { type: 'button', class: 'btn btn-info', text: '📏 Tabella dei voti', onclick: function () { salva(true); } })));
+          el('button', { type: 'button', class: 'btn btn-info', text: '📏 Tabella dei voti', onclick: function () { salva(true); } })),
+        // un test di una classe si può mettere nell'elenco, per riusarlo nelle altre classi
+        t && !classe.elenco ? el('div', { class: 'riga-btn sinistra' },
+          el('button', { type: 'button', class: 'btn btn-neutro piccolo-btn', text: '📚 Salva nell\'elenco dei test', onclick: function () {
+            if (!salva(false)) return;
+            var r = App.ElencoTest.prendiDaClasse(classe, [t.id]);
+            App.Stato.salva();
+            App.Avvisi.toast(r.copiati ? '✔ "' + t.nome + '" salvato nell\'elenco dei test (📚).' : 'Nell\'elenco c\'è già un test "' + t.nome + '".', r.copiati ? 'ok' : 'info', 4500);
+          } })) : null);
 
       function aggiornaTipo(cambiato) {
         var tipo = f.querySelector('input[name=tipo]:checked').value;
@@ -137,7 +146,7 @@
         }
       });
 
-      fin = App.Finestra.apri({ titolo: t ? 'Modifica test' : 'Nuovo test', icona: '📊', corpo: f, pulsanti: pulsanti });
+      fin = App.Finestra.apri({ titolo: (classe.elenco ? 'Elenco · ' : '') + (t ? 'Modifica test' : 'Nuovo test'), icona: classe.elenco ? '📚' : '📊', corpo: f, pulsanti: pulsanti });
     }
   };
 })(window.App = window.App || {});
