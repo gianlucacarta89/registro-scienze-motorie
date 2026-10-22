@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#2b3440">
+  <meta name="description" content="Registro di scienze motorie: test degli alunni e giustificazioni">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icone/icona-192.png" type="image/png">
+  <link rel="apple-touch-icon" href="icone/apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="Registro SM">
+  <title>Registro Scienze Motorie</title>
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/componenti.css">
+  <link rel="stylesheet" href="css/telefono.css">
+</head>
+<body>
+  <header class="testata">
+    <div class="titolo"><span id="logo" class="logo"></span><h1 id="titolo-app">Registro Scienze Motorie</h1></div>
+    <div id="barra" class="barra"></div>
+  </header>
+  <nav id="schede" class="schede" role="tablist"></nav>
+  <main id="contenuto" class="contenuto"></main>
+  <footer id="piede" class="piede"></footer>
+
+  <!-- Ordine: config → core → servizi → dati → ui → avvio -->
+  <script src="js/config.js"></script>
+  <script src="js/core/utils.js"></script>
+  <script src="js/core/archivio.js"></script>
+  <script src="js/core/stato.js"></script>
+  <script src="js/core/finestra.js"></script>
+  <script src="js/core/avvisi.js"></script>
+  <script src="js/core/pwa.js"></script>
+  <script src="js/servizi/calendario.js"></script>
+  <script src="js/servizi/nomi.js"></script>
+  <script src="js/servizi/classi.js"></script>
+  <script src="js/servizi/test.js"></script>
+  <script src="js/servizi/giustificazioni.js"></script>
+  <script src="js/dati/zip.js"></script>
+  <script src="js/dati/leggi-file.js"></script>
+  <script src="js/dati/backup.js"></script>
+  <script src="js/ui/pagina.js"></script>
+  <script src="js/ui/barra.js"></script>
+  <script src="js/ui/tabella-test.js"></script>
+  <script src="js/ui/finestra-test.js"></script>
+  <script src="js/ui/tabella-giust.js"></script>
+  <script src="js/ui/finestra-giust.js"></script>
+  <script src="js/ui/finestra-classi.js"></script>
+  <script src="js/ui/finestra-alunni.js"></script>
+  <script src="js/ui/finestra-importa.js"></script>
+  <script src="js/ui/finestra-backup.js"></script>
+  <script src="js/avvio.js"></script>
+</body>
+</html>

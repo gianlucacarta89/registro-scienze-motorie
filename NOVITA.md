@@ -1,0 +1,8 @@
+# NOVITÀ — Registro Scienze Motorie
+
+| Versione | Data | Cosa cambia per chi usa l'app | File toccati |
+|---|---|---|---|
+| v1.0 | 19/10/2026 | Prima versione: classi e alunni (caricamento da Excel, Word, CSV o testo incollato), modulo Test con 1ª/2ª prova e confronto, modulo Giustificazioni settembre–giugno con 5 simboli, backup per passare tra telefono, tablet e computer. Lettura di Excel e Word senza librerie esterne: funziona tutto offline. | tutti (nuovi) |
+| v1.1 | 20/10/2026 | App pubblicata come pagina privata su claude.ai, da aprire su telefono, tablet e computer. Esportazione del backup con richiesta di conferma; il backup risulta "aggiornato" solo se il file è stato davvero salvato. Tema scuro automatico. Margini adatti ai telefoni con bordi curvi. | `js/core/utils.js`, `js/dati/backup.js`, `js/ui/finestra-backup.js`, `css/base.css`, `css/componenti.css`, `css/telefono.css`, `js/config.js` |
+| v1.2 | 21/10/2026 | Backup con Google Drive: nella finestra 💾 Backup ci sono i passi per salvare e riaprire il file da Drive su iPhone/iPad, Android e computer. | `js/config.js`, `js/ui/finestra-backup.js`, `css/componenti.css`, `LEGGIMI.txt`, `MAPPA.md` |
+| v2.0 | 21/10/2026 | L'app diventa installabile (PWA): icona sulla Home, schermo intero, funziona senza internet dopo la prima apertura; pulsante "📲 Installa l'app"; avviso quando arriva una nuova versione. Da pubblicare su GitHub Pages. | nuovi: `sw.js`, `manifest.webmanifest`, `icone/`, `.nojekyll`, `js/core/pwa.js`; cambiati: `index.html`, `js/avvio.js`, `js/ui/pagina.js`, `js/config.js`, `css/base.css`, `LEGGIMI.txt`, `MAPPA.md` |

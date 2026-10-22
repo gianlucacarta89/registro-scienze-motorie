@@ -1,0 +1,65 @@
+REGISTRO SCIENZE MOTORIE — v2.0
+================================
+
+PUBBLICAZIONE SU GITHUB PAGES (una volta sola, dal computer)
+1. Crea un account gratuito su github.com.
+2. In alto a destra "+" → "New repository". Nome: registro-scienze-motorie,
+   scegli "Public", poi "Create repository".
+3. Nella pagina del repository: "uploading an existing file".
+   Apri la cartella estratta dallo ZIP, seleziona TUTTO il suo contenuto
+   (index.html, sw.js, manifest.webmanifest, .nojekyll e le cartelle css, js, icone)
+   e trascinalo nella pagina. In basso "Commit changes".
+   (Se .nojekyll non si vede, non importa: è facoltativo.)
+4. "Settings" → "Pages" → in "Branch" scegli "main" e "/ (root)" → "Save".
+5. Dopo 1-2 minuti l'app è su:
+   https://TUO-NOME-UTENTE.github.io/registro-scienze-motorie/
+
+INSTALLAZIONE SU TELEFONO, TABLET E COMPUTER
+- Apri quell'indirizzo una volta, con internet.
+- iPhone/iPad (Safari): Condividi → "Aggiungi alla schermata Home".
+- Android (Chrome): ⋮ → "Installa app".
+- Computer (Chrome o Edge): icona di installazione nella barra dell'indirizzo.
+- Oppure tocca "📲 Installa l'app" in fondo alla pagina.
+- Da quel momento apri l'app dall'icona: funziona anche SENZA internet.
+
+AGGIORNAMENTI
+- Per una nuova versione carica di nuovo su GitHub i file cambiati ("Add file" →
+  "Upload files"). Alla prima apertura con internet l'app si aggiorna da sola;
+  ti avvisa di chiuderla e riaprirla.
+
+COME APRIRLA DA FILE (solo computer, senza installazione)
+- Estrai lo ZIP e fai doppio clic su index.html.
+
+COSA FA
+- 🏫 Classi: crea le tue classi (es. 1A, 2B) e scegli quella su cui lavorare in alto.
+- 👥 Alunni: carica i nomi da Excel (.xlsx), Word (.docx), .csv o .txt,
+  oppure incollali. Prima di aggiungerli vedi l'elenco e puoi togliere quelli sbagliati.
+- 📊 Test: aggiungi i test come colonne e scrivi i risultati. Ci sono due prove
+  (es. inizio e fine anno) e la vista "Confronto" con i miglioramenti in verde.
+- 📋 Giustificazioni: tocca la casella di un alunno nel mese giusto e scegli
+  data, simbolo e una nota facoltativa. La colonna Tot. conta le giustificazioni dell'anno.
+
+DOVE SONO I DATI
+- I dati restano salvati nel browser del dispositivo che stai usando, a ogni modifica.
+- Ogni browser ha i suoi dati: Chrome e Safari dello stesso computer NON li condividono.
+- Se cancelli i dati di navigazione del browser, i dati dell'app si perdono:
+  per questo fai spesso il backup.
+
+BACKUP E PASSAGGIO TRA TELEFONO, TABLET E COMPUTER (con Google Drive)
+- Crea una volta sola una cartella "Registro SM" nel tuo Google Drive.
+1. Finito di lavorare: 💾 Backup → ⬇️ Esporta backup e salva il file in quella cartella.
+   - iPhone/iPad: scegli "Salva su File" → Google Drive.
+   - Android: il file va in Download; dalla notifica → Condividi → Drive.
+   - Computer: con "Google Drive per desktop" salva nella cartella di Drive,
+     altrimenti trascina il file su drive.google.com.
+2. Sull'altro dispositivo: 💾 Backup → ⬆️ Importa backup → Google Drive
+   e apri il file più recente (il nome è "registro-sm_backup_DATA_ORA.json").
+- L'importazione SOSTITUISCE tutti i dati: lavora su un dispositivo alla volta.
+- L'app funziona senza connessione: internet serve solo per passare il file da Drive.
+- iPhone/iPad: usa l'app installata sulla Home, non la pagina in Safari: Safari può
+  cancellare i dati dei siti non usati per qualche settimana, l'app installata no.
+- In fondo alla pagina vedi se ci sono "modifiche non ancora nel backup".
+
+PRIVACY
+- I dati non escono mai dal dispositivo, se non quando esporti tu il backup.
+- Nelle note delle giustificazioni evita diagnosi e dettagli sanitari.

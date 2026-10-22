@@ -1,0 +1,152 @@
+/* base.css — colori, caratteri, impaginazione generale */
+:root {
+  --sfondo: #f3f4f6;
+  --carta: #ffffff;
+  --testo: #1f2933;
+  --tenue: #5f6b7a;
+  --bordo: #d9dde3;
+  --bordo-forte: #b8bfc9;
+  --scuro: #2b3440;
+  --scuro-2: #3b4757;
+  --evidenza: #eef2f7;
+
+  /* Colori per funzione: sempre gli stessi in tutta l'app */
+  --ok: #1e8449;        /* aggiungere, salvare, confermare */
+  --ok-chiaro: #e3f4ea;
+  --pericolo: #c0392b;  /* cancellare */
+  --pericolo-chiaro: #fbe9e7;
+  --info: #2c6fb7;      /* backup, scegliere file */
+  --info-chiaro: #e6f0fa;
+  --avviso: #b45309;
+  --avviso-chiaro: #fdf2e2;
+
+  /* Colori di supporto */
+  --campo: #ffffff;            /* sfondo di caselle e menu */
+  --riga-alterna: #fafbfc;
+  --cella-fuoco: #fffbe6;
+  --chip-bordo: #f1d3a8;
+  --su-colore: #ffffff;        /* testo sopra i pulsanti colorati e la testata */
+  --testata-tenue: #cfd6df;
+  --testata-linea: rgba(255, 255, 255, .3);
+  --testata-velo: rgba(255, 255, 255, .08);
+  --velo: rgba(15, 23, 32, .5);
+  --ombra-forte: 0 20px 50px rgba(0, 0, 0, .25);
+
+  --raggio: 10px;
+  --ombra: 0 1px 2px rgba(16, 24, 40, .06), 0 1px 3px rgba(16, 24, 40, .08);
+  --carattere: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* Tema scuro (stesso significato dei colori, toni adatti allo sfondo scuro) */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --sfondo: #14181d; --carta: #1c2128; --testo: #e6e9ed; --tenue: #9aa5b3;
+    --bordo: #2f3740; --bordo-forte: #46515e; --scuro: #0e1216; --scuro-2: #232a33; --evidenza: #26303b;
+    --ok: #2e9e5e; --ok-chiaro: #17321f; --pericolo: #d9534f; --pericolo-chiaro: #3a1d1b;
+    --info: #3b82c9; --info-chiaro: #182a3d; --avviso: #e0a050; --avviso-chiaro: #3a2a14;
+    --campo: #12161b; --riga-alterna: #20262e; --cella-fuoco: #33301a; --chip-bordo: #6b4f22;
+    --velo: rgba(0, 0, 0, .65); --ombra-forte: 0 20px 50px rgba(0, 0, 0, .6);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --sfondo: #14181d; --carta: #1c2128; --testo: #e6e9ed; --tenue: #9aa5b3;
+  --bordo: #2f3740; --bordo-forte: #46515e; --scuro: #0e1216; --scuro-2: #232a33; --evidenza: #26303b;
+  --ok: #2e9e5e; --ok-chiaro: #17321f; --pericolo: #d9534f; --pericolo-chiaro: #3a1d1b;
+  --info: #3b82c9; --info-chiaro: #182a3d; --avviso: #e0a050; --avviso-chiaro: #3a2a14;
+  --campo: #12161b; --riga-alterna: #20262e; --cella-fuoco: #33301a; --chip-bordo: #6b4f22;
+  --velo: rgba(0, 0, 0, .65); --ombra-forte: 0 20px 50px rgba(0, 0, 0, .6);
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--sfondo);
+  color: var(--testo);
+  font-family: var(--carattere);
+  font-size: 15px;
+  line-height: 1.45;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+}
+
+h1, h2, h3 { margin: 0; line-height: 1.25; }
+h1 { font-size: 1.2rem; font-weight: 700; letter-spacing: .01em; }
+h2 { font-size: 1.1rem; }
+h3 { font-size: 1rem; }
+p { margin: .4em 0; }
+
+button, input, select, textarea { font: inherit; color: inherit; }
+
+/* Testata */
+.testata {
+  background: var(--scuro);
+  color: var(--su-colore);
+  padding-top: calc(10px + env(safe-area-inset-top, 0px));
+  padding-bottom: 10px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px 18px;
+}
+.titolo { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.logo { font-size: 1.5rem; }
+.barra { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
+
+/* Schede dei moduli */
+.schede {
+  background: var(--scuro-2);
+  display: flex;
+  gap: 4px;
+  padding-left: max(10px, env(safe-area-inset-left, 0px));
+  padding-right: max(10px, env(safe-area-inset-right, 0px));
+}
+.scheda {
+  background: transparent;
+  color: var(--testata-tenue);
+  border: 0;
+  border-bottom: 3px solid transparent;
+  padding: 10px 16px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.scheda:hover { color: var(--su-colore); }
+.scheda.attiva { color: var(--su-colore); border-bottom-color: var(--su-colore); }
+
+.contenuto {
+  flex: 1;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding-block: 16px 24px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+
+.piede {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 16px;
+  align-items: center;
+  justify-content: center;
+  padding-top: 10px;
+  padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  color: var(--tenue);
+  font-size: .85rem;
+  border-top: 1px solid var(--bordo);
+  background: var(--carta);
+}
+
+.piccolo { font-size: .85rem; color: var(--tenue); }
+.nascosto { display: none !important; }

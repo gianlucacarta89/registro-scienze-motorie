@@ -1,0 +1,30 @@
+/* telefono.css — adattamenti per tablet e telefono */
+
+@media (max-width: 760px) {
+  .barra { width: 100%; justify-content: space-between; }
+  .contenuto { padding-block: 12px 20px; }
+  .scheda { flex: 1; padding: 10px 6px; }
+  .tabella-zona { max-height: calc(100vh - 250px); }
+}
+
+@media (max-width: 480px) {
+  body { font-size: 14px; }
+  h1 { font-size: 1.05rem; }
+  .barra .btn { padding: 6px 9px; font-size: .9rem; }
+  .scelta-classe .etichetta { display: none; }
+  .scelta-classe select { max-width: 7em; }
+  .strumenti { gap: 8px; }
+  .strumenti > .btn, .segmenti { width: 100%; }
+  .segmento { flex: 1; padding: 8px 4px; font-size: .9rem; }
+  .tabella .col-nome { min-width: 8.5em; max-width: 9.5em; padding: 6px 8px; font-size: .9rem; }
+  .col-test { min-width: 6em; }
+  .cella-input { min-width: 5em; }
+  .col-mese { min-width: 4.6em; }
+  .sfondo { padding: 0; align-items: stretch; }
+  .finestra, .finestra.larga { border-radius: 0; max-height: none; min-height: 100%;
+    padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+  .finestra-piede .btn { flex: 1; }
+  .riga-aggiungi { flex-direction: column; }
+  .lista-anteprima { columns: 1; }
+  .scelta-simboli { grid-template-columns: 1fr 1fr; }
+}
