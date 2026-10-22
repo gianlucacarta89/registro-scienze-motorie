@@ -1,4 +1,4 @@
-# MAPPA — Registro Scienze Motorie v2.3
+# MAPPA — Registro Scienze Motorie v3.0
 
 Indice dei file: cosa c'è dentro e quale parte dell'app ne dipende.
 Tutti i moduli stanno nell'oggetto globale `App`. Ordine di caricamento in `index.html`:
@@ -44,8 +44,10 @@ Nome, versione, nome dell'archivio, mesi (set–giu), prove, tipi di test, **sim
 |---|---|---|
 | `calendario.js` | `App.Calendario` | `annoCorrente`, `annoAttivo`, `etichetta`, `mesi`, `limiti`, `meseDi` |
 | `nomi.js` | `App.Nomi` | `daRighe`: se trova l'intestazione (Cognome / Nome / Cognome e nome / Alunno / Nominativo) prende **solo quelle colonne e solo le righe sotto**; senza intestazione un nome per riga. `colonneNomi`, `colonnaDi` (colonna per sovrapposizione), `pezzi` (toglie cifre e lettere singole), `pulisci` (numeri d'ordine, MAIUSCOLE), `righeDaTesto`, `unici` |
-| `classi.js` | `App.Classi` | `crea`, `rinomina`, `elimina`, `aggiungiAlunni`, `rinominaAlunno`, `eliminaAlunno`, `esisteAlunno`, `datiAlunno` |
-| `test.js` | `App.Test` | `valida` (numeri e tempi), `etichetteStrumento` (uno per tutti o ♂/♀), `crea`, `modifica`, `elimina`, `sposta`, `valore`, `imposta`, `confronto`, `quantiRisultati` |
+| `classi.js` | `App.Classi` | `impostaSesso`, `senzaSesso`, `crea`, `rinomina`, `elimina`, `aggiungiAlunni`, `rinominaAlunno`, `eliminaAlunno`, `esisteAlunno`, `datiAlunno` |
+| `test.js` | `App.Test` | `copia` (test in un'altra classe), `valida` (numeri e tempi), `etichetteStrumento` (uno per tutti o ♂/♀), `crea`, `modifica`, `elimina`, `sposta`, `valore`, `imposta`, `confronto`, `quantiRisultati` |
+| `voti.js` | `App.Voti` | `scala` (4–10 con i mezzi voti), `controlla` (tabella in ordine), `calcola` (voto da risultato e ♂/♀), `votoAlunno`, `media`, `haTabella`, `sufficiente` |
+| `statistiche.js` | `App.Statistiche` | `test` (svolti, media, migliore, peggiore, ♂/♀, quanti per voto), `miglioramenti`, `mediaVotiPerTest`, `testoValore` |
 | `giustificazioni.js` | `App.Giust` | `errore` (mese, doppioni, simbolo), `aggiungi`, `modifica`, `elimina`, `delMese`, `totaleAnno`, `contaClasse` |
 
 ## js/dati/
@@ -64,6 +66,10 @@ Nome, versione, nome dell'archivio, mesi (set–giu), prove, tipi di test, **sim
 | `pagina.js` | `App.UI.disegna`, `disegnaContenuto`, `piede`, `vuoto`, `regole` | Pagina intera, piè di pagina con stato del backup |
 | `barra.js` | `App.UI.Barra` | Scelta classe, pulsanti 👥 Alunni, 🏫 Classi, 💾 Backup, schede 📊 Test / 📋 Giustificazioni |
 | `tabella-test.js` | `App.UI.TabellaTest` | Scheda 📊 Test (nome alunno toccabile): ➕ Nuovo test, 1ª / 2ª prova / ⇄ Confronto, caselle dei risultati |
+| `finestra-voti.js` | `App.UI.FinestraVoti` | 📏 Tabella dei voti: una riga per voto, soglia ♂ e ♀, ➕ riga, 🗑️ Svuota |
+| `finestra-copia-test.js` | `App.UI.FinestraCopiaTest` | 📋 Copia test in un'altra classe |
+| `grafici.js` | `App.UI.Grafici` | `colonne`, `barre` (grafici HTML/CSS) |
+| `statistiche.js` | `App.UI.Statistiche` | Scheda 📈 Statistiche |
 | `finestra-test.js` | `App.UI.FinestraTest` | ➕ Nuovo test e ✏️ intestazione colonna: nome, tipologia, strumento (uno o ♂/♀), tipo, unità, migliore, ◀ ▶ sposta, 🗑️ |
 | `tabella-giust.js` | `App.UI.TabellaGiust` | Scheda 📋 Giustificazioni (nome alunno toccabile): ◀ anno ▶, tabella mesi, Tot., legenda |
 | `finestra-giust.js` | `App.UI.FinestraGiust` | Tocco su una casella del mese: elenco, ✏️, 🗑️, nuova giustificazione (con bozza) |
@@ -79,10 +85,11 @@ Nome, versione, nome dell'archivio, mesi (set–giu), prove, tipi di test, **sim
 ## Struttura dei dati (`App.Stato.dati`)
 ```
 { schema: 1, ultimaModifica, ultimoBackup,
-  preferenze: { classeAttiva, modulo: 'test'|'giust', prova: 1|2|'c', annoInizio: null|2026 },
+  preferenze: { classeAttiva, modulo: 'test'|'giust'|'stat', prova: 1|2|'c', annoInizio: null|2026, statTest },
   classi: [{ id, nome,
-    alunni: [{ id, nome }],
-    test: [{ id, nome, tipologia, strumento, perSesso, strumentoM, strumentoF, unita, tipo: 'numero'|'tempo', migliore: 'alto'|'basso' }],
+    alunni: [{ id, nome, sesso: 'M'|'F'|'' }],
+    test: [{ id, nome, tipologia, strumento, perSesso, strumentoM, strumentoF, unita, tipo: 'numero'|'tempo', migliore: 'alto'|'basso',
+            voti: { righe: [{ voto: 8, M: '440', F: '380' }] } }],
     risultati: { alunnoId: { testId: { '1': '145', '2': '152' } } },
     giust: { alunnoId: [{ id, data: 'AAAA-MM-GG', simbolo, nota }] } }] }
 ```

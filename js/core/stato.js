@@ -12,7 +12,7 @@
     return {
       schema: 1,
       classi: [],
-      preferenze: { classeAttiva: null, modulo: 'test', prova: 1, annoInizio: null },
+      preferenze: { classeAttiva: null, modulo: 'test', prova: 1, annoInizio: null, statTest: null },
       ultimaModifica: null,
       ultimoBackup: null
     };
@@ -31,7 +31,8 @@
     });
     var p = d.preferenze || {};
     n.preferenze.classeAttiva = p.classeAttiva || null;
-    n.preferenze.modulo = p.modulo === 'giust' ? 'giust' : 'test';
+    n.preferenze.modulo = p.modulo === 'giust' || p.modulo === 'stat' ? p.modulo : 'test';
+    n.preferenze.statTest = p.statTest || null;
     n.preferenze.prova = p.prova === 2 || p.prova === 'c' ? p.prova : 1;
     n.preferenze.annoInizio = typeof p.annoInizio === 'number' ? p.annoInizio : null;
     n.ultimaModifica = d.ultimaModifica || null;

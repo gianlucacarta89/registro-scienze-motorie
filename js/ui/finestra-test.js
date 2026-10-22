@@ -1,6 +1,6 @@
 /* finestra-test.js
  * Cosa fa: finestra per creare, modificare, spostare o cancellare un test (colonna del modulo 1).
- * Dipende da: App.U, App.Config (tipiTest), App.Test, App.Stato, App.Avvisi, App.Finestra,
+ * Dipende da: App.U, App.Config (tipiTest), App.Test, App.Voti, App.UI.FinestraVoti, App.Stato, App.Avvisi, App.Finestra,
  *             App.UI.disegnaContenuto
  * Usato da: ui/tabella-test.js (pulsante ➕ Nuovo test e intestazioni delle colonne)
  */
@@ -77,7 +77,12 @@
         rigaUnita,
         el('fieldset', { class: 'campo' }, el('legend', { text: 'Che risultato è migliore?' }),
           radio('migliore', 'alto', '↑ Più alto (es. salti, lanci, ripetizioni)', d.migliore === 'alto'),
-          radio('migliore', 'basso', '↓ Più basso (es. tempi di corsa)', d.migliore === 'basso')));
+          radio('migliore', 'basso', '↓ Più basso (es. tempi di corsa)', d.migliore === 'basso')),
+        el('fieldset', { class: 'campo' }, el('legend', { text: 'Voto automatico' }),
+          el('p', { class: 'piccolo', text: t && App.Voti.haTabella(t)
+            ? '📏 Tabella inserita: ' + t.voti.righe.length + ' voti, separati per alunni e alunne.'
+            : 'Inserisci i parametri di riferimento (es. del libro) per calcolare il voto da solo.' }),
+          el('button', { type: 'button', class: 'btn btn-info', text: '📏 Tabella dei voti', onclick: function () { salva(true); } })));
 
       function aggiornaTipo(cambiato) {
         var tipo = f.querySelector('input[name=tipo]:checked').value;
@@ -99,6 +104,23 @@
       perSesso.addEventListener('change', aggiornaStrumento);
       aggiornaStrumento();
 
+      var fin;
+      // Salva il test; con apriVoti = true poi apre la tabella dei voti. -> false se c'è un errore
+      function salva(apriVoti) {
+        var dati = dalModulo(f), err, test = t;
+        if (t) err = App.Test.modifica(classe, t.id, dati);
+        else { var r = App.Test.crea(classe, dati); err = r.errore; test = r.test; t = test; }
+        if (err) { App.Avvisi.toast('❌ ' + err, 'errore', 5000); return false; }
+        App.Stato.salva();
+        App.UI.disegnaContenuto();
+        // se cambia "che risultato è migliore" la tabella dei voti può non tornare più
+        if (App.Voti.haTabella(test) && App.Voti.controlla(test, test.voti.righe).errore) {
+          App.Avvisi.toast('⚠️ Controlla la tabella dei voti: non torna più con le impostazioni del test.', 'errore', 6000);
+        }
+        if (apriVoti) { fin.chiudi(); App.UI.FinestraVoti.apri(classe, test); }
+        return true;
+      }
+
       var pulsanti = [];
       if (t) {
         pulsanti.push({ testo: '🗑️ Cancella', tipo: 'pericolo', azione: function (fin) { chiedi(classe, t, fin); return false; } });
@@ -109,17 +131,13 @@
       pulsanti.push({
         testo: t ? '✔ Salva' : '✔ Aggiungi', tipo: 'ok',
         azione: function () {
-          var dati = dalModulo(f), err;
-          if (t) err = App.Test.modifica(classe, t.id, dati);
-          else err = App.Test.crea(classe, dati).errore;
-          if (err) { App.Avvisi.toast('❌ ' + err, 'errore', 5000); return false; }
-          App.Stato.salva();
-          App.UI.disegnaContenuto();
-          App.Avvisi.toast(t ? '✔ Test aggiornato.' : '✔ Test aggiunto.', 'ok');
+          var nuovo = !t;
+          if (!salva(false)) return false;
+          App.Avvisi.toast(nuovo ? '✔ Test aggiunto.' : '✔ Test aggiornato.', 'ok');
         }
       });
 
-      App.Finestra.apri({ titolo: t ? 'Modifica test' : 'Nuovo test', icona: '📊', corpo: f, pulsanti: pulsanti });
+      fin = App.Finestra.apri({ titolo: t ? 'Modifica test' : 'Nuovo test', icona: '📊', corpo: f, pulsanti: pulsanti });
     }
   };
 })(window.App = window.App || {});

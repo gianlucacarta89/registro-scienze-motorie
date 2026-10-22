@@ -10,7 +10,7 @@
   App.Config = {
     nome: 'Registro Scienze Motorie',
     icona: '🏃',
-    versione: '2.3',
+    versione: '3.0',
 
     // Nome dell'archivio nel browser: DEVE essere diverso per ogni app.
     archivio: {
@@ -52,6 +52,10 @@
       tempo: { nome: 'Tempo (minuti e secondi)', esempio: 'es. 3:45 oppure 12,8 (secondi)', migliore: 'basso' }
     },
 
+    // Voti automatici dei test (tabelle del libro di testo)
+    voti: { min: 4, max: 10, passo: 0.5, sufficienza: 6, righeIniziali: [10, 9, 8, 7, 6, 5, 4] },
+    sessi: { M: { icona: '♂', nome: 'Alunno' }, F: { icona: '♀', nome: 'Alunna' } },
+
     // Modulo Giustificazioni: legenda dei simboli
     simboli: [
       { id: 'salute', icona: '🤒', nome: 'Problemi di salute' },
@@ -87,6 +91,8 @@
         'Numeri: si accettano solo cifre, con la virgola per i decimali (es. 3,5).',
         'Tempi: minuti e secondi con i due punti (es. 3:45) oppure solo secondi (es. 12,8).',
         'Una casella vuota resta vuota: non conta come zero.',
+        'Voto automatico: con la tabella dei voti (📏, separata per alunni e alunne) sotto ogni risultato compare il voto. Serve indicare ♂/♀ di ogni alunno (👥 Alunni). Un risultato peggiore dell\'ultima riga della tabella prende il voto più basso.',
+        'La colonna Media voti fa la media dei voti dei test della prova scelta (i test senza voto non contano).',
         'In "Confronto" il verde indica un miglioramento, il rosso un peggioramento, secondo la regola del test (↑ meglio più alto, ↓ meglio più basso).',
         'Ogni valore si salva da solo mentre scrivi. Un valore non valido resta in rosso e non viene salvato.'
       ],

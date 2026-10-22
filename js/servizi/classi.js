@@ -96,6 +96,15 @@
     },
 
     // Cancella l'alunno con i suoi risultati e le sue giustificazioni
+    // Sesso dell'alunno: 'M', 'F' oppure '' (non indicato). Serve per le tabelle dei voti.
+    impostaSesso: function (classe, id, sesso) {
+      classe.alunni.forEach(function (a) { if (a.id === id) a.sesso = sesso === 'M' || sesso === 'F' ? sesso : ''; });
+    },
+
+    senzaSesso: function (classe) {
+      return classe.alunni.filter(function (a) { return a.sesso !== 'M' && a.sesso !== 'F'; }).length;
+    },
+
     eliminaAlunno: function (classe, id) {
       classe.alunni = classe.alunni.filter(function (a) { return a.id !== id; });
       delete classe.risultati[id];

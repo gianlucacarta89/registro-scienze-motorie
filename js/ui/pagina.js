@@ -2,7 +2,7 @@
  * Cosa fa: disegna la pagina intera (barra, modulo scelto, piè di pagina) e offre
  *          pezzi comuni: riquadro "vuoto" e riquadro delle regole.
  * Dipende da: App.U, App.Stato, App.Config, App.Archivio, App.UI.Barra,
- *             App.UI.TabellaTest, App.UI.TabellaGiust, App.UI.FinestraClassi, App.UI.FinestraBackup, App.Pwa
+ *             App.UI.TabellaTest, App.UI.TabellaGiust, App.UI.Statistiche, App.UI.FinestraClassi, App.UI.FinestraBackup, App.Pwa
  * Usato da: avvio.js e da tutte le parti che cambiano i dati
  */
 (function (App) {
@@ -59,6 +59,8 @@
       main.appendChild(App.UI.vuoto('🏫', 'Benvenuto!', 'Per iniziare crea una classe, poi carica i nomi degli alunni da Excel o Word.',
         el('button', { type: 'button', class: 'btn btn-ok grande', text: '➕ Crea la prima classe',
           onclick: function () { App.UI.FinestraClassi.apri(true); } })));
+    } else if (App.Stato.dati.preferenze.modulo === 'stat') {
+      App.UI.Statistiche.disegna(main, classe);
     } else if (App.Stato.dati.preferenze.modulo === 'giust') {
       App.UI.TabellaGiust.disegna(main, classe);
     } else {

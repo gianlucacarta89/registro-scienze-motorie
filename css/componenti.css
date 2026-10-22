@@ -222,3 +222,57 @@ textarea { resize: vertical; }
 .strumento-sesso { display: grid; grid-template-columns: 1fr 1fr; gap: 0 10px; }
 .strumento-sesso .campo { margin: 4px 0; }
 [hidden] { display: none !important; }
+
+/* ---------- Voti nella tabella dei test ---------- */
+.cella .spazio-voto { text-align: center; line-height: 1; padding-bottom: 4px; min-height: 0; }
+.voto { display: inline-block; font-size: .72rem; font-weight: 700; border-radius: 5px; padding: 1px 6px; font-variant-numeric: tabular-nums; }
+.voto.suff { background: var(--ok-chiaro); color: var(--ok); }
+.voto.insuff { background: var(--pericolo-chiaro); color: var(--pericolo); }
+.voto.manca { background: var(--avviso-chiaro); color: var(--avviso); font-weight: 600; }
+.voti-confronto { display: block; font-size: .75rem; color: var(--tenue); margin-top: 2px; }
+.col-media { text-align: center; font-weight: 700; min-width: 5.5em; padding: 6px 8px !important; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.sesso { color: var(--tenue); font-weight: 400; }
+.avviso-sesso { background: var(--avviso-chiaro); display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.sesso-scelta { display: inline-flex; gap: 2px; }
+.sesso-btn { width: 34px; height: 34px; border: 1px solid var(--bordo-forte); background: var(--campo); border-radius: 8px; cursor: pointer; font-size: 1rem; color: var(--tenue); }
+.sesso-btn.attivo { background: var(--info); border-color: var(--info); color: var(--su-colore); }
+.sesso-segmenti .segmento { cursor: pointer; display: inline-flex; align-items: center; }
+
+/* Tabella dei voti */
+.tabella-voti-zona { max-height: 55vh; }
+.tabella-voti td { padding: 4px 6px; }
+.tabella-voti select, .tabella-voti .soglia { width: 100%; min-width: 4.5em; min-height: 36px; border: 1px solid var(--bordo-forte); border-radius: 6px; background: var(--campo); padding: 4px 6px; text-align: center; }
+.tabella-voti thead th { font-size: .8rem; }
+
+/* ---------- Statistiche ---------- */
+.scelta-test { display: flex; align-items: center; gap: 8px; font-weight: 600; }
+.scelta-test select { min-height: 40px; border: 1px solid var(--bordo-forte); border-radius: 8px; background: var(--campo); padding: 4px 10px; max-width: 70vw; }
+.sezione-stat { background: var(--carta); border: 1px solid var(--bordo); border-radius: var(--raggio); padding: 14px 16px; margin-top: 14px; }
+.sezione-stat h3 { margin-bottom: 10px; text-wrap: balance; }
+.tessere { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 8px; margin-bottom: 10px; }
+.tessera { background: var(--sfondo); border-radius: 8px; padding: 8px 10px; display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.tessera-etichetta { font-size: .78rem; color: var(--tenue); }
+.tessera-valore { font-size: 1.25rem; font-weight: 700; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.tessera-nota { font-size: .78rem; color: var(--tenue); }
+
+.grafico { margin: 6px 0 0; }
+.grafico .asse { font-size: .78rem; color: var(--tenue); margin-top: 6px; }
+.colonne .area { position: relative; height: 180px; margin-left: 24px; border-bottom: 1px solid var(--bordo-forte); }
+.colonne .griglia .linea { position: absolute; left: 0; right: 0; border-top: 1px dashed var(--bordo); }
+.colonne .griglia .linea span { position: absolute; left: -24px; top: -8px; width: 20px; text-align: right; font-size: .72rem; color: var(--tenue); font-variant-numeric: tabular-nums; }
+.colonne .barre { position: absolute; inset: 0; display: flex; align-items: flex-end; gap: 6px; padding: 0 4px; }
+.colonne .colonna { flex: 1; height: 100%; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; outline-offset: 2px; }
+.colonne .valore { font-size: .78rem; font-weight: 700; color: var(--testo); margin-bottom: 2px; font-variant-numeric: tabular-nums; }
+.colonne .barra { width: 100%; max-width: 44px; border-radius: 4px 4px 0 0; min-height: 0; }
+.colonne .etichette { display: flex; gap: 6px; padding: 4px 4px 0; margin-left: 24px; }
+.colonne .etichette span { flex: 1; text-align: center; font-size: .8rem; color: var(--tenue); font-variant-numeric: tabular-nums; }
+.barra.buono { background: var(--info); }
+.barra.scarso { background: var(--pericolo); }
+.colonna:hover .barra, .colonna:focus .barra, .riga-barra:hover .barra, .riga-barra:focus .barra { filter: brightness(1.15); }
+.barre-orizz { display: flex; flex-direction: column; gap: 8px; }
+.riga-barra { display: grid; grid-template-columns: minmax(6em, 30%) 1fr 3em; align-items: center; gap: 8px; }
+.riga-barra .etichetta { font-size: .85rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.riga-barra .binario { position: relative; height: 18px; background: var(--sfondo); border-radius: 4px; }
+.riga-barra .barra { height: 100%; border-radius: 0 4px 4px 0; }
+.riga-barra .riferimento { position: absolute; top: -3px; bottom: -3px; border-left: 2px dashed var(--tenue); }
+.riga-barra .valore { font-weight: 700; font-variant-numeric: tabular-nums; text-align: right; }

@@ -1,6 +1,6 @@
 /* finestra-alunno.js
  * Cosa fa: finestra di UN alunno, aperta toccando il suo nome nelle tabelle:
- *          correggere il nome oppure togliere l'alunno (per esempio un "non alunno"
+ *          correggere il nome, indicare ♂/♀ (per le tabelle dei voti) oppure togliere l'alunno (per esempio un "non alunno"
  *          entrato per errore dal file).
  * Dipende da: App.U, App.Config (limiti), App.Classi, App.Stato, App.Avvisi, App.Finestra,
  *             App.UI.disegnaContenuto
@@ -37,7 +37,22 @@
       var nome = el('input', { type: 'text', value: a.nome, maxlength: App.Config.limiti.nomeAlunno, 'aria-label': 'Cognome e nome' });
       var fin;
 
+      var sesso = el('div', { class: 'segmenti sesso-segmenti', role: 'radiogroup', 'aria-label': 'Alunno o alunna' },
+        [['M', '♂ Alunno'], ['F', '♀ Alunna'], ['', 'Non indicato']].map(function (x) {
+          return el('label', { class: 'segmento' + ((a.sesso || '') === x[0] ? ' attivo' : '') },
+            el('input', { type: 'radio', name: 'sesso', value: x[0], checked: (a.sesso || '') === x[0], class: 'nascosto' }), x[1]);
+        }));
+      sesso.addEventListener('change', function () {
+        Array.prototype.forEach.call(sesso.children, function (l) { l.classList.toggle('attivo', l.querySelector('input').checked); });
+      });
+
       function salva() {
+        var s = sesso.querySelector('input:checked');
+        if (s && s.value !== (a.sesso || '')) {
+          App.Classi.impostaSesso(classe, a.id, s.value);
+          App.Stato.salva();
+          App.UI.disegnaContenuto();
+        }
         if (App.U.spazi(nome.value) === a.nome) return true;
         var err = App.Classi.rinominaAlunno(classe, a.id, nome.value);
         if (err) { App.Avvisi.toast('❌ ' + err, 'errore', 4500); return false; }
@@ -54,6 +69,7 @@
         titolo: 'Alunno', icona: '👤',
         corpo: el('div', { class: 'modulo' },
           el('label', { class: 'campo' }, el('span', { text: 'Cognome e nome' }), nome),
+          el('div', { class: 'campo' }, el('span', { text: 'Per le tabelle dei voti' }), sesso),
           el('p', { class: 'piccolo', text: 'Classe ' + classe.nome + ' · ' + d.risultati + ' risultati dei test · ' + d.giust + ' giustificazioni' })),
         pulsanti: [
           { testo: '🗑️ Togli', tipo: 'pericolo', azione: function (f) { togli(classe, a).then(function (ok) { if (ok) f.chiudi(); }); return false; } },

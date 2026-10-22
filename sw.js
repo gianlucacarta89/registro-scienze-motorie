@@ -7,7 +7,7 @@
  */
 'use strict';
 
-var VERSIONE = 'registro-sm-v2.3';
+var VERSIONE = 'registro-sm-v3.0';
 
 var FILE = [
   './',
@@ -30,6 +30,8 @@ var FILE = [
   'js/servizi/classi.js',
   'js/servizi/test.js',
   'js/servizi/giustificazioni.js',
+  'js/servizi/voti.js',
+  'js/servizi/statistiche.js',
   'js/dati/zip.js',
   'js/dati/pdf-oggetti.js',
   'js/dati/pdf-caratteri.js',
@@ -40,6 +42,8 @@ var FILE = [
   'js/ui/barra.js',
   'js/ui/tabella-test.js',
   'js/ui/finestra-test.js',
+  'js/ui/finestra-voti.js',
+  'js/ui/finestra-copia-test.js',
   'js/ui/tabella-giust.js',
   'js/ui/finestra-giust.js',
   'js/ui/finestra-classi.js',
@@ -47,6 +51,8 @@ var FILE = [
   'js/ui/finestra-alunni.js',
   'js/ui/finestra-importa.js',
   'js/ui/finestra-backup.js',
+  'js/ui/grafici.js',
+  'js/ui/statistiche.js',
   'js/avvio.js',
   'icone/icona-512.png',
   'icone/icona-maskable-512.png'

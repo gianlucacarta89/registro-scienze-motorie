@@ -44,7 +44,7 @@
       var schede = App.U.svuota(document.getElementById('schede'));
       if (!classe) { schede.style.display = 'none'; return; }
       schede.style.display = '';
-      [['test', '📊 Test'], ['giust', '📋 Giustificazioni']].forEach(function (s) {
+      [['test', '📊 Test'], ['giust', '📋 Giustificazioni'], ['stat', '📈 Statistiche']].forEach(function (s) {
         var attiva = d.preferenze.modulo === s[0];
         schede.appendChild(el('button', {
           type: 'button', role: 'tab', class: 'scheda' + (attiva ? ' attiva' : ''),

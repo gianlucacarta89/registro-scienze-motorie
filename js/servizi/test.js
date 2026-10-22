@@ -124,6 +124,21 @@
       return null;
     },
 
+    // Copia i test scelti in un'altra classe (nome, tipologia, strumento, tabella voti; niente risultati).
+    // I test con lo stesso nome già presenti nella classe di arrivo si saltano. -> { copiati, saltati: [nomi] }
+    copia: function (daClasse, ids, versoClasse) {
+      var copiati = 0, saltati = [];
+      daClasse.test.filter(function (t) { return ids.indexOf(t.id) >= 0; }).forEach(function (t) {
+        var k = App.U.chiaveNome(t.nome);
+        if (versoClasse.test.some(function (x) { return App.U.chiaveNome(x.nome) === k; })) { saltati.push(t.nome); return; }
+        var nuovo = App.U.copia(t);
+        nuovo.id = App.U.nuovoId();
+        versoClasse.test.push(nuovo);
+        copiati++;
+      });
+      return { copiati: copiati, saltati: saltati };
+    },
+
     elimina: function (classe, id) {
       classe.test = classe.test.filter(function (t) { return t.id !== id; });
       Object.keys(classe.risultati).forEach(function (a) { delete classe.risultati[a][id]; });

@@ -3,7 +3,7 @@
 @media (max-width: 760px) {
   .barra { width: 100%; justify-content: space-between; }
   .contenuto { padding-block: 12px 20px; }
-  .scheda { flex: 1; padding: 10px 6px; }
+  .scheda { flex: 1; padding: 10px 4px; font-size: .9rem; }
   .tabella-zona { max-height: calc(100vh - 250px); }
 }
 

@@ -79,11 +79,40 @@
           text: '🗑️ Togli selezionati' + (n ? ' (' + n + ')' : ''), onclick: togliScelti }));
       }
 
+      // ♂ / ♀ con un tocco (serve per le tabelle dei voti); un secondo tocco lo toglie
+      function sceltaSesso(a) {
+        var box = el('span', { class: 'sesso-scelta', role: 'group', 'aria-label': 'Alunno o alunna' });
+        ['M', 'F'].forEach(function (k) {
+          var info = App.Config.sessi[k];
+          box.appendChild(el('button', { type: 'button', class: 'sesso-btn' + (a.sesso === k ? ' attivo' : ''),
+            'aria-pressed': a.sesso === k ? 'true' : 'false', title: info.nome, text: info.icona,
+            onclick: function () {
+              App.Classi.impostaSesso(classe, a.id, a.sesso === k ? '' : k);
+              App.Stato.salva();
+              Array.prototype.forEach.call(box.children, function (b, j) {
+                var on = a.sesso === ['M', 'F'][j];
+                b.classList.toggle('attivo', on); b.setAttribute('aria-pressed', on ? 'true' : 'false');
+              });
+              aggiornaConteggio();
+              App.UI.disegnaContenuto();
+            } }));
+        });
+        return box;
+      }
+
+      var conteggio = el('p', { class: 'piccolo' });
+      function aggiornaConteggio() {
+        var n = App.Classi.senzaSesso(classe);
+        conteggio.textContent = classe.alunni.length + ' alunni, in ordine alfabetico. Tocca un nome per correggerlo; spunta più nomi per toglierli insieme.' +
+          (n ? ' ♂/♀ da indicare: ' + n + '.' : ' ♂/♀ indicato per tutti.');
+      }
+
       function disegnaElenco() {
         App.U.svuota(elenco);
         aggiornaBarra();
         if (!classe.alunni.length) { elenco.appendChild(el('p', { class: 'piccolo', text: 'Nessun alunno: aggiungili qui sopra o caricali da un file.' })); return; }
-        elenco.appendChild(el('p', { class: 'piccolo', text: classe.alunni.length + ' alunni, in ordine alfabetico. Tocca un nome per correggerlo; spunta più nomi per toglierli insieme.' }));
+        aggiornaConteggio();
+        elenco.appendChild(conteggio);
         elenco.appendChild(el('ul', { class: 'lista' }, classe.alunni.map(function (a, i) {
           var cb = el('input', { type: 'checkbox', checked: !!scelti[a.id], 'aria-label': 'Seleziona ' + a.nome });
           cb.addEventListener('change', function () {
@@ -102,7 +131,7 @@
             App.Avvisi.toast('✔ Nome corretto.', 'ok');
           });
           return el('li', { class: 'riga-lista' + (scelti[a.id] ? ' selezionata' : '') },
-            cb, el('span', { class: 'num', text: (i + 1) + '.' }), nome,
+            cb, el('span', { class: 'num', text: (i + 1) + '.' }), nome, sceltaSesso(a),
             el('button', { type: 'button', class: 'btn btn-pericolo piccolo-btn', 'aria-label': 'Togli ' + a.nome, text: '🗑️',
               onclick: function () { elimina(a); } }));
         })));
