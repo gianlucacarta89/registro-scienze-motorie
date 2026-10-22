@@ -1,4 +1,4 @@
-REGISTRO SCIENZE MOTORIE — v2.0
+REGISTRO SCIENZE MOTORIE — v2.1
 ================================
 
 PUBBLICAZIONE SU GITHUB PAGES (una volta sola, dal computer)
@@ -32,8 +32,10 @@ COME APRIRLA DA FILE (solo computer, senza installazione)
 
 COSA FA
 - 🏫 Classi: crea le tue classi (es. 1A, 2B) e scegli quella su cui lavorare in alto.
-- 👥 Alunni: carica i nomi da Excel (.xlsx), Word (.docx), .csv o .txt,
-  oppure incollali. Prima di aggiungerli vedi l'elenco e puoi togliere quelli sbagliati.
+- 👥 Alunni: carica i nomi da Excel (.xlsx), Word (.docx), PDF, .csv o .txt,
+  oppure incollali. Prima di aggiungerli vedi l'elenco: togli quelli in più e
+  correggi quelli scritti male. Il PDF deve essere quello originale (es. esportato
+  dal registro elettronico): le scansioni non contengono testo leggibile.
 - 📊 Test: aggiungi i test come colonne e scrivi i risultati. Ci sono due prove
   (es. inizio e fine anno) e la vista "Confronto" con i miglioramenti in verde.
 - 📋 Giustificazioni: tocca la casella di un alunno nel mese giusto e scegli

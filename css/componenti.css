@@ -169,7 +169,9 @@ textarea { resize: vertical; }
 .lista-anteprima { list-style: none; padding: 0; margin: 6px 0; columns: 2 220px; }
 .lista-anteprima li { padding: 3px 0; break-inside: avoid; }
 .lista-anteprima li.doppio { color: var(--tenue); text-decoration: line-through; }
-.lista-anteprima label { cursor: pointer; }
+.lista-anteprima li { display: flex; align-items: center; gap: 8px; }
+.nome-anteprima { flex: 1; min-width: 0; border: 1px solid var(--bordo); border-radius: 6px; padding: 5px 8px; background: var(--campo); }
+.nome-anteprima:focus { border-color: var(--info); }
 
 /* Finestra giustificazioni */
 .scelta-simboli { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 6px; }

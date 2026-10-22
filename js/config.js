@@ -10,7 +10,7 @@
   App.Config = {
     nome: 'Registro Scienze Motorie',
     icona: '🏃',
-    versione: '2.0',
+    versione: '2.1',
 
     // Nome dell'archivio nel browser: DEVE essere diverso per ogni app.
     archivio: {
@@ -72,10 +72,11 @@
 
     // Prime parole che indicano una riga di intestazione nei file con i nomi
     paroleIntestazione: ['cognome', 'nome', 'nominativo', 'alunno', 'alunna', 'alunni', 'studente',
-      'studentessa', 'studenti', 'elenco', 'classe', 'n.', 'n°', 'nr', 'nr.', 'num.'],
+      'studentessa', 'studenti', 'elenco', 'classe', 'n.', 'n°', 'nr', 'nr.', 'num.', 'istituto', 'scuola',
+      'liceo', 'registro', 'anno', 'a.s.', 'pagina', 'pag.', 'totale', 'docente', 'data', 'sezione', 'plesso'],
 
     // File accettati per caricare i nomi
-    fileNomi: '.xlsx,.docx,.csv,.txt',
+    fileNomi: '.xlsx,.docx,.pdf,.csv,.txt',
 
     testi: {
       regoleTest: [

@@ -35,13 +35,18 @@
           return;
         }
         var doppi = nomi.filter(function (x) { return x.doppio; }).length;
-        anteprima.appendChild(el('p', { class: 'piccolo', text: 'Trovati ' + nomi.length + ' nomi in ' + origine + '. Togli la spunta a quelli da non aggiungere.' +
+        anteprima.appendChild(el('p', { class: 'piccolo', text: 'Trovati ' + nomi.length + ' nomi in ' + origine + '. Controllali: togli la spunta a quelli da non aggiungere e correggi quelli scritti male.' +
           (doppi ? ' ' + doppi + ' sono già nella classe e verranno saltati.' : '') }));
         anteprima.appendChild(el('ul', { class: 'lista-anteprima' }, nomi.map(function (x) {
-          var cb = el('input', { type: 'checkbox', checked: x.scelto, disabled: x.doppio });
+          var cb = el('input', { type: 'checkbox', checked: x.scelto, disabled: x.doppio, 'aria-label': 'Aggiungi ' + x.nome });
           cb.addEventListener('change', function () { x.scelto = cb.checked; aggiornaPulsante(); });
-          return el('li', { class: x.doppio ? 'doppio' : '' },
-            el('label', {}, cb, ' ' + x.nome, x.doppio ? el('span', { class: 'piccolo', text: ' (già presente)' }) : null));
+          if (x.doppio) {
+            return el('li', { class: 'doppio' }, cb, el('span', { text: x.nome }), el('span', { class: 'piccolo', text: ' (già presente)' }));
+          }
+          // il nome si può correggere prima di aggiungerlo
+          var campo = el('input', { type: 'text', class: 'nome-anteprima', value: x.nome, maxlength: App.Config.limiti.nomeAlunno, 'aria-label': 'Nome' });
+          campo.addEventListener('input', function () { x.nome = campo.value; });
+          return el('li', {}, cb, campo);
         })));
         aggiornaPulsante();
       }
@@ -64,7 +69,7 @@
       var corpo = el('div', { class: 'importa' },
         el('div', { class: 'riquadro' },
           el('h3', { text: '📄 Da un file' }),
-          el('p', { class: 'piccolo', text: 'Excel (.xlsx), Word (.docx), .csv o .txt. Un alunno per riga: in Excel si leggono le prime due colonne con del testo (di solito Cognome e Nome) del primo foglio. Numeri d\'ordine e intestazioni vengono tolti.' }),
+          el('p', { class: 'piccolo', text: 'Excel (.xlsx), Word (.docx), PDF, .csv o .txt. Un alunno per riga: si leggono le colonne Cognome e Nome; numeri d\'ordine, date, intestazioni e altre colonne vengono tolti. Il PDF deve essere quello originale (per esempio esportato dal registro elettronico), non una scansione.' }),
           el('button', { type: 'button', class: 'btn btn-info', text: '📂 Scegli il file…', onclick: function () { scegliFile.click(); } }),
           scegliFile),
         el('div', { class: 'riquadro' },

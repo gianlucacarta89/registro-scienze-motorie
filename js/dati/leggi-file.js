@@ -1,7 +1,8 @@
 /* leggi-file.js
- * Cosa fa: legge un file scelto dall'utente (.xlsx, .docx, .csv, .txt) e restituisce le righe
+ * Cosa fa: legge un file scelto dall'utente (.xlsx, .docx, .pdf, .csv, .txt) e restituisce le righe
  *          di testo, ognuna come elenco di celle. Excel: primo foglio. Word: paragrafi e tabelle.
- * Dipende da: App.Zip, App.Nomi (righeDaTesto)
+ *          PDF: testo ricomposto in righe e colonne (non le scansioni).
+ * Dipende da: App.Zip, App.PdfTesto, App.Nomi (righeDaTesto)
  * Usato da: ui/finestra-importa.js
  */
 (function (App) {
@@ -96,6 +97,24 @@
     });
   }
 
+  // ---------- PDF ----------
+  function righePdf(file) {
+    if (!App.Zip.supportato()) {
+      return Promise.reject(errore('Questo browser è troppo vecchio per leggere i PDF. Aggiornalo, oppure copia i nomi e usa "Incolla elenco".'));
+    }
+    return file.arrayBuffer().then(App.PdfTesto.estrai).then(function (r) {
+      if (!r.length) {
+        throw errore('Nel PDF non trovo testo da leggere: probabilmente è una scansione (un\'immagine). ' +
+          'Serve il PDF originale esportato dal registro, oppure copia i nomi e usa "Incolla elenco".');
+      }
+      return r;
+    }, function (e) {
+      if (e && e.perUtente) throw e;
+      if (e && e.cifrato) throw errore('Il PDF è protetto e non si può leggere. Aprilo e salvalo di nuovo come PDF ("Stampa" → "Salva come PDF"), poi riprova.');
+      throw errore('Il file non sembra un PDF valido.');
+    });
+  }
+
   // ---------- Ingresso ----------
   function righe(file) {
     var ext = estensione(file.name);
@@ -106,8 +125,9 @@
       return Promise.reject(errore('Il formato .' + ext + ' non si può leggere. Salva il file come .xlsx (Excel) o .docx (Word), ' +
         'oppure copia i nomi e usa "Incolla elenco".'));
     }
+    if (ext === 'pdf') return righePdf(file);
     if (ext !== 'xlsx' && ext !== 'docx') {
-      return Promise.reject(errore('Scegli un file Excel (.xlsx), Word (.docx), .csv o .txt.'));
+      return Promise.reject(errore('Scegli un file Excel (.xlsx), Word (.docx), PDF, .csv o .txt.'));
     }
     if (!App.Zip.supportato()) {
       return Promise.reject(errore('Questo browser è troppo vecchio per leggere i file Excel e Word. ' +

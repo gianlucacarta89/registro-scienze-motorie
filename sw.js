@@ -7,7 +7,7 @@
  */
 'use strict';
 
-var VERSIONE = 'registro-sm-v2.0';
+var VERSIONE = 'registro-sm-v2.1';
 
 var FILE = [
   './',
@@ -31,6 +31,9 @@ var FILE = [
   'js/servizi/test.js',
   'js/servizi/giustificazioni.js',
   'js/dati/zip.js',
+  'js/dati/pdf-oggetti.js',
+  'js/dati/pdf-caratteri.js',
+  'js/dati/pdf-testo.js',
   'js/dati/leggi-file.js',
   'js/dati/backup.js',
   'js/ui/pagina.js',

@@ -1,4 +1,4 @@
-# MAPPA — Registro Scienze Motorie v2.0
+# MAPPA — Registro Scienze Motorie v2.1
 
 Indice dei file: cosa c'è dentro e quale parte dell'app ne dipende.
 Tutti i moduli stanno nell'oggetto globale `App`. Ordine di caricamento in `index.html`:
@@ -43,7 +43,7 @@ Nome, versione, nome dell'archivio, mesi (set–giu), prove, tipi di test, **sim
 | File | Modulo | Funzioni principali |
 |---|---|---|
 | `calendario.js` | `App.Calendario` | `annoCorrente`, `annoAttivo`, `etichetta`, `mesi`, `limiti`, `meseDi` |
-| `nomi.js` | `App.Nomi` | `pulisci`, `daRighe` (prime 2 celle con testo), `righeDaTesto`, `daTesto`, `unici` |
+| `nomi.js` | `App.Nomi` | `pulisci` (toglie numeri, sistema le MAIUSCOLE), `daRighe` (Cognome e Nome; riconosce l'intestazione "Cognome e nome"; ignora cifre, date e colonne di una lettera), `righeDaTesto`, `daTesto`, `unici` |
 | `classi.js` | `App.Classi` | `crea`, `rinomina`, `elimina`, `aggiungiAlunni`, `rinominaAlunno`, `eliminaAlunno`, `esisteAlunno`, `datiAlunno` |
 | `test.js` | `App.Test` | `valida` (numeri e tempi), `crea`, `modifica`, `elimina`, `sposta`, `valore`, `imposta`, `confronto`, `quantiRisultati` |
 | `giustificazioni.js` | `App.Giust` | `errore` (mese, doppioni, simbolo), `aggiungi`, `modifica`, `elimina`, `delMese`, `totaleAnno`, `contaClasse` |
@@ -52,7 +52,10 @@ Nome, versione, nome dell'archivio, mesi (set–giu), prove, tipi di test, **sim
 | File | Modulo | Funzioni principali |
 |---|---|---|
 | `zip.js` | `App.Zip` | `apri(buffer)` — legge .xlsx/.docx senza librerie (DecompressionStream) |
-| `leggi-file.js` | `App.LeggiFile` | `righe(file)` — Excel (primo foglio), Word (paragrafi, tabelle, a capo), csv/txt |
+| `pdf-oggetti.js` | `App.PdfOggetti` | `apri(buffer)` — oggetti del PDF, object stream, flussi FlateDecode/ASCII85/ASCIIHex, pagine in ordine |
+| `pdf-caratteri.js` | `App.PdfCaratteri` | `prepara(doc, font)` — ToUnicode, WinAnsi, /Differences, font Type0, larghezze |
+| `pdf-testo.js` | `App.PdfTesto` | `estrai(buffer)` — testo per posizione → righe e celle |
+| `leggi-file.js` | `App.LeggiFile` | `righe(file)` — Excel (primo foglio), Word (paragrafi, tabelle, a capo), PDF, csv/txt |
 | `backup.js` | `App.Backup` | `esporta`, `leggi`, `riepilogo`, `localiPiuRecenti`, `applica` |
 
 ## js/ui/ (interfaccia: una scheda o finestra per file)
@@ -66,7 +69,7 @@ Nome, versione, nome dell'archivio, mesi (set–giu), prove, tipi di test, **sim
 | `finestra-giust.js` | `App.UI.FinestraGiust` | Tocco su una casella del mese: elenco, ✏️, 🗑️, nuova giustificazione (con bozza) |
 | `finestra-classi.js` | `App.UI.FinestraClassi` | 🏫 Classi: crea, rinomina, Apri, 🗑️ |
 | `finestra-alunni.js` | `App.UI.FinestraAlunni` | 👥 Alunni: aggiungi, correggi nome, 🗑️, 📥 Carica da file o incolla |
-| `finestra-importa.js` | `App.UI.FinestraImporta` | 📥 Carica alunni: 📂 file, 📋 incolla, anteprima con spunte |
+| `finestra-importa.js` | `App.UI.FinestraImporta` | 📥 Carica alunni: 📂 file (anche PDF), 📋 incolla, anteprima con spunte e nomi correggibili |
 | `finestra-backup.js` | `App.UI.FinestraBackup` | 💾 Backup: ⬇️ Esporta, ⬆️ Importa (con conferma) |
 
 ## js/avvio.js
