@@ -140,7 +140,9 @@
     },
 
     elimina: function (classe, id) {
-      classe.test = classe.test.filter(function (t) { return t.id !== id; });
+      // si toglie dall'elenco stesso (non una copia): vale anche per l'elenco dei test 📚
+      var i = classe.test.findIndex(function (t) { return t.id === id; });
+      if (i >= 0) classe.test.splice(i, 1);
       Object.keys(classe.risultati).forEach(function (a) { delete classe.risultati[a][id]; });
     },
 

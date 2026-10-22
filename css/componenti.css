@@ -284,3 +284,6 @@ textarea { resize: vertical; }
 .testo-test .piccolo { overflow-wrap: anywhere; }
 .aggiungi-a-classe { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--bordo); }
 .aggiungi-a-classe select { min-height: 40px; border: 1px solid var(--bordo-forte); border-radius: 8px; background: var(--campo); padding: 4px 10px; }
+
+.scelta-tipologia { display: flex; flex-direction: column; gap: 6px; }
+.scelta-tipologia select { width: 100%; min-height: 40px; border: 1px solid var(--bordo-forte); border-radius: 8px; background: var(--campo); padding: 6px 10px; }

@@ -1,4 +1,4 @@
-REGISTRO SCIENZE MOTORIE — v3.1
+REGISTRO SCIENZE MOTORIE — v3.2
 ================================
 
 PUBBLICAZIONE SU GITHUB PAGES (una volta sola, dal computer)
@@ -40,7 +40,7 @@ COSA FA
   le scansioni non contengono testo leggibile.
 - Correzioni: tocca il nome di un alunno nella tabella per correggerlo o toglierlo;
   in 👥 Alunni spunta più nomi e "Togli selezionati" per toglierli insieme.
-- 📊 Test: aggiungi i test come colonne (nome, tipologia, strumento: uno per tutti
+- 📊 Test: aggiungi i test come colonne (nome, tipologia dal menu a tendina o "Altro…", strumento: uno per tutti
   o diverso per alunni e alunne) e scrivi i risultati. Ci sono due prove
   (es. inizio e fine anno) e la vista "Confronto" con i miglioramenti in verde.
 - 📚 Test (in alto): l'elenco dei tuoi test. Li crei una volta (nome, tipologia, strumento,

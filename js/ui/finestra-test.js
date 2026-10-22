@@ -21,7 +21,7 @@
     var meglio = f.querySelector('input[name=migliore]:checked');
     return {
       nome: f.querySelector('[name=nome]').value,
-      tipologia: f.querySelector('[name=tipologia]').value,
+      tipologia: f.querySelector('[name=tipologia]').value === ALTRO ? f.querySelector('[name=tipologiaAltro]').value : f.querySelector('[name=tipologia]').value,
       perSesso: f.querySelector('[name=perSesso]').checked,
       strumento: f.querySelector('[name=strumento]').value,
       strumentoM: f.querySelector('[name=strumentoM]').value,
@@ -48,6 +48,27 @@
     });
   }
 
+  var ALTRO = '__altro';
+
+  // Menu a tendina delle tipologie (da config.js) + "Altro…" con campo libero.
+  // Una tipologia già scritta che coincide con una voce (maiuscole a parte) si riconosce.
+  function sceltaTipologia(valore) {
+    var lista = App.Config.tipologie;
+    var trovata = lista.filter(function (x) { return App.U.chiaveNome(x) === App.U.chiaveNome(valore); })[0];
+    var altro = !!valore && !trovata;
+    var sel = el('select', { name: 'tipologia', 'aria-label': 'Tipologia', value: altro ? ALTRO : (trovata || '') },
+      el('option', { value: '', text: '— scegli —' }),
+      lista.map(function (x) { return el('option', { value: x, text: x }); }),
+      el('option', { value: ALTRO, text: 'Altro… (scrivi tu)' }));
+    var libero = el('input', { name: 'tipologiaAltro', type: 'text', value: altro ? valore : '', maxlength: App.Config.limiti.tipologia, 'aria-label': 'Altra tipologia' });
+    libero.hidden = !altro;
+    sel.addEventListener('change', function () {
+      libero.hidden = sel.value !== ALTRO;
+      if (!libero.hidden) libero.focus();
+    });
+    return el('div', { class: 'scelta-tipologia' }, sel, libero);
+  }
+
   App.UI.FinestraTest = {
     apri: function (classe, t) {
       var tipi = App.Config.tipiTest;
@@ -59,9 +80,9 @@
       var f = el('form', { class: 'modulo', onsubmit: function (ev) { ev.preventDefault(); } },
         el('label', { class: 'campo' }, el('span', { text: 'Nome del test' }),
           el('input', { name: 'nome', type: 'text', value: d.nome, maxlength: App.Config.limiti.nomeTest, placeholder: 'es. Salto in lungo da fermo' })),
-        // Tipologia e strumento: campi vuoti, li scrive il docente (facoltativi)
-        el('label', { class: 'campo' }, el('span', { text: 'Tipologia (cosa valuta il test)' }),
-          el('input', { name: 'tipologia', type: 'text', value: d.tipologia || '', maxlength: App.Config.limiti.tipologia })),
+        // Tipologia (menu a tendina, parte da "scegli") e strumento (campo vuoto): facoltativi
+        el('div', { class: 'campo' }, el('span', { text: 'Tipologia (cosa valuta il test)' }),
+          sceltaTipologia(d.tipologia || '')),
         el('fieldset', { class: 'campo' }, el('legend', { text: 'Strumento utilizzato' }),
           el('label', { class: 'scelta' }, el('input', { type: 'checkbox', name: 'perSesso', checked: !!d.perSesso }), ' Diverso per alunni e alunne'),
           el('div', { class: 'strumento-unico' },
