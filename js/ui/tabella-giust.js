@@ -1,7 +1,7 @@
 /* tabella-giust.js
  * Cosa fa: modulo 2 "Giustificazioni": tabella alunni × mesi (settembre-giugno) con i simboli,
  *          totale per alunno, scelta dell'anno scolastico, legenda con i conteggi della classe.
- * Dipende da: App.U, App.Stato, App.Config, App.Calendario, App.Giust, App.UI.FinestraGiust,
+ * Dipende da: App.U, App.UI.FinestraAlunno (tocco sul nome), App.Stato, App.Config, App.Calendario, App.Giust, App.UI.FinestraGiust,
  *             App.UI.FinestraImporta, App.UI.vuoto, App.UI.regole
  * Usato da: ui/pagina.js
  */
@@ -73,7 +73,9 @@
       var corpo = el('tbody', {}, classe.alunni.map(function (a, r) {
         var tot = App.Giust.totaleAnno(classe, a.id, anno);
         return el('tr', {},
-          el('th', { class: 'col-nome', scope: 'row' }, el('span', { class: 'num', text: (r + 1) + '.' }), ' ' + a.nome),
+          el('th', { class: 'col-nome', scope: 'row' },
+            el('button', { type: 'button', class: 'nome-alunno', title: 'Correggi o togli', onclick: function () { App.UI.FinestraAlunno.apri(classe, a); } },
+              el('span', { class: 'num', text: (r + 1) + '.' }), ' ' + a.nome)),
           mesi.map(function (m) { return casella(classe, a, m); }),
           el('td', { class: 'cella col-tot' + (tot ? ' con-tot' : ''), text: String(tot) }));
       }));

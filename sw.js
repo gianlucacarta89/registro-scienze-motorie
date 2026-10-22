@@ -7,7 +7,7 @@
  */
 'use strict';
 
-var VERSIONE = 'registro-sm-v2.1';
+var VERSIONE = 'registro-sm-v2.2';
 
 var FILE = [
   './',
@@ -43,6 +43,7 @@ var FILE = [
   'js/ui/tabella-giust.js',
   'js/ui/finestra-giust.js',
   'js/ui/finestra-classi.js',
+  'js/ui/finestra-alunno.js',
   'js/ui/finestra-alunni.js',
   'js/ui/finestra-importa.js',
   'js/ui/finestra-backup.js',

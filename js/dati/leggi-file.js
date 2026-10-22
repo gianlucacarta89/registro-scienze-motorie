@@ -58,7 +58,9 @@
             var col = c.getAttribute('r') ? colonna(c.getAttribute('r')) : i;
             celle[col] = val;
           });
-          return celle.filter(function (x) { return x !== undefined; });
+          // le celle vuote restano al loro posto: la posizione serve a riconoscere le colonne
+          for (var k = 0; k < celle.length; k++) if (celle[k] === undefined) celle[k] = '';
+          return celle;
         });
       });
     });
@@ -82,7 +84,7 @@
       var corpo = tutti(xml(t), 'body')[0], righe = [];
       function visita(nodo) {
         Array.prototype.forEach.call(nodo.childNodes, function (n) {
-          if (n.localName === 'p') righeParagrafo(n).forEach(function (r) { righe.push([r]); });
+          if (n.localName === 'p') righeParagrafo(n).forEach(function (r) { var riga = [r]; riga.paragrafo = true; righe.push(riga); });
           else if (n.localName === 'tbl') {
             tutti(n, 'tr').forEach(function (tr) {
               righe.push(figli(tr, 'tc').map(function (tc) {

@@ -207,3 +207,12 @@ textarea { resize: vertical; }
 .come-drive summary { cursor: pointer; font-weight: 600; font-size: .9rem; }
 .come-drive ul { margin: 6px 0; padding-left: 1.2em; font-size: .9rem; }
 .come-drive li { margin: 3px 0; }
+
+/* Nome dell'alunno nelle tabelle: si tocca per correggere o togliere */
+.nome-alunno { border: 0; background: transparent; padding: 0; font: inherit; font-weight: 600; color: inherit;
+  cursor: pointer; text-align: left; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.nome-alunno:hover { text-decoration: underline; color: var(--info); }
+
+/* Selezione di più alunni */
+.barra-selezione { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; margin: 4px 0 6px; }
+.riga-lista.selezionata { background: var(--pericolo-chiaro); }

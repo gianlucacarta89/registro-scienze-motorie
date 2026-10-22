@@ -155,7 +155,11 @@
     }
   }
 
-  // Scritte di una pagina -> righe di celle
+  // Scritte di una pagina -> righe di celle { t, x, x1 } (x = dove inizia la cella, x1 = dove finisce)
+  // Una cella si chiude quando c'è uno spazio largo oppure quando si passa da numeri a lettere
+  // (così "1" e "Rossi" restano celle separate anche se sono vicini).
+  function soloNumeri(t) { return !/[A-Za-z\u00C0-\u024F]/.test(t); }
+
   function righe(scritte) {
     scritte = scritte.filter(function (s) { return s.t.replace(/\s/g, ''); });
     scritte.sort(function (p, q) { return q.y - p.y || p.x - q.x; });
@@ -167,16 +171,20 @@
     });
     return gruppi.map(function (g) {
       g.voci.sort(function (p, q) { return p.x - q.x; });
-      var celle = [], cella = '', fine = null;
+      var celle = [], cella = null;
       g.voci.forEach(function (s) {
-        var spazio = fine === null ? 0 : s.x - fine;
-        if (fine !== null && spazio > s.d * 1.2) { celle.push(cella); cella = ''; }
-        else if (fine !== null && spazio > s.d * 0.15 && !/\s$/.test(cella) && !/^\s/.test(s.t)) cella += ' ';
-        cella += s.t;
-        fine = Math.max(fine === null ? s.x1 : fine, s.x1);
+        var spazio = cella ? s.x - cella.x1 : 0;
+        if (!cella || spazio > s.d * 1.2 || soloNumeri(s.t) !== soloNumeri(cella.t)) {
+          cella = { t: s.t, x: s.x, x1: s.x1 };
+          celle.push(cella);
+          return;
+        }
+        if (spazio > s.d * 0.15 && !/\s$/.test(cella.t) && !/^\s/.test(s.t)) cella.t += ' ';
+        cella.t += s.t;
+        cella.x1 = Math.max(cella.x1, s.x1);
       });
-      celle.push(cella);
-      return celle.map(function (x) { return x.replace(/\s+/g, ' ').trim(); }).filter(Boolean);
+      celle.forEach(function (c) { c.t = c.t.replace(/\s+/g, ' ').trim(); });
+      return celle.filter(function (c) { return c.t; });
     }).filter(function (r) { return r.length; });
   }
 

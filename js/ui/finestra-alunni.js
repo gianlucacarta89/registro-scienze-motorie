@@ -1,8 +1,9 @@
 /* finestra-alunni.js
  * Cosa fa: finestra "Alunni" della classe attiva: aggiunge un alunno, corregge i nomi,
- *          cancella; apre il caricamento da file o da testo incollato.
+ *          toglie un alunno o più alunni selezionati insieme (es. righe entrate per errore
+ *          dal file); apre il caricamento da file o da testo incollato.
  * Dipende da: App.U, App.Config (limiti), App.Classi, App.Stato, App.Avvisi, App.Finestra,
- *             App.UI.FinestraImporta, App.UI.disegnaContenuto
+ *             App.UI.FinestraImporta, App.UI.FinestraAlunno, App.UI.disegnaContenuto
  * Usato da: ui/barra.js (pulsante 👥 Alunni)
  */
 (function (App) {
@@ -30,26 +31,67 @@
         nuovo.focus();
       }
 
+      var scelti = {};          // id degli alunni selezionati
+      var barraSel = el('div', { class: 'barra-selezione' });
+
       function elimina(a) {
-        var d = App.Classi.datiAlunno(classe, a.id);
-        var avviso = d.risultati || d.giust
-          ? '⚠️ Verranno cancellati anche ' + d.risultati + ' risultati dei test e ' + d.giust + ' giustificazioni.' : '';
-        App.Avvisi.conferma({ titolo: 'Togliere ' + a.nome + '?', pericolo: true, testoOk: '🗑️ Togli', testo: [a.nome + ' sarà tolto dalla classe ' + classe.nome + '.', avviso] })
-          .then(function (si) {
-            if (!si) return;
-            App.Classi.eliminaAlunno(classe, a.id);
-            App.Stato.salva();
-            disegnaElenco();
-            App.UI.disegnaContenuto();
-            App.Avvisi.toast('🗑️ Alunno tolto.', 'info');
-          });
+        App.UI.FinestraAlunno.togli(classe, a).then(function (ok) {
+          if (ok) { delete scelti[a.id]; disegnaElenco(); }
+        });
+      }
+
+      function quantiScelti() {
+        return classe.alunni.filter(function (a) { return scelti[a.id]; });
+      }
+
+      function togliScelti() {
+        var lista = quantiScelti();
+        if (!lista.length) return;
+        var r = 0, g = 0;
+        lista.forEach(function (a) { var d = App.Classi.datiAlunno(classe, a.id); r += d.risultati; g += d.giust; });
+        var nomi = lista.slice(0, 8).map(function (a) { return a.nome; }).join(', ') + (lista.length > 8 ? '…' : '');
+        App.Avvisi.conferma({
+          titolo: 'Togliere ' + lista.length + (lista.length === 1 ? ' alunno?' : ' alunni?'), pericolo: true, testoOk: '🗑️ Togli',
+          testo: [nomi, r || g ? '⚠️ Verranno cancellati anche ' + r + ' risultati dei test e ' + g + ' giustificazioni.' : '']
+        }).then(function (si) {
+          if (!si) return;
+          lista.forEach(function (a) { App.Classi.eliminaAlunno(classe, a.id); });
+          scelti = {};
+          App.Stato.salva();
+          disegnaElenco();
+          App.UI.disegnaContenuto();
+          App.Avvisi.toast('🗑️ Tolti ' + lista.length + (lista.length === 1 ? ' alunno.' : ' alunni.'), 'info');
+        });
+      }
+
+      function aggiornaBarra() {
+        var n = quantiScelti().length, tutti = n && n === classe.alunni.length;
+        App.U.svuota(barraSel);
+        if (!classe.alunni.length) return;
+        var cbTutti = el('input', { type: 'checkbox', checked: tutti, 'aria-label': 'Seleziona tutti' });
+        cbTutti.addEventListener('change', function () {
+          scelti = {};
+          if (cbTutti.checked) classe.alunni.forEach(function (a) { scelti[a.id] = true; });
+          disegnaElenco();
+        });
+        barraSel.appendChild(el('label', { class: 'scelta' }, cbTutti, ' Seleziona tutti'));
+        barraSel.appendChild(el('button', { type: 'button', class: 'btn btn-pericolo piccolo-btn', disabled: !n,
+          text: '🗑️ Togli selezionati' + (n ? ' (' + n + ')' : ''), onclick: togliScelti }));
       }
 
       function disegnaElenco() {
         App.U.svuota(elenco);
+        aggiornaBarra();
         if (!classe.alunni.length) { elenco.appendChild(el('p', { class: 'piccolo', text: 'Nessun alunno: aggiungili qui sopra o caricali da un file.' })); return; }
-        elenco.appendChild(el('p', { class: 'piccolo', text: classe.alunni.length + ' alunni, in ordine alfabetico. Tocca un nome per correggerlo.' }));
+        elenco.appendChild(el('p', { class: 'piccolo', text: classe.alunni.length + ' alunni, in ordine alfabetico. Tocca un nome per correggerlo; spunta più nomi per toglierli insieme.' }));
         elenco.appendChild(el('ul', { class: 'lista' }, classe.alunni.map(function (a, i) {
+          var cb = el('input', { type: 'checkbox', checked: !!scelti[a.id], 'aria-label': 'Seleziona ' + a.nome });
+          cb.addEventListener('change', function () {
+            if (cb.checked) scelti[a.id] = true; else delete scelti[a.id];
+            var riga = cb.closest('li');
+            if (riga) riga.classList.toggle('selezionata', cb.checked);
+            aggiornaBarra();
+          });
           var nome = el('input', { type: 'text', value: a.nome, maxlength: App.Config.limiti.nomeAlunno, 'aria-label': 'Nome alunno' });
           nome.addEventListener('change', function () {
             var err = App.Classi.rinominaAlunno(classe, a.id, nome.value);
@@ -59,8 +101,8 @@
             App.UI.disegnaContenuto();
             App.Avvisi.toast('✔ Nome corretto.', 'ok');
           });
-          return el('li', { class: 'riga-lista' },
-            el('span', { class: 'num', text: (i + 1) + '.' }), nome,
+          return el('li', { class: 'riga-lista' + (scelti[a.id] ? ' selezionata' : '') },
+            cb, el('span', { class: 'num', text: (i + 1) + '.' }), nome,
             el('button', { type: 'button', class: 'btn btn-pericolo piccolo-btn', 'aria-label': 'Togli ' + a.nome, text: '🗑️',
               onclick: function () { elimina(a); } }));
         })));
@@ -77,6 +119,7 @@
             el('button', { type: 'button', class: 'btn btn-ok', text: '📥 Carica da file o incolla', onclick: importa })),
           el('div', { class: 'riga-aggiungi' }, nuovo,
             el('button', { type: 'button', class: 'btn btn-ok', text: '➕ Aggiungi', onclick: aggiungi })),
+          barraSel,
           elenco),
         pulsanti: [{ testo: 'Chiudi', tipo: 'neutro' }]
       });

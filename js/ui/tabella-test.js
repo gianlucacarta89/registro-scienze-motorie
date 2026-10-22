@@ -1,7 +1,7 @@
 /* tabella-test.js
  * Cosa fa: modulo 1 "Test": tabella alunni × test, scelta della prova (1ª, 2ª, Confronto),
  *          scrittura dei risultati con salvataggio immediato e controllo dei valori.
- * Dipende da: App.U, App.Stato, App.Config, App.Test, App.Avvisi, App.UI.FinestraTest,
+ * Dipende da: App.U, App.UI.FinestraAlunno (tocco sul nome), App.Stato, App.Config, App.Test, App.Avvisi, App.UI.FinestraTest,
  *             App.UI.FinestraImporta, App.UI.vuoto, App.UI.regole, App.UI.piede
  * Usato da: ui/pagina.js
  */
@@ -106,7 +106,9 @@
         classe.test.map(function (t) { return intestazioneTest(classe, t); }));
       var corpo = el('tbody', {}, classe.alunni.map(function (a, r) {
         return el('tr', {},
-          el('th', { class: 'col-nome', scope: 'row' }, el('span', { class: 'num', text: (r + 1) + '.' }), ' ' + a.nome),
+          el('th', { class: 'col-nome', scope: 'row' },
+            el('button', { type: 'button', class: 'nome-alunno', title: 'Correggi o togli', onclick: function () { App.UI.FinestraAlunno.apri(classe, a); } },
+              el('span', { class: 'num', text: (r + 1) + '.' }), ' ' + a.nome)),
           classe.test.map(function (t, c) {
             return prova === 'c' ? casellaConfronto(classe, a, t) : casella(classe, a, t, prova, r, c);
           }));

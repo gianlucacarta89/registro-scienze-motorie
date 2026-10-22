@@ -45,35 +45,83 @@
     return out;
   }
 
-  // righe: [[cella, cella, ...], ...]. Di ogni riga usa le prime due celle con lettere e senza
-  // cifre (di solito Cognome e Nome): le altre colonne (numeri, date, classi) si ignorano.
+  // ---------- Celle con posizione ----------
+  // Ogni cella diventa { t, x, x1 }: per Excel, Word e testo x è il numero di colonna,
+  // per il PDF è la posizione sulla pagina. Così le colonne si riconoscono allo stesso modo.
+  function celleDi(r) {
+    return (Array.isArray(r) ? r : [r]).map(function (c, i) {
+      if (c && typeof c === 'object') return { t: App.U.spazi(c.t), x: c.x, x1: c.x1 };
+      return { t: App.U.spazi(c), x: i, x1: i + 0.9 };
+    });
+  }
+
+  // Una cella con cifre ("Marco 01/01/2012", "2 Rossi") si spezza: le parole con cifre separano i pezzi
+  function pezzi(testo) {
+    var out = [], pezzo = [];
+    String(testo || '').split(' ').forEach(function (p) {
+      if (/\d/.test(p)) { if (pezzo.length) out.push(pezzo.join(' ')); pezzo = []; }
+      else if (p) pezzo.push(p);
+    });
+    if (pezzo.length) out.push(pezzo.join(' '));
+    // pezzi di una sola lettera (es. sesso M/F) o di sola punteggiatura non sono nomi
+    return out.filter(function (c) { return c.replace(/[^A-Za-zÀ-ɏ]/g, '').length >= 2; });
+  }
+
+  // ---------- Intestazione ----------
+  var COL_COGNOME = /^(n[.°]?\s+)?(cognome|cognomi)$/;
+  var COL_NOME = /^(nome|nomi)$/;
+  var COL_INTERA = /^(n[.°]?\s+)?(cognome\s*(e|ed|\/|-|&)?\s*nome|nome\s*(e|ed|\/|-|&)?\s*cognome|nominativo|nominativi|alunn[oaie]|studente|studentessa|studenti)$/;
+
+  // Se la riga è un'intestazione con le colonne dei nomi, restituisce quelle colonne; altrimenti null
+  function colonneNomi(celle) {
+    var cols = celle.filter(function (c) {
+      var t = c.t.toLowerCase().replace(/[:.]$/, '');
+      return COL_COGNOME.test(t) || COL_NOME.test(t) || COL_INTERA.test(t);
+    });
+    var forte = cols.some(function (c) { var t = c.t.toLowerCase(); return !COL_NOME.test(t.replace(/[:.]$/, '')); });
+    return forte ? { nomi: cols, tutte: celle } : null;
+  }
+
+  function sovrapposizione(a, b) { return Math.min(a.x1, b.x1) - Math.max(a.x, b.x); }
+
+  // Colonna dell'intestazione a cui appartiene una cella: quella che le sta più "sopra"
+  function colonnaDi(cella, intest) {
+    var migliore = null, valore = 0;
+    intest.tutte.forEach(function (h) {
+      var o = sovrapposizione(cella, h);
+      if (o > valore) { valore = o; migliore = h; }
+    });
+    return migliore;
+  }
+
+  // ---------- Lettura ----------
+  // Con intestazione: solo le righe sotto l'intestazione e solo le colonne Cognome / Nome
+  // (o "Cognome e nome", "Alunno", "Nominativo"). Senza intestazione: un nome per riga,
+  // prese le prime due celle con lettere (di solito Cognome e Nome).
   function daRighe(righe) {
-    var out = [], quante = 2;
-    (righe || []).forEach(function (r) {
-      // Una cella con cifre ("Marco 01/01/2012", "2 Rossi") si spezza: le parole con cifre separano le celle
-      var celle = [];
-      (Array.isArray(r) ? r : [r]).forEach(function (c) {
-        var pezzo = [];
-        App.U.spazi(c).split(' ').forEach(function (p) {
-          if (/\d/.test(p)) { if (pezzo.length) celle.push(pezzo.join(' ')); pezzo = []; }
-          else if (p) pezzo.push(p);
-        });
-        if (pezzo.length) celle.push(pezzo.join(' '));
-      });
-      // celle di una sola lettera (es. sesso M/F) non sono nomi
-      celle = celle.filter(function (c) { return c.replace(/[^A-Za-z\u00C0-\u024F]/g, '').length >= 2; });
+    var out = [], intest = null;
+    righe = righe || [];
+    // se nel file c'è un'intestazione, tutto quello che sta sopra (titoli, scuola, classe...) si salta
+    var primaIntest = righe.findIndex(function (r) { return colonneNomi(celleDi(r).filter(function (c) { return c.t; })); });
+    righe.forEach(function (r, ir) {
+      if (ir < primaIntest) return;
+      var celle = celleDi(r).filter(function (c) { return c.t; });
       if (!celle.length) return;
-      if (eIntestazione(celle.join(' '))) {
-        // intestazione: "Cognome e nome" / "Nominativo" / "Alunno" in una colonna sola -> si prende una cella
-        // (i titoli come "Elenco alunni classe 2B" non cambiano nulla)
-        var prima = celle[0].toLowerCase().replace(/^n[.°]?\s+/, '');
-        if (prima.length <= 30 && /^(cognome|nominativo|alunn|studen)/.test(prima)) {
-          // una colonna sola solo se è detto chiaramente ("Cognome e nome", "Nominativo", "Alunno")
-          quante = /^(cognome\s*(e|ed|\/|-|&)\s*nome|nominativo|alunn|studen)/.test(prima) ? 1 : 2;
-        }
-        return;
+      var h = colonneNomi(celle);
+      if (h) { intest = h; intest.tabella = !r.paragrafo; return; }
+      var testo;
+      if (intest) {
+        if (r.paragrafo && intest.tabella) return;     // testo fuori dalla tabella dell'intestazione
+        testo = celle.filter(function (c) { return intest.nomi.indexOf(colonnaDi(c, intest)) >= 0; })
+          .map(function (c) { return pezzi(c.t).join(' '); }).filter(Boolean).join(' ');
+        if (!testo) return;
+      } else {
+        var lista = [];
+        celle.forEach(function (c) { lista = lista.concat(pezzi(c.t)); });
+        if (!lista.length) return;
+        testo = lista.slice(0, 2).join(' ');
       }
-      var testo = celle.slice(0, quante).join(' ');
+      if (eIntestazione(testo)) return;
       var n = pulisci(testo);
       if (n) out.push(n);
     });
