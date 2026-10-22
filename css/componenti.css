@@ -74,6 +74,8 @@
 .testa-test:hover { background: var(--testata-velo); }
 .nome-test { font-weight: 700; white-space: normal; line-height: 1.2; }
 .info-test { font-weight: 400; font-size: .75rem; color: var(--testata-tenue); }
+.tipologia-test { font-weight: 600; font-size: .75rem; font-style: italic; white-space: normal; line-height: 1.2; }
+.strumento-test { font-weight: 400; font-size: .75rem; color: var(--testata-tenue); white-space: normal; line-height: 1.2; }
 .cella-input {
   width: 100%; min-width: 6.5em; border: 0; background: transparent; text-align: center;
   padding: 9px 6px; font-size: 1rem; font-variant-numeric: tabular-nums;
@@ -216,3 +218,7 @@ textarea { resize: vertical; }
 /* Selezione di più alunni */
 .barra-selezione { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; margin: 4px 0 6px; }
 .riga-lista.selezionata { background: var(--pericolo-chiaro); }
+
+.strumento-sesso { display: grid; grid-template-columns: 1fr 1fr; gap: 0 10px; }
+.strumento-sesso .campo { margin: 4px 0; }
+[hidden] { display: none !important; }

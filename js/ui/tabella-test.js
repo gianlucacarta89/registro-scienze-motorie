@@ -33,6 +33,8 @@
       el('button', { type: 'button', class: 'testa-test', title: 'Modifica il test',
         onclick: function () { App.UI.FinestraTest.apri(classe, t); } },
         el('span', { class: 'nome-test', text: t.nome }),
+        t.tipologia ? el('span', { class: 'tipologia-test', text: t.tipologia }) : null,
+        App.Test.etichetteStrumento(t).map(function (s) { return el('span', { class: 'strumento-test', text: '🔧 ' + s }); }),
         el('span', { class: 'info-test', text: (tipo ? tipo + ' ' : '') + (t.migliore === 'alto' ? '↑' : '↓') + ' ✏️' })));
   }
 

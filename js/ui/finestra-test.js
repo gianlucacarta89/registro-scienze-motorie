@@ -20,6 +20,11 @@
     var meglio = f.querySelector('input[name=migliore]:checked');
     return {
       nome: f.querySelector('[name=nome]').value,
+      tipologia: f.querySelector('[name=tipologia]').value,
+      perSesso: f.querySelector('[name=perSesso]').checked,
+      strumento: f.querySelector('[name=strumento]').value,
+      strumentoM: f.querySelector('[name=strumentoM]').value,
+      strumentoF: f.querySelector('[name=strumentoF]').value,
       unita: f.querySelector('[name=unita]').value,
       tipo: tipo ? tipo.value : '',
       migliore: meglio ? meglio.value : ''
@@ -45,7 +50,7 @@
   App.UI.FinestraTest = {
     apri: function (classe, t) {
       var tipi = App.Config.tipiTest;
-      var d = t || { nome: '', unita: '', tipo: 'numero', migliore: tipi.numero.migliore };
+      var d = t || { nome: '', tipologia: '', strumento: '', unita: '', tipo: 'numero', migliore: tipi.numero.migliore };
       var rigaUnita = el('label', { class: 'campo' }, el('span', { text: 'Unità di misura (facoltativa)' }),
         el('input', { name: 'unita', type: 'text', value: d.unita, maxlength: App.Config.limiti.unita, placeholder: 'es. cm, m, rip., kg' }));
       var esempio = el('p', { class: 'piccolo esempio' });
@@ -53,6 +58,19 @@
       var f = el('form', { class: 'modulo', onsubmit: function (ev) { ev.preventDefault(); } },
         el('label', { class: 'campo' }, el('span', { text: 'Nome del test' }),
           el('input', { name: 'nome', type: 'text', value: d.nome, maxlength: App.Config.limiti.nomeTest, placeholder: 'es. Salto in lungo da fermo' })),
+        // Tipologia e strumento: campi vuoti, li scrive il docente (facoltativi)
+        el('label', { class: 'campo' }, el('span', { text: 'Tipologia (cosa valuta il test)' }),
+          el('input', { name: 'tipologia', type: 'text', value: d.tipologia || '', maxlength: App.Config.limiti.tipologia })),
+        el('fieldset', { class: 'campo' }, el('legend', { text: 'Strumento utilizzato' }),
+          el('label', { class: 'scelta' }, el('input', { type: 'checkbox', name: 'perSesso', checked: !!d.perSesso }), ' Diverso per alunni e alunne'),
+          el('div', { class: 'strumento-unico' },
+            el('input', { name: 'strumento', type: 'text', value: d.strumento || '', maxlength: App.Config.limiti.strumento, 'aria-label': 'Strumento' })),
+          el('div', { class: 'strumento-sesso' },
+            el('label', { class: 'campo' }, el('span', { text: '♂ Alunni' }),
+              el('input', { name: 'strumentoM', type: 'text', value: d.strumentoM || '', maxlength: App.Config.limiti.strumento })),
+            el('label', { class: 'campo' }, el('span', { text: '♀ Alunne' }),
+              el('input', { name: 'strumentoF', type: 'text', value: d.strumentoF || '', maxlength: App.Config.limiti.strumento }))),
+          el('p', { class: 'piccolo', text: 'Per età diverse (es. prima o quinta) scrivi lo strumento nel test di ciascuna classe.' })),
         el('fieldset', { class: 'campo' }, el('legend', { text: 'Tipo di risultato' }),
           Object.keys(tipi).map(function (k) { return radio('tipo', k, tipi[k].nome, d.tipo === k); })),
         esempio,
@@ -71,6 +89,15 @@
         r.addEventListener('change', function () { aggiornaTipo(true); });
       });
       aggiornaTipo(false);
+
+      // mostra un campo per tutti oppure i due campi alunni / alunne
+      var perSesso = f.querySelector('[name=perSesso]');
+      function aggiornaStrumento() {
+        f.querySelector('.strumento-unico').hidden = perSesso.checked;
+        f.querySelector('.strumento-sesso').hidden = !perSesso.checked;
+      }
+      perSesso.addEventListener('change', aggiornaStrumento);
+      aggiornaStrumento();
 
       var pulsanti = [];
       if (t) {

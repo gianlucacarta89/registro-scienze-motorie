@@ -4,7 +4,10 @@
  * Dipende da: App.Config (tipiTest, prove, limiti), App.U
  * Usato da: ui/tabella-test.js, ui/finestra-test.js
  *
- * Dati: classe.test = [{ id, nome, unita, tipo: 'numero'|'tempo', migliore: 'alto'|'basso' }]
+ * Dati: classe.test = [{ id, nome, tipologia, strumento, unita, tipo: 'numero'|'tempo', migliore: 'alto'|'basso' }]
+ *       tipologia (capacità valutata) e strumento sono testi liberi, facoltativi.
+ *       Strumento diverso per alunni e alunne: perSesso = true, strumentoM / strumentoF.
+ *       (Per età diverse basta la classe: ogni classe ha i suoi test.)
  *       classe.risultati[alunnoId][testId] = { '1': '145', '2': '152' }
  */
 (function (App) {
@@ -49,6 +52,20 @@
     return { ok: true, valore: virgola(n), numero: n };
   }
 
+  // Strumento: uno per tutti, oppure uno per gli alunni e uno per le alunne
+  function impostaStrumento(t, d) {
+    t.perSesso = !!d.perSesso;
+    t.strumento = t.perSesso ? '' : App.U.spazi(d.strumento);
+    t.strumentoM = t.perSesso ? App.U.spazi(d.strumentoM) : '';
+    t.strumentoF = t.perSesso ? App.U.spazi(d.strumentoF) : '';
+  }
+
+  // Testi dello strumento da mostrare -> ['Medball 3 kg'] oppure ['♂ Medball 4 kg', '♀ Medball 3 kg']
+  function etichetteStrumento(t) {
+    if (!t.perSesso) return t.strumento ? [t.strumento] : [];
+    return [t.strumentoM ? '♂ ' + t.strumentoM : '', t.strumentoF ? '♀ ' + t.strumentoF : ''].filter(Boolean);
+  }
+
   function numero(test, valore) {
     var r = valida(test, valore);
     return r.ok ? r.numero : null;
@@ -57,6 +74,7 @@
   App.Test = {
     valida: valida,
     numero: numero,
+    etichetteStrumento: etichetteStrumento,
     formattaTempo: formattaTempo,
 
     trova: function (classe, id) {
@@ -73,6 +91,9 @@
         return 'Esiste già un test "' + nome + '" in questa classe.';
       if (!App.Config.tipiTest[d.tipo]) return 'Scegli il tipo di risultato.';
       if (d.migliore !== 'alto' && d.migliore !== 'basso') return 'Scegli se è meglio un valore più alto o più basso.';
+      if (App.U.spazi(d.tipologia).length > lim().tipologia) return 'La tipologia può avere al massimo ' + lim().tipologia + ' caratteri.';
+      var troppo = [d.strumento, d.strumentoM, d.strumentoF].some(function (x) { return App.U.spazi(x).length > lim().strumento; });
+      if (troppo) return 'Lo strumento può avere al massimo ' + lim().strumento + ' caratteri.';
       if (App.U.spazi(d.unita).length > lim().unita) return 'L\'unità di misura può avere al massimo ' + lim().unita + ' caratteri.';
       return null;
     },
@@ -80,8 +101,9 @@
     crea: function (classe, d) {
       var err = this.erroreDati(classe, d);
       if (err) return { errore: err };
-      var t = { id: App.U.nuovoId(), nome: App.U.spazi(d.nome), unita: d.tipo === 'tempo' ? '' : App.U.spazi(d.unita),
+      var t = { id: App.U.nuovoId(), nome: App.U.spazi(d.nome), tipologia: App.U.spazi(d.tipologia), unita: d.tipo === 'tempo' ? '' : App.U.spazi(d.unita),
         tipo: d.tipo, migliore: d.migliore };
+      impostaStrumento(t, d);
       classe.test.push(t);
       return { test: t };
     },
@@ -94,6 +116,8 @@
       if (d.tipo !== t.tipo && this.quantiRisultati(classe, id) > 0)
         return 'Non puoi cambiare il tipo: ci sono già dei risultati. Cancellali o crea un nuovo test.';
       t.nome = App.U.spazi(d.nome);
+      t.tipologia = App.U.spazi(d.tipologia);
+      impostaStrumento(t, d);
       t.tipo = d.tipo;
       t.unita = d.tipo === 'tempo' ? '' : App.U.spazi(d.unita);
       t.migliore = d.migliore;
