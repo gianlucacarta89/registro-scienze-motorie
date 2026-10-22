@@ -19,6 +19,7 @@
     if (s.length) parti.push('🔧 ' + s.join(' · '));
     parti.push(t.tipo === 'tempo' ? 'min:sec ↓' : (t.unita || 'numero') + (t.migliore === 'alto' ? ' ↑' : ' ↓'));
     if (App.Voti.haTabella(t)) parti.push('📏 ' + t.voti.righe.length + ' voti');
+    if (t.note) parti.push('📝 ' + t.note);
     return parti.join(' · ');
   }
 

@@ -59,6 +59,8 @@
       main.appendChild(App.UI.vuoto('🏫', 'Benvenuto!', 'Per iniziare crea una classe, poi carica i nomi degli alunni da Excel o Word.',
         el('button', { type: 'button', class: 'btn btn-ok grande', text: '➕ Crea la prima classe',
           onclick: function () { App.UI.FinestraClassi.apri(true); } })));
+    } else if (App.Stato.dati.preferenze.modulo === 'statg') {
+      App.UI.StatisticheGiust.disegna(main, classe);
     } else if (App.Stato.dati.preferenze.modulo === 'stat') {
       App.UI.Statistiche.disegna(main, classe);
     } else if (App.Stato.dati.preferenze.modulo === 'giust') {

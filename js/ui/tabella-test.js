@@ -35,6 +35,7 @@
         onclick: function () { App.UI.FinestraTest.apri(classe, t); } },
         el('span', { class: 'nome-test', text: t.nome }),
         t.tipologia ? el('span', { class: 'tipologia-test', text: t.tipologia }) : null,
+        t.note ? el('span', { class: 'note-test', title: t.note, text: '📝 ' + t.note }) : null,
         App.Test.etichetteStrumento(t).map(function (s) { return el('span', { class: 'strumento-test', text: '🔧 ' + s }); }),
         el('span', { class: 'info-test', text: (tipo ? tipo + ' ' : '') + (t.migliore === 'alto' ? '↑' : '↓') +
           (App.Voti.haTabella(t) ? ' 📏' : '') + ' ✏️' })));
@@ -104,14 +105,24 @@
     return el('td', { class: 'cella' }, inp, spazioVoto);
   }
 
+  // Valori delle prove in fila, senza le prove finali non svolte: "145 → 152 → 160"
+  function catena(valori) {
+    var l = valori.slice();
+    while (l.length > 1 && (l[l.length - 1] === '' || l[l.length - 1] === null)) l.pop();
+    return l.map(function (v) { return v === '' || v === null ? '–' : v; }).join(' → ');
+  }
+
   function casellaConfronto(classe, a, t) {
     var x = App.Test.confronto(classe, a.id, t);
-    if (!x.v1 && !x.v2) return el('td', { class: 'cella confronto vuota', text: '–' });
-    var v1 = App.Voti.votoAlunno(classe, a, t, 1).voto, v2 = App.Voti.votoAlunno(classe, a, t, 2).voto;
+    if (!x.valori.some(Boolean)) return el('td', { class: 'cella confronto vuota', text: '–' });
+    var voti = App.Config.prove.map(function (p) {
+      var v = App.Voti.votoAlunno(classe, a, t, p.id).voto;
+      return v === null ? '' : App.Voti.testo(v);
+    });
     return el('td', { class: 'cella confronto' },
-      el('span', { class: 'valori', text: (x.v1 || '–') + ' → ' + (x.v2 || '–') }),
-      x.esito ? el('span', { class: 'delta ' + x.esito, text: x.delta }) : null,
-      v1 !== null || v2 !== null ? el('span', { class: 'voti-confronto', text: 'voto ' + (v1 === null ? '–' : App.Voti.testo(v1)) + ' → ' + (v2 === null ? '–' : App.Voti.testo(v2)) }) : null);
+      el('span', { class: 'valori', text: catena(x.valori) }),
+      x.esito ? el('span', { class: 'delta ' + x.esito, title: 'Dalla 1ª alla ' + x.provaFine + 'ª prova', text: x.delta }) : null,
+      voti.some(Boolean) ? el('span', { class: 'voti-confronto', text: 'voto ' + catena(voti) }) : null);
   }
 
   App.UI.TabellaTest = {
@@ -147,7 +158,7 @@
       }
       var testa = el('tr', {}, el('th', { class: 'col-nome', text: 'Alunno (' + classe.alunni.length + ')' }),
         classe.test.map(function (t) { return intestazioneTest(classe, t); }),
-        conVoti ? el('th', { class: 'col-media', text: prova === 'c' ? 'Media voti 1ª → 2ª' : 'Media voti' }) : null);
+        conVoti ? el('th', { class: 'col-media', text: prova === 'c' ? 'Media voti per prova' : 'Media voti' }) : null);
       var corpo = el('tbody', {}, classe.alunni.map(function (a, r) {
         return el('tr', {},
           el('th', { class: 'col-nome', scope: 'row' },
@@ -158,7 +169,7 @@
             return prova === 'c' ? casellaConfronto(classe, a, t) : casella(classe, a, t, prova, r, c);
           }),
           conVoti ? el('td', { class: 'cella col-media', 'data-a': a.id,
-            text: prova === 'c' ? testoMedia(classe, a, 1) + ' → ' + testoMedia(classe, a, 2) : testoMedia(classe, a, prova) }) : null);
+            text: prova === 'c' ? catena(App.Config.prove.map(function (p) { var m = testoMedia(classe, a, p.id); return m === '–' ? '' : m; })) : testoMedia(classe, a, prova) }) : null);
       }));
       cont.appendChild(el('div', { class: 'tabella-zona' },
         el('table', { class: 'tabella tabella-test' }, el('thead', {}, testa), corpo)));

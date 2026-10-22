@@ -35,7 +35,7 @@
         return;
       }
       var t = classe.test.filter(function (x) { return x.id === pref().statTest; })[0] || classe.test[0];
-      var prova = pref().prova === 2 ? 2 : 1;
+      var prova = [1, 2, 3].indexOf(pref().prova) >= 0 ? pref().prova : 1;
       var S = App.Statistiche, s = S.test(classe, t, prova), V = function (n) { return S.testoValore(t, n); };
 
       var scelta = el('select', { 'aria-label': 'Test', value: t.id, onchange: function (ev) {
@@ -79,14 +79,29 @@
       }
       cont.appendChild(sezione('Quanti alunni per ogni voto', votiCont));
 
+      // Andamento nelle prove (anche la 3ª, se svolta)
+      var an = S.andamento(classe, t).filter(function (x) { return x.svolti; });
+      if (an.length > 1) {
+        var conVoti = s.tabella && an.every(function (x) { return x.mediaVoti !== null; });
+        cont.appendChild(sezione('Andamento della classe nelle prove', el('div', {},
+          el('div', { class: 'tessere' }, an.map(function (x) {
+            return riquadro(x.prova.nome, V(x.media), x.svolti + ' svolti' + (x.mediaVoti !== null ? ' · voto medio ' + App.Voti.testo(x.mediaVoti) : ''));
+          })),
+          App.UI.Grafici.colonne(an.map(function (x) {
+            var val = conVoti ? x.mediaVoti : x.media;
+            return { etichetta: x.prova.nome, valore: val, testo: conVoti ? App.Voti.testo(val) : V(val), tipo: 'buono',
+              titolo: x.prova.nome + ': media ' + V(x.media) + (x.mediaVoti !== null ? ', voto medio ' + App.Voti.testo(x.mediaVoti) : '') };
+          }), { asse: conVoti ? 'Voto medio della classe in ogni prova' : 'Risultato medio della classe in ogni prova', descrizione: 'Andamento nelle prove' }))));
+      }
+
       // Miglioramenti
       var m = S.miglioramenti(classe, t);
-      cont.appendChild(sezione('Dalla 1ª alla 2ª prova', m.confrontabili ? el('div', { class: 'tessere' },
+      cont.appendChild(sezione('Dalla 1ª all\'ultima prova svolta', m.confrontabili ? el('div', { class: 'tessere' },
         riquadro('⬆ Migliorati', String(m.meglio), percento(m.meglio, m.confrontabili)),
         riquadro('⬇ Peggiorati', String(m.peggio), percento(m.peggio, m.confrontabili)),
         riquadro('= Uguali', String(m.uguale), percento(m.uguale, m.confrontabili)),
-        riquadro('Con entrambe le prove', m.confrontabili + ' / ' + classe.alunni.length))
-        : el('p', { class: 'piccolo', text: 'Servono alunni con il risultato sia della 1ª sia della 2ª prova.' })));
+        riquadro('Con almeno due prove', m.confrontabili + ' / ' + classe.alunni.length))
+        : el('p', { class: 'piccolo', text: 'Servono alunni con il risultato della 1ª prova e di una prova successiva (2ª o 3ª).' })));
 
       // Media voti per test
       var mv = S.mediaVotiPerTest(classe, prova).filter(function (x) { return x.media !== null; });

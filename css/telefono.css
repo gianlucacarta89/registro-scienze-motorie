@@ -4,6 +4,7 @@
   .barra { width: 100%; justify-content: space-between; }
   .contenuto { padding-block: 12px 20px; }
   .scheda { flex: 1; padding: 10px 4px; font-size: .9rem; }
+  .schede { display: grid; grid-template-columns: 1fr 1fr; gap: 0 4px; }
   .tabella-zona { max-height: calc(100vh - 250px); }
 }
 
@@ -29,4 +30,6 @@
   .riga-aggiungi { flex-direction: column; }
   .lista-anteprima { columns: 1; }
   .scelta-simboli { grid-template-columns: 1fr 1fr; }
+  .riga-barra { grid-template-columns: minmax(0, 11em) 1fr 2.5em; gap: 6px; }
+  .riga-barra .etichetta { font-size: .8rem; }
 }

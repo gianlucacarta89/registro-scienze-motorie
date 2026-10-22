@@ -4,7 +4,7 @@
  * Dipende da: App.Config (tipiTest, prove, limiti), App.U
  * Usato da: ui/tabella-test.js, ui/finestra-test.js
  *
- * Dati: classe.test = [{ id, nome, tipologia, strumento, unita, tipo: 'numero'|'tempo', migliore: 'alto'|'basso' }]
+ * Dati: classe.test = [{ id, nome, tipologia, note, strumento, unita, tipo: 'numero'|'tempo', migliore: 'alto'|'basso' }]
  *       tipologia (capacità valutata) e strumento sono testi liberi, facoltativi.
  *       Strumento diverso per alunni e alunne: perSesso = true, strumentoM / strumentoF.
  *       (Per età diverse basta la classe: ogni classe ha i suoi test.)
@@ -91,6 +91,7 @@
         return 'Esiste già un test "' + nome + '" in questa classe.';
       if (!App.Config.tipiTest[d.tipo]) return 'Scegli il tipo di risultato.';
       if (d.migliore !== 'alto' && d.migliore !== 'basso') return 'Scegli se è meglio un valore più alto o più basso.';
+      if (String(d.note || '').trim().length > lim().noteTest) return 'Le note possono avere al massimo ' + lim().noteTest + ' caratteri.';
       if (App.U.spazi(d.tipologia).length > lim().tipologia) return 'La tipologia può avere al massimo ' + lim().tipologia + ' caratteri.';
       var troppo = [d.strumento, d.strumentoM, d.strumentoF].some(function (x) { return App.U.spazi(x).length > lim().strumento; });
       if (troppo) return 'Lo strumento può avere al massimo ' + lim().strumento + ' caratteri.';
@@ -101,7 +102,7 @@
     crea: function (classe, d) {
       var err = this.erroreDati(classe, d);
       if (err) return { errore: err };
-      var t = { id: App.U.nuovoId(), nome: App.U.spazi(d.nome), tipologia: App.U.spazi(d.tipologia), unita: d.tipo === 'tempo' ? '' : App.U.spazi(d.unita),
+      var t = { id: App.U.nuovoId(), nome: App.U.spazi(d.nome), tipologia: App.U.spazi(d.tipologia), note: String(d.note || '').trim(), unita: d.tipo === 'tempo' ? '' : App.U.spazi(d.unita),
         tipo: d.tipo, migliore: d.migliore };
       impostaStrumento(t, d);
       classe.test.push(t);
@@ -117,6 +118,7 @@
         return 'Non puoi cambiare il tipo: ci sono già dei risultati. Cancellali o crea un nuovo test.';
       t.nome = App.U.spazi(d.nome);
       t.tipologia = App.U.spazi(d.tipologia);
+      t.note = String(d.note || '').trim();
       impostaStrumento(t, d);
       t.tipo = d.tipo;
       t.unita = d.tipo === 'tempo' ? '' : App.U.spazi(d.unita);
@@ -183,10 +185,15 @@
     },
 
     // Confronto 1ª -> 2ª prova: { v1, v2, delta: 'testo', esito: 'meglio'|'peggio'|'uguale'|null }
+    // Confronto dalla 1ª all'ULTIMA prova svolta (2ª o 3ª):
+    // { valori: ['145', '152', ''], v1, vFine, provaFine, delta, esito: 'meglio'|'peggio'|'uguale'|null }
     confronto: function (classe, alunnoId, test) {
-      var v1 = this.valore(classe, alunnoId, test.id, 1), v2 = this.valore(classe, alunnoId, test.id, 2);
+      var self = this;
+      var valori = App.Config.prove.map(function (p) { return self.valore(classe, alunnoId, test.id, p.id); });
+      var v1 = valori[0], provaFine = null, v2 = '';
+      for (var i = valori.length - 1; i >= 1; i--) if (valori[i] !== '') { provaFine = i + 1; v2 = valori[i]; break; }
       var n1 = numero(test, v1), n2 = numero(test, v2);
-      var out = { v1: v1, v2: v2, delta: '', esito: null };
+      var out = { valori: valori, v1: v1, vFine: v2, provaFine: provaFine, delta: '', esito: null };
       if (n1 === null || n2 === null || v1 === '' || v2 === '') return out;
       var d = arrotonda(n2 - n1);
       if (d === 0) { out.esito = 'uguale'; out.delta = '='; return out; }

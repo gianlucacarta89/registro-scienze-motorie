@@ -22,6 +22,7 @@
     return {
       nome: f.querySelector('[name=nome]').value,
       tipologia: f.querySelector('[name=tipologia]').value === ALTRO ? f.querySelector('[name=tipologiaAltro]').value : f.querySelector('[name=tipologia]').value,
+      note: f.querySelector('[name=note]').value,
       perSesso: f.querySelector('[name=perSesso]').checked,
       strumento: f.querySelector('[name=strumento]').value,
       strumentoM: f.querySelector('[name=strumentoM]').value,
@@ -83,6 +84,8 @@
         // Tipologia (menu a tendina, parte da "scegli") e strumento (campo vuoto): facoltativi
         el('div', { class: 'campo' }, el('span', { text: 'Tipologia (cosa valuta il test)' }),
           sceltaTipologia(d.tipologia || '')),
+        el('label', { class: 'campo' }, el('span', { text: 'Note (es. mese in cui è stato svolto il test)' }),
+          el('textarea', { name: 'note', rows: 2, maxlength: App.Config.limiti.noteTest, value: d.note || '' })),
         el('fieldset', { class: 'campo' }, el('legend', { text: 'Strumento utilizzato' }),
           el('label', { class: 'scelta' }, el('input', { type: 'checkbox', name: 'perSesso', checked: !!d.perSesso }), ' Diverso per alunni e alunne'),
           el('div', { class: 'strumento-unico' },

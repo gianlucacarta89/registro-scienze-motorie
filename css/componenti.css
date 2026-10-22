@@ -74,6 +74,8 @@
 .testa-test:hover { background: var(--testata-velo); }
 .nome-test { font-weight: 700; white-space: normal; line-height: 1.2; }
 .info-test { font-weight: 400; font-size: .75rem; color: var(--testata-tenue); }
+.note-test { font-weight: 400; font-size: .72rem; color: var(--testata-tenue); white-space: normal; line-height: 1.2;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; max-width: 12em; }
 .tipologia-test { font-weight: 600; font-size: .75rem; font-style: italic; white-space: normal; line-height: 1.2; }
 .strumento-test { font-weight: 400; font-size: .75rem; color: var(--testata-tenue); white-space: normal; line-height: 1.2; }
 .cella-input {
@@ -287,3 +289,10 @@ textarea { resize: vertical; }
 
 .scelta-tipologia { display: flex; flex-direction: column; gap: 6px; }
 .scelta-tipologia select { width: 100%; min-height: 40px; border: 1px solid var(--bordo-forte); border-radius: 8px; background: var(--campo); padding: 6px 10px; }
+
+/* Statistiche giustificazioni */
+.barra.scelto { background: var(--avviso); }
+.tabella-statg-zona { max-height: 60vh; }
+.tabella-statg .col-simbolo { min-width: 3em; font-size: 1.05rem; }
+.tabella-statg .num-cella { text-align: center; padding: 6px 4px; font-variant-numeric: tabular-nums; }
+.tabella-statg tr.senza .col-nome { font-weight: 400; color: var(--tenue); }

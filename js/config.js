@@ -10,7 +10,7 @@
   App.Config = {
     nome: 'Registro Scienze Motorie',
     icona: '🏃',
-    versione: '3.2',
+    versione: '3.3',
 
     // Nome dell'archivio nel browser: DEVE essere diverso per ogni app.
     archivio: {
@@ -45,7 +45,8 @@
     // Modulo Test
     prove: [
       { id: 1, nome: '1ª prova' },
-      { id: 2, nome: '2ª prova' }
+      { id: 2, nome: '2ª prova' },
+      { id: 3, nome: '3ª prova' }
     ],
     tipiTest: {
       numero: { nome: 'Numero (cm, m, ripetizioni, kg…)', esempio: 'es. 145 oppure 3,5', migliore: 'alto' },
@@ -74,6 +75,7 @@
       nomeAlunno: 60,
       nomeTest: 40,
       tipologia: 60,
+      noteTest: 200,
       strumento: 60,
       unita: 12,
       nota: 120,
@@ -91,13 +93,13 @@
 
     testi: {
       regoleTest: [
-        'Ogni test ha due prove (per esempio inizio e fine anno). Scegli la prova sopra la tabella.',
+        'Ogni test ha fino a tre prove (per esempio inizio, metà e fine anno). Scegli la prova sopra la tabella; la 3ª è facoltativa.',
         'Numeri: si accettano solo cifre, con la virgola per i decimali (es. 3,5).',
         'Tempi: minuti e secondi con i due punti (es. 3:45) oppure solo secondi (es. 12,8).',
         'Una casella vuota resta vuota: non conta come zero.',
         'Voto automatico: con la tabella dei voti (📏, separata per alunni e alunne) sotto ogni risultato compare il voto. Serve indicare ♂/♀ di ogni alunno (👥 Alunni). Un risultato peggiore dell\'ultima riga della tabella prende il voto più basso.',
         'La colonna Media voti fa la media dei voti dei test della prova scelta (i test senza voto non contano).',
-        'In "Confronto" il verde indica un miglioramento, il rosso un peggioramento, secondo la regola del test (↑ meglio più alto, ↓ meglio più basso).',
+        'In "Confronto" vedi le prove in fila e la differenza dalla 1ª all\'ultima prova svolta; il verde indica un miglioramento, il rosso un peggioramento, secondo la regola del test (↑ meglio più alto, ↓ meglio più basso).',
         'Ogni valore si salva da solo mentre scrivi. Un valore non valido resta in rosso e non viene salvato.'
       ],
       regoleGiust: [

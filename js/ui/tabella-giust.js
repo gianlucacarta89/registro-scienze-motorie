@@ -55,6 +55,8 @@
   }
 
   App.UI.TabellaGiust = {
+    barraAnno: barraAnno,     // usata anche da ui/statistiche-giust.js
+
     disegna: function (cont, classe) {
       var anno = App.Calendario.annoAttivo(), mesi = App.Calendario.mesi(anno);
       cont.appendChild(el('div', { class: 'strumenti' }, barraAnno(anno)));

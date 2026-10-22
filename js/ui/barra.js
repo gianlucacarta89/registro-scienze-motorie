@@ -36,17 +36,17 @@
       barra.appendChild(el('div', { class: 'gruppo-btn' },
         classe ? el('button', { type: 'button', class: 'btn btn-neutro', text: '👥 Alunni',
           onclick: function () { App.UI.FinestraAlunni.apri(App.Stato.classe()); } }) : null,
-        el('button', { type: 'button', class: 'btn btn-neutro', text: '📚 Test',
-          onclick: function () { App.UI.FinestraElencoTest.apri(App.Stato.classe()); } }),
         el('button', { type: 'button', class: 'btn btn-neutro', text: '🏫 Classi',
           onclick: function () { App.UI.FinestraClassi.apri(); } }),
+        el('button', { type: 'button', class: 'btn btn-neutro', text: '📚 Test',
+          onclick: function () { App.UI.FinestraElencoTest.apri(App.Stato.classe()); } }),
         el('button', { type: 'button', class: 'btn btn-info', text: '💾 Backup',
           onclick: function () { App.UI.FinestraBackup.apri(); } })));
 
       var schede = App.U.svuota(document.getElementById('schede'));
       if (!classe) { schede.style.display = 'none'; return; }
       schede.style.display = '';
-      [['test', '📊 Test'], ['giust', '📋 Giustificazioni'], ['stat', '📈 Statistiche']].forEach(function (s) {
+      [['test', '📊 Test'], ['stat', '📈 Statistiche test'], ['giust', '📋 Giustificazioni'], ['statg', '📈 Statistiche giustificazioni']].forEach(function (s) {
         var attiva = d.preferenze.modulo === s[0];
         schede.appendChild(el('button', {
           type: 'button', role: 'tab', class: 'scheda' + (attiva ? ' attiva' : ''),

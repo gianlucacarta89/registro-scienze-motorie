@@ -31,7 +31,7 @@
           })),
           el('div', { class: 'barre' }, dati.map(function (d) {
             return el('div', { class: 'colonna', title: d.titolo || (d.etichetta + ': ' + d.valore), tabindex: '0' },
-              el('span', { class: 'valore', text: d.valore ? String(d.valore) : '' }),
+              el('span', { class: 'valore', text: d.testo !== undefined ? d.testo : (d.valore ? String(d.valore) : '') }),
               el('div', { class: 'barra ' + (d.tipo || ''), style: 'height:' + (d.valore / alto * 100) + '%' }));
           }))),
         el('div', { class: 'etichette' }, dati.map(function (d) { return el('span', { text: d.etichetta }); })),

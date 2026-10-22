@@ -7,7 +7,7 @@
  */
 'use strict';
 
-var VERSIONE = 'registro-sm-v3.2';
+var VERSIONE = 'registro-sm-v3.3';
 
 var FILE = [
   './',
@@ -33,6 +33,7 @@ var FILE = [
   'js/servizi/voti.js',
   'js/servizi/statistiche.js',
   'js/servizi/elenco-test.js',
+  'js/servizi/statistiche-giust.js',
   'js/dati/zip.js',
   'js/dati/pdf-oggetti.js',
   'js/dati/pdf-caratteri.js',
@@ -55,6 +56,7 @@ var FILE = [
   'js/ui/finestra-backup.js',
   'js/ui/grafici.js',
   'js/ui/statistiche.js',
+  'js/ui/statistiche-giust.js',
   'js/avvio.js',
   'icone/icona-512.png',
   'icone/icona-maskable-512.png'

@@ -1,4 +1,4 @@
-# MAPPA — Registro Scienze Motorie v3.2
+# MAPPA — Registro Scienze Motorie v3.3
 
 Indice dei file: cosa c'è dentro e quale parte dell'app ne dipende.
 Tutti i moduli stanno nell'oggetto globale `App`. Ordine di caricamento in `index.html`:
@@ -45,10 +45,11 @@ Nome, versione, nome dell'archivio, **tipologie dei test (menu a tendina)**, mes
 | `calendario.js` | `App.Calendario` | `annoCorrente`, `annoAttivo`, `etichetta`, `mesi`, `limiti`, `meseDi` |
 | `nomi.js` | `App.Nomi` | `daRighe`: se trova l'intestazione (Cognome / Nome / Cognome e nome / Alunno / Nominativo) prende **solo quelle colonne e solo le righe sotto**; senza intestazione un nome per riga. `colonneNomi`, `colonnaDi` (colonna per sovrapposizione), `pezzi` (toglie cifre e lettere singole), `pulisci` (numeri d'ordine, MAIUSCOLE), `righeDaTesto`, `unici` |
 | `classi.js` | `App.Classi` | `impostaSesso`, `senzaSesso`, `crea`, `rinomina`, `elimina`, `aggiungiAlunni`, `rinominaAlunno`, `eliminaAlunno`, `esisteAlunno`, `datiAlunno` |
-| `test.js` | `App.Test` | `copia` (test in un'altra classe), `valida` (numeri e tempi), `etichetteStrumento` (uno per tutti o ♂/♀), `crea`, `modifica`, `elimina`, `sposta`, `valore`, `imposta`, `confronto`, `quantiRisultati` |
+| `test.js` | `App.Test` | `copia` (test in un'altra classe), `valida` (numeri e tempi), `etichetteStrumento` (uno per tutti o ♂/♀), `crea`, `modifica`, `elimina`, `sposta`, `valore`, `imposta`, `confronto` (1ª → ultima prova svolta), `quantiRisultati` |
 | `voti.js` | `App.Voti` | `scala` (4–10 con i mezzi voti), `controlla` (tabella in ordine), `calcola` (voto da risultato e ♂/♀), `votoAlunno`, `media`, `haTabella`, `sufficiente` |
 | `statistiche.js` | `App.Statistiche` | `test` (svolti, media, migliore, peggiore, ♂/♀, quanti per voto), `miglioramenti`, `mediaVotiPerTest`, `testoValore` |
 | `elenco-test.js` | `App.ElencoTest` | `contenitore` (l'elenco con la forma di una classe), `tutti`, `aggiungiAClasse`, `prendiDaClasse` |
+| `statistiche-giust.js` | `App.StatGiust` | `perAlunno` (totale e per tipologia, mese o anno), `perMese`, `totali` (anche ♂/♀) |
 | `giustificazioni.js` | `App.Giust` | `errore` (mese, doppioni, simbolo), `aggiungi`, `modifica`, `elimina`, `delMese`, `totaleAnno`, `contaClasse` |
 
 ## js/dati/
@@ -65,13 +66,14 @@ Nome, versione, nome dell'archivio, **tipologie dei test (menu a tendina)**, mes
 | File | Modulo | Cosa disegna |
 |---|---|---|
 | `pagina.js` | `App.UI.disegna`, `disegnaContenuto`, `piede`, `vuoto`, `regole` | Pagina intera, piè di pagina con stato del backup |
-| `barra.js` | `App.UI.Barra` | Scelta classe, pulsanti 👥 Alunni, 🏫 Classi, 💾 Backup, schede 📊 Test / 📋 Giustificazioni |
+| `barra.js` | `App.UI.Barra` | Scelta classe, pulsanti 👥 Alunni, 🏫 Classi, 📚 Test, 💾 Backup; schede 📊 Test / 📈 Statistiche test / 📋 Giustificazioni / 📈 Statistiche giustificazioni |
 | `tabella-test.js` | `App.UI.TabellaTest` | Scheda 📊 Test (nome alunno toccabile): ➕ Nuovo test, 1ª / 2ª prova / ⇄ Confronto, caselle dei risultati |
 | `finestra-voti.js` | `App.UI.FinestraVoti` | 📏 Tabella dei voti: una riga per voto, soglia ♂ e ♀, ➕ riga, 🗑️ Svuota |
 | `finestra-copia-test.js` | `App.UI.FinestraCopiaTest` | 📋 Copia test in un'altra classe |
 | `finestra-elenco-test.js` | `App.UI.FinestraElencoTest` | 📚 Test (in alto) e 📚 Dall'elenco: elenco dei test, ➕ Nuovo test nell'elenco, ✏️, 📥 Prendi i test della classe, ➕ Aggiungi alla classe |
 | `grafici.js` | `App.UI.Grafici` | `colonne`, `barre` (grafici HTML/CSS) |
-| `statistiche.js` | `App.UI.Statistiche` | Scheda 📈 Statistiche |
+| `statistiche.js` | `App.UI.Statistiche` | Scheda 📈 Statistiche test (prove 1ª/2ª/3ª, andamento nelle prove, miglioramenti 1ª → ultima) |
+| `statistiche-giust.js` | `App.UI.StatisticheGiust` | Scheda 📈 Statistiche giustificazioni: anno, mese o tutto l'anno, A–Z / Più giustificati, per tipologia, per mese, tabella per alunno |
 | `finestra-test.js` | `App.UI.FinestraTest` | ➕ Nuovo test e ✏️ intestazione colonna: nome, tipologia (menu da config + Altro…), strumento (uno o ♂/♀), tipo, unità, migliore, ◀ ▶ sposta, 🗑️ |
 | `tabella-giust.js` | `App.UI.TabellaGiust` | Scheda 📋 Giustificazioni (nome alunno toccabile): ◀ anno ▶, tabella mesi, Tot., legenda |
 | `finestra-giust.js` | `App.UI.FinestraGiust` | Tocco su una casella del mese: elenco, ✏️, 🗑️, nuova giustificazione (con bozza) |
@@ -88,11 +90,11 @@ Nome, versione, nome dell'archivio, **tipologie dei test (menu a tendina)**, mes
 ```
 { schema: 1, ultimaModifica, ultimoBackup,
   archivio: { test: [ come classe.test ] },   // 📚 elenco dei test, fuori dalle classi
-  preferenze: { classeAttiva, modulo: 'test'|'giust'|'stat', prova: 1|2|'c', annoInizio: null|2026, statTest },
+  preferenze: { classeAttiva, modulo: 'test'|'stat'|'giust'|'statg', prova: 1|2|3|'c', statgMese, statgOrdine, annoInizio: null|2026, statTest },
   classi: [{ id, nome,
     alunni: [{ id, nome, sesso: 'M'|'F'|'' }],
-    test: [{ id, nome, tipologia, strumento, perSesso, strumentoM, strumentoF, unita, tipo: 'numero'|'tempo', migliore: 'alto'|'basso',
+    test: [{ id, nome, tipologia, note, strumento, perSesso, strumentoM, strumentoF, unita, tipo: 'numero'|'tempo', migliore: 'alto'|'basso',
             voti: { righe: [{ voto: 8, M: '440', F: '380' }] } }],
-    risultati: { alunnoId: { testId: { '1': '145', '2': '152' } } },
+    risultati: { alunnoId: { testId: { '1': '145', '2': '152', '3': '160' } } },
     giust: { alunnoId: [{ id, data: 'AAAA-MM-GG', simbolo, nota }] } }] }
 ```

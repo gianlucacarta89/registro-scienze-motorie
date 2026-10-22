@@ -1,7 +1,8 @@
 /* statistiche.js
  * Cosa fa: calcola le statistiche della classe per la scheda 📈 Statistiche:
  *          per un test e una prova (svolti, media, migliore, peggiore, alunni/alunne,
- *          quanti per ogni voto), miglioramenti 1ª → 2ª prova, media voti per test.
+ *          quanti per ogni voto), andamento nelle prove (1ª, 2ª, 3ª), miglioramenti 1ª → ultima
+ *          prova, media voti per test.
  * Dipende da: App.Test (valore, numero, formattaTempo, confronto), App.Voti, App.Config
  * Usato da: ui/statistiche.js
  */
@@ -58,7 +59,15 @@
     };
   }
 
-  // Miglioramenti dalla 1ª alla 2ª prova
+  // Andamento della classe nelle prove: per ogni prova svolti, media del risultato, media voti
+  function andamento(classe, t) {
+    return App.Config.prove.map(function (p) {
+      var s = test(classe, t, p.id);
+      return { prova: p, svolti: s.svolti, media: s.media, mediaVoti: s.mediaVoti };
+    });
+  }
+
+  // Miglioramenti dalla 1ª all'ultima prova svolta (2ª o 3ª)
   function miglioramenti(classe, t) {
     var out = { meglio: 0, peggio: 0, uguale: 0, confrontabili: 0 };
     classe.alunni.forEach(function (a) {
@@ -79,5 +88,5 @@
     }).filter(function (x) { return App.Voti.haTabella(x.test); });
   }
 
-  App.Statistiche = { test: test, miglioramenti: miglioramenti, mediaVotiPerTest: mediaVotiPerTest, testoValore: testoValore };
+  App.Statistiche = { test: test, andamento: andamento, miglioramenti: miglioramenti, mediaVotiPerTest: mediaVotiPerTest, testoValore: testoValore };
 })(window.App = window.App || {});

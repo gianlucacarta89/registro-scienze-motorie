@@ -13,7 +13,7 @@
       schema: 1,
       classi: [],
       archivio: { test: [] },            // elenco dei test del docente (fuori dalle classi)
-      preferenze: { classeAttiva: null, modulo: 'test', prova: 1, annoInizio: null, statTest: null },
+      preferenze: { classeAttiva: null, modulo: 'test', prova: 1, annoInizio: null, statTest: null, statgMese: '', statgOrdine: 'nome' },
       ultimaModifica: null,
       ultimoBackup: null
     };
@@ -32,9 +32,11 @@
     });
     var p = d.preferenze || {};
     n.preferenze.classeAttiva = p.classeAttiva || null;
-    n.preferenze.modulo = p.modulo === 'giust' || p.modulo === 'stat' ? p.modulo : 'test';
+    n.preferenze.modulo = ['giust', 'stat', 'statg'].indexOf(p.modulo) >= 0 ? p.modulo : 'test';
+    n.preferenze.statgMese = p.statgMese || '';
+    n.preferenze.statgOrdine = p.statgOrdine === 'tot' ? 'tot' : 'nome';
     n.preferenze.statTest = p.statTest || null;
-    n.preferenze.prova = p.prova === 2 || p.prova === 'c' ? p.prova : 1;
+    n.preferenze.prova = p.prova === 2 || p.prova === 3 || p.prova === 'c' ? p.prova : 1;
     n.preferenze.annoInizio = typeof p.annoInizio === 'number' ? p.annoInizio : null;
     n.ultimaModifica = d.ultimaModifica || null;
     n.ultimoBackup = d.ultimoBackup || null;
