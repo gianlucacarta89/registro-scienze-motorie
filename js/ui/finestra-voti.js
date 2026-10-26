@@ -2,7 +2,7 @@
  * Cosa fa: finestra "Tabella dei voti" di un test: si copiano i parametri di riferimento
  *          (es. del libro di testo), una riga per voto, con la soglia per alunni (♂) e alunne (♀).
  *          Le soglie partono vuote; le righe senza soglie si ignorano.
- * Dipende da: App.U, App.Config (voti), App.Voti, App.Stato, App.Avvisi, App.Finestra,
+ * Dipende da: App.U, App.Config (voti), App.Voti, App.ElencoTest, App.Stato, App.Avvisi, App.Finestra,
  *             App.UI.disegnaContenuto
  * Usato da: ui/finestra-test.js (pulsante 📏 Tabella dei voti)
  */
@@ -74,6 +74,8 @@
             var r = App.Voti.controlla(t, leggi());
             if (r.errore) { App.Avvisi.toast('❌ ' + r.errore, 'errore', 7000); return false; }
             t.voti = { righe: r.righe };
+            // tabella di un test di classe: si aggiorna anche la sua copia nell'elenco 📚 (se collegata)
+            if (classe.elenco) App.ElencoTest.stacca(t); else App.ElencoTest.aggiorna(classe, t);
             App.Stato.salva();
             App.UI.disegnaContenuto();
             App.Avvisi.toast(r.righe.length ? '✔ Tabella salvata: ' + r.righe.length + ' voti.' : 'Tabella vuota: nessun voto automatico.', 'ok', 4000);

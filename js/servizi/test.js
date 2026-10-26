@@ -135,6 +135,7 @@
         if (versoClasse.test.some(function (x) { return App.U.chiaveNome(x.nome) === k; })) { saltati.push(t.nome); return; }
         var nuovo = App.U.copia(t);
         nuovo.id = App.U.nuovoId();
+        delete nuovo.origine;             // la copia non è collegata al test d'origine
         versoClasse.test.push(nuovo);
         copiati++;
       });

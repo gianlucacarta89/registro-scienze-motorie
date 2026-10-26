@@ -108,7 +108,7 @@
             ? '📏 Tabella inserita: ' + t.voti.righe.length + ' voti, separati per alunni e alunne.'
             : 'Inserisci i parametri di riferimento (es. del libro) per calcolare il voto da solo.' }),
           el('button', { type: 'button', class: 'btn btn-info', text: '📏 Tabella dei voti', onclick: function () { salva(true); } })),
-        // un test di una classe si può mettere nell'elenco, per riusarlo nelle altre classi
+        // un test di una classe si può rimettere nell'elenco (es. se dall'elenco era stato cancellato)
         t && !classe.elenco ? el('div', { class: 'riga-btn sinistra' },
           el('button', { type: 'button', class: 'btn btn-neutro piccolo-btn', text: '📚 Salva nell\'elenco dei test', onclick: function () {
             if (!salva(false)) return;
@@ -139,11 +139,16 @@
 
       var fin;
       // Salva il test; con apriVoti = true poi apre la tabella dei voti. -> false se c'è un errore
+      var esitoElenco = null;
       function salva(apriVoti) {
-        var dati = dalModulo(f), err, test = t;
+        var dati = dalModulo(f), err, test = t, r = null;
         if (t) err = App.Test.modifica(classe, t.id, dati);
-        else { var r = App.Test.crea(classe, dati); err = r.errore; test = r.test; t = test; }
+        else { r = App.Test.crea(classe, dati); err = r.errore; test = r.test; t = test; }
         if (err) { App.Avvisi.toast('❌ ' + err, 'errore', 5000); return false; }
+        // Elenco 📚: un test nuovo di una classe ci entra da solo; poi la sua copia resta allineata
+        if (classe.elenco) App.ElencoTest.stacca(test);
+        else if (r) esitoElenco = App.ElencoTest.registra(classe, test);
+        else App.ElencoTest.aggiorna(classe, test);
         App.Stato.salva();
         App.UI.disegnaContenuto();
         // se cambia "che risultato è migliore" la tabella dei voti può non tornare più
@@ -166,7 +171,10 @@
         azione: function () {
           var nuovo = !t;
           if (!salva(false)) return false;
-          App.Avvisi.toast(nuovo ? '✔ Test aggiunto.' : '✔ Test aggiornato.', 'ok');
+          if (!nuovo) App.Avvisi.toast('✔ Test aggiornato.', 'ok');
+          else if (classe.elenco) App.Avvisi.toast('✔ Test aggiunto all\'elenco.', 'ok');
+          else App.Avvisi.toast(esitoElenco === 'presente' ? '✔ Test aggiunto. Nell\'elenco 📚 c\'era già un test con questo nome: non l\'ho duplicato.'
+            : '✔ Test aggiunto e salvato nell\'elenco 📚.', 'ok', 4500);
         }
       });
 

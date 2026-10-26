@@ -1,4 +1,4 @@
-# MAPPA — Registro Scienze Motorie v3.3
+# MAPPA — Registro Scienze Motorie v3.4
 
 Indice dei file: cosa c'è dentro e quale parte dell'app ne dipende.
 Tutti i moduli stanno nell'oggetto globale `App`. Ordine di caricamento in `index.html`:
@@ -48,7 +48,7 @@ Nome, versione, nome dell'archivio, **tipologie dei test (menu a tendina)**, mes
 | `test.js` | `App.Test` | `copia` (test in un'altra classe), `valida` (numeri e tempi), `etichetteStrumento` (uno per tutti o ♂/♀), `crea`, `modifica`, `elimina`, `sposta`, `valore`, `imposta`, `confronto` (1ª → ultima prova svolta), `quantiRisultati` |
 | `voti.js` | `App.Voti` | `scala` (4–10 con i mezzi voti), `controlla` (tabella in ordine), `calcola` (voto da risultato e ♂/♀), `votoAlunno`, `media`, `haTabella`, `sufficiente` |
 | `statistiche.js` | `App.Statistiche` | `test` (svolti, media, migliore, peggiore, ♂/♀, quanti per voto), `miglioramenti`, `mediaVotiPerTest`, `testoValore` |
-| `elenco-test.js` | `App.ElencoTest` | `contenitore` (l'elenco con la forma di una classe), `tutti`, `aggiungiAClasse`, `prendiDaClasse` |
+| `elenco-test.js` | `App.ElencoTest` | `contenitore` (l'elenco con la forma di una classe), `tutti`, `registra` (test nuovo di classe → elenco, collegato con `origine`), `aggiorna` (copia collegata allineata), `stacca` (modifica fatta nell'elenco), `aggiungiAClasse`, `prendiDaClasse` |
 | `statistiche-giust.js` | `App.StatGiust` | `perAlunno` (totale e per tipologia, mese o anno), `perMese`, `totali` (anche ♂/♀) |
 | `giustificazioni.js` | `App.Giust` | `errore` (mese, doppioni, simbolo), `aggiungi`, `modifica`, `elimina`, `delMese`, `totaleAnno`, `contaClasse` |
 
@@ -89,7 +89,7 @@ Nome, versione, nome dell'archivio, **tipologie dei test (menu a tendina)**, mes
 ## Struttura dei dati (`App.Stato.dati`)
 ```
 { schema: 1, ultimaModifica, ultimoBackup,
-  archivio: { test: [ come classe.test ] },   // 📚 elenco dei test, fuori dalle classi
+  archivio: { test: [ come classe.test + origine: { c, t } ] },   // 📚 elenco dei test, fuori dalle classi
   preferenze: { classeAttiva, modulo: 'test'|'stat'|'giust'|'statg', prova: 1|2|3|'c', statgMese, statgOrdine, annoInizio: null|2026, statTest },
   classi: [{ id, nome,
     alunni: [{ id, nome, sesso: 'M'|'F'|'' }],
