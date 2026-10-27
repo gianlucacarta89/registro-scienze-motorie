@@ -9,6 +9,11 @@
  *       Strumento diverso per alunni e alunne: perSesso = true, strumentoM / strumentoF.
  *       (Per età diverse basta la classe: ogni classe ha i suoi test.)
  *       classe.risultati[alunnoId][testId] = { '1': '145', '2': '152' }
+ *       Tempi: formatoTempo 'sec' = secondi e decimi ("12,8", prove di velocità) oppure
+ *       'min' = minuti e secondi ("12:30", prove di resistenza). Senza formato (test vecchi):
+ *       dalla tipologia (Velocità → sec, Resistenza → min), altrimenti come prima (auto).
+ *       I valori salvati si leggono sempre allo stesso modo: con ":" sono minuti:secondi,
+ *       senza sono secondi; così cambiare formato non cambia il significato dei dati.
  */
 (function (App) {
   'use strict';
@@ -16,6 +21,36 @@
   function lim() { return App.Config.limiti; }
   function virgola(n) { return String(n).replace('.', ','); }
   function arrotonda(n) { return Math.round(n * 100) / 100; }
+
+  // Formato del tempo di un test: 'sec' | 'min' | 'auto' (null se il test non è a tempo)
+  function formato(test) {
+    if (test.tipo !== 'tempo') return null;
+    if (test.formatoTempo === 'sec' || test.formatoTempo === 'min') return test.formatoTempo;
+    var k = App.U.chiaveNome(test.tipologia || '');
+    if (k === 'velocita') return 'sec';
+    if (k === 'resistenza') return 'min';
+    return 'auto';
+  }
+
+  // secondi -> testo nel formato del test
+  function formatta(test, sec) {
+    sec = arrotonda(sec);
+    var f = formato(test);
+    if (f === 'sec') return virgola(sec);
+    if (f === 'min') {
+      var m = Math.floor(sec / 60), s = arrotonda(sec - m * 60);
+      return m + ':' + (s < 10 ? '0' : '') + virgola(s);
+    }
+    return formattaTempo(sec);
+  }
+
+  // Lettura di un valore SALVATO (sempre uguale, qualunque sia il formato): "m:ss[,d]" oppure secondi
+  function secondiSalvati(v) {
+    var t = String(v == null ? '' : v).trim(), m = t.match(/^(\d+):(\d{1,2})(?:,(\d+))?$/);
+    if (m) return Number(m[1]) * 60 + Number(m[2] + (m[3] ? '.' + m[3] : ''));
+    m = t.match(/^(\d+)(?:[.,](\d+))?$/);
+    return m ? Number(m[1] + (m[2] ? '.' + m[2] : '')) : null;
+  }
 
   // secondi -> "3:05,2" (oltre il minuto) o "12,8"
   function formattaTempo(sec) {
@@ -32,18 +67,24 @@
     if (t === '') return { ok: true, valore: '', numero: null };
     var m, n;
     if (test.tipo === 'tempo') {
+      var f = formato(test);
       m = t.match(/^(\d+)\s*[:'’]\s*(\d{1,2})(?:[.,](\d+))?\s*["”″]?$/);
-      if (m) {
-        var sec = Number(m[2] + (m[3] ? '.' + m[3] : ''));
+      // Resistenza (minuti e secondi): "12,30", "12.30" o "12 30" valgono 12:30 (comodo dal telefono)
+      var mm = !m && f === 'min' ? t.match(/^(\d+)(?:\s*[.,\s]\s*(\d+))?$/) : null;
+      if (mm && mm[2] !== undefined && mm[2].length !== 2) {
+        return { ok: false, errore: test.nome + ': scrivi i secondi con due cifre (es. 12:05 o 12,05 per 12 minuti e 5 secondi).' };
+      }
+      if (m || mm) {
+        var sec = m ? Number(m[2] + (m[3] ? '.' + m[3] : '')) : Number(mm[2] || 0);
         if (sec >= 60) return { ok: false, errore: test.nome + ': i secondi devono essere meno di 60 (es. 3:45).' };
-        n = Number(m[1]) * 60 + sec;
+        n = Number((m || mm)[1]) * 60 + sec;
       } else {
         m = t.match(/^(\d+)(?:[.,](\d+))?\s*(?:s|sec|["”″])?$/i);
-        if (!m) return { ok: false, errore: test.nome + ': scrivi il tempo come 3:45 (minuti:secondi) oppure 12,8 (secondi).' };
+        if (!m) return { ok: false, errore: test.nome + (f === 'sec' ? ': scrivi i secondi con la virgola per i decimi (es. 12,8).' : ': scrivi il tempo come 3:45 (minuti:secondi) oppure 12,8 (secondi).') };
         n = Number(m[1] + (m[2] ? '.' + m[2] : ''));
       }
       if (n > lim().valoreMax) return { ok: false, errore: test.nome + ': tempo troppo grande.' };
-      return { ok: true, valore: formattaTempo(n), numero: arrotonda(n) };
+      return { ok: true, valore: formatta(test, n), numero: arrotonda(n) };
     }
     m = t.match(/^(\d+)(?:[.,](\d+))?$/);
     if (!m) return { ok: false, errore: test.nome + ': scrivi solo un numero, con la virgola per i decimali (es. 145 oppure 3,5).' };
@@ -66,14 +107,43 @@
     return [t.strumentoM ? '♂ ' + t.strumentoM : '', t.strumentoF ? '♀ ' + t.strumentoF : ''].filter(Boolean);
   }
 
+  // Numero di un valore salvato (i tempi in secondi, letti allo stesso modo in ogni formato)
   function numero(test, valore) {
+    if (test.tipo === 'tempo') {
+      var s = secondiSalvati(valore);
+      return s === null ? null : arrotonda(s);
+    }
     var r = valida(test, valore);
     return r.ok ? r.numero : null;
+  }
+
+  // Riscrive risultati e soglie dei voti nel formato attuale del test (es. dopo un cambio di formato)
+  function riscrivi(classe, t) {
+    if (t.tipo !== 'tempo') return;
+    function nuovo(v) { var n = secondiSalvati(v); return n === null ? v : formatta(t, n); }
+    Object.keys(classe.risultati || {}).forEach(function (a) {
+      var r = classe.risultati[a][t.id];
+      if (r) Object.keys(r).forEach(function (p) { r[p] = nuovo(r[p]); });
+    });
+    ((t.voti && t.voti.righe) || []).forEach(function (riga) {
+      if (riga.M) riga.M = nuovo(riga.M);
+      if (riga.F) riga.F = nuovo(riga.F);
+    });
   }
 
   App.Test = {
     valida: valida,
     numero: numero,
+    formato: formato,
+    formatta: formatta,
+    riscrivi: riscrivi,
+
+    // Tutti i tempi di tutte le classi e dell'elenco nel formato del loro test (avvio, backup)
+    riscriviTutti: function () {
+      App.Stato.dati.classi.concat([App.Stato.dati.archivio]).forEach(function (c) {
+        (c.test || []).forEach(function (t) { riscrivi(c, t); });
+      });
+    },
     etichetteStrumento: etichetteStrumento,
     formattaTempo: formattaTempo,
 
@@ -102,7 +172,8 @@
     crea: function (classe, d) {
       var err = this.erroreDati(classe, d);
       if (err) return { errore: err };
-      var t = { id: App.U.nuovoId(), nome: App.U.spazi(d.nome), tipologia: App.U.spazi(d.tipologia), note: String(d.note || '').trim(), unita: d.tipo === 'tempo' ? '' : App.U.spazi(d.unita),
+      var t = { id: App.U.nuovoId(), nome: App.U.spazi(d.nome), tipologia: App.U.spazi(d.tipologia), note: String(d.note || '').trim(),
+        formatoTempo: d.tipo === 'tempo' && (d.formatoTempo === 'sec' || d.formatoTempo === 'min') ? d.formatoTempo : '', unita: d.tipo === 'tempo' ? '' : App.U.spazi(d.unita),
         tipo: d.tipo, migliore: d.migliore };
       impostaStrumento(t, d);
       classe.test.push(t);
@@ -124,6 +195,8 @@
       t.tipo = d.tipo;
       t.unita = d.tipo === 'tempo' ? '' : App.U.spazi(d.unita);
       t.migliore = d.migliore;
+      t.formatoTempo = d.tipo === 'tempo' && (d.formatoTempo === 'sec' || d.formatoTempo === 'min') ? d.formatoTempo : (d.tipo === 'tempo' ? t.formatoTempo : '');
+      riscrivi(classe, t);              // i tempi già scritti passano al nuovo formato
       this.ordina(classe);              // la tipologia può essere cambiata
       return null;
     },
@@ -228,7 +301,7 @@
       if (d === 0) { out.esito = 'uguale'; out.delta = '='; return out; }
       var segno = d > 0 ? '+' : '−';
       var ass = Math.abs(d);
-      out.delta = segno + (test.tipo === 'tempo' ? formattaTempo(ass) + (ass < 60 ? ' s' : '') : virgola(ass));
+      out.delta = segno + (test.tipo === 'tempo' ? formatta(test, ass) + (formato(test) === 'sec' || (formato(test) === 'auto' && ass < 60) ? ' s' : '') : virgola(ass));
       var meglio = test.migliore === 'alto' ? d > 0 : d < 0;
       out.esito = meglio ? 'meglio' : 'peggio';
       return out;

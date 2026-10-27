@@ -29,6 +29,7 @@
       strumentoF: f.querySelector('[name=strumentoF]').value,
       unita: f.querySelector('[name=unita]').value,
       tipo: tipo ? tipo.value : '',
+      formatoTempo: (f.querySelector('input[name=formatoTempo]:checked') || {}).value || '',
       migliore: meglio ? meglio.value : ''
     };
   }
@@ -50,6 +51,11 @@
   }
 
   var ALTRO = '__altro';
+
+  // Formato del tempo suggerito dalla tipologia: Resistenza → minuti:secondi, altrimenti secondi
+  function formatoDaTipologia(tip) {
+    return App.U.chiaveNome(tip || '') === 'resistenza' ? 'min' : 'sec';
+  }
 
   // Menu a tendina delle tipologie (da config.js) + "Altro…" con campo libero.
   // Una tipologia già scritta che coincide con una voce (maiuscole a parte) si riconosce.
@@ -77,6 +83,20 @@
       var rigaUnita = el('label', { class: 'campo' }, el('span', { text: 'Unità di misura (facoltativa)' }),
         el('input', { name: 'unita', type: 'text', value: d.unita, maxlength: App.Config.limiti.unita, placeholder: 'es. cm, m, rip., kg' }));
       var esempio = el('p', { class: 'piccolo esempio' });
+      // Formato dei tempi: dalla tipologia (Velocità → secondi, Resistenza → minuti), si può cambiare
+      var formatoIniziale = d.formatoTempo || (function () {
+        var f = t ? App.Test.formato(t) : null;
+        if (f === 'sec' || f === 'min') return f;
+        var conDuePunti = t && Object.keys(classe.risultati || {}).some(function (a) {
+          var r = classe.risultati[a][t.id]; return r && Object.keys(r).some(function (p) { return String(r[p]).indexOf(':') >= 0; });
+        });
+        return conDuePunti ? 'min' : formatoDaTipologia(d.tipologia);
+      })();
+      var formatoToccato = !!d.formatoTempo;
+      var sceltaFormato = el('fieldset', { class: 'campo scelta-formato' }, el('legend', { text: 'Come si scrive il tempo' }),
+        Object.keys(App.Config.formatiTempo).map(function (k) {
+          return radio('formatoTempo', k, App.Config.formatiTempo[k].nome, formatoIniziale === k);
+        }));
 
       var f = el('form', { class: 'modulo', onsubmit: function (ev) { ev.preventDefault(); } },
         el('label', { class: 'campo' }, el('span', { text: 'Nome del test' }),
@@ -98,6 +118,7 @@
           el('p', { class: 'piccolo', text: 'Per età diverse (es. prima o quinta) scrivi lo strumento nel test di ciascuna classe.' })),
         el('fieldset', { class: 'campo' }, el('legend', { text: 'Tipo di risultato' }),
           Object.keys(tipi).map(function (k) { return radio('tipo', k, tipi[k].nome, d.tipo === k); })),
+        sceltaFormato,
         esempio,
         rigaUnita,
         el('fieldset', { class: 'campo' }, el('legend', { text: 'Che risultato è migliore?' }),
@@ -120,13 +141,28 @@
       function aggiornaTipo(cambiato) {
         var tipo = f.querySelector('input[name=tipo]:checked').value;
         rigaUnita.style.display = tipo === 'tempo' ? 'none' : '';
-        esempio.textContent = 'Come si scrive: ' + tipi[tipo].esempio;
+        sceltaFormato.hidden = tipo !== 'tempo';
+        var fmt = f.querySelector('input[name=formatoTempo]:checked');
+        esempio.textContent = 'Come si scrive: ' + (tipo === 'tempo' && fmt ? App.Config.formatiTempo[fmt.value].esempio : tipi[tipo].esempio);
         if (cambiato) f.querySelector('input[name=migliore][value=' + tipi[tipo].migliore + ']').checked = true;
       }
       Array.prototype.forEach.call(f.querySelectorAll('input[name=tipo]'), function (r) {
         r.addEventListener('change', function () { aggiornaTipo(true); });
       });
       aggiornaTipo(false);
+
+      // se cambia la tipologia (Velocità / Resistenza) il formato del tempo la segue,
+      // finché non lo scegli tu a mano
+      Array.prototype.forEach.call(f.querySelectorAll('input[name=formatoTempo]'), function (r) {
+        r.addEventListener('change', function () { formatoToccato = true; aggiornaTipo(false); });
+      });
+      f.querySelector('[name=tipologia]').addEventListener('change', function () {
+        var k = formatoDaTipologia(f.querySelector('[name=tipologia]').value);
+        var tipoTempo = f.querySelector('input[value=tempo]');
+        var tip = App.U.chiaveNome(f.querySelector('[name=tipologia]').value);
+        if ((tip === 'velocita' || tip === 'resistenza') && !t) { tipoTempo.checked = true; aggiornaTipo(true); }
+        if (!formatoToccato) { f.querySelector('input[name=formatoTempo][value=' + k + ']').checked = true; aggiornaTipo(false); }
+      });
 
       // mostra un campo per tutti oppure i due campi alunni / alunne
       var perSesso = f.querySelector('[name=perSesso]');

@@ -10,7 +10,7 @@
   App.Config = {
     nome: 'Registro Scienze Motorie',
     icona: '🏃',
-    versione: '3.5',
+    versione: '3.6',
 
     // Nome dell'archivio nel browser: DEVE essere diverso per ogni app.
     archivio: {
@@ -50,7 +50,7 @@
     ],
     tipiTest: {
       numero: { nome: 'Numero (cm, m, ripetizioni, kg…)', esempio: 'es. 145 oppure 3,5', migliore: 'alto' },
-      tempo: { nome: 'Tempo (minuti e secondi)', esempio: 'es. 3:45 oppure 12,8 (secondi)', migliore: 'basso' }
+      tempo: { nome: 'Tempo', esempio: 'es. 12,8 (secondi) oppure 3:45 (minuti:secondi)', migliore: 'basso' }
     },
 
     // Tipologie dei test (menu a tendina); con "Altro…" se ne scrive una a mano.
@@ -58,6 +58,12 @@
     // (le tipologie scritte a mano e i test senza tipologia vanno in fondo).
     tipologie: ['Forza arti superiori', 'Forza arti inferiori', 'Velocità', 'Resistenza', 'Core',
       'Equilibrio', 'Coordinazione', 'Abilità miste'],
+
+    // Come si scrive un tempo: per la velocità secondi e decimi, per la resistenza minuti:secondi
+    formatiTempo: {
+      sec: { nome: 'Secondi e decimi (es. 12,8)', esempio: 'es. 12,8 (secondi e decimi, con la virgola)' },
+      min: { nome: 'Minuti e secondi (es. 3:45)', esempio: 'es. 3:45 — dal telefono puoi scrivere anche 3,45 o 3.45' }
+    },
 
     // Voti automatici dei test (tabelle del libro di testo)
     voti: { min: 4, max: 10, passo: 0.5, sufficienza: 6, righeIniziali: [10, 9, 8, 7, 6, 5, 4] },

@@ -3,7 +3,7 @@
  *          per un test e una prova (svolti, media, migliore, peggiore, alunni/alunne,
  *          quanti per ogni voto), andamento nelle prove (1ª, 2ª, 3ª), miglioramenti 1ª → ultima
  *          prova, media voti per test.
- * Dipende da: App.Test (valore, numero, formattaTempo, confronto), App.Voti, App.Config
+ * Dipende da: App.Test (valore, numero, formatta, formato, confronto), App.Voti, App.Config
  * Usato da: ui/statistiche.js
  */
 (function (App) {
@@ -15,7 +15,7 @@
   // Numero -> testo come lo scrive il test (tempo in min:sec, numeri con la virgola)
   function testoValore(test, n) {
     if (n === null || n === undefined) return '–';
-    if (test.tipo === 'tempo') return App.Test.formattaTempo(arrot(n, 2));
+    if (test.tipo === 'tempo') return App.Test.formatta(test, arrot(n, 2)) + (App.Test.formato(test) === 'sec' ? ' s' : '');
     return String(arrot(n, 2)).replace('.', ',') + (test.unita ? ' ' + test.unita : '');
   }
 

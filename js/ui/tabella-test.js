@@ -29,7 +29,7 @@
   }
 
   function intestazioneTest(classe, t) {
-    var tipo = t.tipo === 'tempo' ? 'min:sec' : (t.unita || '');
+    var tipo = t.tipo === 'tempo' ? { sec: 'sec,decimi', min: 'min:sec', auto: 'tempo' }[App.Test.formato(t)] : (t.unita || '');
     return el('th', { class: 'col-test' },
       el('button', { type: 'button', class: 'testa-test', title: 'Modifica il test',
         onclick: function () { App.UI.FinestraTest.apri(classe, t); } },
@@ -63,7 +63,7 @@
     var bozza = App.Stato.bozze[k];
     var inp = el('input', {
       class: 'cella-input' + (bozza !== undefined ? ' errore' : ''), type: 'text',
-      inputmode: t.tipo === 'tempo' ? 'text' : 'decimal', enterkeyhint: 'next', autocomplete: 'off',
+      inputmode: App.Test.formato(t) === 'auto' ? 'text' : 'decimal', enterkeyhint: 'next', autocomplete: 'off',
       'aria-label': t.nome + ' – ' + a.nome, 'data-r': r, 'data-c': c,
       value: bozza !== undefined ? bozza : App.Test.valore(classe, a.id, t.id, prova)
     });

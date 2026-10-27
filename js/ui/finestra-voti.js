@@ -18,7 +18,7 @@
       var esistenti = (t.voti && t.voti.righe) || [];
       var iniziali = esistenti.length ? esistenti : App.Config.voti.righeIniziali.map(function (v) { return { voto: v, M: '', F: '' }; });
       var direzione = t.migliore === 'alto' ? 'almeno' : 'al massimo';
-      var esempio = t.tipo === 'tempo' ? 'min:sec' : (t.unita || 'valore');
+      var esempio = t.tipo === 'tempo' ? { sec: 'secondi e decimi, es. 12,8', min: 'minuti:secondi, es. 3:45', auto: 'es. 3:45 o 12,8' }[App.Test.formato(t)] : (t.unita || 'valore');
 
       function riga(r) {
         var sel = el('select', { 'aria-label': 'Voto', value: r.voto === undefined ? '' : String(r.voto) },
@@ -26,8 +26,8 @@
           App.Voti.scala().map(function (v) { return el('option', { value: String(v), text: App.Voti.testo(v) }); }));
         var tr = el('tr', {},
           el('td', {}, sel),
-          el('td', {}, el('input', { type: 'text', class: 'soglia', 'data-s': 'M', value: r.M || '', inputmode: t.tipo === 'tempo' ? 'text' : 'decimal', 'aria-label': 'Soglia alunni' })),
-          el('td', {}, el('input', { type: 'text', class: 'soglia', 'data-s': 'F', value: r.F || '', inputmode: t.tipo === 'tempo' ? 'text' : 'decimal', 'aria-label': 'Soglia alunne' })),
+          el('td', {}, el('input', { type: 'text', class: 'soglia', 'data-s': 'M', value: r.M || '', inputmode: App.Test.formato(t) === 'auto' ? 'text' : 'decimal', 'aria-label': 'Soglia alunni' })),
+          el('td', {}, el('input', { type: 'text', class: 'soglia', 'data-s': 'F', value: r.F || '', inputmode: App.Test.formato(t) === 'auto' ? 'text' : 'decimal', 'aria-label': 'Soglia alunne' })),
           el('td', {}, el('button', { type: 'button', class: 'btn btn-neutro piccolo-btn', 'aria-label': 'Togli riga', text: '✕',
             onclick: function () { tr.remove(); } })));
         return tr;

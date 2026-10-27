@@ -1,4 +1,4 @@
-REGISTRO SCIENZE MOTORIE — v3.5
+REGISTRO SCIENZE MOTORIE — v3.6
 ================================
 
 PUBBLICAZIONE SU GITHUB PAGES (una volta sola, dal computer)
@@ -45,6 +45,8 @@ COSA FA
   (la 3ª è facoltativa) e la vista "Confronto" dalla 1ª all'ultima prova svolta.
   Le colonne si ordinano da sole per tipologia: forza arti superiori, inferiori, velocità,
   resistenza, core, equilibrio, coordinazione, abilità miste.
+  Tempi: velocità in secondi e decimi (12,8); resistenza in minuti:secondi (12:30),
+  che dal telefono puoi scrivere anche 12,30 o 12.30.
 - 📚 Test (in alto): l'elenco dei tuoi test. Li crei una volta (nome, tipologia, strumento,
   tabella dei voti) e li aggiungi alle classi; nella classe puoi poi adattarli all'età.
   Ogni test che crei in una classe finisce da solo anche nell'elenco.

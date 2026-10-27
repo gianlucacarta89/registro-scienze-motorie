@@ -14,6 +14,7 @@
 
     App.Stato.carica().then(function () {
       App.Test.ordinaTutti();
+      App.Test.riscriviTutti();
       App.UI.disegna();
       App.Pwa.avvia(App.UI.piede);
     }).catch(function (e) {
