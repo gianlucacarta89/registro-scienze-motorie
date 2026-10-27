@@ -7,7 +7,7 @@
  */
 'use strict';
 
-var VERSIONE = 'registro-sm-v3.6';
+var VERSIONE = 'registro-sm-v4.0';
 
 var FILE = [
   './',
@@ -34,7 +34,12 @@ var FILE = [
   'js/servizi/statistiche.js',
   'js/servizi/elenco-test.js',
   'js/servizi/statistiche-giust.js',
+  'js/stampa/pdf-base.js',
+  'js/stampa/pdf-dati.js',
+  'js/stampa/pdf-classe.js',
+  'js/stampa/pdf-alunno.js',
   'js/dati/zip.js',
+  'js/dati/zip-scrivi.js',
   'js/dati/pdf-oggetti.js',
   'js/dati/pdf-caratteri.js',
   'js/dati/pdf-testo.js',
@@ -54,12 +59,15 @@ var FILE = [
   'js/ui/finestra-alunni.js',
   'js/ui/finestra-importa.js',
   'js/ui/finestra-backup.js',
+  'js/ui/finestra-pdf.js',
   'js/ui/grafici.js',
   'js/ui/statistiche.js',
   'js/ui/statistiche-giust.js',
   'js/avvio.js',
   'icone/icona-512.png',
-  'icone/icona-maskable-512.png'
+  'icone/icona-maskable-512.png',
+  'lib/jspdf-2.5.1.umd.min.js',
+  'lib/jspdf-autotable-3.8.2.min.js'
 ];
 
 self.addEventListener('install', function (ev) {

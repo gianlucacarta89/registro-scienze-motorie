@@ -13,7 +13,7 @@
       schema: 1,
       classi: [],
       archivio: { test: [] },            // elenco dei test del docente (fuori dalle classi)
-      preferenze: { classeAttiva: null, modulo: 'test', prova: 1, annoInizio: null, statTest: null, statgMese: '', statgOrdine: 'nome' },
+      preferenze: { classeAttiva: null, modulo: 'test', prova: 1, annoInizio: null, statTest: null, statgMese: '', statgOrdine: 'nome', docente: null },
       ultimaModifica: null,
       ultimoBackup: null
     };
@@ -34,6 +34,7 @@
     n.preferenze.classeAttiva = p.classeAttiva || null;
     n.preferenze.modulo = ['giust', 'stat', 'statg'].indexOf(p.modulo) >= 0 ? p.modulo : 'test';
     n.preferenze.statgMese = p.statgMese || '';
+    n.preferenze.docente = typeof p.docente === 'string' ? p.docente : null;
     n.preferenze.statgOrdine = p.statgOrdine === 'tot' ? 'tot' : 'nome';
     n.preferenze.statTest = p.statTest || null;
     n.preferenze.prova = p.prova === 2 || p.prova === 3 || p.prova === 'c' ? p.prova : 1;

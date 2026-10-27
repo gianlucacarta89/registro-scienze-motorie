@@ -1,4 +1,4 @@
-REGISTRO SCIENZE MOTORIE — v3.6
+REGISTRO SCIENZE MOTORIE — v4.0
 ================================
 
 PUBBLICAZIONE SU GITHUB PAGES (una volta sola, dal computer)
@@ -60,6 +60,13 @@ COSA FA
   data, simbolo e una nota facoltativa. La colonna Tot. conta le giustificazioni dell'anno.
 - 📈 Statistiche giustificazioni: per un mese o tutto l'anno, quante giustificazioni ha
   ogni alunno e di che tipologia, totali alunni/alunne, grafici per mese e per tipologia.
+- 📄 PDF (in alto): scegli classi e alunni, cosa includere (test e/o giustificazioni,
+  tutto l'anno o un mese) e il tipo di documento:
+  - Tabella della classe, per i colleghi (con il riepilogo della classe);
+  - Scheda di ogni alunno, per le famiglie: solo i dati di quell'alunno. Con più alunni
+    scarichi un file ZIP con un PDF per alunno.
+  Nel PDF le giustificazioni hanno sigle: S salute, I infortunio, C ciclo, M certificato
+  medico, A mancata attrezzatura (spiegate nella legenda). Funziona anche senza internet.
 
 DOVE SONO I DATI
 - I dati restano salvati nel browser del dispositivo che stai usando, a ogni modifica.
@@ -85,5 +92,6 @@ BACKUP E PASSAGGIO TRA TELEFONO, TABLET E COMPUTER (con Google Drive)
 - In fondo alla pagina vedi se ci sono "modifiche non ancora nel backup".
 
 PRIVACY
-- I dati non escono mai dal dispositivo, se non quando esporti tu il backup.
+- I dati non escono mai dal dispositivo, se non quando esporti tu il backup o un PDF.
+- Consegna a ogni famiglia solo la scheda del proprio figlio o figlia.
 - Nelle note delle giustificazioni evita diagnosi e dettagli sanitari.

@@ -40,6 +40,8 @@
           onclick: function () { App.UI.FinestraClassi.apri(); } }),
         el('button', { type: 'button', class: 'btn btn-neutro', text: '📚 Test',
           onclick: function () { App.UI.FinestraElencoTest.apri(App.Stato.classe()); } }),
+        el('button', { type: 'button', class: 'btn btn-neutro', text: '📄 PDF',
+          onclick: function () { App.UI.FinestraPdf.apri(); } }),
         el('button', { type: 'button', class: 'btn btn-info', text: '💾 Backup',
           onclick: function () { App.UI.FinestraBackup.apri(); } })));
 

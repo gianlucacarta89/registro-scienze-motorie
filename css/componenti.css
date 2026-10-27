@@ -296,3 +296,13 @@ textarea { resize: vertical; }
 .tabella-statg .col-simbolo { min-width: 3em; font-size: 1.05rem; }
 .tabella-statg .num-cella { text-align: center; padding: 6px 4px; font-variant-numeric: tabular-nums; }
 .tabella-statg tr.senza .col-nome { font-weight: 400; color: var(--tenue); }
+
+/* Finestra PDF */
+.pdf-classi { display: flex; flex-direction: column; gap: 8px; }
+.pdf-classe { border: 1px solid var(--bordo); border-radius: 8px; padding: 6px 10px; display: flex; flex-direction: column; gap: 6px; }
+.pdf-classe.pdf-scelta { border-color: var(--info); background: var(--info-chiaro); }
+.pdf-alunni { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 0 10px; max-height: 40vh; overflow-y: auto; }
+.finestra-pdf fieldset legend { font-weight: 700; }
+.finestra-pdf .campo input[type=text], .finestra-pdf select { width: 100%; min-height: 40px; border: 1px solid var(--bordo-forte); border-radius: 8px; background: var(--campo); padding: 6px 10px; }
+.pdf-classe .scelta { justify-content: flex-start; }
+.pdf-classe .segmenti { order: 0; width: 100%; }

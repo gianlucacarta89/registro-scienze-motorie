@@ -10,7 +10,7 @@
   App.Config = {
     nome: 'Registro Scienze Motorie',
     icona: '🏃',
-    versione: '3.6',
+    versione: '4.0',
 
     // Nome dell'archivio nel browser: DEVE essere diverso per ogni app.
     archivio: {
@@ -71,12 +71,19 @@
 
     // Modulo Giustificazioni: legenda dei simboli
     simboli: [
-      { id: 'salute', icona: '🤒', nome: 'Problemi di salute' },
-      { id: 'infortunio', icona: '🩹', nome: 'Infortunio' },
-      { id: 'ciclo', icona: '🌸', nome: 'Ciclo mestruale' },
-      { id: 'certificato', icona: '📄', nome: 'Certificato medico' },
-      { id: 'attrezzatura', icona: '👟', nome: 'Mancata attrezzatura' }
+      // sigla = lettera usata nei PDF (i font dei PDF non hanno le emoji)
+      { id: 'salute', icona: '🤒', sigla: 'S', nome: 'Problemi di salute' },
+      { id: 'infortunio', icona: '🩹', sigla: 'I', nome: 'Infortunio' },
+      { id: 'ciclo', icona: '🌸', sigla: 'C', nome: 'Ciclo mestruale' },
+      { id: 'certificato', icona: '📄', sigla: 'M', nome: 'Certificato medico' },
+      { id: 'attrezzatura', icona: '👟', sigla: 'A', nome: 'Mancata attrezzatura' }
     ],
+
+    // PDF da consegnare a colleghi e famiglie
+    pdf: {
+      docente: 'Prof. Gianluca Carta',      // proposto la prima volta; si cambia nella finestra 📄 PDF
+      librerie: ['lib/jspdf-2.5.1.umd.min.js', 'lib/jspdf-autotable-3.8.2.min.js']
+    },
 
     limiti: {
       nomeClasse: 20,

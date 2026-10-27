@@ -105,7 +105,7 @@
   }
 
   function scaricaBrowser(nomeFile, testo, tipo) {
-    var blob = new Blob([testo], { type: tipo || 'text/plain;charset=utf-8' });
+    var blob = testo instanceof Blob ? testo : new Blob([testo], { type: tipo || 'text/plain;charset=utf-8' });
     var url = URL.createObjectURL(blob);
     var a = el('a', { href: url, download: nomeFile, style: 'display:none' });
     document.body.appendChild(a);

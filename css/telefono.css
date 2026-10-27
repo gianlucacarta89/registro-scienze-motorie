@@ -32,4 +32,5 @@
   .scelta-simboli { grid-template-columns: 1fr 1fr; }
   .riga-barra { grid-template-columns: minmax(0, 11em) 1fr 2.5em; gap: 6px; }
   .riga-barra .etichetta { font-size: .8rem; }
+  .pdf-alunni { grid-template-columns: 1fr; }
 }

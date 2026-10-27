@@ -1,8 +1,8 @@
-# MAPPA — Registro Scienze Motorie v3.6
+# MAPPA — Registro Scienze Motorie v4.0
 
 Indice dei file: cosa c'è dentro e quale parte dell'app ne dipende.
 Tutti i moduli stanno nell'oggetto globale `App`. Ordine di caricamento in `index.html`:
-config → core → servizi → dati → ui → avvio.
+config → core → servizi → stampa → dati → ui → avvio (jsPDF in `lib/` si carica solo quando serve).
 
 ## Radice
 | File | Scopo |
@@ -28,6 +28,20 @@ La versione online (pagina privata su claude.ai) usa gli stessi file `css/` e `j
 ## js/config.js — `App.Config`
 Nome, versione, nome dell'archivio, **tipologie dei test (menu a tendina, e ordine delle colonne)**, **formati del tempo** (`formatiTempo`), mesi (set–giu), prove, tipi di test, **simboli delle giustificazioni**, limiti, parole d'intestazione, testi delle regole, passi del backup con Google Drive (`backupPassi`, `backupDispositivi`, `backupNota`) e nota privacy.
 → Per cambiare simboli, mesi o testi delle regole si tocca solo qui.
+
+## lib/ (librerie in locale: funzionano offline, si caricano solo quando si crea un PDF)
+| File | Scopo |
+|---|---|
+| `jspdf-2.5.1.umd.min.js` | jsPDF (MIT) — creazione dei PDF |
+| `jspdf-autotable-3.8.2.min.js` | jsPDF-AutoTable (MIT) — tabelle nei PDF |
+
+## js/stampa/ (PDF — **solo caratteri ASCII nel codice**, simboli come `\uXXXX`)
+| File | Modulo | Funzioni principali |
+|---|---|---|
+| `pdf-base.js` | `App.PdfBase` | `carica` (librerie da lib/), `testo` (filtro per i font standard: niente emoji, apostrofi curvi, frecce), `nuovo`, `intestazione`, `sezione`, `tabella`, `legenda`, `nota`, `piede` (numeri di pagina), `nomeFile` |
+| `pdf-dati.js` | `App.PdfDati` | testi comuni: `risultato` (valore + voto), `cellaTest`, `mediaVoti`, `strumentoPer` (♂/♀), `descrizioneTest`, `legendaVoti`, `periodo`, `cellaGiust` ("5 S, 12 A"), `legendaGiust` |
+| `pdf-classe.js` | `App.PdfClasse` | `crea` — tabella della classe per i colleghi (orizzontale): test, legenda, riepilogo, giustificazioni per mese con sigle e totali |
+| `pdf-alunno.js` | `App.PdfAlunno` | `crea`, `nomeFile` — scheda del singolo alunno per la famiglia (verticale), solo i suoi dati |
 
 ## js/core/ (base comune, core 1.0)
 | File | Modulo | Funzioni principali |
@@ -60,17 +74,19 @@ Nome, versione, nome dell'archivio, **tipologie dei test (menu a tendina, e ordi
 | `pdf-caratteri.js` | `App.PdfCaratteri` | `prepara(doc, font)` — ToUnicode, WinAnsi, /Differences, font Type0, larghezze |
 | `pdf-testo.js` | `App.PdfTesto` | `estrai(buffer)` — testo per posizione → righe di celle `{t, x, x1}` (numeri e lettere in celle separate) |
 | `leggi-file.js` | `App.LeggiFile` | `righe(file)` — Excel (primo foglio), Word (paragrafi, tabelle, a capo), PDF, csv/txt |
+| `zip-scrivi.js` | `App.ZipScrivi` | `crea` (ZIP senza compressione: più schede PDF in un file), `crc32` |
 | `backup.js` | `App.Backup` | `esporta`, `leggi`, `riepilogo`, `localiPiuRecenti`, `applica` |
 
 ## js/ui/ (interfaccia: una scheda o finestra per file)
 | File | Modulo | Cosa disegna |
 |---|---|---|
 | `pagina.js` | `App.UI.disegna`, `disegnaContenuto`, `piede`, `vuoto`, `regole` | Pagina intera, piè di pagina con stato del backup |
-| `barra.js` | `App.UI.Barra` | Scelta classe, pulsanti 👥 Alunni, 🏫 Classi, 📚 Test, 💾 Backup; schede 📊 Test / 📈 Statistiche test / 📋 Giustificazioni / 📈 Statistiche giustificazioni |
+| `barra.js` | `App.UI.Barra` | Scelta classe, pulsanti 👥 Alunni, 🏫 Classi, 📚 Test, 📄 PDF, 💾 Backup; schede 📊 Test / 📈 Statistiche test / 📋 Giustificazioni / 📈 Statistiche giustificazioni |
 | `tabella-test.js` | `App.UI.TabellaTest` | Scheda 📊 Test (nome alunno toccabile): ➕ Nuovo test, 1ª / 2ª prova / ⇄ Confronto, caselle dei risultati |
 | `finestra-voti.js` | `App.UI.FinestraVoti` | 📏 Tabella dei voti: una riga per voto, soglia ♂ e ♀, ➕ riga, 🗑️ Svuota |
 | `finestra-copia-test.js` | `App.UI.FinestraCopiaTest` | 📋 Copia test in un'altra classe |
 | `finestra-elenco-test.js` | `App.UI.FinestraElencoTest` | 📚 Test (in alto) e 📚 Dall'elenco: elenco dei test, ➕ Nuovo test nell'elenco, ✏️, 📥 Prendi i test della classe, ➕ Aggiungi alla classe |
+| `finestra-pdf.js` | `App.UI.FinestraPdf` | 📄 PDF (in alto): classi, alunni, contenuto, periodo, tipo (classe / schede), docente → PDF o ZIP |
 | `grafici.js` | `App.UI.Grafici` | `colonne`, `barre` (grafici HTML/CSS) |
 | `statistiche.js` | `App.UI.Statistiche` | Scheda 📈 Statistiche test (prove 1ª/2ª/3ª, andamento nelle prove, miglioramenti 1ª → ultima) |
 | `statistiche-giust.js` | `App.UI.StatisticheGiust` | Scheda 📈 Statistiche giustificazioni: anno, mese o tutto l'anno, A–Z / Più giustificati, per tipologia, per mese, tabella per alunno |
@@ -90,7 +106,7 @@ Nome, versione, nome dell'archivio, **tipologie dei test (menu a tendina, e ordi
 ```
 { schema: 1, ultimaModifica, ultimoBackup,
   archivio: { test: [ come classe.test + origine: { c, t } ] },   // 📚 elenco dei test, fuori dalle classi
-  preferenze: { classeAttiva, modulo: 'test'|'stat'|'giust'|'statg', prova: 1|2|3|'c', statgMese, statgOrdine, annoInizio: null|2026, statTest },
+  preferenze: { classeAttiva, docente, modulo: 'test'|'stat'|'giust'|'statg', prova: 1|2|3|'c', statgMese, statgOrdine, annoInizio: null|2026, statTest },
   classi: [{ id, nome,
     alunni: [{ id, nome, sesso: 'M'|'F'|'' }],
     test: [{ id, nome, tipologia, note, strumento, perSesso, strumentoM, strumentoF, unita, tipo: 'numero'|'tempo', migliore: 'alto'|'basso',
