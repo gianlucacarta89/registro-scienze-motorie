@@ -13,6 +13,7 @@
     document.getElementById('logo').textContent = c.icona;
 
     App.Stato.carica().then(function () {
+      App.Test.ordinaTutti();
       App.UI.disegna();
       App.Pwa.avvia(App.UI.piede);
     }).catch(function (e) {

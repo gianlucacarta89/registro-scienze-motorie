@@ -106,6 +106,7 @@
         tipo: d.tipo, migliore: d.migliore };
       impostaStrumento(t, d);
       classe.test.push(t);
+      this.ordina(classe);
       return { test: t };
     },
 
@@ -123,6 +124,7 @@
       t.tipo = d.tipo;
       t.unita = d.tipo === 'tempo' ? '' : App.U.spazi(d.unita);
       t.migliore = d.migliore;
+      this.ordina(classe);              // la tipologia può essere cambiata
       return null;
     },
 
@@ -139,6 +141,7 @@
         versoClasse.test.push(nuovo);
         copiati++;
       });
+      this.ordina(versoClasse);
       return { copiati: copiati, saltati: saltati };
     },
 
@@ -149,10 +152,35 @@
       Object.keys(classe.risultati).forEach(function (a) { delete classe.risultati[a][id]; });
     },
 
+    // Posizione della tipologia nell'ordine di config.js (tipologie a mano / nessuna: in fondo)
+    gruppo: function (t) {
+      var k = App.U.chiaveNome(t.tipologia || ''), lista = App.Config.tipologie;
+      for (var i = 0; i < lista.length; i++) if (App.U.chiaveNome(lista[i]) === k) return i;
+      return lista.length;
+    },
+
+    // Tutte le classi e l'elenco 📚 in ordine (all'avvio e dopo l'importazione di un backup)
+    ordinaTutti: function () {
+      var self = this;
+      App.Stato.dati.classi.forEach(function (c) { self.ordina(c); });
+      self.ordina(App.Stato.dati.archivio);
+    },
+
+    // Mette i test in ordine di tipologia; dentro la stessa tipologia resta l'ordine che c'era.
+    // Ordina l'elenco stesso (non una copia): vale anche per l'elenco dei test 📚.
+    ordina: function (classe) {
+      var self = this, pos = {};
+      classe.test.forEach(function (t, i) { pos[t.id] = i; });
+      classe.test.sort(function (a, b) { return self.gruppo(a) - self.gruppo(b) || pos[a.id] - pos[b.id]; });
+    },
+
+    // Sposta un test di un posto, solo tra test della stessa tipologia. -> false se non si può
     sposta: function (classe, id, verso) {
       var i = classe.test.findIndex(function (t) { return t.id === id; }), j = i + verso;
-      if (i < 0 || j < 0 || j >= classe.test.length) return;
+      if (i < 0 || j < 0 || j >= classe.test.length) return false;
+      if (this.gruppo(classe.test[i]) !== this.gruppo(classe.test[j])) return false;
       var x = classe.test[i]; classe.test[i] = classe.test[j]; classe.test[j] = x;
+      return true;
     },
 
     quantiRisultati: function (classe, id) {

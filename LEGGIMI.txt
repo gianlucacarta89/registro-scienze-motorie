@@ -1,4 +1,4 @@
-REGISTRO SCIENZE MOTORIE — v3.4
+REGISTRO SCIENZE MOTORIE — v3.5
 ================================
 
 PUBBLICAZIONE SU GITHUB PAGES (una volta sola, dal computer)
@@ -43,6 +43,8 @@ COSA FA
 - 📊 Test: aggiungi i test come colonne (nome, tipologia dal menu a tendina o "Altro…", strumento: uno per tutti
   o diverso per alunni e alunne, note) e scrivi i risultati. Ci sono fino a tre prove
   (la 3ª è facoltativa) e la vista "Confronto" dalla 1ª all'ultima prova svolta.
+  Le colonne si ordinano da sole per tipologia: forza arti superiori, inferiori, velocità,
+  resistenza, core, equilibrio, coordinazione, abilità miste.
 - 📚 Test (in alto): l'elenco dei tuoi test. Li crei una volta (nome, tipologia, strumento,
   tabella dei voti) e li aggiungi alle classi; nella classe puoi poi adattarli all'età.
   Ogni test che crei in una classe finisce da solo anche nell'elenco.
@@ -72,6 +74,8 @@ BACKUP E PASSAGGIO TRA TELEFONO, TABLET E COMPUTER (con Google Drive)
      altrimenti trascina il file su drive.google.com.
 2. Sull'altro dispositivo: 💾 Backup → ⬆️ Importa backup → Google Drive
    e apri il file più recente (il nome è "registro-sm_backup_DATA_ORA.json").
+- Il backup contiene i DATI (classi, alunni, test, risultati, tabelle dei voti, note,
+  giustificazioni, elenco 📚), non l'app: l'app è su GitHub e si aggiorna da sola.
 - L'importazione SOSTITUISCE tutti i dati: lavora su un dispositivo alla volta.
 - L'app funziona senza connessione: internet serve solo per passare il file da Drive.
 - iPhone/iPad: usa l'app installata sulla Home, non la pagina in Safari: Safari può

@@ -71,6 +71,7 @@
       d.ultimoBackup = b.esportato;
       d.ultimaModifica = b.dati.ultimaModifica || b.esportato;
       if (!App.Classi.trova(d.preferenze.classeAttiva)) d.preferenze.classeAttiva = prefPrima.classeAttiva;
+      App.Test.ordinaTutti();
       return App.Stato.scrivi();
     }
   };

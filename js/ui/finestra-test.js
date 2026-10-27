@@ -159,11 +159,21 @@
         return true;
       }
 
+      // ◀ ▶: solo tra test della stessa tipologia (l'ordine delle tipologie è fisso)
+      function sposta(verso) {
+        if (!App.Test.sposta(classe, t.id, verso)) {
+          App.Avvisi.toast('Le colonne seguono l\'ordine delle tipologie: puoi spostare un test solo tra quelli della stessa tipologia.', 'info', 5000);
+          return;
+        }
+        App.Stato.salva();
+        App.UI.disegnaContenuto();
+      }
+
       var pulsanti = [];
       if (t) {
         pulsanti.push({ testo: '🗑️ Cancella', tipo: 'pericolo', azione: function (fin) { chiedi(classe, t, fin); return false; } });
-        pulsanti.push({ testo: '◀', tipo: 'neutro', azione: function () { App.Test.sposta(classe, t.id, -1); App.Stato.salva(); App.UI.disegnaContenuto(); return false; } });
-        pulsanti.push({ testo: '▶', tipo: 'neutro', azione: function () { App.Test.sposta(classe, t.id, 1); App.Stato.salva(); App.UI.disegnaContenuto(); return false; } });
+        pulsanti.push({ testo: '◀', tipo: 'neutro', azione: function () { sposta(-1); return false; } });
+        pulsanti.push({ testo: '▶', tipo: 'neutro', azione: function () { sposta(1); return false; } });
       }
       pulsanti.push({ testo: 'Annulla', tipo: 'neutro' });
       pulsanti.push({

@@ -35,6 +35,7 @@
       copia.id = App.U.nuovoId();
       copia.origine = { c: classe.id, t: t.id };
       elenco.push(copia);
+      App.Test.ordina(this.contenitore());
       return 'aggiunto';
     },
 
@@ -49,6 +50,7 @@
         if (k === 'id' || (k === 'nome' && !nomeLibero)) return;
         x[k] = copia[k];
       });
+      App.Test.ordina(this.contenitore());
       return true;
     },
 
