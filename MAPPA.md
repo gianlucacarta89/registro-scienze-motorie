@@ -23,6 +23,7 @@ La versione online (pagina privata su claude.ai) usa gli stessi file `css/` e `j
 |---|---|
 | `base.css` | Colori (variabili per funzione: ok, pericolo, info) chiari e scuri, caratteri, testata, schede, piè |
 | `componenti.css` | Pulsanti, tabelle, caselle, chip, finestre, moduli, avvisi |
+| `statistiche.css` | Scheda 📈 Statistiche test: sezione 🏅 primi 3 alunni e alunne |
 | `telefono.css` | Adattamenti sotto 760 px e 480 px |
 
 ## js/config.js — `App.Config`
@@ -61,7 +62,7 @@ Nome, versione, nome dell'archivio, **tipologie dei test (menu a tendina, e ordi
 | `classi.js` | `App.Classi` | `impostaSesso`, `senzaSesso`, `crea`, `rinomina`, `elimina`, `aggiungiAlunni`, `rinominaAlunno`, `eliminaAlunno`, `esisteAlunno`, `datiAlunno` |
 | `test.js` | `App.Test` | `formato` (tempo: 'sec' velocità / 'min' resistenza / 'auto'), `formatta`, `riscrivi`, `riscriviTutti` (tempi nel formato del test), `gruppo`, `ordina` (colonne in ordine di tipologia come in config.js), `ordinaTutti` (avvio e backup), `sposta` (solo nella stessa tipologia), `copia` (test in un'altra classe), `valida` (numeri e tempi), `etichetteStrumento` (uno per tutti o ♂/♀), `crea`, `modifica`, `elimina`, `sposta`, `valore`, `imposta`, `confronto` (1ª → ultima prova svolta), `quantiRisultati` |
 | `voti.js` | `App.Voti` | `scala` (4–10 con i mezzi voti), `controlla` (tabella in ordine), `calcola` (voto da risultato e ♂/♀), `votoAlunno`, `media`, `haTabella`, `sufficiente` |
-| `statistiche.js` | `App.Statistiche` | `test` (svolti, media, migliore, peggiore, ♂/♀, quanti per voto), `miglioramenti`, `mediaVotiPerTest`, `testoValore` |
+| `statistiche.js` | `App.Statistiche` | `test` (svolti, media, migliore, peggiore, ♂/♀, quanti per voto), `miglioramenti`, `mediaVotiPerTest`, `primi` (primi 3 ♂ o ♀ di un test, miglior risultato tra le prove, pari merito), `testoValore` |
 | `elenco-test.js` | `App.ElencoTest` | `contenitore` (l'elenco con la forma di una classe), `tutti`, `registra` (test nuovo di classe → elenco, collegato con `origine`), `aggiorna` (copia collegata allineata), `stacca` (modifica fatta nell'elenco), `aggiungiAClasse`, `prendiDaClasse` |
 | `statistiche-giust.js` | `App.StatGiust` | `perAlunno` (totale, per tipologia e con certificato, mese o anno), `perMese`, `totali` (anche ♂/♀) |
 | `giustificazioni.js` | `App.Giust` | `errore` (mese, doppioni, simbolo), `ammetteCertificato`, `conCertificato`, `aggiungi`, `modifica`, `elimina`, `delMese`, `totaleAnno`, `contaClasse` |
@@ -88,7 +89,7 @@ Nome, versione, nome dell'archivio, **tipologie dei test (menu a tendina, e ordi
 | `finestra-elenco-test.js` | `App.UI.FinestraElencoTest` | 📚 Test (in alto) e 📚 Dall'elenco: elenco dei test, ➕ Nuovo test nell'elenco, ✏️, 📥 Prendi i test della classe, ➕ Aggiungi alla classe |
 | `finestra-pdf.js` | `App.UI.FinestraPdf` | 📄 PDF (in alto): classi, alunni, contenuto, periodo, tipo (classe / schede), docente → PDF o ZIP |
 | `grafici.js` | `App.UI.Grafici` | `colonne`, `barre` (grafici HTML/CSS) |
-| `statistiche.js` | `App.UI.Statistiche` | Scheda 📈 Statistiche test (prove 1ª/2ª/3ª, andamento nelle prove, miglioramenti 1ª → ultima) |
+| `statistiche.js` | `App.UI.Statistiche` | Scheda 📈 Statistiche test (prove 1ª/2ª/3ª, andamento nelle prove, miglioramenti 1ª → ultima, 🏅 primi 3 alunni e alunne di ogni test) |
 | `statistiche-giust.js` | `App.UI.StatisticheGiust` | Scheda 📈 Statistiche giustificazioni: anno, mese o tutto l'anno, A–Z / Più giustificati, per tipologia, per mese, tabella per alunno |
 | `finestra-test.js` | `App.UI.FinestraTest` | ➕ Nuovo test e ✏️ intestazione colonna: nome, tipologia (menu da config + Altro…), strumento (uno o ♂/♀), tipo, unità, migliore, ◀ ▶ sposta, 🗑️ |
 | `tabella-giust.js` | `App.UI.TabellaGiust` | Scheda 📋 Giustificazioni (nome alunno toccabile): ◀ anno ▶, tabella mesi, Tot., legenda |

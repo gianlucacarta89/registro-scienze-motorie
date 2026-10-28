@@ -1,7 +1,8 @@
 /* statistiche.js (ui)
  * Cosa fa: scheda 📈 Statistiche della classe: scelta del test e della prova, riquadri con
  *          svolti / media / migliore / peggiore (anche ♂ e ♀), grafico di quanti alunni per voto,
- *          miglioramenti 1ª → 2ª prova, media voti della classe per ogni test.
+ *          miglioramenti 1ª → 2ª prova, media voti della classe per ogni test,
+ *          primi 3 alunni e alunne di ogni test (per scegliere chi mandare ai giochi studenteschi).
  * Dipende da: App.U, App.Stato, App.Config, App.Statistiche, App.Voti, App.UI.Grafici,
  *             App.UI.FinestraVoti, App.UI.vuoto
  * Usato da: ui/pagina.js
@@ -23,6 +24,33 @@
 
   function sezione(titolo, contenuto) {
     return el('section', { class: 'sezione-stat' }, el('h3', { text: titolo }), contenuto);
+  }
+
+  // Elenco dei primi di un sesso per un test
+  function listaPrimi(classe, t, sesso) {
+    var l = App.Statistiche.primi(classe, t, sesso, 3), sx = App.Config.sessi[sesso];
+    var medaglie = ['🥇', '🥈', '🥉'];
+    return el('div', { class: 'primi-gruppo' },
+      el('h5', { text: sx.icona + ' ' + (sesso === 'M' ? 'Alunni' : 'Alunne') }),
+      l.length ? el('ol', { class: 'primi-lista' }, l.map(function (r) {
+        return el('li', {},
+          el('span', { class: 'primi-posto', text: medaglie[r.posto - 1] || r.posto + '.' }),
+          el('span', { class: 'primi-nome', text: r.alunno.nome }),
+          el('span', { class: 'primi-valore', text: App.Statistiche.testoValore(t, r.n) +
+            (r.voto !== null ? ' · voto ' + App.Voti.testo(r.voto) : '') + ' · ' + r.prova.nome }));
+      })) : el('p', { class: 'piccolo', text: 'Nessun risultato.' }));
+  }
+
+  function sezionePrimi(classe) {
+    var senza = classe.alunni.filter(function (a) { return !a.sesso; }).length;
+    return sezione('🏅 Primi 3 di ogni test – alunni e alunne (giochi studenteschi)', el('div', {},
+      el('p', { class: 'piccolo', text: 'Per ogni alunno conta il suo miglior risultato tra le prove svolte (1ª, 2ª, 3ª). A pari risultato stessa posizione.' }),
+      senza ? el('p', { class: 'piccolo avviso-riga', text: '⚠️ ' + senza + (senza === 1 ? ' alunno senza' : ' alunni senza') + ' ♂/♀ non ' + (senza === 1 ? 'compare' : 'compaiono') + ': indicalo in 👥 Alunni.' }) : null,
+      el('div', { class: 'primi-griglia' }, classe.test.map(function (t) {
+        return el('div', { class: 'primi-test' },
+          el('h4', { text: t.nome }, t.tipologia ? el('span', { class: 'piccolo', text: ' · ' + t.tipologia }) : null),
+          el('div', { class: 'primi-sessi' }, listaPrimi(classe, t, 'M'), listaPrimi(classe, t, 'F')));
+      }))));
   }
 
   function percento(a, b) { return b ? Math.round(a / b * 100) + '%' : '–'; }
@@ -111,6 +139,9 @@
             tipo: x.media >= App.Config.voti.sufficienza ? 'buono' : 'scarso', titolo: x.test.nome + ': media ' + App.Voti.testo(x.media) + ' (' + x.quanti + ' voti)' };
         }), { max: App.Config.voti.max, riferimento: App.Config.voti.sufficienza, nota: 'Scala 0–10 · la linea segna la sufficienza (' + App.Config.voti.sufficienza + ')', descrizione: 'Media voti per test' })
         : el('p', { class: 'piccolo', text: 'Compare quando almeno un test ha la tabella dei voti e dei risultati.' })));
+
+      // Primi 3 di ogni test, alunni e alunne
+      cont.appendChild(sezionePrimi(classe));
     }
   };
 })(window.App = window.App || {});

@@ -2,7 +2,7 @@
  * Cosa fa: calcola le statistiche della classe per la scheda 📈 Statistiche:
  *          per un test e una prova (svolti, media, migliore, peggiore, alunni/alunne,
  *          quanti per ogni voto), andamento nelle prove (1ª, 2ª, 3ª), miglioramenti 1ª → ultima
- *          prova, media voti per test.
+ *          prova, media voti per test, primi 3 alunni e alunne di ogni test (giochi studenteschi).
  * Dipende da: App.Test (valore, numero, formatta, formato, confronto), App.Voti, App.Config
  * Usato da: ui/statistiche.js
  */
@@ -88,5 +88,32 @@
     }).filter(function (x) { return App.Voti.haTabella(x.test); });
   }
 
-  App.Statistiche = { test: test, andamento: andamento, miglioramenti: miglioramenti, mediaVotiPerTest: mediaVotiPerTest, testoValore: testoValore };
+  // Primi alunni (sesso 'M') o alunne ('F') di un test: per ognuno il miglior risultato
+  // tra le prove svolte. A pari risultato stessa posizione (1, 1, 3): entra chi è entro i primi "quanti".
+  // -> [{ posto, alunno, n, prova, voto }]
+  function primi(classe, t, sesso, quanti) {
+    var alto = t.migliore === 'alto', l = [];
+    classe.alunni.forEach(function (a) {
+      if (a.sesso !== sesso) return;
+      var best = null;
+      App.Config.prove.forEach(function (p) {
+        var v = App.Test.valore(classe, a.id, t.id, p.id);
+        var n = v ? App.Test.numero(t, v) : null;
+        if (n === null || isNaN(n)) return;
+        if (!best || (alto ? n > best.n : n < best.n)) best = { alunno: a, n: n, prova: p };
+      });
+      if (best) l.push(best);
+    });
+    l.sort(function (x, y) { return (alto ? y.n - x.n : x.n - y.n) || App.U.confronta(x.alunno.nome, y.alunno.nome); });
+    var out = [];
+    l.forEach(function (r, i) {
+      r.posto = i && r.n === l[i - 1].n ? out[i - 1].posto : i + 1;
+      out.push(r);
+    });
+    out = out.filter(function (r) { return r.posto <= quanti; });
+    out.forEach(function (r) { r.voto = App.Voti.votoAlunno(classe, r.alunno, t, r.prova.id).voto; });
+    return out;
+  }
+
+  App.Statistiche = { primi: primi, test: test, andamento: andamento, miglioramenti: miglioramenti, mediaVotiPerTest: mediaVotiPerTest, testoValore: testoValore };
 })(window.App = window.App || {});

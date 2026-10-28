@@ -1,0 +1,11 @@
+/* statistiche.css — scheda 📈 Statistiche test: primi 3 alunni e alunne di ogni test */
+.primi-griglia { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 10px; margin-top: 8px; }
+.primi-test { border: 1px solid var(--bordo); border-radius: var(--raggio); padding: 10px 12px; background: var(--carta); min-width: 0; }
+.primi-test h4 { margin: 0 0 6px; font-size: 1rem; }
+.primi-sessi { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.primi-gruppo h5 { margin: 0 0 4px; font-size: .9rem; color: var(--tenue); }
+.primi-lista { list-style: none; margin: 0; padding: 0; }
+.primi-lista li { display: grid; grid-template-columns: 1.8em 1fr; column-gap: 4px; padding: 3px 0; }
+.primi-posto { grid-row: span 2; font-size: 1.1rem; text-align: center; }
+.primi-nome { font-weight: 600; overflow-wrap: anywhere; }
+.primi-valore { font-size: .8rem; color: var(--tenue); }

@@ -1,4 +1,4 @@
-REGISTRO SCIENZE MOTORIE — v4.1
+REGISTRO SCIENZE MOTORIE — v4.2
 ================================
 
 PUBBLICAZIONE SU GITHUB PAGES (una volta sola, dal computer)
@@ -56,6 +56,8 @@ COSA FA
   Per età diverse ogni classe ha la sua tabella: "📋 Copia test" la porta in un'altra classe.
 - 📈 Statistiche test: per test e prova (1ª, 2ª, 3ª), andamento nelle prove, media, migliore, peggiore, alunni/alunne, quanti per
   ogni voto, migliorati dalla 1ª all'ultima prova, media voti della classe per test.
+  In fondo: 🏅 i primi 3 alunni e le prime 3 alunne di ogni test (miglior risultato tra
+  le prove), utile per scegliere chi mandare ai giochi studenteschi.
 - 📋 Giustificazioni: tocca la casella di un alunno nel mese giusto e scegli
   data, simbolo e una nota facoltativa. Per salute, infortunio e ciclo puoi spuntare
   "📄 Con certificato medico" (per la mancata attrezzatura no).

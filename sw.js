@@ -7,7 +7,7 @@
  */
 'use strict';
 
-var VERSIONE = 'registro-sm-v4.1';
+var VERSIONE = 'registro-sm-v4.2';
 
 var FILE = [
   './',
@@ -17,6 +17,7 @@ var FILE = [
   'icone/apple-touch-icon.png',
   'css/base.css',
   'css/componenti.css',
+  'css/statistiche.css',
   'css/telefono.css',
   'js/config.js',
   'js/core/utils.js',

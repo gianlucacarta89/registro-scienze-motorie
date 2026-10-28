@@ -10,7 +10,7 @@
   App.Config = {
     nome: 'Registro Scienze Motorie',
     icona: '🏃',
-    versione: '4.1',
+    versione: '4.2',
 
     // Nome dell'archivio nel browser: DEVE essere diverso per ogni app.
     archivio: {
