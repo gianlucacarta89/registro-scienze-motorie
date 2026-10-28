@@ -1,7 +1,8 @@
 /* statistiche-giust.js
  * Cosa fa: conteggi delle giustificazioni per la scheda 📈 Statistiche giustificazioni:
  *          per alunno (totale e per tipologia) nel mese scelto o in tutto l'anno,
- *          per mese (tutto l'anno scolastico) e per tipologia, totali alunni / alunne.
+ *          per mese (tutto l'anno scolastico) e per tipologia, totali alunni / alunne;
+ *          "certificato" conta quelle con certificato medico.
  * Dipende da: App.Config (simboli), App.Calendario, App.Giust
  * Usato da: ui/statistiche-giust.js
  */
@@ -9,7 +10,7 @@
   'use strict';
 
   function vuoto() {
-    var o = { tot: 0 };
+    var o = { tot: 0, certificato: 0 };
     App.Config.simboli.forEach(function (s) { o[s.id] = 0; });
     return o;
   }
@@ -36,6 +37,7 @@
           if (!dentro(g, l)) return;
           c.tot++;
           if (c[g.simbolo] !== undefined) c[g.simbolo]++;
+          if (App.Giust.conCertificato(g)) c.certificato++;
         });
         return c;
       });
@@ -50,6 +52,7 @@
           App.Giust.delMese(classe, a.id, m).forEach(function (g) {
             c.tot++;
             if (c[g.simbolo] !== undefined) c[g.simbolo]++;
+            if (App.Giust.conCertificato(g)) c.certificato++;
           });
         });
         return c;

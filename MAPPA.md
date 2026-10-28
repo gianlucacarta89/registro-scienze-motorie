@@ -26,7 +26,7 @@ La versione online (pagina privata su claude.ai) usa gli stessi file `css/` e `j
 | `telefono.css` | Adattamenti sotto 760 px e 480 px |
 
 ## js/config.js — `App.Config`
-Nome, versione, nome dell'archivio, **tipologie dei test (menu a tendina, e ordine delle colonne)**, **formati del tempo** (`formatiTempo`), mesi (set–giu), prove, tipi di test, **simboli delle giustificazioni**, limiti, parole d'intestazione, testi delle regole, passi del backup con Google Drive (`backupPassi`, `backupDispositivi`, `backupNota`) e nota privacy.
+Nome, versione, nome dell'archivio, **tipologie dei test (menu a tendina, e ordine delle colonne)**, **formati del tempo** (`formatiTempo`), mesi (set–giu), prove, tipi di test, **simboli delle giustificazioni** (con `certificato: true` quelli che ammettono la spunta), **spunta del certificato medico** (`certificato`), limiti, parole d'intestazione, testi delle regole, passi del backup con Google Drive (`backupPassi`, `backupDispositivi`, `backupNota`) e nota privacy.
 → Per cambiare simboli, mesi o testi delle regole si tocca solo qui.
 
 ## lib/ (librerie in locale: funzionano offline, si caricano solo quando si crea un PDF)
@@ -63,8 +63,8 @@ Nome, versione, nome dell'archivio, **tipologie dei test (menu a tendina, e ordi
 | `voti.js` | `App.Voti` | `scala` (4–10 con i mezzi voti), `controlla` (tabella in ordine), `calcola` (voto da risultato e ♂/♀), `votoAlunno`, `media`, `haTabella`, `sufficiente` |
 | `statistiche.js` | `App.Statistiche` | `test` (svolti, media, migliore, peggiore, ♂/♀, quanti per voto), `miglioramenti`, `mediaVotiPerTest`, `testoValore` |
 | `elenco-test.js` | `App.ElencoTest` | `contenitore` (l'elenco con la forma di una classe), `tutti`, `registra` (test nuovo di classe → elenco, collegato con `origine`), `aggiorna` (copia collegata allineata), `stacca` (modifica fatta nell'elenco), `aggiungiAClasse`, `prendiDaClasse` |
-| `statistiche-giust.js` | `App.StatGiust` | `perAlunno` (totale e per tipologia, mese o anno), `perMese`, `totali` (anche ♂/♀) |
-| `giustificazioni.js` | `App.Giust` | `errore` (mese, doppioni, simbolo), `aggiungi`, `modifica`, `elimina`, `delMese`, `totaleAnno`, `contaClasse` |
+| `statistiche-giust.js` | `App.StatGiust` | `perAlunno` (totale, per tipologia e con certificato, mese o anno), `perMese`, `totali` (anche ♂/♀) |
+| `giustificazioni.js` | `App.Giust` | `errore` (mese, doppioni, simbolo), `ammetteCertificato`, `conCertificato`, `aggiungi`, `modifica`, `elimina`, `delMese`, `totaleAnno`, `contaClasse` |
 
 ## js/dati/
 | File | Modulo | Funzioni principali |
@@ -92,7 +92,7 @@ Nome, versione, nome dell'archivio, **tipologie dei test (menu a tendina, e ordi
 | `statistiche-giust.js` | `App.UI.StatisticheGiust` | Scheda 📈 Statistiche giustificazioni: anno, mese o tutto l'anno, A–Z / Più giustificati, per tipologia, per mese, tabella per alunno |
 | `finestra-test.js` | `App.UI.FinestraTest` | ➕ Nuovo test e ✏️ intestazione colonna: nome, tipologia (menu da config + Altro…), strumento (uno o ♂/♀), tipo, unità, migliore, ◀ ▶ sposta, 🗑️ |
 | `tabella-giust.js` | `App.UI.TabellaGiust` | Scheda 📋 Giustificazioni (nome alunno toccabile): ◀ anno ▶, tabella mesi, Tot., legenda |
-| `finestra-giust.js` | `App.UI.FinestraGiust` | Tocco su una casella del mese: elenco, ✏️, 🗑️, nuova giustificazione (con bozza) |
+| `finestra-giust.js` | `App.UI.FinestraGiust` | Tocco su una casella del mese: elenco, ✏️, 🗑️, nuova giustificazione con spunta 📄 certificato medico (non per l'attrezzatura; con bozza) |
 | `finestra-classi.js` | `App.UI.FinestraClassi` | 🏫 Classi: crea, rinomina, Apri, 🗑️ |
 | `finestra-alunno.js` | `App.UI.FinestraAlunno` | Tocco sul nome nelle tabelle: correggi il nome, 🗑️ Togli (`togli` usato anche da finestra-alunni) |
 | `finestra-alunni.js` | `App.UI.FinestraAlunni` | 👥 Alunni: aggiungi, correggi nome, 🗑️, ☑️ Seleziona tutti / 🗑️ Togli selezionati, 📥 Carica da file o incolla |
@@ -112,5 +112,5 @@ Nome, versione, nome dell'archivio, **tipologie dei test (menu a tendina, e ordi
     test: [{ id, nome, tipologia, note, strumento, perSesso, strumentoM, strumentoF, unita, tipo: 'numero'|'tempo', migliore: 'alto'|'basso',
             voti: { righe: [{ voto: 8, M: '440', F: '380' }] } }],
     risultati: { alunnoId: { testId: { '1': '145', '2': '152', '3': '160' } } },
-    giust: { alunnoId: [{ id, data: 'AAAA-MM-GG', simbolo, nota }] } }] }
+    giust: { alunnoId: [{ id, data: 'AAAA-MM-GG', simbolo, certificato: true|false, nota }] } }] }
 ```

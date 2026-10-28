@@ -63,14 +63,17 @@
           testa: [['Data', 'Sigla', 'Motivo', 'Nota']],
           corpo: l.map(function (g) {
             var s = App.Giust.simbolo(g.simbolo) || { sigla: '?', nome: '' };
-            return [App.U.dataIT(g.data), s.sigla, s.nome, g.nota || ''];
+            return [App.U.dataIT(g.data), D().siglaGiust(g),
+              s.nome + (App.Giust.conCertificato(g) ? ', ' + App.Config.certificato.nome.toLowerCase() : ''), g.nota || ''];
           }),
-          colonne: { 0: { cellWidth: 24 }, 1: { cellWidth: 14, halign: 'center' }, 2: { cellWidth: 48 } }, dimensione: 9
+          colonne: { 0: { cellWidth: 24 }, 1: { cellWidth: 14, halign: 'center' }, 2: { cellWidth: 62 } }, dimensione: 9
         });
         var conti = App.Config.simboli.map(function (s) {
           var n = l.filter(function (g) { return g.simbolo === s.id; }).length;
           return n ? s.nome + ': ' + n : '';
         }).filter(Boolean);
+        var nc = l.filter(function (g) { return App.Giust.conCertificato(g); }).length;
+        if (nc) conti.push('di cui ' + App.Config.certificato.nome.toLowerCase() + ': ' + nc);
         B().nota(doc, 'Totale: ' + l.length + (conti.length ? '  (' + conti.join(', ') + ')' : ''));
       }
       B().legenda(doc, 'Legenda delle giustificazioni', [D().legendaGiust()]);

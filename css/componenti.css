@@ -193,6 +193,8 @@ textarea { resize: vertical; }
 .voce-icona { font-size: 1.2rem; }
 .voce-testo { flex: 1; min-width: 0; display: flex; flex-direction: column; }
 .voce-nota { font-size: .85rem; color: var(--tenue); overflow-wrap: anywhere; }
+.voce-cert { font-size: .85rem; }
+.spunta-cert { margin-top: 8px; min-height: 44px; display: flex; align-items: center; gap: 6px; }
 
 /* ---------- Avvisi (toast) ---------- */
 .toast-zona {

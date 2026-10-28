@@ -1,4 +1,4 @@
-REGISTRO SCIENZE MOTORIE — v4.0
+REGISTRO SCIENZE MOTORIE — v4.1
 ================================
 
 PUBBLICAZIONE SU GITHUB PAGES (una volta sola, dal computer)
@@ -57,7 +57,9 @@ COSA FA
 - 📈 Statistiche test: per test e prova (1ª, 2ª, 3ª), andamento nelle prove, media, migliore, peggiore, alunni/alunne, quanti per
   ogni voto, migliorati dalla 1ª all'ultima prova, media voti della classe per test.
 - 📋 Giustificazioni: tocca la casella di un alunno nel mese giusto e scegli
-  data, simbolo e una nota facoltativa. La colonna Tot. conta le giustificazioni dell'anno.
+  data, simbolo e una nota facoltativa. Per salute, infortunio e ciclo puoi spuntare
+  "📄 Con certificato medico" (per la mancata attrezzatura no).
+  La colonna Tot. conta le giustificazioni dell'anno.
 - 📈 Statistiche giustificazioni: per un mese o tutto l'anno, quante giustificazioni ha
   ogni alunno e di che tipologia, totali alunni/alunne, grafici per mese e per tipologia.
 - 📄 PDF (in alto): scegli classi e alunni, cosa includere (test e/o giustificazioni,
@@ -65,8 +67,8 @@ COSA FA
   - Tabella della classe, per i colleghi (con il riepilogo della classe);
   - Scheda di ogni alunno, per le famiglie: solo i dati di quell'alunno. Con più alunni
     scarichi un file ZIP con un PDF per alunno.
-  Nel PDF le giustificazioni hanno sigle: S salute, I infortunio, C ciclo, M certificato
-  medico, A mancata attrezzatura (spiegate nella legenda). Funziona anche senza internet.
+  Nel PDF le giustificazioni hanno sigle: S salute, I infortunio, C ciclo, A mancata
+  attrezzatura; "+M" = con certificato medico (es. S+M), spiegate nella legenda. Funziona anche senza internet.
 
 DOVE SONO I DATI
 - I dati restano salvati nel browser del dispositivo che stai usando, a ogni modifica.

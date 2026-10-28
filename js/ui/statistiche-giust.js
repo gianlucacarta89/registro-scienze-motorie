@@ -35,12 +35,14 @@
         el('thead', {}, el('tr', {},
           el('th', { class: 'col-nome', text: 'Alunno' }),
           simboli.map(function (s) { return el('th', { class: 'col-simbolo', title: s.nome, text: s.icona }); }),
+          el('th', { class: 'col-simbolo', title: App.Config.certificato.nome, text: App.Config.certificato.icona }),
           el('th', { class: 'col-tot', text: 'Tot.' }))),
         el('tbody', {}, righe.map(function (r, i) {
           return el('tr', { class: r.tot ? '' : 'senza' },
             el('th', { class: 'col-nome', scope: 'row' }, el('span', { class: 'num', text: (i + 1) + '.' }), ' ' + r.alunno.nome,
               r.alunno.sesso ? el('span', { class: 'sesso', text: ' ' + App.Config.sessi[r.alunno.sesso].icona }) : null),
             simboli.map(function (s) { return el('td', { class: 'cella num-cella', text: r[s.id] ? String(r[s.id]) : '–' }); }),
+            el('td', { class: 'cella num-cella', text: r.certificato ? String(r.certificato) : '–' }),
             el('td', { class: 'cella col-tot' + (r.tot ? ' con-tot' : ''), text: String(r.tot) }));
         }))));
   }
@@ -77,6 +79,7 @@
         riquadro('Totale', String(tot.tot)),
         riquadro('Alunni con almeno una', tot.conAlmenoUna + ' / ' + righe.length),
         riquadro('Media per alunno', String(tot.mediaPerAlunno).replace('.', ',')),
+        riquadro(App.Config.certificato.icona + ' ' + App.Config.certificato.nome, String(tot.certificato)),
         riquadro('♂ Alunni', String(tot.M)),
         riquadro('♀ Alunne', String(tot.F)))));
 
@@ -100,7 +103,8 @@
       // Per alunno
       cont.appendChild(sezione('Per alunno – ' + periodo, el('div', {},
         tabellaAlunni(righe),
-        el('p', { class: 'piccolo', text: App.Config.simboli.map(function (s) { return s.icona + ' ' + s.nome; }).join(' · ') }))));
+        el('p', { class: 'piccolo', text: App.Config.simboli.map(function (s) { return s.icona + ' ' + s.nome; }).join(' · ') +
+          ' · ' + App.Config.certificato.icona + ' ' + App.Config.certificato.nome.toLowerCase() + ' (già contate nei motivi)' }))));
     }
   };
 })(window.App = window.App || {});

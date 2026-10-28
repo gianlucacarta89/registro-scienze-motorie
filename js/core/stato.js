@@ -29,6 +29,12 @@
       c.test = Array.isArray(c.test) ? c.test : [];
       c.risultati = c.risultati && typeof c.risultati === 'object' ? c.risultati : {};
       c.giust = c.giust && typeof c.giust === 'object' ? c.giust : {};
+      // Fino alla v4.0 "Certificato medico" era un motivo: ora è una spunta (motivo: infortunio)
+      Object.keys(c.giust).forEach(function (k) {
+        (c.giust[k] || []).forEach(function (g) {
+          if (g.simbolo === 'certificato') { g.simbolo = 'infortunio'; g.certificato = true; }
+        });
+      });
     });
     var p = d.preferenze || {};
     n.preferenze.classeAttiva = p.classeAttiva || null;

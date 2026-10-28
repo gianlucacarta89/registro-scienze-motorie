@@ -4,7 +4,8 @@
  * Dipende da: App.Config (simboli, limiti), App.Calendario, App.U
  * Usato da: ui/tabella-giust.js, ui/finestra-giust.js
  *
- * Dati: classe.giust[alunnoId] = [{ id, data: 'AAAA-MM-GG', simbolo: 'salute', nota: '' }]
+ * Dati: classe.giust[alunnoId] = [{ id, data: 'AAAA-MM-GG', simbolo: 'salute', certificato: true, nota: '' }]
+ *       certificato: solo per i motivi con certificato: true in App.Config.simboli
  */
 (function (App) {
   'use strict';
@@ -18,6 +19,12 @@
     simbolo: function (id) {
       return App.Config.simboli.filter(function (s) { return s.id === id; })[0] || null;
     },
+
+    // true se il motivo ammette la spunta "con certificato medico"
+    ammetteCertificato: function (id) { var s = this.simbolo(id); return !!(s && s.certificato); },
+
+    // true se la giustificazione ha il certificato (e il motivo lo ammette)
+    conCertificato: function (g) { return !!g.certificato && this.ammetteCertificato(g.simbolo); },
 
     // Giustificazioni di un alunno in un mese (oggetto di App.Calendario.mesi)
     delMese: function (classe, alunnoId, mese) {
@@ -46,7 +53,7 @@
       var err = this.errore(classe, alunnoId, g, mese);
       if (err) return err;
       classe.giust[alunnoId] = elenco(classe, alunnoId).concat([{
-        id: App.U.nuovoId(), data: g.data, simbolo: g.simbolo, nota: App.U.spazi(g.nota)
+        id: App.U.nuovoId(), data: g.data, simbolo: g.simbolo, certificato: this.conCertificato(g), nota: App.U.spazi(g.nota)
       }]).sort(perData);
       return null;
     },
@@ -54,8 +61,9 @@
     modifica: function (classe, alunnoId, id, g, mese) {
       var err = this.errore(classe, alunnoId, g, mese, id);
       if (err) return err;
+      var cert = this.conCertificato(g);
       elenco(classe, alunnoId).forEach(function (x) {
-        if (x.id === id) { x.data = g.data; x.simbolo = g.simbolo; x.nota = App.U.spazi(g.nota); }
+        if (x.id === id) { x.data = g.data; x.simbolo = g.simbolo; x.certificato = cert; x.nota = App.U.spazi(g.nota); }
       });
       classe.giust[alunnoId].sort(perData);
       return null;
@@ -72,13 +80,15 @@
       return elenco(classe, alunnoId).filter(function (g) { return g.data >= l.primo && g.data <= l.ultimo; }).length;
     },
 
-    // Conteggio per simbolo di tutta la classe nell'anno scolastico -> { salute: 3, ... }
+    // Conteggio per simbolo di tutta la classe nell'anno scolastico -> { salute: 3, ..., certificato: 2 }
     contaClasse: function (classe, annoInizio) {
-      var l = App.Calendario.limiti(annoInizio), out = {};
+      var l = App.Calendario.limiti(annoInizio), out = { certificato: 0 }, self = this;
       App.Config.simboli.forEach(function (s) { out[s.id] = 0; });
       classe.alunni.forEach(function (a) {
         elenco(classe, a.id).forEach(function (g) {
-          if (g.data >= l.primo && g.data <= l.ultimo && out[g.simbolo] !== undefined) out[g.simbolo]++;
+          if (g.data < l.primo || g.data > l.ultimo) return;
+          if (out[g.simbolo] !== undefined) out[g.simbolo]++;
+          if (self.conCertificato(g)) out.certificato++;
         });
       });
       return out;

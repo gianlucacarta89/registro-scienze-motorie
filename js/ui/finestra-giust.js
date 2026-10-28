@@ -1,6 +1,7 @@
 /* finestra-giust.js
  * Cosa fa: finestra di un alunno in un mese: elenco delle giustificazioni e modulo per
- *          aggiungere o modificare (data, simbolo, nota). Si possono inserirne più di seguito.
+ *          aggiungere o modificare (data, simbolo, spunta "con certificato medico", nota).
+ *          Si possono inserirne più di seguito.
  * Dipende da: App.U, App.Config (simboli, limiti, testi), App.Giust, App.Stato, App.Avvisi,
  *             App.Finestra, App.UI.disegnaContenuto
  * Usato da: ui/tabella-giust.js (tocco su una casella)
@@ -29,6 +30,9 @@
             onclick: function () { scegli(s.id); } },
             el('span', { class: 'simbolo-icona', text: s.icona }), el('span', { class: 'simbolo-nome', text: s.nome }));
         }));
+      var cert = el('input', { type: 'checkbox', name: 'certificato' });
+      var zonaCert = el('label', { class: 'scelta spunta-cert', style: 'display:none' },
+        cert, ' ' + App.Config.certificato.icona + ' ' + App.Config.certificato.nome);
       var titoloModulo = el('h3', { text: 'Nuova giustificazione' });
       var salva = el('button', { type: 'button', class: 'btn btn-ok', text: '✔ Aggiungi', onclick: conferma });
       var annulla = el('button', { type: 'button', class: 'btn btn-neutro', text: 'Annulla modifica', style: 'display:none',
@@ -37,7 +41,7 @@
       // Ciò che è scritto e non salvato resta come bozza, anche chiudendo la finestra
       function salvaBozza() {
         if (!simboloScelto && !nota.value.trim() && !inModifica) { delete App.Stato.bozze[kBozza]; return; }
-        App.Stato.bozze[kBozza] = { data: data.value, simbolo: simboloScelto, nota: nota.value, inModifica: inModifica };
+        App.Stato.bozze[kBozza] = { data: data.value, simbolo: simboloScelto, certificato: cert.checked, nota: nota.value, inModifica: inModifica };
       }
 
       function scegli(id) {
@@ -47,6 +51,10 @@
           b.classList.toggle('scelto', si);
           b.setAttribute('aria-checked', si ? 'true' : 'false');
         });
+        // La spunta del certificato c'è solo per i motivi che lo ammettono (non per l'attrezzatura)
+        var puo = App.Giust.ammetteCertificato(id);
+        zonaCert.style.display = puo ? '' : 'none';
+        if (!puo) cert.checked = false;
         salvaBozza();
       }
 
@@ -54,6 +62,7 @@
         inModifica = null;
         data.value = oggi >= mese.primo && oggi <= mese.ultimo ? oggi : '';
         nota.value = '';
+        cert.checked = false;
         scegli(null);
         titoloModulo.textContent = 'Nuova giustificazione';
         salva.textContent = '✔ Aggiungi';
@@ -67,6 +76,8 @@
         data.value = g.data;
         nota.value = g.nota || '';
         scegli(g.simbolo);
+        cert.checked = !!g.certificato && App.Giust.ammetteCertificato(g.simbolo);
+        salvaBozza();
         titoloModulo.textContent = 'Modifica del ' + App.U.dataIT(g.data);
         salva.textContent = '✔ Salva modifica';
         annulla.style.display = '';
@@ -77,7 +88,8 @@
 
       function elimina(g) {
         App.Avvisi.conferma({ titolo: 'Cancellare la giustificazione?', pericolo: true, testoOk: '🗑️ Cancella',
-          testo: alunno.nome + ' – ' + App.U.dataIT(g.data) + ' ' + (App.Giust.simbolo(g.simbolo) || {}).nome })
+          testo: alunno.nome + ' – ' + App.U.dataIT(g.data) + ' ' + (App.Giust.simbolo(g.simbolo) || {}).nome +
+            (App.Giust.conCertificato(g) ? ' (' + App.Config.certificato.nome.toLowerCase() + ')' : '') })
           .then(function (si) {
             if (!si) return;
             App.Giust.elimina(classe, alunno.id, g.id);
@@ -95,7 +107,9 @@
           return el('li', { class: 'voce-giust' + (inModifica === g.id ? ' in-modifica' : '') },
             el('span', { class: 'voce-data', text: App.U.dataIT(g.data).slice(0, 5) }),
             el('span', { class: 'voce-icona', text: s.icona }),
-            el('span', { class: 'voce-testo' }, el('b', { text: s.nome }), g.nota ? el('span', { class: 'voce-nota', text: g.nota }) : null),
+            el('span', { class: 'voce-testo' }, el('b', { text: s.nome }),
+              App.Giust.conCertificato(g) ? el('span', { class: 'voce-cert', text: App.Config.certificato.icona + ' ' + App.Config.certificato.nome }) : null,
+              g.nota ? el('span', { class: 'voce-nota', text: g.nota }) : null),
             el('button', { type: 'button', class: 'btn btn-neutro piccolo-btn', 'aria-label': 'Modifica', text: '✏️', onclick: function () { modifica(g); } }),
             el('button', { type: 'button', class: 'btn btn-pericolo piccolo-btn', 'aria-label': 'Cancella', text: '🗑️', onclick: function () { elimina(g); } }));
         })));
@@ -109,7 +123,7 @@
       }
 
       function conferma() {
-        var g = { data: data.value, simbolo: simboloScelto, nota: nota.value };
+        var g = { data: data.value, simbolo: simboloScelto, certificato: cert.checked, nota: nota.value };
         var err = inModifica ? App.Giust.modifica(classe, alunno.id, inModifica, g, mese)
           : App.Giust.aggiungi(classe, alunno.id, g, mese);
         if (err) { App.Avvisi.toast('❌ ' + err, 'errore', 5500); return; }
@@ -123,20 +137,22 @@
         el('div', { class: 'modulo riquadro' },
           titoloModulo,
           el('label', { class: 'campo' }, el('span', { text: 'Data (' + mese.nome + ' ' + mese.anno + ')' }), data),
-          el('div', { class: 'campo' }, el('span', { text: 'Motivo' }), simboli),
+          el('div', { class: 'campo' }, el('span', { text: 'Motivo' }), simboli, zonaCert),
           el('label', { class: 'campo' }, el('span', { text: 'Nota' }), nota),
           el('p', { class: 'piccolo nota-privacy', text: '🔒 ' + App.Config.testi.notaPrivacy }),
           el('div', { class: 'riga-btn' }, annulla, salva)));
 
       data.addEventListener('input', salvaBozza);
       nota.addEventListener('input', salvaBozza);
+      cert.addEventListener('change', salvaBozza);
 
       var b = App.Stato.bozze[kBozza];
       if (b) {
         if (b.inModifica && App.Giust.delMese(classe, alunno.id, mese).some(function (g) { return g.id === b.inModifica; })) {
-          modifica({ id: b.inModifica, data: b.data, simbolo: b.simbolo, nota: b.nota });
+          modifica({ id: b.inModifica, data: b.data, simbolo: b.simbolo, certificato: b.certificato, nota: b.nota });
         } else {
           data.value = b.data; nota.value = b.nota; scegli(b.simbolo);
+          cert.checked = !!b.certificato && App.Giust.ammetteCertificato(b.simbolo);
         }
         titoloModulo.textContent += ' (ripresa la bozza non salvata)';
       }

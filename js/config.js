@@ -10,7 +10,7 @@
   App.Config = {
     nome: 'Registro Scienze Motorie',
     icona: '🏃',
-    versione: '4.0',
+    versione: '4.1',
 
     // Nome dell'archivio nel browser: DEVE essere diverso per ogni app.
     archivio: {
@@ -72,12 +72,14 @@
     // Modulo Giustificazioni: legenda dei simboli
     simboli: [
       // sigla = lettera usata nei PDF (i font dei PDF non hanno le emoji)
-      { id: 'salute', icona: '🤒', sigla: 'S', nome: 'Problemi di salute' },
-      { id: 'infortunio', icona: '🩹', sigla: 'I', nome: 'Infortunio' },
-      { id: 'ciclo', icona: '🌸', sigla: 'C', nome: 'Ciclo mestruale' },
-      { id: 'certificato', icona: '📄', sigla: 'M', nome: 'Certificato medico' },
+      // certificato = si può spuntare "con certificato medico"
+      { id: 'salute', icona: '🤒', sigla: 'S', nome: 'Problemi di salute', certificato: true },
+      { id: 'infortunio', icona: '🩹', sigla: 'I', nome: 'Infortunio', certificato: true },
+      { id: 'ciclo', icona: '🌸', sigla: 'C', nome: 'Ciclo mestruale', certificato: true },
       { id: 'attrezzatura', icona: '👟', sigla: 'A', nome: 'Mancata attrezzatura' }
     ],
+    // Spunta "con certificato medico" (nei PDF: sigla + "M", es. "5 SM")
+    certificato: { icona: '📄', sigla: 'M', nome: 'Con certificato medico' },
 
     // PDF da consegnare a colleghi e famiglie
     pdf: {

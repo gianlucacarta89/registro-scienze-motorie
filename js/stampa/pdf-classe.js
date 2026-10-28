@@ -58,25 +58,28 @@
     B().sezione(doc, 'Giustificazioni - ' + per.nome);
     var simboli = App.Config.simboli;
     var testa = ['N.', 'Alunno'].concat(per.mesi.map(function (m) { return per.mesi.length > 1 ? m.breve : m.nome; }),
-      simboli.map(function (s) { return s.sigla; }), ['Tot.']);
+      simboli.map(function (s) { return s.sigla; }), ['+' + App.Config.certificato.sigla, 'Tot.']);
+    var totCert = 0;
     var totali = simboli.map(function () { return 0; }), totMesi = per.mesi.map(function () { return 0; }), tot = 0;
     var corpo = c.alunni.map(function (a, i) {
       var l = D().giustNelPeriodo(c, a, per);
       var perSimbolo = simboli.map(function (s, k) { var n = l.filter(function (g) { return g.simbolo === s.id; }).length; totali[k] += n; return n ? String(n) : ''; });
       tot += l.length;
+      var nc = l.filter(function (g) { return App.Giust.conCertificato(g); }).length;
+      totCert += nc;
       return [String(i + 1), a.nome].concat(per.mesi.map(function (m, k) {
         totMesi[k] += App.Giust.delMese(c, a.id, m).length;
         return D().cellaGiust(c, a, m);
-      }), perSimbolo, [String(l.length)]);
+      }), perSimbolo, [nc ? String(nc) : '', String(l.length)]);
     });
-    var piede = [['', 'Totale classe'].concat(totMesi.map(String), totali.map(String), [String(tot)])];
+    var piede = [['', 'Totale classe'].concat(totMesi.map(String), totali.map(String), [String(totCert), String(tot)])];
     var col = { 0: { cellWidth: 8, halign: 'right' }, 1: { cellWidth: 42, fontStyle: 'bold' } };
     var primaSigla = 2 + per.mesi.length;
-    for (var k = primaSigla; k <= primaSigla + simboli.length; k++) col[k] = { halign: 'center', cellWidth: 9 };
+    for (var k = primaSigla; k <= primaSigla + simboli.length + 1; k++) col[k] = { halign: 'center', cellWidth: 9 };
     B().tabella(doc, { testa: [testa], corpo: corpo, piede: piede, colonne: col, dimensione: per.mesi.length > 1 ? 7 : 8 });
     B().legenda(doc, 'Legenda delle giustificazioni', [
       D().legendaGiust(),
-      per.mesi.length > 1 ? 'Nei mesi: giorno + sigla (es. "5 S" = giorno 5, problemi di salute). Le colonne con le sigle contano le giustificazioni di quel tipo nel periodo.' :
+      per.mesi.length > 1 ? 'Nei mesi: giorno + sigla (es. "5 S" = giorno 5, problemi di salute). Le colonne con le sigle contano le giustificazioni di quel tipo nel periodo; +' + App.Config.certificato.sigla + ' conta quelle con certificato medico.' :
         'Nel mese: giorno + sigla (es. "5 S" = giorno 5, problemi di salute).']);
   }
 

@@ -38,8 +38,10 @@
         onclick: function () { App.UI.FinestraGiust.apri(classe, a, mese); } },
         lista.length ? lista.map(function (g) {
           var s = App.Giust.simbolo(g.simbolo);
-          return el('span', { class: 'chip', title: App.U.dataIT(g.data) + ' ' + (s ? s.nome : '') + (g.nota ? ' – ' + g.nota : '') },
-            el('b', { text: String(Number(g.data.slice(8, 10))) }), s ? s.icona : '?');
+          var c = App.Giust.conCertificato(g);
+          return el('span', { class: 'chip', title: App.U.dataIT(g.data) + ' ' + (s ? s.nome : '') +
+              (c ? ' – ' + App.Config.certificato.nome.toLowerCase() : '') + (g.nota ? ' – ' + g.nota : '') },
+            el('b', { text: String(Number(g.data.slice(8, 10))) }), (s ? s.icona : '?') + (c ? App.Config.certificato.icona : ''));
         }) : el('span', { class: 'piu', text: '+' })));
   }
 
@@ -50,7 +52,9 @@
       el('ul', {}, App.Config.simboli.map(function (s) {
         return el('li', {}, el('span', { class: 'leg-icona', text: s.icona }), ' ' + s.nome,
           el('span', { class: 'leg-conto', text: conti[s.id] ? '(' + conti[s.id] + ' in classe)' : '' }));
-      })),
+      }).concat([el('li', {}, el('span', { class: 'leg-icona', text: App.Config.certificato.icona }),
+        ' ' + App.Config.certificato.nome + ' (accanto al motivo)',
+        el('span', { class: 'leg-conto', text: conti.certificato ? '(' + conti.certificato + ' in classe)' : '' }))])),
       el('p', { class: 'piccolo nota-privacy', text: '🔒 ' + App.Config.testi.notaPrivacy }));
   }
 

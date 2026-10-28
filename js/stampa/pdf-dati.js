@@ -88,10 +88,13 @@
 
   function sigla(id) { var s = App.Giust.simbolo(id); return s ? s.sigla : '?'; }
 
+  // Sigla di una giustificazione: "S", oppure "S+M" se ha il certificato medico
+  function siglaGiust(g) { return sigla(g.simbolo) + (App.Giust.conCertificato(g) ? '+' + App.Config.certificato.sigla : ''); }
+
   // "5 S, 12 A" (giorno + sigla) per un alunno in un mese
   function cellaGiust(classe, a, mese) {
     var l = App.Giust.delMese(classe, a.id, mese);
-    return l.length ? l.map(function (g) { return Number(g.data.slice(8, 10)) + ' ' + sigla(g.simbolo); }).join(', ') : '';
+    return l.length ? l.map(function (g) { return Number(g.data.slice(8, 10)) + ' ' + siglaGiust(g); }).join(', ') : '';
   }
 
   function giustNelPeriodo(classe, a, per) {
@@ -100,13 +103,15 @@
   }
 
   function legendaGiust() {
-    return App.Config.simboli.map(function (s) { return s.sigla + ' = ' + s.nome; }).join('; ') + '.';
+    var c = App.Config.certificato;
+    return App.Config.simboli.map(function (s) { return s.sigla + ' = ' + s.nome; }).join('; ') +
+      '; +' + c.sigla + ' = ' + c.nome.toLowerCase() + ' (es. "S+' + c.sigla + '").';
   }
 
   App.PdfDati = {
     proveUsate: proveUsate, nomeProva: nomeProva, risultato: risultato, cellaTest: cellaTest,
     mediaVoti: mediaVoti, scrittura: scrittura, strumentoPer: strumentoPer, descrizioneTest: descrizioneTest,
-    legendaVoti: legendaVoti, periodo: periodo, sigla: sigla, cellaGiust: cellaGiust,
+    legendaVoti: legendaVoti, periodo: periodo, sigla: sigla, siglaGiust: siglaGiust, cellaGiust: cellaGiust,
     giustNelPeriodo: giustNelPeriodo, legendaGiust: legendaGiust
   };
 })(window.App = window.App || {});
