@@ -1,4 +1,4 @@
-REGISTRO SCIENZE MOTORIE — v4.3
+REGISTRO SCIENZE MOTORIE — v4.3.1
 ================================
 
 PUBBLICAZIONE SU GITHUB PAGES (una volta sola, dal computer)
@@ -61,7 +61,7 @@ COSA FA
 - 📋 Giustificazioni: tocca la casella di un alunno nel mese giusto e scegli
   data, simbolo e una nota facoltativa. Motivi: problemi di salute, infortunio, ciclo,
   mancata attrezzatura, giustificazione generica (il motivo va scritto nella nota) e assenza.
-  Puoi spuntare "📄 Con certificato medico" per tutti tranne la mancata attrezzatura.
+  Per salute, infortunio e ciclo puoi spuntare "📄 Con certificato medico".
   La colonna Tot. conta le giustificazioni dell'anno.
 - 📈 Statistiche giustificazioni: per un mese o tutto l'anno, quante giustificazioni ha
   ogni alunno e di che tipologia, totali alunni/alunne, grafici per mese e per tipologia.

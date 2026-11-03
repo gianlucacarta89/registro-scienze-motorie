@@ -10,7 +10,7 @@
   App.Config = {
     nome: 'Registro Scienze Motorie',
     icona: '🏃',
-    versione: '4.3',
+    versione: '4.3.1',
 
     // Nome dell'archivio nel browser: DEVE essere diverso per ogni app.
     archivio: {
@@ -78,8 +78,8 @@
       { id: 'ciclo', icona: '🌸', sigla: 'C', nome: 'Ciclo mestruale', certificato: true },
       { id: 'attrezzatura', icona: '👟', sigla: 'A', nome: 'Mancata attrezzatura' },
       // notaObbligatoria = il motivo si scrive nella nota
-      { id: 'generica', icona: '📝', sigla: 'G', nome: 'Giustificazione generica', certificato: true, notaObbligatoria: true },
-      { id: 'assenza', icona: '🚫', sigla: 'AS', nome: 'Assenza', certificato: true }
+      { id: 'generica', icona: '📝', sigla: 'G', nome: 'Giustificazione generica', notaObbligatoria: true },
+      { id: 'assenza', icona: '🚫', sigla: 'AS', nome: 'Assenza' }
     ],
     // Spunta "con certificato medico" (nei PDF: sigla + "M", es. "5 SM")
     certificato: { icona: '📄', sigla: 'M', nome: 'Con certificato medico' },
