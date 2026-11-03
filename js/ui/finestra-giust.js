@@ -52,6 +52,9 @@
           b.setAttribute('aria-checked', si ? 'true' : 'false');
         });
         // La spunta del certificato c'è solo per i motivi che lo ammettono (non per l'attrezzatura)
+        var s = App.Giust.simbolo(id);
+        nota.placeholder = s && s.notaObbligatoria ? 'obbligatoria: scrivi il motivo' : 'facoltativa (es. "giustificata dal genitore")';
+        nota.required = !!(s && s.notaObbligatoria);
         var puo = App.Giust.ammetteCertificato(id);
         zonaCert.style.display = puo ? '' : 'none';
         if (!puo) cert.checked = false;

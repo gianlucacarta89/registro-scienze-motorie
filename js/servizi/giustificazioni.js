@@ -42,6 +42,8 @@
         return 'La data deve essere di ' + mese.nome + ' ' + mese.anno + ' (dal 1 al ' + mese.giorni + '). ' +
           'Per un altro mese tocca la sua colonna.';
       if (!this.simbolo(g.simbolo)) return 'Scegli il motivo toccando uno dei simboli.';
+      if (this.simbolo(g.simbolo).notaObbligatoria && !App.U.spazi(g.nota))
+        return 'Per la ' + this.simbolo(g.simbolo).nome.toLowerCase() + ' scrivi il motivo nella nota.';
       var max = App.Config.limiti.nota;
       if (App.U.spazi(g.nota).length > max) return 'La nota può avere al massimo ' + max + ' caratteri.';
       var doppia = elenco(classe, alunnoId).some(function (x) { return x.id !== escludiId && x.data === g.data; });
