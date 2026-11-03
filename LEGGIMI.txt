@@ -1,4 +1,4 @@
-REGISTRO SCIENZE MOTORIE — v4.2
+REGISTRO SCIENZE MOTORIE — v4.2.1
 ================================
 
 PUBBLICAZIONE SU GITHUB PAGES (una volta sola, dal computer)

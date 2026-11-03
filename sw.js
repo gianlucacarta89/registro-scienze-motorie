@@ -7,7 +7,7 @@
  */
 'use strict';
 
-var VERSIONE = 'registro-sm-v4.2';
+var VERSIONE = 'registro-sm-v4.2.1';
 
 var FILE = [
   './',
@@ -74,7 +74,17 @@ var FILE = [
 self.addEventListener('install', function (ev) {
   ev.waitUntil(
     caches.open(VERSIONE)
-      .then(function (c) { return c.addAll(FILE.map(function (f) { return new Request(f, { cache: 'reload' }); })); })
+      // Ogni file si scarica con "?v=VERSIONE": così GitHub non può dare una copia vecchia
+      // (file vecchi mescolati ai nuovi bloccherebbero parti dell'app).
+      .then(function (c) {
+        return Promise.all(FILE.map(function (f) {
+          var url = f + (f.indexOf('?') < 0 ? '?' : '&') + 'v=' + encodeURIComponent(VERSIONE);
+          return fetch(new Request(url, { cache: 'reload' })).then(function (r) {
+            if (!r.ok) throw new Error('File non scaricato: ' + f);
+            return c.put(f, r);
+          });
+        }));
+      })
       .then(function () { return self.skipWaiting(); })
   );
 });
