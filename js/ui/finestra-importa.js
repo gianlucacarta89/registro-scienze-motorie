@@ -1,7 +1,8 @@
 /* finestra-importa.js
  * Cosa fa: caricamento dei nomi degli alunni da file (Excel, Word, CSV, testo) o da testo
  *          incollato, con anteprima: si possono togliere i nomi sbagliati prima di aggiungerli.
- * Dipende da: App.U, App.Config (fileNomi), App.LeggiFile, App.Nomi, App.Classi, App.Stato,
+ *          Per ogni nome è già proposto ♂/♀ (App.NomiSesso), da controllare e correggere.
+ * Dipende da: App.U, App.Config (fileNomi, sessi), App.LeggiFile, App.Nomi, App.NomiSesso, App.Classi, App.Stato,
  *             App.Avvisi, App.Finestra, App.UI.disegna
  * Usato da: ui/finestra-alunni.js, ui/finestra-classi.js, ui/tabella-test.js, ui/tabella-giust.js
  */
@@ -15,7 +16,7 @@
     apri: function (classe) {
       var anteprima = el('div', { class: 'anteprima' });
       var pulsanteAggiungi;
-      var nomi = [];          // [{ nome, scelto, doppio }]
+      var nomi = [];          // [{ nome, scelto, doppio, sesso }]
 
       function aggiornaPulsante() {
         var n = nomi.filter(function (x) { return x.scelto; }).length;
@@ -26,7 +27,7 @@
       function mostra(lista, origine) {
         nomi = lista.map(function (n) {
           var doppio = App.Classi.esisteAlunno(classe, n);
-          return { nome: n, scelto: !doppio, doppio: doppio };
+          return { nome: n, scelto: !doppio, doppio: doppio, sesso: App.NomiSesso.indovina(n) };
         });
         App.U.svuota(anteprima);
         if (!nomi.length) {
@@ -35,7 +36,8 @@
           return;
         }
         var doppi = nomi.filter(function (x) { return x.doppio; }).length;
-        anteprima.appendChild(el('p', { class: 'piccolo', text: 'Trovati ' + nomi.length + ' nomi in ' + origine + '. Controllali: togli la spunta a quelli da non aggiungere e correggi quelli scritti male.' +
+        anteprima.appendChild(el('p', { class: 'piccolo', text: 'Trovati ' + nomi.length + ' nomi in ' + origine + '. Controllali: togli la spunta a quelli da non aggiungere e correggi quelli scritti male. ' +
+          '♂/♀ è proposto dal nome: controllalo e tocca per cambiarlo (toccando di nuovo lo togli).' +
           (doppi ? ' ' + doppi + ' sono già nella classe e verranno saltati.' : '') }));
         anteprima.appendChild(el('ul', { class: 'lista-anteprima' }, nomi.map(function (x) {
           var cb = el('input', { type: 'checkbox', checked: x.scelto, disabled: x.doppio, 'aria-label': 'Aggiungi ' + x.nome });
@@ -46,9 +48,24 @@
           // il nome si può correggere prima di aggiungerlo
           var campo = el('input', { type: 'text', class: 'nome-anteprima', value: x.nome, maxlength: App.Config.limiti.nomeAlunno, 'aria-label': 'Nome' });
           campo.addEventListener('input', function () { x.nome = campo.value; });
-          return el('li', {}, cb, campo);
+          return el('li', {}, cb, campo, sceltaSesso(x));
         })));
         aggiornaPulsante();
+      }
+
+      // ♂ ♀ di un nome dell'anteprima: un tocco sceglie, un altro tocco sullo stesso toglie
+      function sceltaSesso(x) {
+        var box = el('span', { class: 'sesso-scelta', role: 'group', 'aria-label': 'Alunno o alunna' });
+        function disegna() {
+          App.U.svuota(box);
+          ['M', 'F'].forEach(function (s) {
+            box.appendChild(el('button', { type: 'button', class: 'sesso-btn' + (x.sesso === s ? ' attivo' : ''),
+              text: App.Config.sessi[s].icona, title: App.Config.sessi[s].nome, 'aria-pressed': x.sesso === s ? 'true' : 'false',
+              onclick: function () { x.sesso = x.sesso === s ? '' : s; disegna(); } }));
+          });
+        }
+        disegna();
+        return box;
       }
 
       var scegliFile = el('input', { type: 'file', accept: App.Config.fileNomi, class: 'nascosto', 'aria-label': 'Scegli il file' });
@@ -86,7 +103,7 @@
         pulsanti: [
           { testo: 'Chiudi', tipo: 'neutro' },
           { testo: '✔ Aggiungi', tipo: 'ok', azione: function () {
-            var scelti = nomi.filter(function (x) { return x.scelto; }).map(function (x) { return x.nome; });
+            var scelti = nomi.filter(function (x) { return x.scelto; }).map(function (x) { return { nome: x.nome, sesso: x.sesso }; });
             if (!scelti.length) { App.Avvisi.toast('Prima scegli un file o incolla un elenco.', 'info'); return false; }
             var r = App.Classi.aggiungiAlunni(classe, scelti);
             App.Stato.salva();

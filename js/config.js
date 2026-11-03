@@ -10,7 +10,7 @@
   App.Config = {
     nome: 'Registro Scienze Motorie',
     icona: '🏃',
-    versione: '4.3.1',
+    versione: '4.4',
 
     // Nome dell'archivio nel browser: DEVE essere diverso per ogni app.
     archivio: {
@@ -68,6 +68,12 @@
     // Voti automatici dei test (tabelle del libro di testo)
     voti: { min: 4, max: 10, passo: 0.5, sufficienza: 6, righeIniziali: [10, 9, 8, 7, 6, 5, 4] },
     sessi: { M: { icona: '♂', nome: 'Alunno' }, F: { icona: '♀', nome: 'Alunna' } },
+    // ♂/♀ proposti dal nome quando si caricano gli alunni (servizi/nomi-sesso.js)
+    sessoDaiNomi: {
+      particelle: ['de', 'di', 'del', 'della', 'dello', 'dei', 'degli', 'da', 'dal', 'dalla', 'lo', 'la', 'li', 'le', 'el', 'al', 'van', 'von', 'mc', 'mac'],
+      finaliF: ['a'], finaliM: ['o'],
+      eccezioniM: ['andrea', 'luca', 'nicola', 'mattia', 'elia', 'tobia', 'enea', 'gianluca', 'battista', 'zaccaria', 'geremia', 'isaia', 'giona']
+    },
 
     // Modulo Giustificazioni: legenda dei simboli
     simboli: [

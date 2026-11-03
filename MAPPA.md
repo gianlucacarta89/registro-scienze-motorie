@@ -27,7 +27,7 @@ La versione online (pagina privata su claude.ai) usa gli stessi file `css/` e `j
 | `telefono.css` | Adattamenti sotto 760 px e 480 px |
 
 ## js/config.js — `App.Config`
-Nome, versione, nome dell'archivio, **tipologie dei test (menu a tendina, e ordine delle colonne)**, **formati del tempo** (`formatiTempo`), mesi (set–giu), prove, tipi di test, **simboli delle giustificazioni** (con `certificato: true` quelli che ammettono la spunta), **spunta del certificato medico** (`certificato`), limiti, parole d'intestazione, testi delle regole, passi del backup con Google Drive (`backupPassi`, `backupDispositivi`, `backupNota`) e nota privacy.
+Nome, versione, nome dell'archivio, **tipologie dei test (menu a tendina, e ordine delle colonne)**, **formati del tempo** (`formatiTempo`), **♂/♀ dai nomi** (`sessoDaiNomi`: particelle dei cognomi, finali, eccezioni come Andrea e Luca), mesi (set–giu), prove, tipi di test, **simboli delle giustificazioni** (con `certificato: true` quelli che ammettono la spunta), **spunta del certificato medico** (`certificato`), limiti, parole d'intestazione, testi delle regole, passi del backup con Google Drive (`backupPassi`, `backupDispositivi`, `backupNota`) e nota privacy.
 → Per cambiare simboli, mesi o testi delle regole si tocca solo qui.
 
 ## lib/ (librerie in locale: funzionano offline, si caricano solo quando si crea un PDF)
@@ -65,6 +65,7 @@ Nome, versione, nome dell'archivio, **tipologie dei test (menu a tendina, e ordi
 | `statistiche.js` | `App.Statistiche` | `test` (svolti, media, migliore, peggiore, ♂/♀, quanti per voto), `miglioramenti`, `mediaVotiPerTest`, `primi` (primi 3 ♂ o ♀ di un test, miglior risultato tra le prove, pari merito), `testoValore` |
 | `elenco-test.js` | `App.ElencoTest` | `contenitore` (l'elenco con la forma di una classe), `tutti`, `registra` (test nuovo di classe → elenco, collegato con `origine`), `aggiorna` (copia collegata allineata), `stacca` (modifica fatta nell'elenco), `aggiungiAClasse`, `prendiDaClasse` |
 | `statistiche-giust.js` | `App.StatGiust` | `perAlunno` (totale, per tipologia e con certificato, mese o anno), `perMese`, `totali` (anche ♂/♀) |
+| `nomi-sesso.js` | `App.NomiSesso` | `indovina` — ♂/♀ proposto dal nome di battesimo (elenchi di nomi + finale -a/-o, regole in `config.sessoDaiNomi`); '' se incerto |
 | `giustificazioni.js` | `App.Giust` | `errore` (mese, doppioni, simbolo), `ammetteCertificato`, `conCertificato`, `aggiungi`, `modifica`, `elimina`, `delMese`, `totaleAnno`, `contaClasse` |
 
 ## js/dati/

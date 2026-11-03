@@ -74,13 +74,17 @@
     },
 
     // Aggiunge una lista di nomi; salta quelli già presenti. -> { aggiunti, doppi: [] }
+    // nomi: testi oppure { nome, sesso: 'M'|'F'|'' }
     aggiungiAlunni: function (classe, nomi) {
       var self = this, aggiunti = 0, doppi = [];
-      nomi.forEach(function (n) {
-        n = App.U.spazi(n);
+      nomi.forEach(function (x) {
+        var n = App.U.spazi(typeof x === 'string' ? x : x.nome);
+        var sesso = typeof x === 'string' ? '' : x.sesso;
         if (!n) return;
         if (self.erroreNomeAlunno(classe, n)) { doppi.push(n); return; }
-        classe.alunni.push({ id: App.U.nuovoId(), nome: n });
+        var a = { id: App.U.nuovoId(), nome: n };
+        if (sesso === 'M' || sesso === 'F') a.sesso = sesso;
+        classe.alunni.push(a);
         aggiunti++;
       });
       this.ordina(classe);

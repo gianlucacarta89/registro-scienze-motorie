@@ -7,7 +7,7 @@
  */
 'use strict';
 
-var VERSIONE = 'registro-sm-v4.3.1';
+var VERSIONE = 'registro-sm-v4.4';
 
 var FILE = [
   './',
@@ -28,6 +28,7 @@ var FILE = [
   'js/core/pwa.js',
   'js/servizi/calendario.js',
   'js/servizi/nomi.js',
+  'js/servizi/nomi-sesso.js',
   'js/servizi/classi.js',
   'js/servizi/test.js',
   'js/servizi/giustificazioni.js',

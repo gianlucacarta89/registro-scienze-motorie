@@ -1,4 +1,4 @@
-REGISTRO SCIENZE MOTORIE — v4.3.1
+REGISTRO SCIENZE MOTORIE — v4.4
 ================================
 
 PUBBLICAZIONE SU GITHUB PAGES (una volta sola, dal computer)
@@ -36,6 +36,8 @@ COSA FA
   oppure incollali. Prima di aggiungerli vedi l'elenco: togli quelli in più e
   correggi quelli scritti male. Se il file ha l'intestazione "Cognome" e "Nome"
   (o "Cognome e nome", "Alunno") si prendono solo quelle colonne.
+  Per ogni nome l'app propone già ♂ o ♀ dal nome di battesimo: controlla nell'anteprima
+  e tocca per correggere (se non è sicura, per esempio con nomi stranieri, lo lascia vuoto).
   Il PDF deve essere quello originale (es. esportato dal registro elettronico):
   le scansioni non contengono testo leggibile.
 - Correzioni: tocca il nome di un alunno nella tabella per correggerlo o toglierlo;
