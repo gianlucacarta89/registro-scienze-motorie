@@ -23,11 +23,12 @@ La versione online (pagina privata su claude.ai) usa gli stessi file `css/` e `j
 |---|---|
 | `base.css` | Colori (variabili per funzione: ok, pericolo, info) chiari e scuri, caratteri, testata, schede, piè |
 | `componenti.css` | Pulsanti, tabelle, caselle, chip, finestre, moduli, avvisi |
+| `elenco-test.css` | Elenco 📚, test del libro 📖, scheda del test |
 | `statistiche.css` | Scheda 📈 Statistiche test: sezione 🏅 primi 3 alunni e alunne |
 | `telefono.css` | Adattamenti sotto 760 px e 480 px |
 
 ## js/config.js — `App.Config`
-Nome, versione, nome dell'archivio, **tipologie dei test (menu a tendina, e ordine delle colonne)**, **formati del tempo** (`formatiTempo`), **♂/♀ dai nomi** (`sessoDaiNomi`: particelle dei cognomi, finali, eccezioni come Andrea e Luca), mesi (set–giu), prove, tipi di test, **simboli delle giustificazioni** (con `certificato: true` quelli che ammettono la spunta), **spunta del certificato medico** (`certificato`), limiti, parole d'intestazione, testi delle regole, passi del backup con Google Drive (`backupPassi`, `backupDispositivi`, `backupNota`) e nota privacy.
+Nome, versione, nome dell'archivio, **tipologie dei test (menu a tendina, e ordine delle colonne)**, **formati del tempo** (`formatiTempo`), **fasce** delle tabelle del libro (`fasce`), **campi della scheda del test** (`schedaTest`), **♂/♀ dai nomi** (`sessoDaiNomi`: particelle dei cognomi, finali, eccezioni come Andrea e Luca), mesi (set–giu), prove, tipi di test, **simboli delle giustificazioni** (con `certificato: true` quelli che ammettono la spunta), **spunta del certificato medico** (`certificato`), limiti, parole d'intestazione, testi delle regole, passi del backup con Google Drive (`backupPassi`, `backupDispositivi`, `backupNota`) e nota privacy.
 → Per cambiare simboli, mesi o testi delle regole si tocca solo qui.
 
 ## lib/ (librerie in locale: funzionano offline, si caricano solo quando si crea un PDF)
@@ -66,11 +67,13 @@ Nome, versione, nome dell'archivio, **tipologie dei test (menu a tendina, e ordi
 | `elenco-test.js` | `App.ElencoTest` | `contenitore` (l'elenco con la forma di una classe), `tutti`, `registra` (test nuovo di classe → elenco, collegato con `origine`), `aggiorna` (copia collegata allineata), `stacca` (modifica fatta nell'elenco), `aggiungiAClasse`, `prendiDaClasse` |
 | `statistiche-giust.js` | `App.StatGiust` | `perAlunno` (totale, per tipologia e con certificato, mese o anno), `perMese`, `totali` (anche ♂/♀) |
 | `nomi-sesso.js` | `App.NomiSesso` | `indovina` — ♂/♀ proposto dal nome di battesimo (elenchi di nomi + finale -a/-o, regole in `config.sessoDaiNomi`); '' se incerto |
+| `scheda-test.js` | `App.SchedaTest` | Scheda del test (`campi`, `imposta`, `errore`, `haScheda`) e tabelle per fascia (`fasciaDiClasse` dal nome della classe, `applicaFascia`, `haFasce`) |
 | `giustificazioni.js` | `App.Giust` | `errore` (mese, doppioni, simbolo), `ammetteCertificato`, `conCertificato`, `aggiungi`, `modifica`, `elimina`, `delMese`, `totaleAnno`, `contaClasse` |
 
 ## js/dati/
 | File | Modulo | Funzioni principali |
 |---|---|---|
+| `test-libro.js` | `App.TestLibro` | Dati: i 33 test del libro (scheda + tabelle per fascia b1/b2/q o tabella unica), generati dal PDF del docente |
 | `zip.js` | `App.Zip` | `apri(buffer)` — legge .xlsx/.docx senza librerie (DecompressionStream) |
 | `pdf-oggetti.js` | `App.PdfOggetti` | `apri(buffer)` — oggetti del PDF, object stream, flussi FlateDecode/ASCII85/ASCIIHex, pagine in ordine |
 | `pdf-caratteri.js` | `App.PdfCaratteri` | `prepara(doc, font)` — ToUnicode, WinAnsi, /Differences, font Type0, larghezze |
@@ -88,6 +91,7 @@ Nome, versione, nome dell'archivio, **tipologie dei test (menu a tendina, e ordi
 | `finestra-voti.js` | `App.UI.FinestraVoti` | 📏 Tabella dei voti: una riga per voto, soglia ♂ e ♀, ➕ riga, 🗑️ Svuota |
 | `finestra-copia-test.js` | `App.UI.FinestraCopiaTest` | 📋 Copia test in un'altra classe |
 | `finestra-elenco-test.js` | `App.UI.FinestraElencoTest` | 📚 Test (in alto) e 📚 Dall'elenco: elenco dei test, ➕ Nuovo test nell'elenco, ✏️, 📥 Prendi i test della classe, ➕ Aggiungi alla classe |
+| `finestra-test-libro.js` | `App.UI.FinestraTestLibro` | 📖 Test del libro: elenco per tipologia con la scheda, Tutti/Nessuno, metti nell'elenco (aggiorna facoltativo) |
 | `finestra-pdf.js` | `App.UI.FinestraPdf` | 📄 PDF (in alto): classi, alunni, contenuto, periodo, tipo (classe / schede), docente → PDF o ZIP |
 | `grafici.js` | `App.UI.Grafici` | `colonne`, `barre` (grafici HTML/CSS) |
 | `statistiche.js` | `App.UI.Statistiche` | Scheda 📈 Statistiche test (prove 1ª/2ª/3ª, andamento nelle prove, miglioramenti 1ª → ultima, 🏅 primi 3 alunni e alunne di ogni test) |

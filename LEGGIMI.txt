@@ -1,4 +1,4 @@
-REGISTRO SCIENZE MOTORIE — v4.4
+REGISTRO SCIENZE MOTORIE — v4.5
 ================================
 
 PUBBLICAZIONE SU GITHUB PAGES (una volta sola, dal computer)
@@ -51,6 +51,13 @@ COSA FA
   che dal telefono puoi scrivere anche 12,30 o 12.30.
 - 📚 Test (in alto): l'elenco dei tuoi test. Li crei una volta (nome, tipologia, strumento,
   tabella dei voti) e li aggiungi alle classi; nella classe puoi poi adattarli all'età.
+  📖 Test del libro: i 33 test del libro d'Istituto (più la corsa di 1 km) già pronti, con la
+  scheda (a che cosa serve, materiale, come si fa, come si misura, differenze alunni/alunne) e
+  le tabelle dei voti per 1° biennio, 2° biennio e quinto anno. Spunta quelli che usi: vanno
+  nell'elenco; aggiungendoli a una classe ricevono la tabella della sua fascia (dal numero nel
+  nome: 1G = 1° biennio, 3G = 2° biennio, 5N = quinto anno). I tuoi test non cambiano.
+  Ogni test ha la sezione "📖 Scheda del test" da leggere o compilare.
+  Numeri negativi: si possono scrivere (es. flessibilità -4).
   Ogni test che crei in una classe finisce da solo anche nell'elenco.
 - 📏 Voti automatici: nel test tocca "📏 Tabella dei voti" e copia i parametri del libro
   (per ogni voto il risultato minimo, o massimo per i tempi), separati per alunni e alunne.

@@ -7,7 +7,7 @@
  */
 'use strict';
 
-var VERSIONE = 'registro-sm-v4.4';
+var VERSIONE = 'registro-sm-v4.5';
 
 var FILE = [
   './',
@@ -18,6 +18,7 @@ var FILE = [
   'css/base.css',
   'css/componenti.css',
   'css/statistiche.css',
+  'css/elenco-test.css',
   'css/telefono.css',
   'js/config.js',
   'js/core/utils.js',
@@ -29,6 +30,7 @@ var FILE = [
   'js/servizi/calendario.js',
   'js/servizi/nomi.js',
   'js/servizi/nomi-sesso.js',
+  'js/servizi/scheda-test.js',
   'js/servizi/classi.js',
   'js/servizi/test.js',
   'js/servizi/giustificazioni.js',
@@ -40,6 +42,7 @@ var FILE = [
   'js/stampa/pdf-dati.js',
   'js/stampa/pdf-classe.js',
   'js/stampa/pdf-alunno.js',
+  'js/dati/test-libro.js',
   'js/dati/zip.js',
   'js/dati/zip-scrivi.js',
   'js/dati/pdf-oggetti.js',
@@ -54,6 +57,7 @@ var FILE = [
   'js/ui/finestra-voti.js',
   'js/ui/finestra-copia-test.js',
   'js/ui/finestra-elenco-test.js',
+  'js/ui/finestra-test-libro.js',
   'js/ui/tabella-giust.js',
   'js/ui/finestra-giust.js',
   'js/ui/finestra-classi.js',

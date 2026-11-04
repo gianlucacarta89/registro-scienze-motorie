@@ -10,7 +10,7 @@
   App.Config = {
     nome: 'Registro Scienze Motorie',
     icona: '🏃',
-    versione: '4.4',
+    versione: '4.5',
 
     // Nome dell'archivio nel browser: DEVE essere diverso per ogni app.
     archivio: {
@@ -57,7 +57,23 @@
     // L'ordine conta: le colonne dei test si mettono da sole in quest'ordine
     // (le tipologie scritte a mano e i test senza tipologia vanno in fondo).
     tipologie: ['Forza arti superiori', 'Forza arti inferiori', 'Velocità', 'Resistenza', 'Core',
-      'Equilibrio', 'Coordinazione', 'Abilità miste'],
+      'Flessibilità', 'Equilibrio', 'Coordinazione', 'Abilità miste'],
+
+    // Fasce d'età delle tabelle dei voti del libro: la classe sceglie dal numero nel nome (1G -> 1° biennio)
+    fasce: [
+      { id: 'b1', nome: '1° biennio (1ª-2ª)', anni: [1, 2] },
+      { id: 'b2', nome: '2° biennio (3ª-4ª)', anni: [3, 4] },
+      { id: 'q', nome: 'Quinto anno (5ª)', anni: [5] }
+    ],
+
+    // Scheda del test (servizi/scheda-test.js): campi descrittivi, tutti facoltativi
+    schedaTest: [
+      { id: 'descrizione', nome: 'A che cosa serve', righe: 2 },
+      { id: 'materiale', nome: 'Materiale', righe: 2 },
+      { id: 'esecuzione', nome: 'Come si fa', righe: 3 },
+      { id: 'misura', nome: 'Come si misura (e regole)', righe: 3 },
+      { id: 'differenze', nome: 'Differenze tra alunni e alunne', righe: 2 }
+    ],
 
     // Come si scrive un tempo: per la velocità secondi e decimi, per la resistenza minuti:secondi
     formatiTempo: {
@@ -102,6 +118,7 @@
       nomeTest: 40,
       tipologia: 60,
       noteTest: 200,
+      schedaTest: 800,
       strumento: 60,
       unita: 12,
       nota: 120,

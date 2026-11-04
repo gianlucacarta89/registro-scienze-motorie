@@ -1,9 +1,10 @@
 /* finestra-elenco-test.js
  * Cosa fa: finestra "📚 Elenco dei test": la lista dei test del docente, valida per tutte le classi.
  *          Si crea un test nuovo, si modifica (✏️, anche la tabella dei voti), si cancella, e si
- *          aggiungono i test scelti a una classe. Si può riempire con i test già fatti in una classe.
- * Dipende da: App.U, App.ElencoTest, App.Classi, App.Test, App.Voti, App.Stato, App.Avvisi,
- *             App.Finestra, App.UI.FinestraTest
+ *          aggiungono i test scelti a una classe (con la tabella dei voti della fascia della classe).
+ *          Si può riempire con i test già fatti in una classe o con i test del libro (📖).
+ * Dipende da: App.U, App.ElencoTest, App.Classi, App.Test, App.Voti, App.SchedaTest, App.Config (fasce),
+ *             App.Stato, App.Avvisi, App.Finestra, App.UI.FinestraTest, App.UI.FinestraTestLibro
  * Usato da: ui/barra.js (📚 Test), ui/tabella-test.js (📚 Dall'elenco)
  */
 (function (App) {
@@ -18,7 +19,9 @@
     var s = App.Test.etichetteStrumento(t);
     if (s.length) parti.push('🔧 ' + s.join(' · '));
     parti.push(t.tipo === 'tempo' ? 'min:sec ↓' : (t.unita || 'numero') + (t.migliore === 'alto' ? ' ↑' : ' ↓'));
-    if (App.Voti.haTabella(t)) parti.push('📏 ' + t.voti.righe.length + ' voti');
+    if (App.SchedaTest.haFasce(t)) parti.push('📏 tabelle per fascia (1° biennio, 2° biennio, quinto anno)');
+    else if (App.Voti.haTabella(t)) parti.push('📏 ' + t.voti.righe.length + ' voti');
+    if (App.SchedaTest.haScheda(t)) parti.push('📖 scheda');
     if (t.note) parti.push('📝 ' + t.note);
     return parti.join(' · ');
   }
@@ -61,12 +64,21 @@
         var attiva = classeIniziale || App.Stato.classe();
         var verso = el('select', { 'aria-label': 'Classe', value: attiva ? attiva.id : classi[0].id },
           classi.map(function (c) { return el('option', { value: c.id, text: c.nome }); }));
+        // Tabelle per fascia: si propone quella della classe (dal numero nel nome), si può cambiare
+        var conFasce = App.ElencoTest.tutti().some(function (t) { return scelti[t.id] && App.SchedaTest.haFasce(t); });
+        var fascia = el('select', { 'aria-label': 'Tabella dei voti per' },
+          App.Config.fasce.map(function (f) { return el('option', { value: f.id, text: f.nome }); }),
+          el('option', { value: '', text: 'nessuna tabella' }));
+        function proponiFascia() { fascia.value = App.SchedaTest.fasciaDiClasse(App.Classi.trova(verso.value)) || ''; }
+        verso.addEventListener('change', proponiFascia);
+        proponiFascia();
         piede.appendChild(el('span', { class: 'piccolo', text: n ? n + ' scelti →' : 'Spunta i test da aggiungere →' }));
         piede.appendChild(verso);
+        if (conFasce) piede.appendChild(el('label', { class: 'scelta-fascia' }, el('span', { class: 'piccolo', text: 'Voti del libro per: ' }), fascia));
         piede.appendChild(el('button', { type: 'button', class: 'btn btn-ok', disabled: !n, text: '➕ Aggiungi alla classe',
           onclick: function () {
             var classe = App.Classi.trova(verso.value);
-            var r = App.ElencoTest.aggiungiAClasse(Object.keys(scelti), classe);
+            var r = App.ElencoTest.aggiungiAClasse(Object.keys(scelti), classe, conFasce ? fascia.value : null);
             App.Stato.salva();
             scelti = {};
             App.UI.disegna();
@@ -91,6 +103,7 @@
           el('p', { class: 'piccolo', text: 'I tuoi test, validi per tutte le classi: li crei una volta (nome, tipologia, strumento, tabella dei voti) e li aggiungi alle classi. Nella classe ricevono una copia: lì puoi cambiare strumento o tabella per l\'età, senza toccare l\'elenco.' }),
           el('div', { class: 'riga-btn sinistra' },
             el('button', { type: 'button', class: 'btn btn-ok', text: '➕ Nuovo test nell\'elenco', onclick: function () { App.UI.FinestraTest.apri(contenitore(), null); } }),
+            el('button', { type: 'button', class: 'btn btn-info', text: '📖 Test del libro', onclick: function () { App.UI.FinestraTestLibro.apri(); } }),
             prendi),
           lista,
           piede),

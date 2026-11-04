@@ -63,7 +63,7 @@
     var bozza = App.Stato.bozze[k];
     var inp = el('input', {
       class: 'cella-input' + (bozza !== undefined ? ' errore' : ''), type: 'text',
-      inputmode: App.Test.formato(t) === 'auto' ? 'text' : 'decimal', enterkeyhint: 'next', autocomplete: 'off',
+      inputmode: App.Test.formato(t) === 'auto' || t.negativi ? 'text' : 'decimal', enterkeyhint: 'next', autocomplete: 'off',
       'aria-label': t.nome + ' – ' + a.nome, 'data-r': r, 'data-c': c,
       value: bozza !== undefined ? bozza : App.Test.valore(classe, a.id, t.id, prova)
     });

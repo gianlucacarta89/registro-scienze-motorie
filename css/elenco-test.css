@@ -1,0 +1,12 @@
+/* elenco-test.css — elenco 📚, test del libro 📖 e scheda del test */
+.scheda-test { border: 1px solid var(--bordo); border-radius: var(--raggio); padding: 8px 12px; background: var(--carta); }
+.scheda-test > summary { cursor: pointer; font-weight: 600; min-height: 32px; display: flex; align-items: center; }
+.scheda-test[open] > summary { margin-bottom: 6px; }
+.scheda-test textarea { width: 100%; }
+.scelta-fascia { display: inline-flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.libro-gruppo h4 { margin: 14px 0 4px; }
+.riga-libro { align-items: flex-start; }
+.riga-libro .testo-test { min-width: 0; }
+.libro-dettagli { margin-top: 4px; }
+.libro-dettagli > summary { cursor: pointer; color: var(--info); font-size: .88rem; }
+.libro-dettagli p { margin: 4px 0; font-size: .9rem; overflow-wrap: anywhere; }

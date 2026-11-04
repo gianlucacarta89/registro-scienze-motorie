@@ -26,8 +26,8 @@
           App.Voti.scala().map(function (v) { return el('option', { value: String(v), text: App.Voti.testo(v) }); }));
         var tr = el('tr', {},
           el('td', {}, sel),
-          el('td', {}, el('input', { type: 'text', class: 'soglia', 'data-s': 'M', value: r.M || '', inputmode: App.Test.formato(t) === 'auto' ? 'text' : 'decimal', 'aria-label': 'Soglia alunni' })),
-          el('td', {}, el('input', { type: 'text', class: 'soglia', 'data-s': 'F', value: r.F || '', inputmode: App.Test.formato(t) === 'auto' ? 'text' : 'decimal', 'aria-label': 'Soglia alunne' })),
+          el('td', {}, el('input', { type: 'text', class: 'soglia', 'data-s': 'M', value: r.M || '', inputmode: App.Test.formato(t) === 'auto' || t.negativi ? 'text' : 'decimal', 'aria-label': 'Soglia alunni' })),
+          el('td', {}, el('input', { type: 'text', class: 'soglia', 'data-s': 'F', value: r.F || '', inputmode: App.Test.formato(t) === 'auto' || t.negativi ? 'text' : 'decimal', 'aria-label': 'Soglia alunne' })),
           el('td', {}, el('button', { type: 'button', class: 'btn btn-neutro piccolo-btn', 'aria-label': 'Togli riga', text: '✕',
             onclick: function () { tr.remove(); } })));
         return tr;

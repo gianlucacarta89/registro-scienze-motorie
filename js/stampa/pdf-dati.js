@@ -62,6 +62,7 @@
   function descrizioneTest(t) {
     var parti = [];
     if (t.tipologia) parti.push(t.tipologia);
+    if (t.descrizione) parti.push('valuta: ' + String(t.descrizione).replace(/\.$/, ''));
     var s = App.Test.etichetteStrumento(t).join(', ');
     if (s) parti.push('strumento: ' + s);
     parti.push('si scrive in ' + scrittura(t));

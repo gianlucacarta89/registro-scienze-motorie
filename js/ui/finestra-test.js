@@ -1,6 +1,7 @@
 /* finestra-test.js
- * Cosa fa: finestra per creare, modificare, spostare o cancellare un test (colonna del modulo 1).
- * Dipende da: App.U, App.Config (tipiTest), App.Test, App.Voti, App.ElencoTest, App.UI.FinestraVoti, App.Stato, App.Avvisi, App.Finestra,
+ * Cosa fa: finestra per creare, modificare, spostare o cancellare un test (colonna del modulo 1),
+ *          con la scheda del test (a che cosa serve, materiale, come si fa, come si misura, differenze ♂/♀).
+ * Dipende da: App.U, App.Config (tipiTest, schedaTest), App.Test, App.SchedaTest, App.Voti, App.ElencoTest, App.UI.FinestraVoti, App.Stato, App.Avvisi, App.Finestra,
  *             App.UI.disegnaContenuto
  * Usato da: ui/tabella-test.js (pulsante ➕ Nuovo test e intestazioni delle colonne),
  *           ui/finestra-elenco-test.js (test dell'elenco: "classe" = App.ElencoTest.contenitore())
@@ -19,7 +20,9 @@
   function dalModulo(f) {
     var tipo = f.querySelector('input[name=tipo]:checked');
     var meglio = f.querySelector('input[name=migliore]:checked');
-    return {
+    var d = {};
+    App.SchedaTest.campi().forEach(function (c) { d[c.id] = f.querySelector('[name=' + c.id + ']').value; });
+    return Object.assign(d, {
       nome: f.querySelector('[name=nome]').value,
       tipologia: f.querySelector('[name=tipologia]').value === ALTRO ? f.querySelector('[name=tipologiaAltro]').value : f.querySelector('[name=tipologia]').value,
       note: f.querySelector('[name=note]').value,
@@ -31,7 +34,34 @@
       tipo: tipo ? tipo.value : '',
       formatoTempo: (f.querySelector('input[name=formatoTempo]:checked') || {}).value || '',
       migliore: meglio ? meglio.value : ''
-    };
+    });
+  }
+
+  // Sezione "📖 Scheda del test": aperta se c'è già qualcosa scritto
+  function scheda(d) {
+    return el('details', { class: 'campo scheda-test', open: App.SchedaTest.haScheda(d) },
+      el('summary', { text: '📖 Scheda del test (descrizione ed esecuzione)' }),
+      App.SchedaTest.campi().map(function (c) {
+        return el('label', { class: 'campo' }, el('span', { text: c.nome }),
+          el('textarea', { name: c.id, rows: c.righe, maxlength: App.Config.limiti.schedaTest, value: d[c.id] || '' }));
+      }),
+      d.fonte ? el('p', { class: 'piccolo', text: 'Fonte: ' + d.fonte }) : null);
+  }
+
+  // Riquadro "Voto automatico": tabella unica, tabelle per fascia (elenco) o fascia da cui viene
+  function riquadroVoti(t, classe, salva) {
+    var S = App.SchedaTest, testo;
+    if (t && S.haFasce(t)) {
+      testo = '📏 Tabelle del libro per ' + App.Config.fasce.filter(function (f) { return t.fasce[f.id]; })
+        .map(function (f) { return f.nome; }).join(', ') + ', separate per alunni e alunne. Quando aggiungi il test a una classe riceve la tabella della sua fascia; lì la puoi anche modificare.';
+      return el('fieldset', { class: 'campo' }, el('legend', { text: 'Voto automatico' }), el('p', { class: 'piccolo', text: testo }));
+    }
+    testo = t && App.Voti.haTabella(t)
+      ? '📏 Tabella inserita: ' + t.voti.righe.length + ' voti, separati per alunni e alunne' + (t.fasciaVoti && S.fascia(t.fasciaVoti) ? ' (dal libro, ' + S.fascia(t.fasciaVoti).nome + ').' : '.')
+      : 'Inserisci i parametri di riferimento (es. del libro) per calcolare il voto da solo.';
+    return el('fieldset', { class: 'campo' }, el('legend', { text: 'Voto automatico' }),
+      el('p', { class: 'piccolo', text: testo }),
+      el('button', { type: 'button', class: 'btn btn-info', text: '📏 Tabella dei voti', onclick: function () { salva(true); } }));
   }
 
   function chiedi(classe, t, fin) {
@@ -106,6 +136,7 @@
           sceltaTipologia(d.tipologia || '')),
         el('label', { class: 'campo' }, el('span', { text: 'Note (es. mese in cui è stato svolto il test)' }),
           el('textarea', { name: 'note', rows: 2, maxlength: App.Config.limiti.noteTest, value: d.note || '' })),
+        scheda(d),
         el('fieldset', { class: 'campo' }, el('legend', { text: 'Strumento utilizzato' }),
           el('label', { class: 'scelta' }, el('input', { type: 'checkbox', name: 'perSesso', checked: !!d.perSesso }), ' Diverso per alunni e alunne'),
           el('div', { class: 'strumento-unico' },
@@ -124,11 +155,7 @@
         el('fieldset', { class: 'campo' }, el('legend', { text: 'Che risultato è migliore?' }),
           radio('migliore', 'alto', '↑ Più alto (es. salti, lanci, ripetizioni)', d.migliore === 'alto'),
           radio('migliore', 'basso', '↓ Più basso (es. tempi di corsa)', d.migliore === 'basso')),
-        el('fieldset', { class: 'campo' }, el('legend', { text: 'Voto automatico' }),
-          el('p', { class: 'piccolo', text: t && App.Voti.haTabella(t)
-            ? '📏 Tabella inserita: ' + t.voti.righe.length + ' voti, separati per alunni e alunne.'
-            : 'Inserisci i parametri di riferimento (es. del libro) per calcolare il voto da solo.' }),
-          el('button', { type: 'button', class: 'btn btn-info', text: '📏 Tabella dei voti', onclick: function () { salva(true); } })),
+        riquadroVoti(t, classe, function (x) { return salva(x); }),
         // un test di una classe si può rimettere nell'elenco (es. se dall'elenco era stato cancellato)
         t && !classe.elenco ? el('div', { class: 'riga-btn sinistra' },
           el('button', { type: 'button', class: 'btn btn-neutro piccolo-btn', text: '📚 Salva nell\'elenco dei test', onclick: function () {

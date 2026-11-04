@@ -1,7 +1,7 @@
 /* test.js
  * Cosa fa: test della classe e risultati delle prove: controllo dei valori (numeri e tempi),
  *          salvataggio, confronto tra 1ª e 2ª prova.
- * Dipende da: App.Config (tipiTest, prove, limiti), App.U
+ * Dipende da: App.Config (tipiTest, prove, limiti), App.U, App.SchedaTest (campi descrittivi)
  * Usato da: ui/tabella-test.js, ui/finestra-test.js
  *
  * Dati: classe.test = [{ id, nome, tipologia, note, strumento, unita, tipo: 'numero'|'tempo', migliore: 'alto'|'basso' }]
@@ -86,10 +86,12 @@
       if (n > lim().valoreMax) return { ok: false, errore: test.nome + ': tempo troppo grande.' };
       return { ok: true, valore: formatta(test, n), numero: arrotonda(n) };
     }
-    m = t.match(/^(\d+)(?:[.,](\d+))?$/);
+    // numeri: anche negativi (es. flessibilità -4 cm); "+5" vale 5
+    m = t.match(/^([+\-−]?)\s*(\d+)(?:[.,](\d+))?$/);
     if (!m) return { ok: false, errore: test.nome + ': scrivi solo un numero, con la virgola per i decimali (es. 145 oppure 3,5).' };
-    n = Number(m[1] + (m[2] ? '.' + m[2] : ''));
-    if (n > lim().valoreMax) return { ok: false, errore: test.nome + ': il numero massimo è ' + lim().valoreMax + '.' };
+    n = Number(m[2] + (m[3] ? '.' + m[3] : ''));
+    if (m[1] && m[1] !== '+' && n) n = -n;
+    if (Math.abs(n) > lim().valoreMax) return { ok: false, errore: test.nome + ': il numero massimo è ' + lim().valoreMax + '.' };
     return { ok: true, valore: virgola(n), numero: n };
   }
 
@@ -162,6 +164,7 @@
       if (!App.Config.tipiTest[d.tipo]) return 'Scegli il tipo di risultato.';
       if (d.migliore !== 'alto' && d.migliore !== 'basso') return 'Scegli se è meglio un valore più alto o più basso.';
       if (String(d.note || '').trim().length > lim().noteTest) return 'Le note possono avere al massimo ' + lim().noteTest + ' caratteri.';
+      if (App.SchedaTest.errore(d)) return App.SchedaTest.errore(d);
       if (App.U.spazi(d.tipologia).length > lim().tipologia) return 'La tipologia può avere al massimo ' + lim().tipologia + ' caratteri.';
       var troppo = [d.strumento, d.strumentoM, d.strumentoF].some(function (x) { return App.U.spazi(x).length > lim().strumento; });
       if (troppo) return 'Lo strumento può avere al massimo ' + lim().strumento + ' caratteri.';
@@ -176,6 +179,7 @@
         formatoTempo: d.tipo === 'tempo' && (d.formatoTempo === 'sec' || d.formatoTempo === 'min') ? d.formatoTempo : '', unita: d.tipo === 'tempo' ? '' : App.U.spazi(d.unita),
         tipo: d.tipo, migliore: d.migliore };
       impostaStrumento(t, d);
+      App.SchedaTest.imposta(t, d);
       classe.test.push(t);
       this.ordina(classe);
       return { test: t };
@@ -192,6 +196,7 @@
       t.tipologia = App.U.spazi(d.tipologia);
       t.note = String(d.note || '').trim();
       impostaStrumento(t, d);
+      App.SchedaTest.imposta(t, d);
       t.tipo = d.tipo;
       t.unita = d.tipo === 'tempo' ? '' : App.U.spazi(d.unita);
       t.migliore = d.migliore;
