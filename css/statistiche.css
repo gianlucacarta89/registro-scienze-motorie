@@ -1,4 +1,4 @@
-/* statistiche.css — scheda 📈 Statistiche test: primi 3 alunni e alunne di ogni test */
+/* statistiche.css — scheda 📈 Statistiche test: primi 3 alunni e alunne, profilo a ragnatela */
 .primi-griglia { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 10px; margin-top: 8px; }
 .primi-test { border: 1px solid var(--bordo); border-radius: var(--raggio); padding: 10px 12px; background: var(--carta); min-width: 0; }
 .primi-test h4 { margin: 0 0 6px; font-size: 1rem; }
@@ -9,3 +9,23 @@
 .primi-posto { grid-row: span 2; font-size: 1.1rem; text-align: center; }
 .primi-nome { font-weight: 600; overflow-wrap: anywhere; }
 .primi-valore { font-size: .8rem; color: var(--tenue); }
+
+/* Profilo dell'alunno: grafico a ragnatela */
+.grafico-ragnatela { margin: 8px 0 0; max-width: 520px; }
+.ragnatela { width: 100%; height: auto; display: block; overflow: visible; }
+.ragnatela .anello { fill: none; stroke: var(--bordo); stroke-width: 1; }
+.ragnatela .anello.sufficienza { stroke: var(--avviso); stroke-dasharray: 4 3; stroke-width: 1.5; }
+.ragnatela .raggio { stroke: var(--bordo); stroke-width: 1; }
+.ragnatela .tacca { font-size: 12px; fill: var(--tenue); }
+.ragnatela .etichetta-asse { font-size: 15px; font-weight: 600; fill: var(--testo); }
+.ragnatela .valore-asse { font-weight: 700; fill: var(--info); }
+.ragnatela .serie-ora { fill: var(--info); fill-opacity: .22; stroke: var(--info); stroke-width: 2.5; }
+.ragnatela .serie-prima { fill: none; stroke: var(--tenue); stroke-width: 2; stroke-dasharray: 6 4; }
+.ragnatela .punto { fill-opacity: 1; stroke: var(--carta); stroke-width: 1.5; }
+.ragnatela .serie-prima.punto { fill: var(--tenue); }
+.legenda-ragnatela { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: .85rem; color: var(--tenue); margin-top: 4px; }
+.legenda-ragnatela .seg { display: inline-block; width: 22px; height: 0; border-top: 3px solid var(--info); vertical-align: middle; }
+.legenda-ragnatela .seg.serie-prima { border-top: 2px dashed var(--tenue); }
+.legenda-ragnatela .seg.sufficienza { border-top: 2px dashed var(--avviso); }
+.profilo-voti { list-style: none; padding: 0; margin: 8px 0; }
+.profilo-voti li { padding: 3px 0; overflow-wrap: anywhere; }

@@ -10,7 +10,7 @@
   App.Config = {
     nome: 'Registro Scienze Motorie',
     icona: '🏃',
-    versione: '4.5',
+    versione: '4.6',
 
     // Nome dell'archivio nel browser: DEVE essere diverso per ogni app.
     archivio: {
@@ -58,6 +58,15 @@
     // (le tipologie scritte a mano e i test senza tipologia vanno in fondo).
     tipologie: ['Forza arti superiori', 'Forza arti inferiori', 'Velocità', 'Resistenza', 'Core',
       'Flessibilità', 'Equilibrio', 'Coordinazione', 'Abilità miste'],
+
+    // Grafico a ragnatela dell'alunno: ogni capacità raccoglie i voti dei test di queste tipologie
+    capacita: [
+      { id: 'forza', nome: 'Forza', tipologie: ['Forza arti superiori', 'Forza arti inferiori', 'Core'] },
+      { id: 'velocita', nome: 'Velocità', tipologie: ['Velocità'] },
+      { id: 'resistenza', nome: 'Resistenza', tipologie: ['Resistenza'] },
+      { id: 'coordinazione', nome: 'Coordinazione', tipologie: ['Coordinazione', 'Equilibrio', 'Abilità miste'] },
+      { id: 'flessibilita', nome: 'Flessibilità', tipologie: ['Flessibilità'] }
+    ],
 
     // Fasce d'età delle tabelle dei voti del libro: la classe sceglie dal numero nel nome (1G -> 1° biennio)
     fasce: [

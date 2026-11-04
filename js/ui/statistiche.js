@@ -2,7 +2,8 @@
  * Cosa fa: scheda 📈 Statistiche della classe: scelta del test e della prova, riquadri con
  *          svolti / media / migliore / peggiore (anche ♂ e ♀), grafico di quanti alunni per voto,
  *          miglioramenti 1ª → 2ª prova, media voti della classe per ogni test,
- *          primi 3 alunni e alunne di ogni test (per scegliere chi mandare ai giochi studenteschi).
+ *          primi 3 alunni e alunne di ogni test (per scegliere chi mandare ai giochi studenteschi),
+ *          profilo dell'alunno a ragnatela per capacità (ui/profilo-alunno.js).
  * Dipende da: App.U, App.Stato, App.Config, App.Statistiche, App.Voti, App.UI.Grafici,
  *             App.UI.FinestraVoti, App.UI.vuoto
  * Usato da: ui/pagina.js
@@ -139,6 +140,9 @@
             tipo: x.media >= App.Config.voti.sufficienza ? 'buono' : 'scarso', titolo: x.test.nome + ': media ' + App.Voti.testo(x.media) + ' (' + x.quanti + ' voti)' };
         }), { max: App.Config.voti.max, riferimento: App.Config.voti.sufficienza, nota: 'Scala 0–10 · la linea segna la sufficienza (' + App.Config.voti.sufficienza + ')', descrizione: 'Media voti per test' })
         : el('p', { class: 'piccolo', text: 'Compare quando almeno un test ha la tabella dei voti e dei risultati.' })));
+
+      // Profilo dell'alunno per capacità (ragnatela)
+      cont.appendChild(sezione('🕸️ Profilo dell\'alunno per capacità – ' + App.Config.prove[prova - 1].nome, App.UI.ProfiloAlunno.disegna(classe, prova)));
 
       // Primi 3 di ogni test, alunni e alunne
       cont.appendChild(sezionePrimi(classe));
