@@ -3,7 +3,7 @@
   "short_name": "Registro S.Mot",
   "description": "Test degli alunni e giustificazioni per le lezioni di scienze motorie",
   "lang": "it",
-  "id": "./",
+  "id": "./registro-s-mot",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
