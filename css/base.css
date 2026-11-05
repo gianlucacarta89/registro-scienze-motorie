@@ -38,8 +38,8 @@
 }
 
 /* Tema scuro (stesso significato dei colori, toni adatti allo sfondo scuro).
-   Dalla v6.7 l'app è sempre chiara (sfondo bianco): <html data-theme="light"> in app/index.html.
-   Per tornare al tema automatico basta togliere quell'attributo. */
+   Dalla v6.8 il tema si sceglie con il pulsante ☀️/🌙 della testata (js/core/tema.js mette
+   <html data-theme="light"|"dark">); predefinito chiaro. */
 :root[data-theme="light"] { color-scheme: light; }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
@@ -103,6 +103,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
 }
 .titolo { display: flex; align-items: center; gap: 10px; min-width: 0; }
 .logo { width: 34px; height: 34px; display: block; flex: none; }
+.btn-tema { padding: 4px 10px; font-size: 1.1rem; line-height: 1; min-height: 36px; }
 .barra { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
 
 /* Schede dei moduli */

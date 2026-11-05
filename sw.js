@@ -7,7 +7,7 @@
  */
 'use strict';
 
-var VERSIONE = 'registro-sm-v6.7';
+var VERSIONE = 'registro-sm-v6.8';
 
 var FILE = [
   './',
@@ -28,6 +28,7 @@ var FILE = [
   'js/core/finestra.js',
   'js/core/avvisi.js',
   'js/core/pwa.js',
+  'js/core/tema.js',
   'js/servizi/calendario.js',
   'js/servizi/nomi.js',
   'js/servizi/nomi-sesso.js',

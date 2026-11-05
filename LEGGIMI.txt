@@ -1,4 +1,4 @@
-REGISTRO S.MOT (Registro Scienze Motorie) — v6.7
+REGISTRO S.MOT (Registro Scienze Motorie) — v6.8
 ================================================
 
 PUBBLICAZIONE SU GITHUB PAGES (una volta sola, dal computer)
@@ -42,6 +42,8 @@ COSA FA — il menu (in alto sul computer, in basso sul telefono)
 - 🏠 Home: riepilogo generale con una tessera colorata per ogni sezione (classi e alunni, test
   in uso, sessione, giustificazioni del mese, PDF, backup: rossa quando va fatto), le tue
   classi con i numeri principali. Tocca una tessera per entrare.
+- 🌙/☀️ (in alto a destra): tema scuro o chiaro (sfondo bianco, predefinito); resta su quel
+  dispositivo.
 - 🏫 Classi: crea le classi (es. 1G, 5N) e vedi gli alunni di ognuna.
   Tocca il nome di un alunno: 👤 scheda con risultati e voti di ogni test nelle prove svolte,
   media voti per prova e 🕸️ grafico a ragnatela per capacità (forza, velocità, resistenza,
