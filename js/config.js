@@ -9,7 +9,7 @@
 
   App.Config = {
     nome: 'Registro S.Mot',          // nome mostrato (l'archivio dei dati qui sotto NON va cambiato)
-    versione: '6.2',
+    versione: '6.3',
 
     // Menu principale: una pagina per voce (ui/pagina.js). "corto" = etichetta sul telefono
     menu: [
@@ -77,6 +77,17 @@
       { id: 'resistenza', nome: 'Resistenza', tipologie: ['Resistenza'] },
       { id: 'coordinazione', nome: 'Coordinazione', tipologie: ['Coordinazione', 'Equilibrio', 'Abilità miste'] },
       { id: 'flessibilita', nome: 'Flessibilità', tipologie: ['Flessibilità'] }
+    ],
+
+    // Test ricavati da un test del libro (servizi/test-derivati.js): soglie = soglie della base × coefficiente,
+    // per alunni (M) e alunne (F). Velocità: 60 m = 30 m × 1,8 e 80 m = 30 m × 2,33 (tiene conto della partenza).
+    testDerivati: [
+      { nome: 'Velocità 60 m ♀ / 80 m ♂', base: 'Sprint 30 metri', coeff: { M: 2.33, F: 1.8 }, distanza: { M: '80 m', F: '60 m' },
+        descrizione: 'Velocità di punta e capacità di mantenerla (resistenza alla velocità).',
+        materiale: 'Rettilineo di almeno 80 m (pista o cortile), coni alla partenza e ai traguardi dei 60 e 80 m, cronometro.',
+        esecuzione: 'Partenza in piedi dietro la linea; al via corri alla massima velocità fino al traguardo: alunne 60 m, alunni 80 m.',
+        misura: 'Secondi e centesimi dal via all\'arrivo. Tabella dei voti calcolata dallo Sprint 30 metri del libro: 60 m = 30 m × 1,8; 80 m = 30 m × 2,33 (stima che tiene conto della partenza da fermi).',
+        differenze: 'Alunne 60 m, alunni 80 m: per questo i tempi di alunni e alunne non si confrontano tra loro (le statistiche separate ♂/♀ sì).' }
     ],
 
     // Fasce d'età delle tabelle dei voti del libro: la classe sceglie dal numero nel nome (1G -> 1° biennio)

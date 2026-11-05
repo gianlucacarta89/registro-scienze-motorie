@@ -7,7 +7,7 @@
  */
 'use strict';
 
-var VERSIONE = 'registro-sm-v6.2';
+var VERSIONE = 'registro-sm-v6.3';
 
 var FILE = [
   './',
@@ -33,6 +33,7 @@ var FILE = [
   'js/servizi/nomi-sesso.js',
   'js/servizi/scheda-test.js',
   'js/servizi/libro-voti.js',
+  'js/servizi/test-derivati.js',
   'js/servizi/profilo.js',
   'js/servizi/classi.js',
   'js/servizi/test.js',
