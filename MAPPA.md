@@ -1,4 +1,4 @@
-# MAPPA — Registro Scienze Motorie v5.1
+# MAPPA — Registro Scienze Motorie v5.2
 
 Indice dei file: cosa c'è dentro e quale parte dell'app ne dipende.
 Tutti i moduli stanno nell'oggetto globale `App`. Ordine di caricamento in `index.html`:
@@ -54,7 +54,7 @@ Nome, versione, nome dell'archivio, **tipologie dei test (menu a tendina, e ordi
 | `stato.js` | `App.Stato` | `dati`, `bozze`, `carica`, `salva` (aggiorna ultimaModifica), `scrivi` (preferenze), `sostituisci`, `classe`, `daSalvareInBackup` |
 | `finestra.js` | `App.Finestra` | `apri({titolo, icona, corpo, pulsanti})` — finestre sovrapponibili, Esc chiude |
 | `avvisi.js` | `App.Avvisi` | `toast`, `conferma` |
-| `pwa.js` | `App.Pwa` | `avvia` (registra sw.js, dati persistenti), `puoInstallare`, `installa` — pulsante 📲 Installa l'app nel piè di pagina |
+| `pwa.js` | `App.Pwa` | `avvia` (registra sw.js, dati persistenti), `puoInstallare`, `installa`, `cercaAggiornamenti` (controlla all'avvio e al ritorno in primo piano, ricarica da sola alla nuova versione) — pulsante 📲 Installa l'app nel piè di pagina |
 
 ## js/servizi/ (logica, senza interfaccia)
 | File | Modulo | Funzioni principali |

@@ -79,6 +79,10 @@
     }
     if (stato) p.appendChild(stato);
     if (tipo === 'localstorage') p.appendChild(el('span', { class: 'piccolo', text: 'salvataggio di riserva attivo' }));
+    if (App.Pwa && App.Pwa.attiva) {
+      p.appendChild(el('button', { type: 'button', class: 'btn btn-neutro piccolo-btn', text: '🔄 Cerca aggiornamenti',
+        onclick: function () { App.Pwa.cercaAggiornamenti(); } }));
+    }
     if (App.Pwa && App.Pwa.puoInstallare()) {
       p.appendChild(el('button', { type: 'button', class: 'btn btn-info piccolo-btn', text: '📲 Installa l\'app',
         onclick: function () { App.Pwa.installa(); } }));

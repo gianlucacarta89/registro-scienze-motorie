@@ -2,6 +2,9 @@
  * Cosa fa: rende l'app installabile e utilizzabile senza internet quando è pubblicata
  *          su un sito (es. GitHub Pages): registra il service worker (sw.js), chiede al
  *          browser di non cancellare i dati, gestisce il pulsante "📲 Installa".
+ *          Aggiornamenti: controlla se c'è una versione nuova all'avvio e ogni volta che l'app torna
+ *          in primo piano (sul telefono riaprirla dalle app recenti non la ricarica); quando la
+ *          nuova versione è pronta ricarica la pagina da sola. "🔄 Cerca aggiornamenti" lo fa a mano.
  *          Aperta da file o dentro claude.ai non fa nulla.
  * Dipende da: App.U, App.Avvisi, App.Finestra
  * Usato da: avvio.js (App.Pwa.avvia), ui/pagina.js (pulsante nel piè di pagina)
@@ -11,6 +14,8 @@
 
   var invito = null;            // evento beforeinstallprompt (Android, Chrome/Edge su PC)
   var allCambio = null;         // funzione da chiamare quando cambia lo stato
+  var registrazione = null;     // ServiceWorkerRegistration
+  var ricarico = false;
 
   function suSito() {
     var p = location.protocol;
@@ -30,17 +35,22 @@
 
   function registra() {
     if (!('serviceWorker' in navigator)) return;
+    var cera = !!navigator.serviceWorker.controller;   // false alla prima installazione
+    // La nuova versione ha preso il comando: ricarico per usarla (i dati sono già salvati)
+    navigator.serviceWorker.addEventListener('controllerchange', function () {
+      if (!cera || ricarico) return;
+      ricarico = true;
+      App.Avvisi.toast('🔄 Nuova versione: aggiorno l\'app…', 'info', 3000);
+      setTimeout(function () { location.reload(); }, 600);
+    });
     navigator.serviceWorker.register('sw.js').then(function (reg) {
-      reg.addEventListener('updatefound', function () {
-        var nuovo = reg.installing;
-        if (!nuovo || !navigator.serviceWorker.controller) return;   // prima installazione: niente avviso
-        nuovo.addEventListener('statechange', function () {
-          if (nuovo.state === 'activated') {
-            App.Avvisi.toast('🔄 È arrivata una nuova versione: chiudi e riapri l\'app per usarla.', 'info', 7000);
-          }
-        });
-      });
+      registrazione = reg;
+      reg.update().catch(function () {});
     }).catch(function (e) { console.warn('Service worker non registrato', e); });
+    // Al ritorno in primo piano (es. riaperta dalle app recenti) controlla di nuovo
+    document.addEventListener('visibilitychange', function () {
+      if (document.visibilityState === 'visible' && registrazione) registrazione.update().catch(function () {});
+    });
   }
 
   // Chiede al browser di non cancellare i dati quando lo spazio scarseggia
@@ -86,6 +96,19 @@
         if (allCambio) allCambio();
       });
       if (allCambio) allCambio();   // mostra subito il pulsante "📲 Installa"
+    },
+
+    // Controllo a mano (pulsante nel piè di pagina)
+    cercaAggiornamenti: function () {
+      if (!registrazione) { App.Avvisi.toast('Gli aggiornamenti arrivano solo dall\'app pubblicata (sito).', 'info', 4000); return; }
+      App.Avvisi.toast('🔄 Controllo…', 'info', 1500);
+      registrazione.update().then(function () {
+        var r = registrazione;
+        if (r.installing || r.waiting) App.Avvisi.toast('⬇️ Scarico la nuova versione: tra pochi secondi l\'app si aggiorna da sola.', 'info', 6000);
+        else App.Avvisi.toast('✔ Hai l\'ultima versione (v' + App.Config.versione + ').', 'ok', 4000);
+      }).catch(function () {
+        App.Avvisi.toast('Non riesco a controllare: serve internet.', 'errore', 4000);
+      });
     },
 
     // true se ha senso mostrare il pulsante "📲 Installa"

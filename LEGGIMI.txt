@@ -1,4 +1,4 @@
-REGISTRO SCIENZE MOTORIE — v5.1
+REGISTRO SCIENZE MOTORIE — v5.2
 ================================
 
 PUBBLICAZIONE SU GITHUB PAGES (una volta sola, dal computer)
@@ -24,8 +24,10 @@ INSTALLAZIONE SU TELEFONO, TABLET E COMPUTER
 
 AGGIORNAMENTI
 - Per una nuova versione carica di nuovo su GitHub i file cambiati ("Add file" →
-  "Upload files"). Alla prima apertura con internet l'app si aggiorna da sola;
-  ti avvisa di chiuderla e riaprirla.
+  "Upload files"). Con internet l'app controlla da sola, all'apertura e ogni volta che
+  torni su di lei, e si ricarica da sola con la versione nuova (i dati restano).
+- In fondo alla pagina: "🔄 Cerca aggiornamenti" per controllare subito; la versione
+  in uso è scritta accanto (es. v5.2).
 
 COME APRIRLA DA FILE (solo computer, senza installazione)
 - Estrai lo ZIP e fai doppio clic su index.html.

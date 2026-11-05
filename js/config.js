@@ -10,7 +10,7 @@
   App.Config = {
     nome: 'Registro Scienze Motorie',
     icona: '🏃',
-    versione: '5.1',
+    versione: '5.2',
 
     // Menu principale: una pagina per voce (ui/pagina.js). "corto" = etichetta sul telefono
     menu: [
