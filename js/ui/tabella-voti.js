@@ -23,6 +23,24 @@
     return l.length ? Math.round(l.reduce(function (s, x) { return s + x; }, 0) / l.length * 100) / 100 : null;
   }
 
+  // Tabella delle soglie: una riga per voto, ♂ e ♀; l'ultima riga (voto più basso) vale per tutto
+  // ciò che è peggio della riga sopra ("meno di …" / "oltre …"). Usata anche dalla pagina 📖 Libro.
+  function tabellaSoglie(migliore, righe) {
+    var alto = migliore === 'alto';
+    return el('div', { class: 'tabella-zona' }, el('table', { class: 'tabella tabella-parametri' },
+      el('thead', {}, el('tr', {}, el('th', { text: 'Voto' }), el('th', { text: '♂ Alunni' }), el('th', { text: '♀ Alunne' }))),
+      el('tbody', {}, righe.map(function (r, i, tutte) {
+        var ultima = i === tutte.length - 1 && i > 0;
+        function testo(sx) {
+          if (ultima) { var sopra = tutte[i - 1][sx]; return sopra ? (alto ? 'meno di ' : 'oltre ') + sopra : '–'; }
+          return r[sx] ? (alto ? 'da ' : 'fino a ') + r[sx] : '–';
+        }
+        return el('tr', {}, el('th', {}, etichetta(r.voto)),
+          el('td', { class: 'cella num-cella', text: testo('M') }),
+          el('td', { class: 'cella num-cella', text: testo('F') }));
+      }))));
+  }
+
   // Parametri di un test: una riga per voto, soglia per alunni e per alunne
   function parametri(classe, t) {
     var alto = t.migliore === 'alto';
@@ -32,23 +50,13 @@
       el('summary', {}, el('b', { text: t.nome }),
         el('span', { class: 'piccolo', text: ' · ' + (alto ? 'voto dal risultato minimo' : 'voto fino al risultato massimo') + (unita ? ' (' + unita + ')' : '') +
           (fascia ? ' · libro, ' + fascia.nome : '') })),
-      el('div', { class: 'tabella-zona' }, el('table', { class: 'tabella tabella-parametri' },
-        el('thead', {}, el('tr', {}, el('th', { text: 'Voto' }), el('th', { text: '♂ Alunni' }), el('th', { text: '♀ Alunne' }))),
-        el('tbody', {}, t.voti.righe.map(function (r, i, tutte) {
-          // l'ultima riga (voto più basso) vale per tutto ciò che è peggio della riga sopra
-          var ultima = i === tutte.length - 1 && i > 0;
-          function testo(sx) {
-            if (ultima) { var sopra = tutte[i - 1][sx]; return sopra ? (alto ? 'meno di ' : 'oltre ') + sopra : '–'; }
-            return r[sx] ? (alto ? 'da ' : 'fino a ') + r[sx] : '–';
-          }
-          return el('tr', {}, el('th', {}, etichetta(r.voto)),
-            el('td', { class: 'cella num-cella', text: testo('M') }),
-            el('td', { class: 'cella num-cella', text: testo('F') }));
-        })))),
+      tabellaSoglie(t.migliore, t.voti.righe),
       el('button', { type: 'button', class: 'btn btn-info piccolo-btn', text: '📏 Modifica la tabella', onclick: function () { App.UI.FinestraVoti.apri(classe, t); } }));
   }
 
   App.UI.TabellaVoti = {
+    tabellaSoglie: tabellaSoglie,
+
     disegna: function (cont, classe) {
       var pref = App.Stato.dati.preferenze;
       var prova = [1, 2, 3].indexOf(pref.prova) >= 0 ? pref.prova : 1;

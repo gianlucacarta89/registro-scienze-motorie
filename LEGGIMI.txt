@@ -1,4 +1,4 @@
-REGISTRO S.MOT (Registro Scienze Motorie) — v6.1
+REGISTRO S.MOT (Registro Scienze Motorie) — v6.2
 ================================================
 
 PUBBLICAZIONE SU GITHUB PAGES (una volta sola, dal computer)
@@ -60,6 +60,9 @@ COSA FA — il menu (in alto sul computer, in basso sul telefono)
   migliore, peggiore, alunni/alunne, quanti per ogni voto, migliorati, media voti per test,
   🏅 primi 3 alunni e alunne di ogni test (giochi studenteschi), 🕸️ profilo dell'alunno a
   ragnatela per capacità (forza, velocità, resistenza, coordinazione, flessibilità).
+- 📖 Libro: i test del libro da consultare, per tipologia, con caratteristiche, scheda
+  (a che cosa serve, materiale, come si fa, come si misura, differenze alunni/alunne) e tabella
+  di valutazione ♂/♀ della fascia scelta (1° biennio, 2° biennio, quinto anno). Ricerca per nome.
 - ⏱️ Sessioni: la parte operativa. Scegli la classe, tocca "📚 Scegli i test" (tra quelli in
   uso; ricevono la tabella dei voti della fascia della classe: 1G = 1° biennio, 3G = 2°
   biennio, 5N = quinto anno) e scrivi i risultati. Fino a tre prove e "Confronto" dalla 1ª

@@ -20,3 +20,11 @@
 .stato-tabella.mano { color: var(--info); }
 .campo-libro { display: flex; flex-wrap: wrap; align-items: center; gap: 4px; margin-top: 4px; }
 .campo-libro select { max-width: 100%; min-height: 40px; }
+.libro-test { background: var(--carta); border: 1px solid var(--bordo); border-radius: var(--raggio); padding: 6px 12px; margin: 6px 0; }
+.libro-test > summary { cursor: pointer; min-height: 40px; display: flex; flex-wrap: wrap; align-items: center; gap: 4px; }
+.libro-test[open] > summary { border-bottom: 1px solid var(--bordo); margin-bottom: 8px; padding-bottom: 6px; }
+.libro-corpo p { margin: 5px 0; overflow-wrap: anywhere; }
+.libro-corpo h5 { margin: 12px 0 4px; font-size: .95rem; }
+.libro-caratteristiche { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; }
+.libro-elenco .libro-gruppo h4 { margin: 18px 0 4px; }
+input[type=search] { min-height: 40px; border: 1px solid var(--bordo-forte); border-radius: 8px; background: var(--campo); color: var(--testo); padding: 6px 10px; flex: 1 1 14em; min-width: 0; }

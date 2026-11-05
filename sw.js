@@ -7,7 +7,7 @@
  */
 'use strict';
 
-var VERSIONE = 'registro-sm-v6.1';
+var VERSIONE = 'registro-sm-v6.2';
 
 var FILE = [
   './',
@@ -59,6 +59,7 @@ var FILE = [
   'js/ui/pagina-classi.js',
   'js/ui/lista-test.js',
   'js/ui/pagina-test.js',
+  'js/ui/pagina-libro.js',
   'js/ui/pagina-sessioni.js',
   'js/ui/pagina-giust.js',
   'js/ui/pagina-riepilogo.js',

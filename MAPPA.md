@@ -1,4 +1,4 @@
-# MAPPA — Registro S.Mot (Registro Scienze Motorie) v6.1
+# MAPPA — Registro S.Mot (Registro Scienze Motorie) v6.2
 
 Indice dei file: cosa c'è dentro e quale parte dell'app ne dipende.
 Tutti i moduli stanno nell'oggetto globale `App`. Ordine di caricamento in `index.html`:
@@ -87,7 +87,7 @@ Nome, versione, nome dell'archivio, **tipologie dei test (menu a tendina, e ordi
 | `backup.js` | `App.Backup` | `esporta`, `leggi`, `riepilogo`, `localiPiuRecenti`, `applica` |
 
 ## js/ui/ (interfaccia: una pagina, sottoscheda o finestra per file)
-Menu (config.menu): 🏠 Home · 🏫 Classi · 📚 Test · ⏱️ Sessioni · 📋 Giustificazioni · 📄 Riepilogo · 💾 Backup.
+Menu (config.menu): 🏠 Home · 🏫 Classi · 📚 Test · 📖 Libro · ⏱️ Sessioni · 📋 Giustificazioni · 📄 Riepilogo · 💾 Backup.
 Ogni pagina è `App.UI.Pagine[id].disegna(cont)`; la pagina aperta è `preferenze.pagina`.
 
 | File | Modulo | Cosa disegna |
@@ -98,8 +98,9 @@ Ogni pagina è `App.UI.Pagine[id].disegna(cont)`; la pagina aperta è `preferenz
 | `pagina-classi.js` | `App.UI.Pagine.classi` | 🏫 Crea classe; per ogni classe: nome modificabile, ♂/♀, 📥 Carica alunni, 👥 Gestisci alunni, 🗑️, elenco degli alunni (tocco = correggi) |
 | `pagina-test.js` | `App.UI.Pagine.test` | 📚 Sottoschede "Elenco dei test" e "📈 Statistiche" (classe scelta in alto) |
 | `lista-test.js` | `App.UI.ListaTest` | Elenco unico: test del libro + miei, per tipologia, spunta "Lo uso", filtri Tutti / In uso / Libro / Miei, ➕ Nuovo test, 📥 Prendi i test della classe, ✏️ |
+| `pagina-libro.js` | `App.UI.Pagine.libro` | 📖 Test del libro da consultare: per tipologia, caratteristiche, scheda e tabella di valutazione ♂/♀ della fascia scelta (`preferenze.fasciaLibro`), ricerca, Apri/Chiudi tutti |
 | `pagina-sessioni.js` | `App.UI.Pagine.sessioni` | ⏱️ Parte operativa: sottosezioni "✏️ Risultati" e "🎯 Voti" della classe scelta |
-| `tabella-voti.js` | `App.UI.TabellaVoti` | 🎯 Voti: alunni × test con voto calcolato, media alunno, media classe per test; tabelle dei voti (♂/♀) dei test |
+| `tabella-voti.js` | `App.UI.TabellaVoti` (anche `tabellaSoglie`) | 🎯 Voti: alunni × test con voto calcolato, media alunno, media classe per test; tabelle dei voti (♂/♀) dei test |
 | `tabella-test.js` | `App.UI.TabellaTest` | Tabella alunni × test: Classe, 📚 Scegli i test, 1ª / 2ª / 3ª prova, Confronto, 📋 Copia test, voto e media voti |
 | `finestra-elenco-test.js` | `App.UI.FinestraElencoTest` | 📚 Scegli i test (da Sessioni): solo quelli in uso, già presenti segnati, fascia dei voti, ➕ Nuovo test al volo |
 | `finestra-test.js` | `App.UI.FinestraTest` | Nuovo test e ✏️ intestazione colonna: nome, tipologia (menu da config + Altro…), strumento (uno o ♂/♀), tipo, unità, migliore, 📖 scheda, ◀ ▶ sposta, 🗑️ |

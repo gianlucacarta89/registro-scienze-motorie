@@ -45,3 +45,8 @@
   .pdf-alunni { grid-template-columns: 1fr; }
   .primi-griglia { grid-template-columns: 1fr; }
 }
+
+@media (max-width: 420px) {
+  .voce-corto { font-size: .6rem; letter-spacing: -.02em; text-overflow: clip; }
+  .voce-icona { font-size: 1.15rem; }
+}
