@@ -2,7 +2,7 @@
  * Cosa fa: crea un file ZIP (senza compressione) con più file dentro: serve per consegnare
  *          in un solo download le schede PDF di più alunni, una per alunno.
  * Dipende da: nulla
- * Usato da: ui/finestra-pdf.js
+ * Usato da: ui/pagina-riepilogo.js
  */
 (function (App) {
   'use strict';

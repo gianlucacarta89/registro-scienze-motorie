@@ -7,7 +7,8 @@
  * Dipende da: App.Stato, App.Test (copia), App.SchedaTest (fasce)
  * Usato da: ui/finestra-elenco-test.js, ui/finestra-test.js
  *
- * Dati: App.Stato.dati.archivio.test = [ test come in classe.test, + origine: { c: classeId, t: testId } ]
+ * Dati: App.Stato.dati.archivio.test = [ test come in classe.test, + origine: { c: classeId, t: testId },
+ *         + inUso: false se il docente non lo usa (manca = lo usa), + libro: true se viene da App.TestLibro ]
  *       origine = il test della classe da cui è nato; si toglie quando il test si modifica nell'elenco.
  */
 (function (App) {
@@ -21,11 +22,37 @@
 
     tutti: function () { return App.Stato.dati.archivio.test; },
 
+    inUso: function (t) { return t.inUso !== false; },
+    inUsoTutti: function () { var self = this; return this.tutti().filter(function (t) { return self.inUso(t); }); },
+
+    // Spunta "lo uso" di un test dell'elenco
+    impostaUso: function (id, si) {
+      this.tutti().forEach(function (t) { if (t.id === id) { if (si) delete t.inUso; else t.inUso = false; } });
+    },
+
+    // Test del libro con lo stesso nome di uno già nell'elenco (o null)
+    nellElenco: function (nome) {
+      var k = App.U.chiaveNome(nome);
+      return this.tutti().filter(function (x) { return App.U.chiaveNome(x.nome) === k; })[0] || null;
+    },
+
+    // Mette nell'elenco un test del libro (lo usa): -> il test dell'elenco
+    usaDalLibro: function (p) {
+      var c = this.nellElenco(p.nome);
+      if (c) { delete c.inUso; return c; }
+      c = App.U.copia(p);
+      c.id = App.U.nuovoId();
+      c.libro = true;
+      this.tutti().push(c);
+      App.Test.ordina(this.contenitore());
+      return c;
+    },
+
     // Aggiunge test dell'elenco a una classe (senza doppioni). I test con le tabelle per fascia
     // ricevono quella della fascia scelta (di solito dal nome della classe). -> { copiati, saltati }
     aggiungiAClasse: function (ids, classe, fascia) {
       var r = App.Test.copia(this.contenitore(), ids, classe);
-      classe.test.forEach(function (t) { App.SchedaTest.applicaFascia(t, fascia); });
+      classe.test.forEach(function (t) { App.SchedaTest.applicaFascia(t, fascia); delete t.inUso; delete t.libro; });
       return r;
     },
 

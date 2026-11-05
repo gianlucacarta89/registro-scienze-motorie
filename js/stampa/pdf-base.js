@@ -4,7 +4,7 @@
  *          intestazione, titoli di sezione, tabelle, legende e numeri di pagina.
  *          NB: in questo file solo caratteri ASCII; simboli e accenti come \uXXXX.
  * Dipende da: App.Config (pdf, nome, versione), App.U
- * Usato da: stampa/pdf-classe.js, stampa/pdf-alunno.js, ui/finestra-pdf.js
+ * Usato da: stampa/pdf-classe.js, stampa/pdf-alunno.js, ui/pagina-riepilogo.js
  */
 (function (App) {
   'use strict';

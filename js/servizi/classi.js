@@ -2,7 +2,7 @@
  * Cosa fa: classi e alunni: creazione, nomi, ordine alfabetico, nomi doppi, cancellazione.
  *          Le funzioni restituiscono un messaggio d'errore (stringa) oppure null se va bene.
  * Dipende da: App.Stato, App.Config (limiti), App.U
- * Usato da: ui/finestra-classi.js, ui/finestra-alunni.js, ui/finestra-importa.js, ui/barra.js
+ * Usato da: ui/pagina-classi.js, ui/finestra-alunni.js, ui/finestra-importa.js, ui/pagina.js
  */
 (function (App) {
   'use strict';

@@ -1,5 +1,5 @@
 /* statistiche.js (ui)
- * Cosa fa: scheda 📈 Statistiche della classe: scelta del test e della prova, riquadri con
+ * Cosa fa: sottoscheda 📈 Statistiche della pagina 📚 Test: scelta del test e della prova, riquadri con
  *          svolti / media / migliore / peggiore (anche ♂ e ♀), grafico di quanti alunni per voto,
  *          miglioramenti 1ª → 2ª prova, media voti della classe per ogni test,
  *          primi 3 alunni e alunne di ogni test (per scegliere chi mandare ai giochi studenteschi),
@@ -94,7 +94,7 @@
           el('button', { type: 'button', class: 'btn btn-info piccolo-btn', text: '📏 Inserisci tabella',
             onclick: function () { App.UI.FinestraVoti.apri(classe, t); } }));
       } else if (!s.conVoto) {
-        votiCont = el('p', { class: 'piccolo', text: s.senzaSesso ? 'Indica ♂/♀ degli alunni (👥 Alunni) per calcolare i voti.' : 'Nessun voto: mancano i risultati di questa prova.' });
+        votiCont = el('p', { class: 'piccolo', text: s.senzaSesso ? 'Indica ♂/♀ degli alunni (🏫 Classi, tocca il nome) per calcolare i voti.' : 'Nessun voto: mancano i risultati di questa prova.' });
       } else {
         votiCont = el('div', {},
           el('div', { class: 'tessere' },

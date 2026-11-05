@@ -1,7 +1,7 @@
 /* profilo.js
  * Cosa fa: profilo di un alunno per capacità (forza, velocità, resistenza, coordinazione,
  *          flessibilità: config.js > capacita): per ogni capacità la media dei voti dei suoi
- *          test in una prova. Serve al grafico a ragnatela della scheda 📈 Statistiche test.
+ *          test in una prova. Serve al grafico a ragnatela delle 📈 Statistiche (pagina 📚 Test).
  * Dipende da: App.Config (capacita), App.Voti, App.U
  * Usato da: ui/profilo-alunno.js
  */

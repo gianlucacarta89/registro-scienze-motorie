@@ -1,4 +1,4 @@
-REGISTRO SCIENZE MOTORIE — v4.6
+REGISTRO SCIENZE MOTORIE — v5.0
 ================================
 
 PUBBLICAZIONE SU GITHUB PAGES (una volta sola, dal computer)
@@ -30,61 +30,48 @@ AGGIORNAMENTI
 COME APRIRLA DA FILE (solo computer, senza installazione)
 - Estrai lo ZIP e fai doppio clic su index.html.
 
-COSA FA
-- 🏫 Classi: crea le tue classi (es. 1A, 2B) e scegli quella su cui lavorare in alto.
-- 👥 Alunni: carica i nomi da Excel (.xlsx), Word (.docx), PDF, .csv o .txt,
-  oppure incollali. Prima di aggiungerli vedi l'elenco: togli quelli in più e
-  correggi quelli scritti male. Se il file ha l'intestazione "Cognome" e "Nome"
-  (o "Cognome e nome", "Alunno") si prendono solo quelle colonne.
-  Per ogni nome l'app propone già ♂ o ♀ dal nome di battesimo: controlla nell'anteprima
-  e tocca per correggere (se non è sicura, per esempio con nomi stranieri, lo lascia vuoto).
-  Il PDF deve essere quello originale (es. esportato dal registro elettronico):
-  le scansioni non contengono testo leggibile.
-- Correzioni: tocca il nome di un alunno nella tabella per correggerlo o toglierlo;
-  in 👥 Alunni spunta più nomi e "Togli selezionati" per toglierli insieme.
-- 📊 Test: aggiungi i test come colonne (nome, tipologia dal menu a tendina o "Altro…", strumento: uno per tutti
-  o diverso per alunni e alunne, note) e scrivi i risultati. Ci sono fino a tre prove
-  (la 3ª è facoltativa) e la vista "Confronto" dalla 1ª all'ultima prova svolta.
-  Le colonne si ordinano da sole per tipologia: forza arti superiori, inferiori, velocità,
-  resistenza, core, equilibrio, coordinazione, abilità miste.
-  Tempi: velocità in secondi e decimi (12,8); resistenza in minuti:secondi (12:30),
-  che dal telefono puoi scrivere anche 12,30 o 12.30.
-- 📚 Test (in alto): l'elenco dei tuoi test. Li crei una volta (nome, tipologia, strumento,
-  tabella dei voti) e li aggiungi alle classi; nella classe puoi poi adattarli all'età.
-  📖 Test del libro: i 33 test del libro d'Istituto (più la corsa di 1 km) già pronti, con la
-  scheda (a che cosa serve, materiale, come si fa, come si misura, differenze alunni/alunne) e
-  le tabelle dei voti per 1° biennio, 2° biennio e quinto anno. Spunta quelli che usi: vanno
-  nell'elenco; aggiungendoli a una classe ricevono la tabella della sua fascia (dal numero nel
-  nome: 1G = 1° biennio, 3G = 2° biennio, 5N = quinto anno). I tuoi test non cambiano.
-  Ogni test ha la sezione "📖 Scheda del test" da leggere o compilare.
-  Numeri negativi: si possono scrivere (es. flessibilità -4).
-  Ogni test che crei in una classe finisce da solo anche nell'elenco.
-- 📏 Voti automatici: nel test tocca "📏 Tabella dei voti" e copia i parametri del libro
-  (per ogni voto il risultato minimo, o massimo per i tempi), separati per alunni e alunne.
-  Indica ♂/♀ di ogni alunno in 👥 Alunni. Il voto compare sotto ogni risultato.
-  Per età diverse ogni classe ha la sua tabella: "📋 Copia test" la porta in un'altra classe.
-- 📈 Statistiche test: per test e prova (1ª, 2ª, 3ª), andamento nelle prove, media, migliore, peggiore, alunni/alunne, quanti per
-  ogni voto, migliorati dalla 1ª all'ultima prova, media voti della classe per test.
-  In fondo: 🏅 i primi 3 alunni e le prime 3 alunne di ogni test (miglior risultato tra
-  le prove), utile per scegliere chi mandare ai giochi studenteschi.
-  🕸️ Profilo dell'alunno: grafico a ragnatela con la media dei voti per capacità (forza,
-  velocità, resistenza, coordinazione, flessibilità) nella prova scelta; dalla 2ª prova c'è
-  anche la 1ª tratteggiata. Forza = forza arti superiori, inferiori e core; coordinazione =
-  coordinazione, equilibrio e abilità miste.
-- 📋 Giustificazioni: tocca la casella di un alunno nel mese giusto e scegli
-  data, simbolo e una nota facoltativa. Motivi: problemi di salute, infortunio, ciclo,
-  mancata attrezzatura, giustificazione generica (il motivo va scritto nella nota) e assenza.
-  Per salute, infortunio e ciclo puoi spuntare "📄 Con certificato medico".
-  La colonna Tot. conta le giustificazioni dell'anno.
-- 📈 Statistiche giustificazioni: per un mese o tutto l'anno, quante giustificazioni ha
-  ogni alunno e di che tipologia, totali alunni/alunne, grafici per mese e per tipologia.
-- 📄 PDF (in alto): scegli classi e alunni, cosa includere (test e/o giustificazioni,
-  tutto l'anno o un mese) e il tipo di documento:
+COSA FA — il menu (in alto sul computer, in basso sul telefono)
+- 🏠 Home: riepilogo generale con una tessera colorata per ogni sezione (classi e alunni, test
+  in uso, sessione, giustificazioni del mese, PDF, backup: rossa quando va fatto), le tue
+  classi con i numeri principali e le ultime giustificazioni. Tocca una tessera per entrare.
+- 🏫 Classi: crea le classi (es. 1G, 5N) e vedi gli alunni di ognuna.
+  📥 Carica alunni: da Excel (.xlsx), Word (.docx), PDF, .csv o .txt, oppure incollali. Prima
+  di aggiungerli vedi l'elenco: togli quelli in più e correggi quelli scritti male. Se il file
+  ha l'intestazione "Cognome" e "Nome" (o "Cognome e nome", "Alunno") si prendono solo quelle
+  colonne. ♂/♀ è già proposto dal nome: controllalo e tocca per correggere.
+  Il PDF deve essere quello originale (es. esportato dal registro elettronico).
+  Tocca il nome di un alunno per correggerlo, indicare ♂/♀ o toglierlo; 👥 Gestisci alunni per
+  aggiungerne uno o toglierne più insieme. Il nome della classe si cambia scrivendo sopra.
+- 📚 Test: l'elenco unico con i 33 test del libro d'Istituto (più la corsa di 1 km) e quelli
+  che crei tu (➕ Nuovo test). Spunta "Lo uso" sui test che usi: solo questi si scelgono nelle
+  sessioni. Ogni test ha la scheda (a che cosa serve, materiale, come si fa, come si misura,
+  differenze alunni/alunne) e la tabella dei voti: quelli del libro per 1° biennio, 2° biennio
+  e quinto anno. Con ✏️ li modifichi. Tipologie: forza arti superiori, inferiori, velocità,
+  resistenza, core, flessibilità, equilibrio, coordinazione, abilità miste.
+  📈 Statistiche (sottoscheda): per classe, test e prova (1ª, 2ª, 3ª): andamento, media,
+  migliore, peggiore, alunni/alunne, quanti per ogni voto, migliorati, media voti per test,
+  🏅 primi 3 alunni e alunne di ogni test (giochi studenteschi), 🕸️ profilo dell'alunno a
+  ragnatela per capacità (forza, velocità, resistenza, coordinazione, flessibilità).
+- ⏱️ Sessioni: la parte operativa. Scegli la classe, tocca "📚 Scegli i test" (tra quelli in
+  uso; ricevono la tabella dei voti della fascia della classe: 1G = 1° biennio, 3G = 2°
+  biennio, 5N = quinto anno) e scrivi i risultati. Fino a tre prove e "Confronto" dalla 1ª
+  all'ultima. Tempi: velocità in secondi e decimi (12,8); resistenza in minuti:secondi (12:30),
+  dal telefono anche 12,30. Numeri negativi ammessi (es. flessibilità -4). Il voto compare
+  sotto ogni risultato e la colonna Media voti fa la media della prova.
+  📋 Copia test porta i test (con le tabelle) in un'altra classe.
+- 📋 Giustificazioni: Registro (tocca la casella di un alunno nel mese giusto: data, motivo,
+  nota; per salute, infortunio e ciclo la spunta "📄 Con certificato medico"; per la
+  giustificazione generica il motivo va scritto nella nota) e 📈 Statistiche (per mese o
+  tutto l'anno, per alunno e per tipologia, totali alunni/alunne, grafici).
+- 📄 Riepilogo: i PDF da inviare. Scegli classi e alunni, cosa includere (test e/o
+  giustificazioni, tutto l'anno o un mese) e il tipo di documento:
   - Tabella della classe, per i colleghi (con il riepilogo della classe);
   - Scheda di ogni alunno, per le famiglie: solo i dati di quell'alunno. Con più alunni
     scarichi un file ZIP con un PDF per alunno.
   Nel PDF le giustificazioni hanno sigle: S salute, I infortunio, C ciclo, A mancata
-  attrezzatura, G generica, AS assenza; "+M" = con certificato medico (es. S+M), spiegate nella legenda. Funziona anche senza internet.
+  attrezzatura, G generica, AS assenza; "+M" = con certificato medico (es. S+M).
+  Funziona anche senza internet.
+- 💾 Backup: esporta e importa i dati (vedi sotto).
 
 DOVE SONO I DATI
 - I dati restano salvati nel browser del dispositivo che stai usando, a ogni modifica.
@@ -94,7 +81,7 @@ DOVE SONO I DATI
 
 BACKUP E PASSAGGIO TRA TELEFONO, TABLET E COMPUTER (con Google Drive)
 - Crea una volta sola una cartella "Registro SM" nel tuo Google Drive.
-1. Finito di lavorare: 💾 Backup → ⬇️ Esporta backup e salva il file in quella cartella.
+1. Finito di lavorare: menu 💾 Backup → ⬇️ Esporta backup e salva il file in quella cartella.
    - iPhone/iPad: scegli "Salva su File" → Google Drive.
    - Android: il file va in Download; dalla notifica → Condividi → Drive.
    - Computer: con "Google Drive per desktop" salva nella cartella di Drive,

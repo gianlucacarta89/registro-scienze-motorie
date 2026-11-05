@@ -10,7 +10,18 @@
   App.Config = {
     nome: 'Registro Scienze Motorie',
     icona: '🏃',
-    versione: '4.6',
+    versione: '5.0',
+
+    // Menu principale: una pagina per voce (ui/pagina.js). "corto" = etichetta sul telefono
+    menu: [
+      { id: 'home', icona: '🏠', nome: 'Home', corto: 'Home' },
+      { id: 'classi', icona: '🏫', nome: 'Classi', corto: 'Classi' },
+      { id: 'test', icona: '📚', nome: 'Test', corto: 'Test' },
+      { id: 'sessioni', icona: '⏱️', nome: 'Sessioni', corto: 'Sessioni' },
+      { id: 'giust', icona: '📋', nome: 'Giustificazioni', corto: 'Giustif.' },
+      { id: 'riepilogo', icona: '📄', nome: 'Riepilogo', corto: 'Riepilogo' },
+      { id: 'backup', icona: '💾', nome: 'Backup', corto: 'Backup' }
+    ],
 
     // Nome dell'archivio nel browser: DEVE essere diverso per ogni app.
     archivio: {
@@ -117,7 +128,7 @@
 
     // PDF da consegnare a colleghi e famiglie
     pdf: {
-      docente: 'Prof. Gianluca Carta',      // proposto la prima volta; si cambia nella finestra 📄 PDF
+      docente: 'Prof. Gianluca Carta',      // proposto la prima volta; si cambia nella pagina 📄 Riepilogo
       librerie: ['lib/jspdf-2.5.1.umd.min.js', 'lib/jspdf-autotable-3.8.2.min.js']
     },
 
@@ -149,7 +160,7 @@
         'Numeri: si accettano solo cifre, con la virgola per i decimali (es. 3,5).',
         'Tempi: minuti e secondi con i due punti (es. 3:45) oppure solo secondi (es. 12,8).',
         'Una casella vuota resta vuota: non conta come zero.',
-        'Voto automatico: con la tabella dei voti (📏, separata per alunni e alunne) sotto ogni risultato compare il voto. Serve indicare ♂/♀ di ogni alunno (👥 Alunni). Un risultato peggiore dell\'ultima riga della tabella prende il voto più basso.',
+        'Voto automatico: con la tabella dei voti (📏, separata per alunni e alunne) sotto ogni risultato compare il voto. Serve indicare ♂/♀ di ogni alunno (🏫 Classi, tocca il nome). Un risultato peggiore dell\'ultima riga della tabella prende il voto più basso.',
         'La colonna Media voti fa la media dei voti dei test della prova scelta (i test senza voto non contano).',
         'In "Confronto" vedi le prove in fila e la differenza dalla 1ª all\'ultima prova svolta; il verde indica un miglioramento, il rosso un peggioramento, secondo la regola del test (↑ meglio più alto, ↓ meglio più basso).',
         'Ogni valore si salva da solo mentre scrivi. Un valore non valido resta in rosso e non viene salvato.'

@@ -4,7 +4,7 @@
  *          giustificazioni del periodo con data, tipologia e nota, legende. Niente dati della classe.
  *          NB: in questo file solo caratteri ASCII; simboli e accenti come \uXXXX.
  * Dipende da: App.PdfBase, App.PdfDati, App.Voti, App.Config, App.Calendario, App.Giust, App.U
- * Usato da: ui/finestra-pdf.js
+ * Usato da: ui/pagina-riepilogo.js
  */
 (function (App) {
   'use strict';

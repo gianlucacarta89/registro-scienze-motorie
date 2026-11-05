@@ -1,4 +1,4 @@
-# MAPPA — Registro Scienze Motorie v4.0
+# MAPPA — Registro Scienze Motorie v5.0
 
 Indice dei file: cosa c'è dentro e quale parte dell'app ne dipende.
 Tutti i moduli stanno nell'oggetto globale `App`. Ordine di caricamento in `index.html`:
@@ -7,7 +7,7 @@ config → core → servizi → stampa → dati → ui → avvio (jsPDF in `lib/
 ## Radice
 | File | Scopo |
 |---|---|
-| `index.html` | Scheletro della pagina (testata, schede, contenuto, piè) ed elenco ordinato degli script |
+| `index.html` | Scheletro della pagina (testata, menu, contenuto, piè) ed elenco ordinato degli script |
 | `LEGGIMI.txt` | Istruzioni per chi usa l'app |
 | `MAPPA.md` | Questo indice |
 | `NOVITA.md` | Cronologia delle versioni |
@@ -21,14 +21,15 @@ La versione online (pagina privata su claude.ai) usa gli stessi file `css/` e `j
 ## css/
 | File | Scopo |
 |---|---|
-| `base.css` | Colori (variabili per funzione: ok, pericolo, info) chiari e scuri, caratteri, testata, schede, piè |
+| `base.css` | Colori (variabili per funzione: ok, pericolo, info) chiari e scuri, caratteri, testata, piè |
 | `componenti.css` | Pulsanti, tabelle, caselle, chip, finestre, moduli, avvisi |
+| `pagine.css` | Menu (in alto sul computer, fisso in basso sul telefono), titoli e sottoschede delle pagine, 🏠 tessere colorate della Home, classi e alunni, elenco test con "Lo uso" |
 | `elenco-test.css` | Elenco 📚, test del libro 📖, scheda del test |
 | `statistiche.css` | Scheda 📈 Statistiche test: 🏅 primi 3 alunni e alunne, 🕸️ ragnatela |
 | `telefono.css` | Adattamenti sotto 760 px e 480 px |
 
 ## js/config.js — `App.Config`
-Nome, versione, nome dell'archivio, **tipologie dei test (menu a tendina, e ordine delle colonne)**, **formati del tempo** (`formatiTempo`), **capacità del grafico a ragnatela** (`capacita`), **fasce** delle tabelle del libro (`fasce`), **campi della scheda del test** (`schedaTest`), **♂/♀ dai nomi** (`sessoDaiNomi`: particelle dei cognomi, finali, eccezioni come Andrea e Luca), mesi (set–giu), prove, tipi di test, **simboli delle giustificazioni** (con `certificato: true` quelli che ammettono la spunta), **spunta del certificato medico** (`certificato`), limiti, parole d'intestazione, testi delle regole, passi del backup con Google Drive (`backupPassi`, `backupDispositivi`, `backupNota`) e nota privacy.
+Nome, versione, nome dell'archivio, **tipologie dei test (menu a tendina, e ordine delle colonne)**, **formati del tempo** (`formatiTempo`), **menu** (`menu`: voci, icone, etichette corte), **capacità del grafico a ragnatela** (`capacita`), **fasce** delle tabelle del libro (`fasce`), **campi della scheda del test** (`schedaTest`), **♂/♀ dai nomi** (`sessoDaiNomi`: particelle dei cognomi, finali, eccezioni come Andrea e Luca), mesi (set–giu), prove, tipi di test, **simboli delle giustificazioni** (con `certificato: true` quelli che ammettono la spunta), **spunta del certificato medico** (`certificato`), limiti, parole d'intestazione, testi delle regole, passi del backup con Google Drive (`backupPassi`, `backupDispositivi`, `backupNota`) e nota privacy.
 → Per cambiare simboli, mesi o testi delle regole si tocca solo qui.
 
 ## lib/ (librerie in locale: funzionano offline, si caricano solo quando si crea un PDF)
@@ -83,29 +84,36 @@ Nome, versione, nome dell'archivio, **tipologie dei test (menu a tendina, e ordi
 | `zip-scrivi.js` | `App.ZipScrivi` | `crea` (ZIP senza compressione: più schede PDF in un file), `crc32` |
 | `backup.js` | `App.Backup` | `esporta`, `leggi`, `riepilogo`, `localiPiuRecenti`, `applica` |
 
-## js/ui/ (interfaccia: una scheda o finestra per file)
+## js/ui/ (interfaccia: una pagina, sottoscheda o finestra per file)
+Menu (config.menu): 🏠 Home · 🏫 Classi · 📚 Test · ⏱️ Sessioni · 📋 Giustificazioni · 📄 Riepilogo · 💾 Backup.
+Ogni pagina è `App.UI.Pagine[id].disegna(cont)`; la pagina aperta è `preferenze.pagina`.
+
 | File | Modulo | Cosa disegna |
 |---|---|---|
-| `pagina.js` | `App.UI.disegna`, `disegnaContenuto`, `piede`, `vuoto`, `regole` | Pagina intera, piè di pagina con stato del backup |
-| `barra.js` | `App.UI.Barra` | Scelta classe, pulsanti 👥 Alunni, 🏫 Classi, 📚 Test, 📄 PDF, 💾 Backup; schede 📊 Test / 📈 Statistiche test / 📋 Giustificazioni / 📈 Statistiche giustificazioni |
-| `tabella-test.js` | `App.UI.TabellaTest` | Scheda 📊 Test (nome alunno toccabile): ➕ Nuovo test, 1ª / 2ª prova / ⇄ Confronto, caselle dei risultati |
-| `finestra-voti.js` | `App.UI.FinestraVoti` | 📏 Tabella dei voti: una riga per voto, soglia ♂ e ♀, ➕ riga, 🗑️ Svuota |
+| `pagina.js` | `App.UI.disegna`, `disegnaContenuto`, `piede`, `vuoto`, `regole`, `titoloPagina`, `sceltaClasse`, `sottoSchede`, `senzaClassi` | Pagina intera (menu + pagina aperta + piè con stato del backup) e pezzi comuni |
+| `menu.js` | `App.UI.Menu`, `App.UI.vai(pagina, sotto)` | Menu principale |
+| `pagina-home.js` | `App.UI.Pagine.home` | 🏠 Saluto, tessere quadrate colorate (una per sezione, con i numeri dal vivo; Backup rossa se va fatto), schede delle classi, ultime giustificazioni |
+| `pagina-classi.js` | `App.UI.Pagine.classi` | 🏫 Crea classe; per ogni classe: nome modificabile, ♂/♀, 📥 Carica alunni, 👥 Gestisci alunni, 🗑️, elenco degli alunni (tocco = correggi) |
+| `pagina-test.js` | `App.UI.Pagine.test` | 📚 Sottoschede "Elenco dei test" e "📈 Statistiche" (classe scelta in alto) |
+| `lista-test.js` | `App.UI.ListaTest` | Elenco unico: test del libro + miei, per tipologia, spunta "Lo uso", filtri Tutti / In uso / Libro / Miei, ➕ Nuovo test, 📥 Prendi i test della classe, ✏️ |
+| `pagina-sessioni.js` | `App.UI.Pagine.sessioni` | ⏱️ Parte operativa: tabella dei risultati della classe scelta |
+| `tabella-test.js` | `App.UI.TabellaTest` | Tabella alunni × test: Classe, 📚 Scegli i test, 1ª / 2ª / 3ª prova, Confronto, 📋 Copia test, voto e media voti |
+| `finestra-elenco-test.js` | `App.UI.FinestraElencoTest` | 📚 Scegli i test (da Sessioni): solo quelli in uso, già presenti segnati, fascia dei voti, ➕ Nuovo test al volo |
+| `finestra-test.js` | `App.UI.FinestraTest` | Nuovo test e ✏️ intestazione colonna: nome, tipologia (menu da config + Altro…), strumento (uno o ♂/♀), tipo, unità, migliore, 📖 scheda, ◀ ▶ sposta, 🗑️ |
+| `finestra-voti.js` | `App.UI.FinestraVoti` | 📏 Tabella dei voti: una riga per voto, soglia ♂ e ♀, ➕ riga, controllo dell'ordine |
 | `finestra-copia-test.js` | `App.UI.FinestraCopiaTest` | 📋 Copia test in un'altra classe |
-| `finestra-elenco-test.js` | `App.UI.FinestraElencoTest` | 📚 Test (in alto) e 📚 Dall'elenco: elenco dei test, ➕ Nuovo test nell'elenco, ✏️, 📥 Prendi i test della classe, ➕ Aggiungi alla classe |
-| `finestra-test-libro.js` | `App.UI.FinestraTestLibro` | 📖 Test del libro: elenco per tipologia con la scheda, Tutti/Nessuno, metti nell'elenco (aggiorna facoltativo) |
-| `finestra-pdf.js` | `App.UI.FinestraPdf` | 📄 PDF (in alto): classi, alunni, contenuto, periodo, tipo (classe / schede), docente → PDF o ZIP |
-| `grafici.js` | `App.UI.Grafici` | `colonne`, `barre` (grafici HTML/CSS) |
-| `statistiche.js` | `App.UI.Statistiche` | Scheda 📈 Statistiche test (prove 1ª/2ª/3ª, andamento nelle prove, miglioramenti 1ª → ultima, 🏅 primi 3 alunni e alunne di ogni test, 🕸️ profilo dell'alunno) |
+| `statistiche.js` | `App.UI.Statistiche` | 📈 Statistiche (pagina Test): per test e prova, andamento, miglioramenti, media voti per test, 🏅 primi 3, 🕸️ profilo |
 | `profilo-alunno.js` | `App.UI.ProfiloAlunno` | Grafico a ragnatela SVG per capacità (prova scelta + 1ª tratteggiata), voti test per test |
-| `statistiche-giust.js` | `App.UI.StatisticheGiust` | Scheda 📈 Statistiche giustificazioni: anno, mese o tutto l'anno, A–Z / Più giustificati, per tipologia, per mese, tabella per alunno |
-| `finestra-test.js` | `App.UI.FinestraTest` | ➕ Nuovo test e ✏️ intestazione colonna: nome, tipologia (menu da config + Altro…), strumento (uno o ♂/♀), tipo, unità, migliore, ◀ ▶ sposta, 🗑️ |
-| `tabella-giust.js` | `App.UI.TabellaGiust` | Scheda 📋 Giustificazioni (nome alunno toccabile): ◀ anno ▶, tabella mesi, Tot., legenda |
+| `grafici.js` | `App.UI.Grafici` | `colonne`, `barre` (grafici HTML/CSS) |
+| `pagina-giust.js` | `App.UI.Pagine.giust` | 📋 Sottoschede "Registro" e "📈 Statistiche" (classe scelta in alto) |
+| `tabella-giust.js` | `App.UI.TabellaGiust` | Registro: ◀ anno ▶, alunni × mesi, Tot., legenda (nome alunno toccabile) |
 | `finestra-giust.js` | `App.UI.FinestraGiust` | Tocco su una casella del mese: elenco, ✏️, 🗑️, nuova giustificazione con spunta 📄 certificato medico (non per l'attrezzatura; con bozza) |
-| `finestra-classi.js` | `App.UI.FinestraClassi` | 🏫 Classi: crea, rinomina, Apri, 🗑️ |
-| `finestra-alunno.js` | `App.UI.FinestraAlunno` | Tocco sul nome nelle tabelle: correggi il nome, 🗑️ Togli (`togli` usato anche da finestra-alunni) |
-| `finestra-alunni.js` | `App.UI.FinestraAlunni` | 👥 Alunni: aggiungi, correggi nome, 🗑️, ☑️ Seleziona tutti / 🗑️ Togli selezionati, 📥 Carica da file o incolla |
-| `finestra-importa.js` | `App.UI.FinestraImporta` | 📥 Carica alunni: 📂 file (anche PDF), 📋 incolla, anteprima con spunte e nomi correggibili |
-| `finestra-backup.js` | `App.UI.FinestraBackup` | 💾 Backup: ⬇️ Esporta, ⬆️ Importa (con conferma) |
+| `statistiche-giust.js` | `App.UI.StatisticheGiust` | 📈 Statistiche giustificazioni: anno, mese o tutto l'anno, per alunno e tipologia, grafici |
+| `pagina-riepilogo.js` | `App.UI.Pagine.riepilogo` | 📄 PDF: classi, alunni, contenuto, periodo, tipo (tabella della classe / schede alunni, ZIP), docente |
+| `pagina-backup.js` | `App.UI.Pagine.backup` | 💾 Stato, passi con Google Drive, ⬇️ Esporta, ⬆️ Importa (con conferma) |
+| `finestra-alunno.js` | `App.UI.FinestraAlunno` | Tocco sul nome: correggi il nome, ♂/♀, 🗑️ Togli (`togli` usato anche da finestra-alunni) |
+| `finestra-alunni.js` | `App.UI.FinestraAlunni` | 👥 Gestisci alunni: aggiungi, ♂/♀, correggi nome, 🗑️, ☑️ Seleziona tutti / 🗑️ Togli selezionati, 📥 Carica |
+| `finestra-importa.js` | `App.UI.FinestraImporta` | 📥 Carica alunni: 📂 file (anche PDF), 📋 incolla, anteprima con spunte, ♂/♀ proposti e nomi correggibili |
 
 ## js/avvio.js
 `App.avvia` — imposta titolo e icona, carica i dati (`App.Stato.carica`), poi `App.UI.disegna` e `App.Pwa.avvia`. È l'unico file che fa partire qualcosa.
@@ -113,8 +121,8 @@ Nome, versione, nome dell'archivio, **tipologie dei test (menu a tendina, e ordi
 ## Struttura dei dati (`App.Stato.dati`)
 ```
 { schema: 1, ultimaModifica, ultimoBackup,
-  archivio: { test: [ come classe.test + origine: { c, t } ] },   // 📚 elenco dei test, fuori dalle classi
-  preferenze: { classeAttiva, docente, modulo: 'test'|'stat'|'giust'|'statg', prova: 1|2|3|'c', statgMese, statgOrdine, annoInizio: null|2026, statTest },
+  archivio: { test: [ come classe.test + origine: { c, t }, inUso: false (= non lo uso), libro: true, fasce ] },   // 📚 elenco dei test
+  preferenze: { classeAttiva, docente, pagina: 'home'|'classi'|'test'|'sessioni'|'giust'|'riepilogo'|'backup', sottoTest: 'elenco'|'stat', sottoGiust: 'registro'|'stat', filtroTest, prova: 1|2|3|'c', statgMese, statgOrdine, annoInizio: null|2026, statTest, statAlunno },
   classi: [{ id, nome,
     alunni: [{ id, nome, sesso: 'M'|'F'|'' }],
     test: [{ id, nome, tipologia, note, strumento, perSesso, strumentoM, strumentoF, unita, tipo: 'numero'|'tempo', migliore: 'alto'|'basso',

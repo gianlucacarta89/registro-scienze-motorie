@@ -6,7 +6,7 @@
  *          tabella della fascia della classe (dal numero nel nome: 1G -> 1° biennio).
  * Dipende da: App.Config (schedaTest, fasce, limiti), App.U
  * Usato da: servizi/test.js, servizi/elenco-test.js, ui/finestra-test.js, ui/finestra-elenco-test.js,
- *           ui/finestra-test-libro.js, stampa/pdf-dati.js
+ *           ui/lista-test.js, stampa/pdf-dati.js
  *
  * Dati: test.descrizione, .materiale, .esecuzione, .misura, .differenze, .fonte (testi)
  *       test.fasce = { b1: { righe }, b2: { righe }, q: { righe } }   (solo nell'elenco)

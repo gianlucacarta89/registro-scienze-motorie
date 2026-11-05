@@ -1,11 +1,11 @@
-/* finestra-pdf.js
- * Cosa fa: finestra "📄 PDF": si scelgono classi, alunni (tutta la classe o alcuni), contenuto
+/* pagina-riepilogo.js
+ * Cosa fa: pagina 📄 Riepilogo: crea i PDF da inviare a colleghi e famiglie. Si scelgono classi, alunni (tutta la classe o alcuni), contenuto
  *          (test, giustificazioni e periodo), tipo di documento (tabella della classe per i
  *          colleghi, oppure una scheda per ogni alunno per le famiglie) e il docente in testa.
  *          Più schede insieme vengono raccolte in un file ZIP: un PDF per alunno.
  * Dipende da: App.U, App.Stato, App.Classi, App.Calendario, App.PdfBase, App.PdfClasse,
- *             App.PdfAlunno, App.ZipScrivi, App.Avvisi, App.Finestra, App.Config
- * Usato da: ui/barra.js (pulsante 📄 PDF)
+ *             App.PdfAlunno, App.ZipScrivi, App.Avvisi, App.Config, App.UI (titoloPagina, senzaClassi)
+ * Usato da: ui/pagina.js
  */
 (function (App) {
   'use strict';
@@ -18,10 +18,13 @@
       el('span', {}, ' ' + testo, nota ? el('span', { class: 'piccolo', text: ' — ' + nota }) : null));
   }
 
-  App.UI.FinestraPdf = {
-    apri: function () {
+  App.UI.Pagine = App.UI.Pagine || {};
+
+  App.UI.Pagine.riepilogo = {
+    disegna: function (cont) {
+      cont.appendChild(App.UI.titoloPagina('📄 Riepilogo e PDF'));
+      if (App.UI.senzaClassi(cont)) return;
       var classi = App.Classi.tutte();
-      if (!classi.length) { App.Avvisi.toast('Crea prima una classe (🏫 Classi).', 'info'); return; }
       var attiva = App.Stato.classe();
       var pref = App.Stato.dati.preferenze;
       var stato = {};          // classeId -> { scelta: bool, tutti: bool, alunni: { id: true } }
@@ -119,10 +122,9 @@
         }).then(function () { return false; });
       }
 
-      App.Finestra.apri({
-        titolo: 'Crea PDF', icona: '📄', corpo: corpo, larga: true, fuoco: false,
-        pulsanti: [{ testo: 'Chiudi', tipo: 'neutro' }, { testo: '📄 Crea PDF', tipo: 'info', azione: crea }]
-      });
+      cont.appendChild(el('p', { class: 'piccolo', text: 'Crea i PDF da inviare ai colleghi (tabella della classe con il riepilogo) o alle famiglie (una scheda per ogni alunno).' }));
+      cont.appendChild(el('div', { class: 'pagina-riquadro' }, corpo,
+        el('div', { class: 'riga-btn' }, el('button', { type: 'button', class: 'btn btn-info grande', text: '📄 Crea PDF', onclick: crea }))));
     }
   };
 })(window.App = window.App || {});

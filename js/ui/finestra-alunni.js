@@ -4,7 +4,7 @@
  *          dal file); apre il caricamento da file o da testo incollato.
  * Dipende da: App.U, App.Config (limiti), App.Classi, App.Stato, App.Avvisi, App.Finestra,
  *             App.UI.FinestraImporta, App.UI.FinestraAlunno, App.UI.disegnaContenuto
- * Usato da: ui/barra.js (pulsante 👥 Alunni)
+ * Usato da: ui/pagina-classi.js (👥 Gestisci alunni), ui/tabella-test.js (avviso ♂/♀)
  */
 (function (App) {
   'use strict';

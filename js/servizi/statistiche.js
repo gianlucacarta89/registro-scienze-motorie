@@ -1,5 +1,5 @@
 /* statistiche.js
- * Cosa fa: calcola le statistiche della classe per la scheda 📈 Statistiche:
+ * Cosa fa: calcola le statistiche della classe per le 📈 Statistiche (pagina 📚 Test):
  *          per un test e una prova (svolti, media, migliore, peggiore, alunni/alunne,
  *          quanti per ogni voto), andamento nelle prove (1ª, 2ª, 3ª), miglioramenti 1ª → ultima
  *          prova, media voti per test, primi 3 alunni e alunne di ogni test (giochi studenteschi).

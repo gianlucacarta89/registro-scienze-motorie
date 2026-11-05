@@ -1,5 +1,5 @@
 /* statistiche-giust.js (ui)
- * Cosa fa: scheda 📈 Statistiche giustificazioni: per l'anno scolastico e il mese scelto
+ * Cosa fa: sottoscheda 📈 Statistiche della pagina 📋 Giustificazioni: per l'anno scolastico e il mese scelto
  *          (o tutto l'anno) quante giustificazioni ha ogni alunno/alunna e di che tipologia;
  *          totali della classe (anche ♂/♀), grafico per mese e per tipologia.
  * Dipende da: App.U, App.Stato, App.Config (simboli), App.Calendario, App.StatGiust,

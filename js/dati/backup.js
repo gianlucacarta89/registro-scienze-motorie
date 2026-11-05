@@ -2,7 +2,7 @@
  * Cosa fa: esporta tutti i dati in un file .json e li reimporta, anche su un altro
  *          dispositivo (telefono, tablet, computer). L'importazione sostituisce i dati.
  * Dipende da: App.Stato, App.Config (backup, versione), App.U
- * Usato da: ui/finestra-backup.js
+ * Usato da: ui/pagina-backup.js
  */
 (function (App) {
   'use strict';

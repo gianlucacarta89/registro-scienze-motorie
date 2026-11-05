@@ -1,10 +1,10 @@
 /* tabella-test.js
- * Cosa fa: modulo 1 "Test": tabella alunni × test, scelta della prova (1ª, 2ª, Confronto),
+ * Cosa fa: tabella della pagina ⏱️ Sessioni: alunni × test, scelta della prova (1ª, 2ª, 3ª, Confronto),
  *          scrittura dei risultati con salvataggio immediato e controllo dei valori,
  *          voto automatico sotto ogni risultato (se il test ha la tabella dei voti) e media voti.
  * Dipende da: App.U, App.UI.FinestraAlunno (tocco sul nome), App.Stato, App.Config, App.Test, App.Avvisi, App.UI.FinestraTest,
  *             App.UI.FinestraImporta, App.UI.FinestraCopiaTest, App.Voti, App.UI.vuoto, App.UI.regole, App.UI.piede
- * Usato da: ui/pagina.js
+ * Usato da: ui/pagina-sessioni.js
  */
 (function (App) {
   'use strict';
@@ -129,9 +129,8 @@
     disegna: function (cont, classe) {
       var prova = App.Stato.dati.preferenze.prova;
       cont.appendChild(el('div', { class: 'strumenti' },
-        el('button', { type: 'button', class: 'btn btn-ok', text: '➕ Nuovo test',
-          onclick: function () { App.UI.FinestraTest.apri(classe, null); } }),
-        el('button', { type: 'button', class: 'btn btn-neutro', text: '📚 Dall\'elenco',
+        App.UI.sceltaClasse(),
+        el('button', { type: 'button', class: 'btn btn-ok', text: '📚 Scegli i test',
           onclick: function () { App.UI.FinestraElencoTest.apri(classe); } }),
         barraProve(prova),
         classe.test.length ? el('button', { type: 'button', class: 'btn btn-neutro', text: '📋 Copia test',
@@ -145,7 +144,10 @@
         return;
       }
       if (!classe.test.length) {
-        cont.appendChild(el('p', { class: 'suggerimento', text: '👉 Aggiungi il primo test con "➕ Nuovo test": comparirà come colonna.' }));
+        cont.appendChild(el('p', { class: 'suggerimento' }, '👉 Nessun test in ' + classe.nome + ': tocca ',
+          el('button', { type: 'button', class: 'btn btn-ok piccolo-btn', text: '📚 Scegli i test',
+            onclick: function () { App.UI.FinestraElencoTest.apri(classe); } }),
+          ' e spunta quelli da fare. Diventano le colonne dove scrivi i risultati.'));
       }
 
       var conVoti = classe.test.some(App.Voti.haTabella);

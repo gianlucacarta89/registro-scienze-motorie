@@ -1,20 +1,30 @@
 /* telefono.css — adattamenti per tablet e telefono */
 
 @media (max-width: 760px) {
-  .barra { width: 100%; justify-content: space-between; }
   .contenuto { padding-block: 12px 20px; }
-  .scheda { flex: 1; padding: 10px 4px; font-size: .9rem; }
-  .schede { display: grid; grid-template-columns: 1fr 1fr; gap: 0 4px; }
-  .tabella-zona { max-height: calc(100vh - 250px); }
+  /* Menu fisso in basso: icona + etichetta corta */
+  body { padding-bottom: calc(60px + env(safe-area-inset-bottom, 0px)); }
+  .menu {
+    position: fixed; top: auto; bottom: 0; left: 0; right: 0; z-index: 40; gap: 0; overflow: visible;
+    padding: 0 env(safe-area-inset-right, 0px) env(safe-area-inset-bottom, 0px) env(safe-area-inset-left, 0px);
+    box-shadow: 0 -2px 8px rgba(0, 0, 0, .2);
+  }
+  .voce-menu { flex: 1 1 0; min-width: 0; flex-direction: column; gap: 1px; padding: 6px 1px 5px; border-bottom: 0; border-top: 3px solid transparent; }
+  .voce-menu.attiva { border-top-color: var(--su-colore); background: var(--testata-velo); }
+  .voce-icona { font-size: 1.25rem; line-height: 1.1; }
+  .voce-nome { display: none; }
+  .voce-corto { display: block; font-size: .66rem; font-weight: 600; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+  .toast-zona { bottom: calc(72px + env(safe-area-inset-bottom, 0px)); }
+  .tabella-zona { max-height: calc(100vh - 290px); }
 }
 
 @media (max-width: 480px) {
   body { font-size: 14px; }
   h1 { font-size: 1.05rem; }
-  .barra .btn { padding: 6px 7px; font-size: .85rem; }
-  .barra .gruppo-btn { gap: 5px; }
-  .scelta-classe .etichetta { display: none; }
-  .scelta-classe select { max-width: 7em; }
+  .testata { padding-top: calc(6px + env(safe-area-inset-top, 0px)); padding-bottom: 6px; }
+  .titolo-pagina h2 { font-size: 1.15rem; }
+  .scelta-classe select { max-width: 9em; }
+  .alunni-classe { columns: 1; }
   .strumenti { gap: 8px; }
   .segmenti { width: 100%; order: 9; }
   .strumenti > .btn { flex: 1 1 auto; padding: 8px 8px; font-size: .88rem; }

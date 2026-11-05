@@ -1,5 +1,5 @@
 /* profilo-alunno.js
- * Cosa fa: sezione "🕸️ Profilo dell'alunno" della scheda 📈 Statistiche test: grafico a ragnatela
+ * Cosa fa: sezione "🕸️ Profilo dell'alunno" delle 📈 Statistiche (pagina 📚 Test): grafico a ragnatela
  *          (SVG, senza librerie) con la media dei voti per capacità nella prova scelta; dalla 2ª prova
  *          in poi c'è anche la 1ª prova tratteggiata per vedere i progressi. Sotto, i voti test per test.
  * Dipende da: App.U, App.Stato, App.Config (capacita, voti, prove), App.Profilo, App.Voti
@@ -75,7 +75,7 @@
           App.Config.capacita.map(function (c) { return c.nome.toLowerCase(); }).join(', ') + '). Ora nella classe ' +
           (caps.length ? 'ci sono: ' + caps.map(function (c) { return c.nome.toLowerCase(); }).join(', ') : 'non ce n\'è nessuna') + '.' }));
       }
-      if (!a.sesso) return el('div', {}, testa, el('p', { class: 'piccolo avviso-riga', text: '⚠️ Indica ♂/♀ dell\'alunno (👥 Alunni): servono per calcolare i voti.' }));
+      if (!a.sesso) return el('div', {}, testa, el('p', { class: 'piccolo avviso-riga', text: '⚠️ Indica ♂/♀ dell\'alunno (🏫 Classi, tocca il nome): servono per calcolare i voti.' }));
 
       var ora = App.Profilo.alunno(classe, a, prova);
       var prima = prova > 1 ? App.Profilo.alunno(classe, a, 1) : null;

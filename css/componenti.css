@@ -25,10 +25,10 @@
 
 /* ---------- Scelta classe ---------- */
 .scelta-classe { display: flex; align-items: center; gap: 8px; }
-.scelta-classe .etichetta { font-size: .85rem; color: var(--testata-tenue); }
+.scelta-classe .etichetta { font-size: .85rem; color: var(--tenue); font-weight: 600; }
 .scelta-classe select {
-  min-height: 40px; border-radius: 8px; border: 1px solid var(--testata-linea);
-  background: var(--campo); color: var(--testo); padding: 4px 10px; font-weight: 600; max-width: 12em;
+  min-height: 40px; border-radius: 8px; border: 1px solid var(--bordo-forte); background: var(--campo);
+  color: var(--testo); padding: 6px 10px; font-weight: 700; max-width: 12em;
 }
 
 /* ---------- Barra strumenti del modulo ---------- */

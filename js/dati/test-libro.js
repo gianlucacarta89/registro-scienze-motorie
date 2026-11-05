@@ -8,7 +8,7 @@
  *          ciò che è peggio dello scarso.
  *          Dati generati dal PDF "Test motori: descrizioni e tabelle di valutazione" (04/11/2026).
  * Dipende da: nulla (solo dati)
- * Usato da: ui/finestra-test-libro.js
+ * Usato da: ui/lista-test.js
  */
 (function (App) {
   'use strict';

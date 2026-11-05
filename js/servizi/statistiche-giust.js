@@ -1,5 +1,5 @@
 /* statistiche-giust.js
- * Cosa fa: conteggi delle giustificazioni per la scheda 📈 Statistiche giustificazioni:
+ * Cosa fa: conteggi delle giustificazioni per le 📈 Statistiche della pagina 📋 Giustificazioni:
  *          per alunno (totale e per tipologia) nel mese scelto o in tutto l'anno,
  *          per mese (tutto l'anno scolastico) e per tipologia, totali alunni / alunne;
  *          "certificato" conta quelle con certificato medico.

@@ -4,7 +4,7 @@
  *          Per ogni nome è già proposto ♂/♀ (App.NomiSesso), da controllare e correggere.
  * Dipende da: App.U, App.Config (fileNomi, sessi), App.LeggiFile, App.Nomi, App.NomiSesso, App.Classi, App.Stato,
  *             App.Avvisi, App.Finestra, App.UI.disegna
- * Usato da: ui/finestra-alunni.js, ui/finestra-classi.js, ui/tabella-test.js, ui/tabella-giust.js
+ * Usato da: ui/finestra-alunni.js, ui/pagina-classi.js, ui/tabella-test.js, ui/tabella-giust.js
  */
 (function (App) {
   'use strict';

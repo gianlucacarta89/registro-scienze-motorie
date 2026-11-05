@@ -4,7 +4,7 @@
  *          giustificazioni per mese con le sigle e i totali per tipologia, legenda.
  *          NB: in questo file solo caratteri ASCII; simboli e accenti come \uXXXX.
  * Dipende da: App.PdfBase, App.PdfDati, App.Statistiche, App.Voti, App.Config, App.Calendario, App.U
- * Usato da: ui/finestra-pdf.js
+ * Usato da: ui/pagina-riepilogo.js
  */
 (function (App) {
   'use strict';

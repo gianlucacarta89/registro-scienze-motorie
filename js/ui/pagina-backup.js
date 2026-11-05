@@ -1,8 +1,8 @@
-/* finestra-backup.js
- * Cosa fa: finestra "Backup": spiega come passare i dati tra telefono, tablet e computer,
+/* pagina-backup.js
+ * Cosa fa: pagina 💾 Backup: spiega come passare i dati tra telefono, tablet e computer,
  *          esporta il file di backup e lo reimporta (con conferma prima di sostituire).
- * Dipende da: App.U, App.Backup, App.Stato, App.Avvisi, App.Finestra, App.UI.disegna, App.UI.piede
- * Usato da: ui/barra.js (💾 Backup), ui/pagina.js (avviso nel piè di pagina)
+ * Dipende da: App.U, App.Backup, App.Stato, App.Avvisi, App.UI (disegna, piede, titoloPagina)
+ * Usato da: ui/pagina.js (menu e avviso nel piè di pagina)
  */
 (function (App) {
   'use strict';
@@ -10,7 +10,7 @@
   App.UI = App.UI || {};
   var el = function () { return App.U.el.apply(null, arguments); };
 
-  function importa(file, fin) {
+  function importa(file) {
     App.Backup.leggi(file).then(function (r) {
       if (r.errore) { App.Avvisi.toast('❌ ' + r.errore, 'errore', 6000); return; }
       var b = r.backup, n = App.Backup.riepilogo(b.dati);
@@ -27,7 +27,6 @@
       }).then(function (si) {
         if (!si) return;
         return App.Backup.applica(b).then(function () {
-          fin.chiudi();
           App.UI.disegna();
           App.Avvisi.toast('✔ Backup importato.', 'ok');
         });
@@ -35,10 +34,11 @@
     });
   }
 
-  App.UI.FinestraBackup = {
-    apri: function () {
+  App.UI.Pagine = App.UI.Pagine || {};
+
+  App.UI.Pagine.backup = {
+    disegna: function (cont) {
       var d = App.Stato.dati;
-      var fin;
       var stato = el('p', { class: 'stato-riquadro ' + (App.Stato.daSalvareInBackup() ? 'avviso' : 'ok'),
         text: d.ultimoBackup
           ? (App.Stato.daSalvareInBackup() ? '⚠️ Ultimo backup: ' + App.U.dataOraIT(d.ultimoBackup) + '. Ci sono modifiche successive.'
@@ -48,7 +48,7 @@
       var scegli = el('input', { type: 'file', class: 'nascosto', 'aria-label': 'Scegli il backup' });
       scegli.addEventListener('change', function () {
         var f = scegli.files && scegli.files[0];
-        if (f) importa(f, fin);
+        if (f) importa(f);
         scegli.value = '';
       });
 
@@ -65,9 +65,8 @@
           el('button', { type: 'button', class: 'btn btn-info', text: '⬇️ Esporta backup', onclick: function () {
             App.Backup.esporta().then(function (salvato) {
               if (!salvato) { App.Avvisi.toast('Backup non salvato.', 'info'); return; }
-              App.UI.piede();
+              App.UI.disegnaContenuto();
               App.Avvisi.toast('✔ Backup esportato: lo trovi nei Download (o dove hai scelto di salvarlo).', 'ok', 4500);
-              fin.chiudi();
             }).catch(function (e) {
               App.Avvisi.toast('❌ ' + (e && e.message ? e.message : 'Non riesco a salvare il backup.'), 'errore', 6000);
             });
@@ -75,8 +74,8 @@
           el('button', { type: 'button', class: 'btn btn-neutro', text: '⬆️ Importa backup', onclick: function () { scegli.click(); } }),
           scegli));
 
-      fin = App.Finestra.apri({ titolo: 'Backup', icona: '💾', corpo: corpo, fuoco: false,
-        pulsanti: [{ testo: 'Chiudi', tipo: 'neutro' }] });
+      cont.appendChild(App.UI.titoloPagina('💾 Backup'));
+      cont.appendChild(el('div', { class: 'pagina-riquadro' }, corpo));
     }
   };
 })(window.App = window.App || {});
