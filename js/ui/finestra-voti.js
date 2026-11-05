@@ -4,7 +4,7 @@
  *          Le soglie partono vuote; le righe senza soglie si ignorano.
  *          "📖 Riempi dal libro": prende la tabella di un test del libro compatibile (stesso tipo e
  *          stessa direzione), della fascia della classe; salvando arriva anche la scheda (campi vuoti).
- * Dipende da: App.U, App.Config (voti, fasce), App.TestLibro, App.SchedaTest, App.Voti, App.ElencoTest, App.Stato, App.Avvisi, App.Finestra,
+ * Dipende da: App.U, App.Config (voti, fasce), App.LibroVoti, App.SchedaTest, App.Voti, App.ElencoTest, App.Stato, App.Avvisi, App.Finestra,
  *             App.UI.disegnaContenuto
  * Usato da: ui/finestra-test.js (pulsante 📏 Tabella dei voti)
  */
@@ -14,26 +14,7 @@
   App.UI = App.UI || {};
   var el = function () { return App.U.el.apply(null, arguments); };
 
-  // Parole di un nome di test, con qualche sinonimo (medball = palla medica, m = metri, velocità = sprint)
-  var SINONIMI = { medball: 'palla medica', mb: 'palla medica', m: 'metri', mt: 'metri', velocita: 'sprint', addominali: 'addominali sit',
-    flessibilita: 'flessibilita', navetta: 'navetta', funicella: 'funicella', corda: 'funicella', piegamenti: 'piegamenti', flessioni: 'piegamenti' };
-  function parole(n) {
-    var l = String(n || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').split(/[^a-z0-9]+/);
-    return l.map(function (w) { return SINONIMI[w] || w; }).join(' ').split(' ')
-      .filter(function (w) { return w.length > 2 || /^[0-9]+$/.test(w); });
-  }
-
-  // Test del libro compatibili con t (stesso tipo e direzione), il più simile per primo
-  function compatibili(t) {
-    var mie = parole(t.nome);
-    return (App.TestLibro || []).filter(function (p) { return p.tipo === t.tipo && p.migliore === t.migliore; })
-      .map(function (p) {
-        var punti = parole(p.nome).filter(function (w) { return mie.some(function (m) { return m === w || (m.length > 4 && w.indexOf(m.slice(0, 5)) === 0); }); }).length * 2 +
-          (App.U.chiaveNome(p.tipologia) === App.U.chiaveNome(t.tipologia || '') ? 1 : 0);
-        return { p: p, punti: punti };
-      })
-      .sort(function (a, b) { return b.punti - a.punti || a.p.nome.localeCompare(b.p.nome); });
-  }
+  function compatibili(t) { return App.LibroVoti.compatibili(t); }
 
   App.UI.FinestraVoti = {
     apri: function (classe, t) {
@@ -128,11 +109,10 @@
             if (r.errore) { App.Avvisi.toast('❌ ' + r.errore, 'errore', 7000); return false; }
             t.voti = { righe: r.righe };
             if (daLibro) {
-              // dal libro: fascia della tabella e scheda del test (solo nei campi ancora vuoti)
-              if (daLibro.fascia) t.fasciaVoti = daLibro.fascia; else delete t.fasciaVoti;
-              App.SchedaTest.campi().forEach(function (c) { if (!t[c.id] && daLibro.p[c.id]) t[c.id] = daLibro.p[c.id]; });
-              if (!t.fonte && daLibro.p.fonte) t.fonte = daLibro.p.fonte;
-              if (daLibro.p.negativi) t.negativi = true;
+              // dal libro: fascia, nome del test del libro e scheda (solo nei campi ancora vuoti)
+              var righe = t.voti;
+              App.LibroVoti.applica(t, daLibro.p, daLibro.fascia);
+              t.voti = righe;                     // le righe sono quelle controllate qui sopra
             }
             // tabella di un test di classe: si aggiorna anche la sua copia nell'elenco 📚 (se collegata)
             if (classe.elenco) App.ElencoTest.stacca(t); else App.ElencoTest.aggiorna(classe, t);

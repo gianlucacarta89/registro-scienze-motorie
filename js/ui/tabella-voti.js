@@ -54,6 +54,7 @@
       var prova = [1, 2, 3].indexOf(pref.prova) >= 0 ? pref.prova : 1;
       var conTab = classe.test.filter(App.Voti.haTabella);
       cont.appendChild(el('div', { class: 'strumenti' }, App.UI.sceltaClasse(),
+        classe.test.length ? el('button', { type: 'button', class: 'btn btn-info', text: '📏 Tabelle dei voti della classe', onclick: function () { App.UI.FinestraVotiClasse.apri(classe); } }) : null,
         el('div', { class: 'segmenti', role: 'tablist', 'aria-label': 'Prova' }, App.Config.prove.map(function (p) {
           return el('button', { type: 'button', class: 'segmento' + (prova === p.id ? ' attivo' : ''), 'aria-pressed': prova === p.id ? 'true' : 'false',
             text: p.nome, onclick: function () { pref.prova = p.id; App.Stato.scrivi(); App.UI.disegnaContenuto(); } });
@@ -62,7 +63,7 @@
       if (!classe.alunni.length || !conTab.length) {
         cont.appendChild(App.UI.vuoto('🎯', 'Ancora nessun voto',
           !classe.alunni.length ? 'Carica gli alunni della classe in 🏫 Classi.'
-            : 'I voti si calcolano dai test che hanno la tabella dei voti (quelli del libro la hanno già): sceglili in "✏️ Risultati" con 📚 Scegli i test.'));
+            : 'I voti si calcolano dai test che hanno la tabella dei voti: tocca "📏 Tabelle dei voti della classe" per mettere quelle del libro, oppure scegli i test del libro in "✏️ Risultati".'));
         return;
       }
       var senza = App.Classi.senzaSesso(classe);

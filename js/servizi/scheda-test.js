@@ -40,8 +40,10 @@
 
     fascia: function (id) { return App.Config.fasce.filter(function (f) { return f.id === id; })[0] || null; },
 
-    // Fascia della classe dal primo numero nel nome ("1G" -> b1, "3A" -> b2, "5N" -> q). null se non c'è
+    // Fascia della classe: quella scelta, altrimenti dal primo numero nel nome ("1G" -> b1, "3A" -> b2, "5N" -> q). null se non c'è
+    // classe.fascia (scelta nelle tabelle dei voti della classe) vale più del nome
     fasciaDiClasse: function (classe) {
+      if (classe && classe.fascia && this.fascia(classe.fascia)) return classe.fascia;
       var m = String(classe && classe.nome || '').match(/[1-5]/);
       if (!m) return null;
       var anno = Number(m[0]);

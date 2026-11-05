@@ -80,6 +80,7 @@
             'Ora ' + (caps.length ? 'sono pronte: ' + caps.map(function (c) { return c.nome.toLowerCase(); }).join(', ') : 'non è pronta nessuna capacità') + '.' }),
           senzaTab.length ? el('div', { class: 'suggerimento' },
             el('p', { text: '📏 Questi test non hanno la tabella dei voti, quindi non danno voti:' }),
+            el('button', { type: 'button', class: 'btn btn-ok piccolo-btn', text: '📏 Metti le tabelle del libro a tutta la classe', onclick: function () { App.UI.FinestraVotiClasse.apri(classe); } }),
             el('ul', { class: 'lista-mancanti' }, senzaTab.map(function (t) {
               return el('li', {}, el('b', { text: t.nome }), ' (' + App.Profilo.capacitaDi(t).nome.toLowerCase() + ') ',
                 el('button', { type: 'button', class: 'btn btn-info piccolo-btn', text: '📏 Inserisci tabella', onclick: function () { App.UI.FinestraVoti.apri(classe, t); } }));

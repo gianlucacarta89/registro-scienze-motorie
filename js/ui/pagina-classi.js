@@ -1,7 +1,8 @@
 /* pagina-classi.js
  * Cosa fa: pagina 🏫 Classi: crea le classi e per ognuna mostra gli alunni (♂/♀). Da qui si
  *          caricano i nomi da file, si gestiscono gli alunni (aggiungi, ♂/♀, togli più insieme),
- *          si corregge un alunno toccandone il nome, si rinomina o si cancella la classe.
+ *          si corregge un alunno toccandone il nome, si rinomina o si cancella la classe;
+ *          📏 Tabelle dei voti della classe (dal libro, per fascia).
  * Dipende da: App.U, App.Config (limiti, sessi), App.Classi, App.Stato, App.Avvisi,
  *             App.UI.FinestraImporta, App.UI.FinestraAlunni, App.UI.FinestraAlunno, App.UI (vai, titoloPagina, vuoto)
  * Usato da: ui/pagina.js
@@ -61,6 +62,7 @@
       el('div', { class: 'riga-btn sinistra' },
         el('button', { type: 'button', class: 'btn btn-ok piccolo-btn', text: '📥 Carica alunni', onclick: function () { App.UI.FinestraImporta.apri(c); } }),
         el('button', { type: 'button', class: 'btn btn-neutro piccolo-btn', text: '👥 Gestisci alunni', onclick: function () { App.UI.FinestraAlunni.apri(c); } }),
+        el('button', { type: 'button', class: 'btn btn-info piccolo-btn', text: '📏 Tabelle dei voti', onclick: function () { App.UI.FinestraVotiClasse.apri(c); } }),
         el('button', { type: 'button', class: 'btn btn-pericolo piccolo-btn', text: '🗑️ Cancella classe', onclick: function () { elimina(c); } })),
       c.alunni.length
         ? el('ol', { class: 'alunni-classe' }, c.alunni.map(function (a) {
