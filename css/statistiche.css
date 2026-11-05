@@ -29,3 +29,6 @@
 .legenda-ragnatela .seg.sufficienza { border-top: 2px dashed var(--avviso); }
 .profilo-voti { list-style: none; padding: 0; margin: 8px 0; }
 .profilo-voti li { padding: 3px 0; overflow-wrap: anywhere; }
+
+.lista-mancanti { margin: 6px 0; padding-left: 1.2em; }
+.lista-mancanti li { margin: 4px 0; overflow-wrap: anywhere; }
