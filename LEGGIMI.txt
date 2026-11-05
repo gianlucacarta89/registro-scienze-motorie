@@ -1,4 +1,4 @@
-REGISTRO S.MOT (Registro Scienze Motorie) — v6.6
+REGISTRO S.MOT (Registro Scienze Motorie) — v6.7
 ================================================
 
 PUBBLICAZIONE SU GITHUB PAGES (una volta sola, dal computer)

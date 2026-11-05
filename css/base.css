@@ -37,7 +37,10 @@
   --carattere: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
-/* Tema scuro (stesso significato dei colori, toni adatti allo sfondo scuro) */
+/* Tema scuro (stesso significato dei colori, toni adatti allo sfondo scuro).
+   Dalla v6.7 l'app è sempre chiara (sfondo bianco): <html data-theme="light"> in app/index.html.
+   Per tornare al tema automatico basta togliere quell'attributo. */
+:root[data-theme="light"] { color-scheme: light; }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     --sfondo: #14181d; --carta: #1c2128; --testo: #e6e9ed; --tenue: #9aa5b3;
