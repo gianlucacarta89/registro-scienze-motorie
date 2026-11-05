@@ -10,3 +10,5 @@
 .libro-dettagli { margin-top: 4px; }
 .libro-dettagli > summary { cursor: pointer; color: var(--info); font-size: .88rem; }
 .libro-dettagli p { margin: 4px 0; font-size: .9rem; overflow-wrap: anywhere; }
+.riquadro-libro { background: var(--info-chiaro); border-radius: var(--raggio); padding: 8px 12px; margin-bottom: 10px; }
+.riquadro-libro select { max-width: 100%; min-height: 40px; }

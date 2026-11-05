@@ -2,7 +2,9 @@
  * Cosa fa: finestra "Tabella dei voti" di un test: si copiano i parametri di riferimento
  *          (es. del libro di testo), una riga per voto, con la soglia per alunni (♂) e alunne (♀).
  *          Le soglie partono vuote; le righe senza soglie si ignorano.
- * Dipende da: App.U, App.Config (voti), App.Voti, App.ElencoTest, App.Stato, App.Avvisi, App.Finestra,
+ *          "📖 Riempi dal libro": prende la tabella di un test del libro compatibile (stesso tipo e
+ *          stessa direzione), della fascia della classe; salvando arriva anche la scheda (campi vuoti).
+ * Dipende da: App.U, App.Config (voti, fasce), App.TestLibro, App.SchedaTest, App.Voti, App.ElencoTest, App.Stato, App.Avvisi, App.Finestra,
  *             App.UI.disegnaContenuto
  * Usato da: ui/finestra-test.js (pulsante 📏 Tabella dei voti)
  */
@@ -11,6 +13,27 @@
 
   App.UI = App.UI || {};
   var el = function () { return App.U.el.apply(null, arguments); };
+
+  // Parole di un nome di test, con qualche sinonimo (medball = palla medica, m = metri, velocità = sprint)
+  var SINONIMI = { medball: 'palla medica', mb: 'palla medica', m: 'metri', mt: 'metri', velocita: 'sprint', addominali: 'addominali sit',
+    flessibilita: 'flessibilita', navetta: 'navetta', funicella: 'funicella', corda: 'funicella', piegamenti: 'piegamenti', flessioni: 'piegamenti' };
+  function parole(n) {
+    var l = String(n || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').split(/[^a-z0-9]+/);
+    return l.map(function (w) { return SINONIMI[w] || w; }).join(' ').split(' ')
+      .filter(function (w) { return w.length > 2 || /^[0-9]+$/.test(w); });
+  }
+
+  // Test del libro compatibili con t (stesso tipo e direzione), il più simile per primo
+  function compatibili(t) {
+    var mie = parole(t.nome);
+    return (App.TestLibro || []).filter(function (p) { return p.tipo === t.tipo && p.migliore === t.migliore; })
+      .map(function (p) {
+        var punti = parole(p.nome).filter(function (w) { return mie.some(function (m) { return m === w || (m.length > 4 && w.indexOf(m.slice(0, 5)) === 0); }); }).length * 2 +
+          (App.U.chiaveNome(p.tipologia) === App.U.chiaveNome(t.tipologia || '') ? 1 : 0);
+        return { p: p, punti: punti };
+      })
+      .sort(function (a, b) { return b.punti - a.punti || a.p.nome.localeCompare(b.p.nome); });
+  }
 
   App.UI.FinestraVoti = {
     apri: function (classe, t) {
@@ -34,6 +57,35 @@
       }
       iniziali.forEach(function (r) { corpo.appendChild(riga(r)); });
 
+      // 📖 Riempi dal libro
+      var daLibro = null;
+      var lista = compatibili(t);
+      var zonaLibro = null;
+      if (lista.length && !classe.elenco) {
+        var scegliLibro = el('select', { 'aria-label': 'Test del libro' }, lista.map(function (x, i) {
+          return el('option', { value: String(i), text: x.p.nome + ' · ' + x.p.tipologia });
+        }));
+        var fascia = el('select', { 'aria-label': 'Fascia della tabella del libro' },
+          App.Config.fasce.map(function (f) { return el('option', { value: f.id, text: f.nome }); }));
+        fascia.value = App.SchedaTest.fasciaDiClasse(classe) || 'b1';
+        var zonaFascia = el('label', { class: 'scelta-fascia' }, el('span', { class: 'piccolo', text: 'Fascia: ' }), fascia);
+        function aggiornaFascia() { zonaFascia.style.display = lista[Number(scegliLibro.value)].p.fasce ? '' : 'none'; }
+        scegliLibro.addEventListener('change', aggiornaFascia);
+        aggiornaFascia();
+        zonaLibro = el('div', { class: 'riquadro-libro' },
+          el('p', { class: 'piccolo' }, el('b', { text: '📖 Stessa prova di un test del libro? ' }), 'Sceglilo e riempi la tabella con i suoi voti (i tuoi risultati restano).'),
+          el('div', { class: 'riga-btn sinistra' }, scegliLibro, zonaFascia,
+            el('button', { type: 'button', class: 'btn btn-info piccolo-btn', text: '📖 Riempi dal libro', onclick: function () {
+              var p = lista[Number(scegliLibro.value)].p;
+              var f = p.fasce ? fascia.value : null;
+              var tab = p.fasce ? p.fasce[f] : p.voti;
+              App.U.svuota(corpo);
+              tab.righe.forEach(function (x) { corpo.appendChild(riga(x)); });
+              daLibro = { p: p, fascia: f };
+              App.Avvisi.toast('📖 Tabella di "' + p.nome + '"' + (f ? ' (' + App.SchedaTest.fascia(f).nome + ')' : '') + ' inserita: controlla e tocca ✔ Salva tabella.', 'info', 5000);
+            } })));
+      }
+
       function leggi() {
         return Array.prototype.map.call(corpo.querySelectorAll('tr'), function (tr) {
           return { voto: tr.querySelector('select').value, M: tr.querySelector('[data-s=M]').value, F: tr.querySelector('[data-s=F]').value };
@@ -41,6 +93,7 @@
       }
 
       var contenuto = el('div', { class: 'finestra-voti' },
+        zonaLibro,
         el('p', { class: 'piccolo', text: 'Copia la tabella del libro: per ogni voto scrivi il risultato ' + direzione +
           ' necessario (' + esempio + '), separato per alunni e alunne. Un risultato peggiore dell\'ultima riga prende il voto più basso della tabella. Le righe vuote non contano.' }),
         el('div', { class: 'tabella-zona tabella-voti-zona' },
@@ -74,6 +127,13 @@
             var r = App.Voti.controlla(t, leggi());
             if (r.errore) { App.Avvisi.toast('❌ ' + r.errore, 'errore', 7000); return false; }
             t.voti = { righe: r.righe };
+            if (daLibro) {
+              // dal libro: fascia della tabella e scheda del test (solo nei campi ancora vuoti)
+              if (daLibro.fascia) t.fasciaVoti = daLibro.fascia; else delete t.fasciaVoti;
+              App.SchedaTest.campi().forEach(function (c) { if (!t[c.id] && daLibro.p[c.id]) t[c.id] = daLibro.p[c.id]; });
+              if (!t.fonte && daLibro.p.fonte) t.fonte = daLibro.p.fonte;
+              if (daLibro.p.negativi) t.negativi = true;
+            }
             // tabella di un test di classe: si aggiorna anche la sua copia nell'elenco 📚 (se collegata)
             if (classe.elenco) App.ElencoTest.stacca(t); else App.ElencoTest.aggiorna(classe, t);
             App.Stato.salva();

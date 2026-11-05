@@ -1,4 +1,4 @@
-# MAPPA — Registro S.Mot (Registro Scienze Motorie) v5.5
+# MAPPA — Registro S.Mot (Registro Scienze Motorie) v5.6
 
 Indice dei file: cosa c'è dentro e quale parte dell'app ne dipende.
 Tutti i moduli stanno nell'oggetto globale `App`. Ordine di caricamento in `index.html`:
@@ -101,7 +101,7 @@ Ogni pagina è `App.UI.Pagine[id].disegna(cont)`; la pagina aperta è `preferenz
 | `tabella-test.js` | `App.UI.TabellaTest` | Tabella alunni × test: Classe, 📚 Scegli i test, 1ª / 2ª / 3ª prova, Confronto, 📋 Copia test, voto e media voti |
 | `finestra-elenco-test.js` | `App.UI.FinestraElencoTest` | 📚 Scegli i test (da Sessioni): solo quelli in uso, già presenti segnati, fascia dei voti, ➕ Nuovo test al volo |
 | `finestra-test.js` | `App.UI.FinestraTest` | Nuovo test e ✏️ intestazione colonna: nome, tipologia (menu da config + Altro…), strumento (uno o ♂/♀), tipo, unità, migliore, 📖 scheda, ◀ ▶ sposta, 🗑️ |
-| `finestra-voti.js` | `App.UI.FinestraVoti` | 📏 Tabella dei voti: una riga per voto, soglia ♂ e ♀, ➕ riga, controllo dell'ordine |
+| `finestra-voti.js` | `App.UI.FinestraVoti` | 📏 Tabella dei voti: una riga per voto, soglia ♂ e ♀, ➕ riga, controllo dell'ordine; 📖 Riempi dal libro (test compatibili, il più simile per primo, fascia della classe; al salvataggio anche la scheda) |
 | `finestra-copia-test.js` | `App.UI.FinestraCopiaTest` | 📋 Copia test in un'altra classe |
 | `statistiche.js` | `App.UI.Statistiche` | 📈 Statistiche (pagina Test): per test e prova, andamento, miglioramenti, media voti per test, 🏅 primi 3, 🕸️ profilo |
 | `profilo-alunno.js` | `App.UI.ProfiloAlunno` | Grafico a ragnatela SVG per capacità (prova scelta + 1ª tratteggiata), voti test per test |

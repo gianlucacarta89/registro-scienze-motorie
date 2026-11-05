@@ -1,4 +1,4 @@
-REGISTRO S.MOT (Registro Scienze Motorie) — v5.5
+REGISTRO S.MOT (Registro Scienze Motorie) — v5.6
 ================================================
 
 PUBBLICAZIONE SU GITHUB PAGES (una volta sola, dal computer)
@@ -65,6 +65,10 @@ COSA FA — il menu (in alto sul computer, in basso sul telefono)
   dal telefono anche 12,30. Numeri negativi ammessi (es. flessibilità -4). Il voto compare
   sotto ogni risultato e la colonna Media voti fa la media della prova.
   📋 Copia test porta i test (con le tabelle) in un'altra classe.
+  📖 Riempi dal libro: se un tuo test è la stessa prova di uno del libro (es. "Lancio medball"
+  = "Lancio avanti palla medica 3 kg"), nella finestra 📏 Tabella dei voti scegli il test del
+  libro e la fascia, tocca "📖 Riempi dal libro" e salva: arriva la sua tabella (e la scheda),
+  i tuoi risultati restano.
   🎯 Voti (sottosezione di Sessioni): tabella alunni × test con i voti calcolati nella prova
   scelta (verdi i sufficienti, rossi gli insufficienti), media voti di ogni alunno e media
   della classe per ogni test; sotto, le tabelle dei voti di ogni test (♂ e ♀) da cui vengono.
