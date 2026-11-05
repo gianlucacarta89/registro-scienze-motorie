@@ -66,7 +66,7 @@
       ? ['Apri questa pagina con Safari.', 'Tocca il pulsante Condividi (il quadrato con la freccia in su).',
         'Scorri e tocca "Aggiungi alla schermata Home", poi "Aggiungi".']
       : ['Android: menu ⋮ di Chrome → "Installa app" oppure "Aggiungi a schermata Home".',
-        'Computer: nella barra dell\'indirizzo di Chrome o Edge tocca l\'icona di installazione (un monitor con la freccia), oppure menu → "Installa Registro Scienze Motorie".'];
+        'Computer: nella barra dell\'indirizzo di Chrome o Edge tocca l\'icona di installazione (un monitor con la freccia), oppure menu → "Installa Registro S.Mot".'];
     App.Finestra.apri({
       titolo: 'Installa l\'app', icona: '📲',
       corpo: el('div', {},

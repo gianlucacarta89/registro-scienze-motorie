@@ -1,4 +1,4 @@
-# MAPPA — Registro Scienze Motorie v5.2
+# MAPPA — Registro S.Mot (Registro Scienze Motorie) v5.3
 
 Indice dei file: cosa c'è dentro e quale parte dell'app ne dipende.
 Tutti i moduli stanno nell'oggetto globale `App`. Ordine di caricamento in `index.html`:
@@ -13,7 +13,7 @@ config → core → servizi → stampa → dati → ui → avvio (jsPDF in `lib/
 | `NOVITA.md` | Cronologia delle versioni |
 | `manifest.webmanifest` | Nome, icone e colori dell'app installata (PWA) |
 | `sw.js` | Service worker: salva i file per l'uso offline. **Aggiornare `VERSIONE` a ogni consegna e l'elenco `FILE` se si aggiungono o tolgono file** |
-| `icone/` | Icone dell'app (192, 512, maskable 512, apple-touch 180) |
+| `icone/` | Icone dell'app: racchetta e pallone su quadrato verde arrotondato (`icona.svg` anche nella testata; PNG 192, 512, maskable 512, apple-touch 180) |
 | `.nojekyll` | Dice a GitHub Pages di pubblicare i file così come sono |
 
 La versione online (pagina privata su claude.ai) usa gli stessi file `css/` e `js/`: cambia solo la pagina iniziale, senza `<html>` e `<head>`.

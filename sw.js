@@ -7,7 +7,7 @@
  */
 'use strict';
 
-var VERSIONE = 'registro-sm-v5.2';
+var VERSIONE = 'registro-sm-v5.3';
 
 var FILE = [
   './',
@@ -76,6 +76,7 @@ var FILE = [
   'js/ui/statistiche.js',
   'js/ui/statistiche-giust.js',
   'js/avvio.js',
+  'icone/icona.svg',
   'icone/icona-192.png',
   'icone/apple-touch-icon.png',
   'icone/icona-512.png',

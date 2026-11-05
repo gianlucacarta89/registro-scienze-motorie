@@ -8,9 +8,8 @@
   'use strict';
 
   App.Config = {
-    nome: 'Registro Scienze Motorie',
-    icona: '🏃',
-    versione: '5.2',
+    nome: 'Registro S.Mot',          // nome mostrato (l'archivio dei dati qui sotto NON va cambiato)
+    versione: '5.3',
 
     // Menu principale: una pagina per voce (ui/pagina.js). "corto" = etichetta sul telefono
     menu: [

@@ -10,7 +10,6 @@
     var c = App.Config;
     document.title = c.nome;
     document.getElementById('titolo-app').textContent = c.nome;
-    document.getElementById('logo').textContent = c.icona;
 
     App.Stato.carica().then(function () {
       App.Test.ordinaTutti();
