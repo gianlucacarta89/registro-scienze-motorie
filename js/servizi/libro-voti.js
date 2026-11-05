@@ -3,7 +3,8 @@
  *          trova i test del libro compatibili (stesso tipo e direzione), il più simile per primo
  *          (nome con qualche sinonimo + tipologia), applica a un test la tabella del libro della
  *          fascia scelta (e la scheda nei campi vuoti) oppure la toglie. I risultati non si toccano.
- * Dipende da: App.TestLibro, App.SchedaTest, App.U
+ *          "Sostituisci": il test della classe diventa del tutto il test del libro, con i suoi risultati.
+ * Dipende da: App.TestLibro, App.SchedaTest, App.U, App.Test, App.Voti, App.ElencoTest
  * Usato da: ui/finestra-voti.js, ui/finestra-voti-classe.js
  *
  * Dati: test.daLibro = nome del test del libro da cui viene la tabella; test.fasciaVoti = 'b1'|'b2'|'q'
@@ -62,5 +63,61 @@
   // Toglie la tabella dei voti (i risultati restano)
   function togli(t) { delete t.voti; delete t.fasciaVoti; delete t.daLibro; }
 
-  App.LibroVoti = { parole: parole, compatibili: compatibili, proposto: proposto, trova: trova, tabella: tabella, applica: applica, togli: togli };
+  var CAMPI_TEST = ['nome', 'tipologia', 'tipo', 'formatoTempo', 'unita', 'migliore', 'perSesso', 'strumento', 'strumentoM', 'strumentoF', 'negativi', 'fonte'];
+
+  // Il test del libro da usare: la copia nell'elenco 📚 (se c'è, magari ritoccata) o quella del libro
+  function modello(nome) {
+    var k = App.U.chiaveNome(nome);
+    var e = App.ElencoTest.tutti().filter(function (x) { return App.U.chiaveNome(x.nome) === k; })[0];
+    return e && (e.fasce || e.voti) ? e : trova(nome);
+  }
+
+  // Un risultato del vecchio test riscritto per il nuovo ('' se non si può)
+  function converti(vecchio, nuovo, v) {
+    var n = App.Test.numero(vecchio, v);
+    if (n === null || isNaN(n)) return null;
+    var testo = String(Math.round(n * 100) / 100).replace('.', ',');
+    if (nuovo.tipo === 'tempo' && App.Test.formato(nuovo) === 'min') {
+      var s = Math.round(n * 100) / 100, m = Math.floor(s / 60), r = Math.round((s - m * 60) * 100) / 100;
+      testo = m + ':' + (r < 10 ? '0' : '') + String(r).replace('.', ',');
+    }
+    var x = App.Test.valida(nuovo, testo);
+    return x.ok ? x.valore : null;
+  }
+
+  // Sostituisce il test t della classe con il test del libro p (fascia della classe): il test prende
+  // nome, misura, strumento, scheda e tabella del libro; i risultati restano (riscritti nel formato nuovo).
+  // Se nella classe c'è già il test del libro, i risultati si uniscono lì e t sparisce.
+  // -> { nome, unito, spostati, nonConvertiti }
+  function sostituisci(classe, t, p, fascia) {
+    var vecchio = App.U.copia(t), out = { nome: p.nome, unito: false, spostati: 0, nonConvertiti: 0 };
+    var k = App.U.chiaveNome(p.nome);
+    var gia = classe.test.filter(function (x) { return x.id !== t.id && App.U.chiaveNome(x.nome) === k; })[0];
+    var dest = gia || t;
+    if (!gia) {
+      CAMPI_TEST.forEach(function (c) { if (p[c] !== undefined) t[c] = App.U.copia(p[c]); else delete t[c]; });
+      App.SchedaTest.campi().forEach(function (c) { if (p[c.id]) t[c.id] = p[c.id]; });
+      applica(t, p, fascia);
+    } else if (!App.Voti.haTabella(gia)) applica(gia, p, fascia);
+    // risultati: riscritti per il test di arrivo
+    Object.keys(classe.risultati).forEach(function (a) {
+      var r = classe.risultati[a][vecchio.id];
+      if (!r) return;
+      Object.keys(r).forEach(function (prova) {
+        var v = r[prova], nv = converti(vecchio, dest, v);
+        if (nv === null) { out.nonConvertiti++; return; }
+        if (gia) {
+          if (!App.Test.valore(classe, a, gia.id, prova)) { App.Test.imposta(classe, a, gia.id, prova, nv); out.spostati++; }
+        } else { App.Test.imposta(classe, a, t.id, prova, nv); out.spostati++; }
+      });
+    });
+    if (gia && !out.nonConvertiti) { App.Test.elimina(classe, t.id); out.unito = true; }
+    // il test non è più "suo": la copia nell'elenco 📚 non lo segue più
+    App.ElencoTest.tutti().forEach(function (e) { if (e.origine && e.origine.c === classe.id && e.origine.t === vecchio.id) delete e.origine; });
+    App.Test.ordina(classe);
+    return out;
+  }
+
+  App.LibroVoti = { parole: parole, compatibili: compatibili, proposto: proposto, trova: trova, modello: modello, tabella: tabella,
+    applica: applica, togli: togli, converti: converti, sostituisci: sostituisci };
 })(window.App = window.App || {});

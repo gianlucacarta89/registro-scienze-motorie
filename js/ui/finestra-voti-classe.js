@@ -3,7 +3,8 @@
  *          Fascia della classe proposta dal nome (1G = 1° biennio, 3G = 2° biennio, 5N = quinto anno),
  *          modificabile e ricordata; per ogni test della classe il test del libro proposto (il più
  *          simile) e lo stato della tabella attuale. Sui test spuntati: "📖 Applica le tabelle del libro"
- *          oppure "🗑️ Togli le tabelle". I risultati degli alunni non cambiano mai.
+ *          oppure "🗑️ Togli le tabelle", oppure "🔄 Sostituisci con il test del libro" (il test diventa quello
+ *          del libro preso dall'elenco 📚, i risultati passano al test nuovo).
  * Dipende da: App.U, App.Config (fasce), App.LibroVoti, App.SchedaTest, App.Voti, App.ElencoTest,
  *             App.Stato, App.Avvisi, App.Finestra, App.UI.disegnaContenuto, App.UI.FinestraVoti
  * Usato da: ui/pagina-classi.js, ui/tabella-voti.js, ui/profilo-alunno.js
@@ -92,8 +93,38 @@
         return false;
       }
 
+      // Sostituisce i test spuntati con il test del libro scelto (dall'elenco 📚), risultati compresi
+      function sostituisci() {
+        var f = fascia.value;
+        var coppie = spuntati().map(function (t) { return { t: t, p: scelte[t.id].libro && App.LibroVoti.modello(scelte[t.id].libro) }; })
+          .filter(function (x) { return x.p && x.p.nome !== x.t.nome; });
+        if (!coppie.length) { App.Avvisi.toast('Spunta i test da sostituire e scegli per ognuno il test del libro.', 'info', 5000); return false; }
+        App.Avvisi.conferma({ titolo: 'Sostituire ' + coppie.length + (coppie.length === 1 ? ' test' : ' test') + ' con quelli del libro?', testoOk: '🔄 Sostituisci',
+          testo: coppie.map(function (x) { return x.t.nome + ' → ' + x.p.nome; }).concat([
+            'Ogni test prende nome, misura, strumento, scheda e tabella dei voti del libro (' + App.SchedaTest.fascia(f).nome + '). I risultati già scritti passano al test nuovo.',
+            'Se vuoi tornare indietro: 💾 Backup → ⬆️ Importa il backup di prima.']) })
+          .then(function (si) {
+            if (!si) return;
+            classe.fascia = f;
+            var tot = 0, non = 0, uniti = 0;
+            coppie.forEach(function (x) {
+              var r = App.LibroVoti.sostituisci(classe, x.t, x.p, f);
+              tot += r.spostati; non += r.nonConvertiti; if (r.unito) uniti++;
+              delete scelte[x.t.id];
+            });
+            classe.test.forEach(function (t) { if (!scelte[t.id]) { var p = App.LibroVoti.proposto(t); scelte[t.id] = { si: false, libro: p ? p.nome : '' }; } });
+            App.Stato.salva();
+            App.UI.disegnaContenuto();
+            disegna();
+            App.Avvisi.toast('✔ ' + coppie.length + ' test sostituiti con quelli del libro; ' + tot + ' risultati spostati' +
+              (uniti ? ' (' + uniti + ' uniti al test del libro già presente)' : '') +
+              (non ? '. ⚠️ ' + non + ' risultati non convertibili sono rimasti nel test di prima: controllali.' : '.'), non ? 'info' : 'ok', 8000);
+          });
+        return false;
+      }
+
       var corpo = el('div', { class: 'finestra-voti-classe' },
-        el('p', { class: 'piccolo', text: 'Le tabelle del libro si mettono per classe: scegli la fascia, controlla per ogni test quale test del libro usare e tocca "📖 Applica". I risultati degli alunni non cambiano mai.' }),
+        el('p', { class: 'piccolo', text: 'Le tabelle del libro si mettono per classe: scegli la fascia, controlla per ogni test quale test del libro usare e tocca "📖 Applica" (cambia solo la tabella) oppure "🔄 Sostituisci" (il tuo test diventa del tutto quello del libro: nome, misura, scheda e tabella; i risultati passano al test nuovo).' }),
         el('label', { class: 'campo scelta-fascia-classe' }, el('span', { text: 'Fascia della classe ' + classe.nome }), fascia),
         el('div', { class: 'riga-btn sinistra' },
           el('button', { type: 'button', class: 'btn btn-neutro piccolo-btn', text: '☑️ Tutti', onclick: function () { classe.test.forEach(function (t) { scelte[t.id].si = true; }); disegna(); } }),
@@ -105,6 +136,7 @@
         pulsanti: [
           { testo: '🗑️ Togli le tabelle', tipo: 'pericolo', azione: togli },
           { testo: 'Chiudi', tipo: 'neutro' },
+          { testo: '🔄 Sostituisci con il test del libro', tipo: 'info', azione: sostituisci },
           { testo: '📖 Applica le tabelle del libro', tipo: 'ok', azione: applica }
         ]
       });

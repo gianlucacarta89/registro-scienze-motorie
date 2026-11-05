@@ -1,4 +1,4 @@
-REGISTRO S.MOT (Registro Scienze Motorie) — v6.3
+REGISTRO S.MOT (Registro Scienze Motorie) — v6.4
 ================================================
 
 PUBBLICAZIONE SU GITHUB PAGES (una volta sola, dal computer)
@@ -76,6 +76,9 @@ COSA FA — il menu (in alto sul computer, in basso sul telefono)
   libro si mettono per classe. La fascia è proposta dal nome (1G = 1° biennio, 3G = 2° biennio,
   5N = quinto anno) e si può cambiare; per ogni test è proposto il test del libro equivalente.
   "📖 Applica" le mette ai test spuntati, "🗑️ Togli" le toglie. I risultati non cambiano.
+  "🔄 Sostituisci con il test del libro": il tuo test diventa del tutto quello del libro (preso
+  dall'elenco 📚: nome, misura, strumento, scheda, tabella della fascia) e i risultati già scritti
+  passano al test nuovo; se il test del libro c'è già nella classe, i risultati si uniscono lì.
   📖 Riempi dal libro: se un tuo test è la stessa prova di uno del libro (es. "Lancio medball"
   = "Lancio avanti palla medica 3 kg"), nella finestra 📏 Tabella dei voti scegli il test del
   libro e la fascia, tocca "📖 Riempi dal libro" e salva: arriva la sua tabella (e la scheda),
