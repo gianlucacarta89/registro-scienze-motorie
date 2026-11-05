@@ -1,4 +1,4 @@
-# MAPPA — Registro S.Mot (Registro Scienze Motorie) v5.8
+# MAPPA — Registro S.Mot (Registro Scienze Motorie) v5.9
 
 Indice dei file: cosa c'è dentro e quale parte dell'app ne dipende.
 Tutti i moduli stanno nell'oggetto globale `App`. Ordine di caricamento in `index.html`:
@@ -7,11 +7,12 @@ config → core → servizi → stampa → dati → ui → avvio (jsPDF in `lib/
 ## Radice
 | File | Scopo |
 |---|---|
-| `index.html` | Scheletro della pagina (testata, menu, contenuto, piè) ed elenco ordinato degli script |
+| `index.html` | Rimanda ad `app/index.html` (vecchio indirizzo e apertura con doppio clic) |
+| `app/index.html` | **La pagina dell'app**: scheletro (testata, menu, contenuto, piè) ed elenco ordinato degli script; `<html data-base="../">` = dove sono css/, js/, icone/, lib/ (letto da `App.U.base()`) |
 | `LEGGIMI.txt` | Istruzioni per chi usa l'app |
 | `MAPPA.md` | Questo indice |
 | `NOVITA.md` | Cronologia delle versioni |
-| `manifest.webmanifest` | Nome, icone e colori dell'app installata (PWA) |
+| `manifest.webmanifest` | Nome, icone e colori dell'app installata (PWA); `scope`, `id` e avvio in `app/` (`./app/?app=smot`) |
 | `sw.js` | Service worker: salva i file per l'uso offline. **Aggiornare `VERSIONE` a ogni consegna e l'elenco `FILE` se si aggiungono o tolgono file** |
 | `icone/` | Icone dell'app: racchetta e pallone su quadrato verde arrotondato (`icona.svg` anche nella testata; PNG 192, 512, maskable 512, apple-touch 180) |
 | `.nojekyll` | Dice a GitHub Pages di pubblicare i file così come sono |

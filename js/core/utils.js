@@ -56,6 +56,9 @@
 
   function oggiISO() { return isoData(new Date()); }
 
+  // Percorso della radice del sito rispetto alla pagina: l'app sta in app/ (<html data-base="../">)
+  function base() { return document.documentElement.getAttribute('data-base') || ''; }
+
   // "2026-10-12" -> "12/10/2026"
   function dataIT(iso) {
     if (!iso) return '';
@@ -118,7 +121,7 @@
 
   App.U = {
     el: el, svuota: svuota, esc: esc, nuovoId: nuovoId, pad2: pad2,
-    isoData: isoData, oggiISO: oggiISO, dataIT: dataIT, dataOraIT: dataOraIT,
+    base: base, isoData: isoData, oggiISO: oggiISO, dataIT: dataIT, dataOraIT: dataOraIT,
     spazi: spazi, chiaveNome: chiaveNome, confronta: confronta, scarica: scarica, copia: copia
   };
 })(window.App = window.App || {});

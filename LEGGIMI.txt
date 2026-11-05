@@ -1,4 +1,4 @@
-REGISTRO S.MOT (Registro Scienze Motorie) — v5.8
+REGISTRO S.MOT (Registro Scienze Motorie) — v5.9
 ================================================
 
 PUBBLICAZIONE SU GITHUB PAGES (una volta sola, dal computer)
@@ -16,6 +16,8 @@ PUBBLICAZIONE SU GITHUB PAGES (una volta sola, dal computer)
 
 INSTALLAZIONE SU TELEFONO, TABLET E COMPUTER
 - L'app installata si chiama "Registro S.Mot" (icona verde con racchetta e pallone).
+- Indirizzo: https://gianlucacarta89.github.io/registro-scienze-motorie/app/
+  (quello senza /app/ porta lì da solo; i dati sono gli stessi).
 - Apri quell'indirizzo una volta, con internet.
 - iPhone/iPad (Safari): Condividi → "Aggiungi alla schermata Home".
 - Android (Chrome): ⋮ → "Installa app".

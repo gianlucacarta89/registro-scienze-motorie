@@ -9,7 +9,7 @@
 
   App.Config = {
     nome: 'Registro S.Mot',          // nome mostrato (l'archivio dei dati qui sotto NON va cambiato)
-    versione: '5.8',
+    versione: '5.9',
 
     // Menu principale: una pagina per voce (ui/pagina.js). "corto" = etichetta sul telefono
     menu: [

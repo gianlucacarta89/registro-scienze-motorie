@@ -7,11 +7,13 @@
  */
 'use strict';
 
-var VERSIONE = 'registro-sm-v5.8';
+var VERSIONE = 'registro-sm-v5.9';
 
 var FILE = [
   './',
   'index.html',
+  'app/',
+  'app/index.html',
   'manifest.webmanifest',
   'css/base.css',
   'css/componenti.css',
@@ -120,7 +122,7 @@ self.addEventListener('fetch', function (ev) {
     caches.match(rq, { ignoreSearch: true }).then(function (salvata) {
       if (salvata) return salvata;
       return fetch(rq).catch(function () {
-        if (rq.mode === 'navigate') return caches.match('index.html');
+        if (rq.mode === 'navigate') return caches.match('app/index.html');
         return Response.error();
       });
     })

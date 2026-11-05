@@ -21,7 +21,7 @@
       return p.then(function () {
         return new Promise(function (ok, ko) {
           var s = document.createElement('script');
-          s.src = src;
+          s.src = App.U.base() + src;
           s.onload = ok;
           s.onerror = function () { ko(new Error('libreria')); };
           document.head.appendChild(s);

@@ -43,7 +43,7 @@
       App.Avvisi.toast('🔄 Nuova versione: aggiorno l\'app…', 'info', 3000);
       setTimeout(function () { location.reload(); }, 600);
     });
-    navigator.serviceWorker.register('sw.js').then(function (reg) {
+    navigator.serviceWorker.register(App.U.base() + 'sw.js').then(function (reg) {
       registrazione = reg;
       reg.update().catch(function () {});
     }).catch(function (e) { console.warn('Service worker non registrato', e); });
