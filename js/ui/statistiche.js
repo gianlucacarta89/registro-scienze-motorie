@@ -5,7 +5,7 @@
  *          primi 3 alunni e alunne di ogni test (per scegliere chi mandare ai giochi studenteschi),
  *          profilo dell'alunno a ragnatela per capacità (ui/profilo-alunno.js).
  * Dipende da: App.U, App.Stato, App.Config, App.Statistiche, App.Voti, App.UI.Grafici,
- *             App.UI.FinestraVoti, App.UI.vuoto
+ *             App.UI.FinestraVotiClasse, App.UI.vuoto
  * Usato da: ui/pagina.js
  */
 (function (App) {
@@ -91,8 +91,8 @@
       var votiCont;
       if (!s.tabella) {
         votiCont = el('div', { class: 'suggerimento' }, 'Questo test non ha ancora la tabella dei voti. ',
-          el('button', { type: 'button', class: 'btn btn-info piccolo-btn', text: '📏 Inserisci tabella',
-            onclick: function () { App.UI.FinestraVoti.apri(classe, t); } }));
+          el('button', { type: 'button', class: 'btn btn-info piccolo-btn', text: '📏 Tabelle dei voti della classe',
+            onclick: function () { App.UI.FinestraVotiClasse.apri(classe); } }));
       } else if (!s.conVoto) {
         votiCont = el('p', { class: 'piccolo', text: s.senzaSesso ? 'Indica ♂/♀ degli alunni (🏫 Classi, tocca il nome) per calcolare i voti.' : 'Nessun voto: mancano i risultati di questa prova.' });
       } else {

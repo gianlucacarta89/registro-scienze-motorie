@@ -2,7 +2,7 @@
  * Cosa fa: sezione "🕸️ Profilo dell'alunno" delle 📈 Statistiche (pagina 📚 Test): grafico a ragnatela
  *          (SVG, senza librerie) con la media dei voti per capacità nella prova scelta; dalla 2ª prova
  *          in poi c'è anche la 1ª prova tratteggiata per vedere i progressi. Sotto, i voti test per test.
- * Dipende da: App.U, App.Stato, App.Config (capacita, voti, prove), App.Profilo, App.Voti, App.UI.FinestraVoti
+ * Dipende da: App.U, App.Stato, App.Config (capacita, voti, prove), App.Profilo, App.Voti, App.UI.FinestraVotiClasse
  * Usato da: ui/statistiche.js
  */
 (function (App) {
@@ -80,12 +80,10 @@
             'Ora ' + (caps.length ? 'sono pronte: ' + caps.map(function (c) { return c.nome.toLowerCase(); }).join(', ') : 'non è pronta nessuna capacità') + '.' }),
           senzaTab.length ? el('div', { class: 'suggerimento' },
             el('p', { text: '📏 Questi test non hanno la tabella dei voti, quindi non danno voti:' }),
-            el('button', { type: 'button', class: 'btn btn-ok piccolo-btn', text: '📏 Metti le tabelle del libro a tutta la classe', onclick: function () { App.UI.FinestraVotiClasse.apri(classe); } }),
             el('ul', { class: 'lista-mancanti' }, senzaTab.map(function (t) {
-              return el('li', {}, el('b', { text: t.nome }), ' (' + App.Profilo.capacitaDi(t).nome.toLowerCase() + ') ',
-                el('button', { type: 'button', class: 'btn btn-info piccolo-btn', text: '📏 Inserisci tabella', onclick: function () { App.UI.FinestraVoti.apri(classe, t); } }));
+              return el('li', {}, el('b', { text: t.nome }), ' (' + App.Profilo.capacitaDi(t).nome.toLowerCase() + ')');
             })),
-            el('p', { class: 'piccolo', text: 'In alternativa usa il test equivalente del libro (📚 Test → spunta "Lo uso", poi ⏱️ Sessioni → 📚 Scegli i test): ha già le tabelle per alunni e alunne.' })) : null,
+            el('button', { type: 'button', class: 'btn btn-ok', text: '📏 Tabelle dei voti della classe', onclick: function () { App.UI.FinestraVotiClasse.apri(classe); } })) : null,
           senzaCap.length ? el('p', { class: 'piccolo', text: 'Senza tipologia (o con una tipologia scritta a mano) non contano: ' + senzaCap.map(function (t) { return t.nome; }).join(', ') + '. Scegli la tipologia toccando il nome del test in ⏱️ Sessioni.' }) : null);
       }
       if (!a.sesso) return el('div', {}, testa, el('p', { class: 'piccolo avviso-riga', text: '⚠️ Indica ♂/♀ dell\'alunno (🏫 Classi, tocca il nome): servono per calcolare i voti.' }));
