@@ -1,4 +1,4 @@
-# MAPPA — Registro Scienze Motorie v5.0
+# MAPPA — Registro Scienze Motorie v5.1
 
 Indice dei file: cosa c'è dentro e quale parte dell'app ne dipende.
 Tutti i moduli stanno nell'oggetto globale `App`. Ordine di caricamento in `index.html`:
@@ -96,7 +96,8 @@ Ogni pagina è `App.UI.Pagine[id].disegna(cont)`; la pagina aperta è `preferenz
 | `pagina-classi.js` | `App.UI.Pagine.classi` | 🏫 Crea classe; per ogni classe: nome modificabile, ♂/♀, 📥 Carica alunni, 👥 Gestisci alunni, 🗑️, elenco degli alunni (tocco = correggi) |
 | `pagina-test.js` | `App.UI.Pagine.test` | 📚 Sottoschede "Elenco dei test" e "📈 Statistiche" (classe scelta in alto) |
 | `lista-test.js` | `App.UI.ListaTest` | Elenco unico: test del libro + miei, per tipologia, spunta "Lo uso", filtri Tutti / In uso / Libro / Miei, ➕ Nuovo test, 📥 Prendi i test della classe, ✏️ |
-| `pagina-sessioni.js` | `App.UI.Pagine.sessioni` | ⏱️ Parte operativa: tabella dei risultati della classe scelta |
+| `pagina-sessioni.js` | `App.UI.Pagine.sessioni` | ⏱️ Parte operativa: sottosezioni "✏️ Risultati" e "🎯 Voti" della classe scelta |
+| `tabella-voti.js` | `App.UI.TabellaVoti` | 🎯 Voti: alunni × test con voto calcolato, media alunno, media classe per test; tabelle dei voti (♂/♀) dei test |
 | `tabella-test.js` | `App.UI.TabellaTest` | Tabella alunni × test: Classe, 📚 Scegli i test, 1ª / 2ª / 3ª prova, Confronto, 📋 Copia test, voto e media voti |
 | `finestra-elenco-test.js` | `App.UI.FinestraElencoTest` | 📚 Scegli i test (da Sessioni): solo quelli in uso, già presenti segnati, fascia dei voti, ➕ Nuovo test al volo |
 | `finestra-test.js` | `App.UI.FinestraTest` | Nuovo test e ✏️ intestazione colonna: nome, tipologia (menu da config + Altro…), strumento (uno o ♂/♀), tipo, unità, migliore, 📖 scheda, ◀ ▶ sposta, 🗑️ |
@@ -122,7 +123,7 @@ Ogni pagina è `App.UI.Pagine[id].disegna(cont)`; la pagina aperta è `preferenz
 ```
 { schema: 1, ultimaModifica, ultimoBackup,
   archivio: { test: [ come classe.test + origine: { c, t }, inUso: false (= non lo uso), libro: true, fasce ] },   // 📚 elenco dei test
-  preferenze: { classeAttiva, docente, pagina: 'home'|'classi'|'test'|'sessioni'|'giust'|'riepilogo'|'backup', sottoTest: 'elenco'|'stat', sottoGiust: 'registro'|'stat', filtroTest, prova: 1|2|3|'c', statgMese, statgOrdine, annoInizio: null|2026, statTest, statAlunno },
+  preferenze: { classeAttiva, docente, pagina: 'home'|'classi'|'test'|'sessioni'|'giust'|'riepilogo'|'backup', sottoTest: 'elenco'|'stat', sottoGiust: 'registro'|'stat', sottoSessioni: 'risultati'|'voti', filtroTest, prova: 1|2|3|'c', statgMese, statgOrdine, annoInizio: null|2026, statTest, statAlunno },
   classi: [{ id, nome,
     alunni: [{ id, nome, sesso: 'M'|'F'|'' }],
     test: [{ id, nome, tipologia, note, strumento, perSesso, strumentoM, strumentoF, unita, tipo: 'numero'|'tempo', migliore: 'alto'|'basso',

@@ -13,7 +13,7 @@
       schema: 1,
       classi: [],
       archivio: { test: [] },            // elenco dei test del docente (fuori dalle classi)
-      preferenze: { classeAttiva: null, pagina: 'home', sottoTest: 'elenco', sottoGiust: 'registro', filtroTest: 'tutti', prova: 1, annoInizio: null, statTest: null, statgMese: '', statgOrdine: 'nome', docente: null, statAlunno: null },
+      preferenze: { classeAttiva: null, pagina: 'home', sottoTest: 'elenco', sottoGiust: 'registro', sottoSessioni: 'risultati', filtroTest: 'tutti', prova: 1, annoInizio: null, statTest: null, statgMese: '', statgOrdine: 'nome', docente: null, statAlunno: null },
       ultimaModifica: null,
       ultimoBackup: null
     };
@@ -42,6 +42,7 @@
     n.preferenze.pagina = App.Config.menu.some(function (m) { return m.id === p.pagina; }) ? p.pagina : 'home';
     n.preferenze.sottoTest = p.sottoTest === 'stat' ? 'stat' : 'elenco';
     n.preferenze.sottoGiust = p.sottoGiust === 'stat' ? 'stat' : 'registro';
+    n.preferenze.sottoSessioni = p.sottoSessioni === 'voti' ? 'voti' : 'risultati';
     n.preferenze.filtroTest = ['uso', 'libro', 'miei'].indexOf(p.filtroTest) >= 0 ? p.filtroTest : 'tutti';
     n.preferenze.statgMese = p.statgMese || '';
     n.preferenze.docente = typeof p.docente === 'string' ? p.docente : null;

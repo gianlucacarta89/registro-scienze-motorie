@@ -10,12 +10,13 @@
 
   App.UI = App.UI || {};
 
-  // Apre una pagina del menu (e una sua sottoscheda: 'stat' per Test o Giustificazioni)
+  // Apre una pagina del menu (e una sua sottoscheda: 'stat' per Test o Giustificazioni, 'voti' per Sessioni)
   App.UI.vai = function (pagina, sotto) {
     var p = App.Stato.dati.preferenze;
     p.pagina = pagina;
     if (sotto && pagina === 'test') p.sottoTest = sotto;
     if (sotto && pagina === 'giust') p.sottoGiust = sotto;
+    if (sotto && pagina === 'sessioni') p.sottoSessioni = sotto;
     App.Stato.scrivi();
     App.UI.disegna();
     window.scrollTo(0, 0);

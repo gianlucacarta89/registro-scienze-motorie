@@ -28,8 +28,10 @@
     return String(v).replace('.', ',');
   }
 
+  // sesso: 'M' | 'F' (altro, es. l'indice di filter/some, vale "tutti e due")
   function haTabella(test, sesso) {
     var r = (test.voti && test.voti.righe) || [];
+    if (sesso !== 'M' && sesso !== 'F') sesso = null;
     return r.some(function (x) { return sesso ? x[sesso] : (x.M || x.F); });
   }
 
