@@ -2,8 +2,8 @@
  * Cosa fa: sottoscheda 📈 Statistiche della pagina 📚 Test: scelta del test e della prova, riquadri con
  *          svolti / media / migliore / peggiore (anche ♂ e ♀), grafico di quanti alunni per voto,
  *          miglioramenti 1ª → 2ª prova, media voti della classe per ogni test,
- *          primi 3 alunni e alunne di ogni test (per scegliere chi mandare ai giochi studenteschi),
- *          profilo dell'alunno a ragnatela per capacità (ui/profilo-alunno.js).
+ *          primi 3 alunni e alunne di ogni test (per scegliere chi mandare ai giochi studenteschi).
+ *          Il profilo a ragnatela di ogni alunno è nella sua scheda (🏫 Classi, ui/scheda-alunno.js).
  * Dipende da: App.U, App.Stato, App.Config, App.Statistiche, App.Voti, App.UI.Grafici,
  *             App.UI.FinestraVotiClasse, App.UI.vuoto
  * Usato da: ui/pagina.js
@@ -141,8 +141,8 @@
         }), { max: App.Config.voti.max, riferimento: App.Config.voti.sufficienza, nota: 'Scala 0–10 · la linea segna la sufficienza (' + App.Config.voti.sufficienza + ')', descrizione: 'Media voti per test' })
         : el('p', { class: 'piccolo', text: 'Compare quando almeno un test ha la tabella dei voti e dei risultati.' })));
 
-      // Profilo dell'alunno per capacità (ragnatela)
-      cont.appendChild(sezione('🕸️ Profilo dell\'alunno per capacità – ' + App.Config.prove[prova - 1].nome, App.UI.ProfiloAlunno.disegna(classe, prova)));
+      // Il profilo a ragnatela è passato nella scheda dell'alunno
+      cont.appendChild(el('p', { class: 'suggerimento', text: '🕸️ Il grafico a ragnatela di ogni alunno ora è nella sua scheda: 🏫 Classi → tocca il nome dell\'alunno.' }));
 
       // Primi 3 di ogni test, alunni e alunne
       cont.appendChild(sezionePrimi(classe));

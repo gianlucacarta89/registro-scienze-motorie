@@ -1,4 +1,4 @@
-REGISTRO S.MOT (Registro Scienze Motorie) — v6.5
+REGISTRO S.MOT (Registro Scienze Motorie) — v6.6
 ================================================
 
 PUBBLICAZIONE SU GITHUB PAGES (una volta sola, dal computer)
@@ -43,6 +43,9 @@ COSA FA — il menu (in alto sul computer, in basso sul telefono)
   in uso, sessione, giustificazioni del mese, PDF, backup: rossa quando va fatto), le tue
   classi con i numeri principali. Tocca una tessera per entrare.
 - 🏫 Classi: crea le classi (es. 1G, 5N) e vedi gli alunni di ognuna.
+  Tocca il nome di un alunno: 👤 scheda con risultati e voti di ogni test nelle prove svolte,
+  media voti per prova e 🕸️ grafico a ragnatela per capacità (forza, velocità, resistenza,
+  coordinazione, flessibilità) della prova scelta; "✏️ Correggi" per nome, ♂/♀ o toglierlo.
   📥 Carica alunni: da Excel (.xlsx), Word (.docx), PDF, .csv o .txt, oppure incollali. Prima
   di aggiungerli vedi l'elenco: togli quelli in più e correggi quelli scritti male. Se il file
   ha l'intestazione "Cognome" e "Nome" (o "Cognome e nome", "Alunno") si prendono solo quelle
@@ -58,8 +61,7 @@ COSA FA — il menu (in alto sul computer, in basso sul telefono)
   resistenza, core, flessibilità, equilibrio, coordinazione, abilità miste.
   📈 Statistiche (sottoscheda): per classe, test e prova (1ª, 2ª, 3ª): andamento, media,
   migliore, peggiore, alunni/alunne, quanti per ogni voto, migliorati, media voti per test,
-  🏅 primi 3 alunni e alunne di ogni test (giochi studenteschi), 🕸️ profilo dell'alunno a
-  ragnatela per capacità (forza, velocità, resistenza, coordinazione, flessibilità).
+  🏅 primi 3 alunni e alunne di ogni test (giochi studenteschi).
 - 📖 Libro: i test del libro da consultare (più "Velocità 60 m ♀ / 80 m ♂", con la tabella
   calcolata dallo Sprint 30 metri: 60 m = 30 m × 1,8; 80 m = 30 m × 2,33; i coefficienti sono
   in config.js > testDerivati), per tipologia, con caratteristiche, scheda

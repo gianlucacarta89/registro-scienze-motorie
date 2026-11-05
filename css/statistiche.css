@@ -32,3 +32,10 @@
 
 .lista-mancanti { margin: 6px 0; padding-left: 1.2em; }
 .lista-mancanti li { margin: 4px 0; overflow-wrap: anywhere; }
+
+/* Scheda dell'alunno (🏫 Classi) */
+.scheda-alunno h4 { margin: 14px 0 6px; }
+.tabella-scheda-alunno .nome-test-scheda { text-align: left; }
+.tabella-scheda-alunno .nome-test-scheda .piccolo { display: block; font-weight: 400; }
+.tabella-scheda-alunno .cella .voto { margin-left: 6px; }
+.tabella-scheda-alunno tfoot th, .tabella-scheda-alunno tfoot td { border-top: 2px solid var(--bordo); }

@@ -1,9 +1,10 @@
 /* profilo-alunno.js
- * Cosa fa: sezione "🕸️ Profilo dell'alunno" delle 📈 Statistiche (pagina 📚 Test): grafico a ragnatela
- *          (SVG, senza librerie) con la media dei voti per capacità nella prova scelta; dalla 2ª prova
- *          in poi c'è anche la 1ª prova tratteggiata per vedere i progressi. Sotto, i voti test per test.
- * Dipende da: App.U, App.Stato, App.Config (capacita, voti, prove), App.Profilo, App.Voti, App.UI.FinestraVotiClasse
- * Usato da: ui/statistiche.js
+ * Cosa fa: "🕸️ Profilo per capacità" di un alunno, nella 👤 scheda dell'alunno (🏫 Classi): grafico a
+ *          ragnatela (SVG, senza librerie) con la media dei voti per capacità nella prova scelta; dalla
+ *          2ª prova in poi c'è anche la 1ª prova tratteggiata per vedere i progressi. Sotto, i voti per
+ *          capacità. Se mancano capacità o tabelle dei voti spiega cosa manca.
+ * Dipende da: App.U, App.Config (capacita, voti, prove), App.Profilo, App.Voti, App.UI.FinestraVotiClasse
+ * Usato da: ui/scheda-alunno.js
  */
 (function (App) {
   'use strict';
@@ -58,16 +59,10 @@
   }
 
   App.UI.ProfiloAlunno = {
-    disegna: function (classe, prova) {
-      var pref = App.Stato.dati.preferenze;
-      var a = classe.alunni.filter(function (x) { return x.id === pref.statAlunno; })[0] || classe.alunni[0];
+    // Profilo dell'alunno a nella prova scelta (1, 2, 3) -> Node
+    disegna: function (classe, a, prova) {
       var nomeProva = App.Config.prove[prova - 1].nome;
-      var scelta = el('select', { 'aria-label': 'Alunno', value: a.id, onchange: function (ev) {
-        pref.statAlunno = ev.target.value; App.Stato.scrivi(); App.UI.disegnaContenuto();
-      } }, classe.alunni.map(function (x) {
-        return el('option', { value: x.id, text: x.nome + (x.sesso ? ' ' + App.Config.sessi[x.sesso].icona : '') });
-      }));
-      var testa = el('label', { class: 'scelta-test' }, el('span', { text: 'Alunno' }), scelta);
+      var testa = null;
       var caps = App.Profilo.capacitaClasse(classe);
 
       if (caps.length < 3) {

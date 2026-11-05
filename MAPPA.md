@@ -1,4 +1,4 @@
-# MAPPA — Registro S.Mot (Registro Scienze Motorie) v6.5
+# MAPPA — Registro S.Mot (Registro Scienze Motorie) v6.6
 
 Indice dei file: cosa c'è dentro e quale parte dell'app ne dipende.
 Tutti i moduli stanno nell'oggetto globale `App`. Ordine di caricamento in `index.html`:
@@ -111,7 +111,8 @@ Ogni pagina è `App.UI.Pagine[id].disegna(cont)`; la pagina aperta è `preferenz
 | `finestra-voti.js` | `App.UI.FinestraVoti` | 📏 Tabella dei voti: una riga per voto, soglia ♂ e ♀, ➕ riga, controllo dell'ordine; 📖 Riempi dal libro (test compatibili, il più simile per primo, fascia della classe; al salvataggio anche la scheda) |
 | `finestra-copia-test.js` | `App.UI.FinestraCopiaTest` | 📋 Copia test in un'altra classe |
 | `statistiche.js` | `App.UI.Statistiche` | 📈 Statistiche (pagina Test): per test e prova, andamento, miglioramenti, media voti per test, 🏅 primi 3, 🕸️ profilo |
-| `profilo-alunno.js` | `App.UI.ProfiloAlunno` | Grafico a ragnatela SVG per capacità (prova scelta + 1ª tratteggiata), voti test per test |
+| `profilo-alunno.js` | `App.UI.ProfiloAlunno` | `disegna(classe, alunno, prova)`: grafico a ragnatela (SVG) con la media dei voti per capacità, 1ª prova tratteggiata dalla 2ª in poi, voti per capacità; spiega cosa manca (capacità, tabelle, ♂/♀) |
+| `scheda-alunno.js` | `App.UI.SchedaAlunno` | 👤 Scheda dell'alunno (tocca il nome in 🏫 Classi): risultati e voti di ogni test nelle prove svolte, media voti per prova, ragnatela della prova scelta, ✏️ Correggi |
 | `grafici.js` | `App.UI.Grafici` | `colonne`, `barre` (grafici HTML/CSS) |
 | `pagina-giust.js` | `App.UI.Pagine.giust` | 📋 Sottoschede "Registro" e "📈 Statistiche" (classe scelta in alto) |
 | `tabella-giust.js` | `App.UI.TabellaGiust` | Registro: ◀ anno ▶, alunni × mesi, Tot., legenda (nome alunno toccabile) |

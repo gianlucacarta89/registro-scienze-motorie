@@ -1,6 +1,6 @@
 /* pagina-test.js
  * Cosa fa: pagina 📚 Test con due sottoschede: "Elenco dei test" (libro + miei, spunta "Lo uso")
- *          e "Statistiche" della classe scelta (per test e prova, primi 3, profilo a ragnatela).
+ *          e "Statistiche" della classe scelta (per test e prova, primi 3).
  * Dipende da: App.U, App.Stato, App.UI (titoloPagina, sottoSchede, sceltaClasse, senzaClassi),
  *             App.UI.ListaTest, App.UI.Statistiche
  * Usato da: ui/pagina.js
