@@ -7,7 +7,7 @@
  */
 'use strict';
 
-var VERSIONE = 'registro-sm-v5.3';
+var VERSIONE = 'registro-sm-v5.4';
 
 var FILE = [
   './',

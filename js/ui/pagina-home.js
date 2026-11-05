@@ -1,7 +1,7 @@
 /* pagina-home.js
  * Cosa fa: pagina 🏠 Home: saluto, tessere quadrate colorate per ogni sezione con i numeri dal vivo
  *          (classi e alunni, test in uso, sessione, giustificazioni del mese, PDF, stato del backup), una scheda per ogni classe con i numeri principali e i
- *          collegamenti rapidi a Sessioni e Giustificazioni, le ultime giustificazioni.
+ *          collegamenti rapidi a Sessioni e Giustificazioni.
  * Dipende da: App.U, App.Stato, App.Config, App.Classi, App.ElencoTest, App.Giust, App.Calendario,
  *             App.Voti, App.UI (vai, vuoto, titoloPagina)
  * Usato da: ui/pagina.js
@@ -101,22 +101,6 @@
               el('button', { type: 'button', class: 'btn btn-ok piccolo-btn', text: '⏱️ Sessione', onclick: function () { apriClasse(c, 'sessioni'); } }),
               el('button', { type: 'button', class: 'btn btn-neutro piccolo-btn', text: '📋 Giustificazioni', onclick: function () { apriClasse(c, 'giust'); } })));
         }))));
-
-      // Ultime giustificazioni inserite (per data), di tutte le classi
-      var ultime = [];
-      classi.forEach(function (c) {
-        c.alunni.forEach(function (a) { (c.giust[a.id] || []).forEach(function (g) { ultime.push({ c: c, a: a, g: g }); }); });
-      });
-      ultime.sort(function (x, y) { return x.g.data < y.g.data ? 1 : x.g.data > y.g.data ? -1 : 0; });
-      if (ultime.length) {
-        cont.appendChild(el('section', { class: 'sezione-stat' }, el('h3', { text: 'Ultime giustificazioni' }),
-          el('ul', { class: 'ultime-giust' }, ultime.slice(0, 6).map(function (x) {
-            var s = App.Giust.simbolo(x.g.simbolo) || { icona: '?', nome: '' };
-            return el('li', {}, el('span', { class: 'voce-icona', text: s.icona + (App.Giust.conCertificato(x.g) ? App.Config.certificato.icona : '') }),
-              el('span', {}, el('b', { text: x.a.nome }), ' · ' + x.c.nome + ' · ' + App.U.dataIT(x.g.data) + ' · ' + s.nome +
-                (x.g.nota ? ' – ' + x.g.nota : '')));
-          }))));
-      }
     }
   };
 })(window.App = window.App || {});

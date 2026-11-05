@@ -1,4 +1,4 @@
-# MAPPA — Registro S.Mot (Registro Scienze Motorie) v5.3
+# MAPPA — Registro S.Mot (Registro Scienze Motorie) v5.4
 
 Indice dei file: cosa c'è dentro e quale parte dell'app ne dipende.
 Tutti i moduli stanno nell'oggetto globale `App`. Ordine di caricamento in `index.html`:
@@ -92,7 +92,7 @@ Ogni pagina è `App.UI.Pagine[id].disegna(cont)`; la pagina aperta è `preferenz
 |---|---|---|
 | `pagina.js` | `App.UI.disegna`, `disegnaContenuto`, `piede`, `vuoto`, `regole`, `titoloPagina`, `sceltaClasse`, `sottoSchede`, `senzaClassi` | Pagina intera (menu + pagina aperta + piè con stato del backup) e pezzi comuni |
 | `menu.js` | `App.UI.Menu`, `App.UI.vai(pagina, sotto)` | Menu principale |
-| `pagina-home.js` | `App.UI.Pagine.home` | 🏠 Saluto, tessere quadrate colorate (una per sezione, con i numeri dal vivo; Backup rossa se va fatto), schede delle classi, ultime giustificazioni |
+| `pagina-home.js` | `App.UI.Pagine.home` | 🏠 Saluto, tessere quadrate colorate (una per sezione, con i numeri dal vivo; Backup rossa se va fatto), schede delle classi |
 | `pagina-classi.js` | `App.UI.Pagine.classi` | 🏫 Crea classe; per ogni classe: nome modificabile, ♂/♀, 📥 Carica alunni, 👥 Gestisci alunni, 🗑️, elenco degli alunni (tocco = correggi) |
 | `pagina-test.js` | `App.UI.Pagine.test` | 📚 Sottoschede "Elenco dei test" e "📈 Statistiche" (classe scelta in alto) |
 | `lista-test.js` | `App.UI.ListaTest` | Elenco unico: test del libro + miei, per tipologia, spunta "Lo uso", filtri Tutti / In uso / Libro / Miei, ➕ Nuovo test, 📥 Prendi i test della classe, ✏️ |

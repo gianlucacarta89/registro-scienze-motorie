@@ -1,4 +1,4 @@
-REGISTRO S.MOT (Registro Scienze Motorie) — v5.3
+REGISTRO S.MOT (Registro Scienze Motorie) — v5.4
 ================================================
 
 PUBBLICAZIONE SU GITHUB PAGES (una volta sola, dal computer)
@@ -39,7 +39,7 @@ COME APRIRLA DA FILE (solo computer, senza installazione)
 COSA FA — il menu (in alto sul computer, in basso sul telefono)
 - 🏠 Home: riepilogo generale con una tessera colorata per ogni sezione (classi e alunni, test
   in uso, sessione, giustificazioni del mese, PDF, backup: rossa quando va fatto), le tue
-  classi con i numeri principali e le ultime giustificazioni. Tocca una tessera per entrare.
+  classi con i numeri principali. Tocca una tessera per entrare.
 - 🏫 Classi: crea le classi (es. 1G, 5N) e vedi gli alunni di ognuna.
   📥 Carica alunni: da Excel (.xlsx), Word (.docx), PDF, .csv o .txt, oppure incollali. Prima
   di aggiungerli vedi l'elenco: togli quelli in più e correggi quelli scritti male. Se il file
