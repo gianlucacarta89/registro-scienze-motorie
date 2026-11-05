@@ -34,6 +34,8 @@
           el('span', { class: 'etichetta-test libro', text: t.tipologia }),
           strumenti.length ? el('span', { class: 'piccolo', text: ' 🔧 ' + strumenti.join(' · ') }) : null,
           t.negativi ? el('span', { class: 'piccolo', text: ' · ammette valori negativi' }) : null),
+        App.ParametriTest.regola(t) ? el('p', { class: 'piccolo' }, '⚙️ ' + App.ParametriTest.regola(t).nome + ' modificabile (' +
+          App.ParametriTest.regola(t).valori.join(', ') + ' ' + App.ParametriTest.regola(t).unita + '): in 📚 Test o in ⏱️ Sessioni apri il test e tocca "⚙️ Cambia…"; i voti si ricalcolano.') : null,
         App.SchedaTest.campi().filter(function (c) { return t[c.id]; }).map(function (c) {
           return el('p', {}, el('b', { text: c.nome + ': ' }), t[c.id]);
         }),

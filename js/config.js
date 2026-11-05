@@ -9,7 +9,7 @@
 
   App.Config = {
     nome: 'Registro S.Mot',          // nome mostrato (l'archivio dei dati qui sotto NON va cambiato)
-    versione: '6.4',
+    versione: '6.5',
 
     // Menu principale: una pagina per voce (ui/pagina.js). "corto" = etichetta sul telefono
     menu: [
@@ -77,6 +77,22 @@
       { id: 'resistenza', nome: 'Resistenza', tipologie: ['Resistenza'] },
       { id: 'coordinazione', nome: 'Coordinazione', tipologie: ['Coordinazione', 'Equilibrio', 'Abilità miste'] },
       { id: 'flessibilita', nome: 'Flessibilità', tipologie: ['Flessibilità'] }
+    ],
+
+    // Parametri modificabili dei test del libro (servizi/parametri-test.js): si cambia la distanza o il peso,
+    // anche diverso per alunni e alunne, e le soglie dei voti si ricalcolano da quelle del libro con un modello:
+    //   sprint: tempo × (1 + k × (d − base) / base)      (k = 0,8: dopo la partenza si corre più veloci)
+    //   lancio: distanza × (peso base / peso)^e          (e = 0,5)
+    //   corsa:  tempo × (d / base)^e                     (e = 1,06, formula di Riegel)
+    parametri: [
+      { libro: 'Sprint 30 metri', nome: 'Distanza', unita: 'm', base: 30, valori: [30, 40, 50, 60, 80, 100], modello: 'sprint', k: 0.8,
+        titolo: 'Sprint {v} metri', strumento: '{v} m' },
+      { libro: 'Lancio avanti palla medica 3 kg', nome: 'Peso della palla', unita: 'kg', base: 3, valori: [1, 2, 3, 4, 5], modello: 'lancio', e: 0.5,
+        titolo: 'Lancio avanti palla medica {v} kg', strumento: 'Palla medica {v} kg' },
+      { libro: 'Getto palla medica 2 kg da seduti', nome: 'Peso della palla', unita: 'kg', base: 2, valori: [1, 2, 3, 4, 5], modello: 'lancio', e: 0.5,
+        titolo: 'Getto palla medica {v} kg da seduti', strumento: 'Palla medica {v} kg' },
+      { libro: 'Corsa di 1 km', nome: 'Distanza', unita: 'm', base: 1000, valori: [800, 1000, 1200, 1500, 2000, 3000], modello: 'corsa', e: 1.06,
+        titolo: 'Corsa di {v} m', strumento: '{v} m' }
     ],
 
     // Test ricavati da un test del libro (servizi/test-derivati.js): soglie = soglie della base × coefficiente,

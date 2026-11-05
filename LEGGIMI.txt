@@ -1,4 +1,4 @@
-REGISTRO S.MOT (Registro Scienze Motorie) — v6.4
+REGISTRO S.MOT (Registro Scienze Motorie) — v6.5
 ================================================
 
 PUBBLICAZIONE SU GITHUB PAGES (una volta sola, dal computer)
@@ -65,6 +65,13 @@ COSA FA — il menu (in alto sul computer, in basso sul telefono)
   in config.js > testDerivati), per tipologia, con caratteristiche, scheda
   (a che cosa serve, materiale, come si fa, come si misura, differenze alunni/alunne) e tabella
   di valutazione ♂/♀ della fascia scelta (1° biennio, 2° biennio, quinto anno). Ricerca per nome.
+- ⚙️ Parametri modificabili: Sprint 30 metri (30–100 m), Lancio avanti palla medica 3 kg e
+  Getto palla medica 2 kg da seduti (1–5 kg), Corsa di 1 km (800–3000 m). Apri il test (in 📚 Test
+  o in ⏱️ Sessioni) e tocca "⚙️ Cambia distanza / peso della palla": valori anche diversi per
+  alunni e alunne; nome, strumento e soglie dei voti si ricalcolano dalla tabella del libro
+  (sprint: tempo × (1 + 0,8 × metri in più / 30); palla: distanza × √(peso libro / peso);
+  corsa: tempo × (distanza / 1000)^1,06, formula di Riegel). Valori e coefficienti in
+  config.js > parametri.
 - ⏱️ Sessioni: la parte operativa. Scegli la classe, tocca "📚 Scegli i test" (tra quelli in
   uso; ricevono la tabella dei voti della fascia della classe: 1G = 1° biennio, 3G = 2°
   biennio, 5N = quinto anno) e scrivi i risultati. Fino a tre prove e "Confronto" dalla 1ª

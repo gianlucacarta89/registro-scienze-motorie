@@ -1,6 +1,7 @@
 /* finestra-test.js
  * Cosa fa: finestra per creare, modificare, spostare o cancellare un test (colonna del modulo 1),
- *          con la scheda del test (a che cosa serve, materiale, come si fa, come si misura, differenze ♂/♀).
+ *          con la scheda del test (a che cosa serve, materiale, come si fa, come si misura, differenze ♂/♀)
+ *          e "⚙️ Cambia distanza/peso" per i test del libro che hanno parametri (finestra-parametri.js).
  * Dipende da: App.U, App.Config (tipiTest, schedaTest), App.Test, App.SchedaTest, App.Voti, App.ElencoTest, App.UI.FinestraVoti, App.Stato, App.Avvisi, App.Finestra,
  *             App.UI.disegnaContenuto
  * Usato da: ui/tabella-test.js (pulsante ➕ Nuovo test e intestazioni delle colonne),
@@ -49,19 +50,23 @@
   }
 
   // Riquadro "Voto automatico": tabella unica, tabelle per fascia (elenco) o fascia da cui viene
-  function riquadroVoti(t, classe, salva) {
+  function riquadroVoti(t, classe, salva, parametri) {
     var S = App.SchedaTest, testo;
+    var r = t && App.ParametriTest.regola(t);
+    var btnParam = r ? el('button', { type: 'button', class: 'btn btn-neutro', text: '⚙️ Cambia ' + r.nome.toLowerCase(), onclick: parametri }) : null;
     if (t && S.haFasce(t)) {
       testo = '📏 Tabelle del libro per ' + App.Config.fasce.filter(function (f) { return t.fasce[f.id]; })
         .map(function (f) { return f.nome; }).join(', ') + ', separate per alunni e alunne. Quando aggiungi il test a una classe riceve la tabella della sua fascia; lì la puoi anche modificare.';
-      return el('fieldset', { class: 'campo' }, el('legend', { text: 'Voto automatico' }), el('p', { class: 'piccolo', text: testo }));
+      return el('fieldset', { class: 'campo' }, el('legend', { text: 'Voto automatico' }), el('p', { class: 'piccolo', text: testo }), btnParam);
     }
     testo = t && App.Voti.haTabella(t)
       ? '📏 Tabella inserita: ' + t.voti.righe.length + ' voti, separati per alunni e alunne' + (t.fasciaVoti && S.fascia(t.fasciaVoti) ? ' (dal libro, ' + S.fascia(t.fasciaVoti).nome + ').' : '.')
       : 'Inserisci i parametri di riferimento (es. del libro) per calcolare il voto da solo.';
     return el('fieldset', { class: 'campo' }, el('legend', { text: 'Voto automatico' }),
       el('p', { class: 'piccolo', text: testo }),
-      el('button', { type: 'button', class: 'btn btn-info', text: '📏 Tabella dei voti', onclick: function () { salva(true); } }));
+      el('div', { class: 'riga-btn sinistra' },
+        el('button', { type: 'button', class: 'btn btn-info', text: '📏 Tabella dei voti', onclick: function () { salva(true); } }),
+        btnParam));
   }
 
   function chiedi(classe, t, fin) {
@@ -155,7 +160,7 @@
         el('fieldset', { class: 'campo' }, el('legend', { text: 'Che risultato è migliore?' }),
           radio('migliore', 'alto', '↑ Più alto (es. salti, lanci, ripetizioni)', d.migliore === 'alto'),
           radio('migliore', 'basso', '↓ Più basso (es. tempi di corsa)', d.migliore === 'basso')),
-        riquadroVoti(t, classe, function (x) { return salva(x); }),
+        riquadroVoti(t, classe, function (x) { return salva(x); }, function () { fin.chiudi(); App.UI.FinestraParametri.apri(classe, t); }),
         // un test di una classe si può rimettere nell'elenco (es. se dall'elenco era stato cancellato)
         t && !classe.elenco ? el('div', { class: 'riga-btn sinistra' },
           el('button', { type: 'button', class: 'btn btn-neutro piccolo-btn', text: '📚 Salva nell\'elenco dei test', onclick: function () {
