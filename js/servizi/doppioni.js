@@ -23,7 +23,19 @@
       .replace(/([0-9])([a-zA-Z])/g, '$1 $2').replace(/([a-zA-Z])([0-9])/g, '$1 $2');   // 3kg = 3 kg
     return App.LibroVoti.parole(n).filter(function (w) { return VUOTE.indexOf(w) < 0; });
   }
-  function contenuto(a, b) { return a.every(function (w) { return b.indexOf(w) >= 0; }); }
+  // Parole uguali, o di almeno 5 lettere che differiscono per una lettera sola (Sergent = Sargent)
+  function quasi(x, y) {
+    if (x === y) return true;
+    if (x.length < 5 || y.length < 5 || Math.abs(x.length - y.length) > 1) return false;
+    var i = 0, j = 0, dif = 0;
+    while (i < x.length && j < y.length) {
+      if (x[i] === y[j]) { i++; j++; continue; }
+      if (++dif > 1) return false;
+      if (x.length > y.length) i++; else if (y.length > x.length) j++; else { i++; j++; }
+    }
+    return dif + (x.length - i) + (y.length - j) <= 1;
+  }
+  function contenuto(a, b) { return a.every(function (w) { return b.some(function (v) { return quasi(w, v); }); }); }
 
   function simili(a, b) {
     if (a.tipo !== b.tipo || a.migliore !== b.migliore) return false;
