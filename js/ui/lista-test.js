@@ -3,8 +3,9 @@
  *          creati dal docente, divisi per tipologia, con la spunta "Lo uso". Solo i test in uso
  *          si scelgono poi in ⏱️ Sessioni. Filtri: tutti, in uso, del libro, miei.
  *          Spuntando un test del libro lo si copia nell'elenco 📚 (dove si può modificare).
+ *          "🔗 Doppioni (n)" se ci sono test con nomi simili (ui/finestra-doppioni.js).
  * Dipende da: App.U, App.Config (tipologie), App.TestLibro, App.ElencoTest, App.SchedaTest, App.Test,
- *             App.Voti, App.Stato, App.Classi, App.Avvisi, App.UI.FinestraTest
+ *             App.Voti, App.Stato, App.Classi, App.Avvisi, App.Doppioni, App.UI.FinestraTest, App.UI.FinestraDoppioni
  * Usato da: ui/pagina-test.js
  */
 (function (App) {
@@ -85,6 +86,8 @@
           App.UI.disegnaContenuto();
           App.Avvisi.toast('✔ ' + r.copiati + ' test messi nell\'elenco' + (r.saltati.length ? ' (già presenti: ' + r.saltati.join(', ') + ')' : '') + '.', 'ok', 5000);
         } }) : null,
+        App.Doppioni.quanti() ? el('button', { type: 'button', class: 'btn btn-neutro', text: '🔗 Doppioni (' + App.Doppioni.quanti() + ')',
+          title: 'Unisci i test con nomi simili', onclick: function () { App.UI.FinestraDoppioni.apri(); } }) : null,
         el('div', { class: 'segmenti', role: 'tablist', 'aria-label': 'Filtro' }, filtri.map(function (f) {
           return el('button', { type: 'button', class: 'segmento' + (filtro === f[0] ? ' attivo' : ''), 'aria-pressed': filtro === f[0] ? 'true' : 'false',
             text: f[1], onclick: function () { pref.filtroTest = f[0]; App.Stato.scrivi(); App.UI.disegnaContenuto(); } });

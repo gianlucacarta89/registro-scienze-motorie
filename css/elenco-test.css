@@ -31,3 +31,8 @@ input[type=search] { min-height: 40px; border: 1px solid var(--bordo-forte); bor
 .riga-parametri { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .riga-parametri select { width: 100%; min-height: 44px; font-weight: 700; }
 .anteprima-parametri { margin-top: 8px; }
+
+/* 🔗 Test doppioni */
+.gruppo-doppioni { margin: 8px 0; padding: 8px; }
+.riga-doppione.tenuto { background: var(--ok-chiaro, rgba(46, 160, 67, .12)); border-radius: 8px; }
+.gruppo-doppioni .riga-btn { margin-top: 6px; }
