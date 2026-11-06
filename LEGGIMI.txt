@@ -1,4 +1,4 @@
-REGISTRO S.MOT (Registro Scienze Motorie) — v7.1
+REGISTRO S.MOT (Registro Scienze Motorie) — v7.2
 ================================================
 
 PUBBLICAZIONE SU GITHUB PAGES (una volta sola, dal computer)
@@ -69,8 +69,9 @@ COSA FA — il menu (in alto sul computer, in basso sul telefono)
   in config.js > testDerivati), per tipologia, con caratteristiche, scheda
   (a che cosa serve, materiale, come si fa, come si misura, differenze alunni/alunne) e tabella
   di valutazione ♂/♀ della fascia scelta (1° biennio, 2° biennio, quinto anno). Ricerca per nome.
-- 🔗 Doppioni (in 📚 Test, se ce ne sono): test con nomi simili, nell'elenco e in ogni classe.
-  Scegli quale tenere e tocca "🔗 Unisci": i risultati passano al test tenuto; se un alunno ha
+- 🔗 Doppioni (in 📚 Test): test con nomi simili. Scegli quale tenere e tocca "🔗 Unisci": si
+  uniscono nell'elenco e in TUTTE le classi, dove il test prende il nome di quello tenuto e i
+  risultati restano tutti; se un alunno ha
   due valori diversi nella stessa prova, il doppione resta con quel valore da controllare.
   In fondo "✋ Unisci a mano" per i test che l'app non riconosce da sola.
 - ⚙️ Parametri modificabili: Sprint 30 metri (30–100 m), Lancio avanti palla medica 3 kg e

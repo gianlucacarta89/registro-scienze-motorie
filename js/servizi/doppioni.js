@@ -6,7 +6,9 @@
  *          Unione in una classe: i risultati degli altri test passano a quello tenuto nelle caselle
  *          vuote; se una casella è già piena con un valore diverso NON si perde nulla: quel test resta
  *          con i soli valori diversi. Scheda e tabella dei voti: si riempiono solo i campi vuoti.
- *          Unione nell'elenco: i test non tenuti si tolgono (non hanno risultati).
+ *          Si unisce una volta sola, dall'elenco 📚: i doppioni si tolgono dall'elenco e IN OGNI CLASSE
+ *          i test con quei nomi diventano uno, con il nome del test tenuto e tutti i risultati.
+ *          Si confrontano anche i test che ci sono solo nelle classi (non nell'elenco).
  * Dipende da: App.LibroVoti (parole, converti), App.ElencoTest, App.Test, App.Voti, App.SchedaTest, App.U
  *          Si può anche unire "a mano" (compatibili: stesso tipo di misura e stessa direzione).
  * Usato da: ui/finestra-doppioni.js, ui/lista-test.js
@@ -59,11 +61,15 @@
     return gr.filter(function (g) { return g.length > 1; });
   }
 
-  // Il test da tenere proposto: del libro, con la tabella dei voti, con più risultati, nome più lungo
-  function proposto(gr, classe) {
+  // Il test da tenere proposto: del libro, con la tabella dei voti, con più risultati (in tutte le classi), nome più lungo
+  function risultatiTotali(nome) {
+    return nelleClassi(nome).reduce(function (n, x) { return n + App.Test.quantiRisultati(x.classe, x.test.id); }, 0);
+  }
+
+  function proposto(gr) {
     function punti(t) {
       return (t.libro || t.daLibro || t.fonte ? 1000 : 0) + (App.Voti.haTabella(t) || t.fasce ? 500 : 0) +
-        (classe ? App.Test.quantiRisultati(classe, t.id) * 2 : 0) + t.nome.length / 100;
+        risultatiTotali(t.nome) * 2 + t.nome.length / 100;
     }
     return gr.slice().sort(function (a, b) { return punti(b) - punti(a); })[0];
   }
@@ -103,49 +109,85 @@
     return r;
   }
 
-  // Unisce nell'elenco 📚. tieni può essere un test del libro non ancora nell'elenco. -> { tieni, tolti: [nomi] }
-  function unisciInElenco(tieni, altri) {
-    var elenco = App.ElencoTest.tutti(), usato = [tieni].concat(altri).some(function (t) { return elenco.indexOf(t) >= 0 && App.ElencoTest.inUso(t); });
-    if (elenco.indexOf(tieni) < 0) tieni = App.ElencoTest.usaDalLibro(tieni);
-    var tolti = [];
-    altri.forEach(function (t) {
-      var i = elenco.indexOf(t);
-      if (i < 0 || t === tieni) return;                 // test del libro fuori dall'elenco: niente da togliere
-      completa(tieni, t);
-      if (!tieni.origine && t.origine) tieni.origine = t.origine;
-      elenco.splice(i, 1);
-      tolti.push(t.nome);
-    });
-    if (usato) delete tieni.inUso;
-    App.Test.ordina(App.ElencoTest.contenitore());
-    return { tieni: tieni, tolti: tolti };
-  }
+  function inElenco(t) { return App.ElencoTest.tutti().indexOf(t) >= 0; }
+  function delLibro(t) { return (App.TestLibro || []).indexOf(t) >= 0; }
 
-  // Voci dell'elenco da confrontare: test dell'elenco + test del libro non ancora nell'elenco
-  function vociElenco() {
-    var l = App.ElencoTest.tutti().slice();
-    (App.TestLibro || []).forEach(function (p) { if (!App.ElencoTest.nellElenco(p.nome)) l.push(p); });
+  // Voci da confrontare: test dell'elenco, test del libro non ancora nell'elenco e test che ci sono
+  // solo nelle classi (uno per nome)
+  function voci() {
+    var l = App.ElencoTest.tutti().slice(), visti = {};
+    l.forEach(function (t) { visti[k(t.nome)] = true; });
+    (App.TestLibro || []).forEach(function (p) { if (!visti[k(p.nome)]) { l.push(p); visti[k(p.nome)] = true; } });
+    App.Stato.dati.classi.forEach(function (c) {
+      c.test.forEach(function (t) { if (!visti[k(t.nome)]) { l.push(t); visti[k(t.nome)] = true; } });
+    });
     return l;
   }
+  function k(n) { return App.U.chiaveNome(n || ''); }
 
-  // Gruppi dell'elenco da proporre: almeno 2 test nell'elenco, oppure un mio test simile a uno del libro
-  function gruppiElenco() {
-    var el = App.ElencoTest.tutti();
-    return gruppi(vociElenco()).filter(function (g) {
-      var dentro = g.filter(function (t) { return el.indexOf(t) >= 0; });
-      return dentro.length > 1 || dentro.some(function (t) { return !t.libro; });
+  // Classi con un test di quel nome -> [{ classe, test }]
+  function nelleClassi(nome) {
+    var out = [];
+    App.Stato.dati.classi.forEach(function (c) {
+      c.test.forEach(function (t) { if (k(t.nome) === k(nome)) out.push({ classe: c, test: t }); });
+    });
+    return out;
+  }
+
+  // Gruppi da proporre: almeno 2 test "veri" (elenco o classi), oppure un mio test simile a uno del libro
+  function gruppiTutti() {
+    return gruppi(voci()).filter(function (g) {
+      var veri = g.filter(function (t) { return !delLibro(t); });
+      return veri.length > 1 || veri.some(function (t) { return !t.libro; });
     });
   }
 
-  function quanti() {
-    var n = gruppiElenco().length;
-    App.Stato.dati.classi.forEach(function (c) { n += gruppi(c.test).length; });
-    return n;
+  // Unisce nell'elenco 📚 E in tutte le classi: i test "altri" diventano "tieni" (stesso nome).
+  // Nelle classi il test che resta prende il nome di "tieni" e riceve i risultati degli altri.
+  // -> { nome, tolti: [nomi tolti dall'elenco], classi: [{ nome, spostati, diversi, rimasti, rinominato }] }
+  function unisci(tieni, altri) {
+    var elenco = App.ElencoTest.tutti(), nome = tieni.nome, out = { nome: nome, tolti: [], classi: [] };
+    var nomi = [k(nome)].concat(altri.map(function (t) { return k(t.nome); }));
+    // classi
+    App.Stato.dati.classi.forEach(function (c) {
+      var ct = c.test.filter(function (t) { return nomi.indexOf(k(t.nome)) >= 0; });
+      if (!ct.length) return;
+      var dest = ct.filter(function (t) { return k(t.nome) === k(nome); })[0] ||
+        ct.slice().sort(function (a, b) { return App.Test.quantiRisultati(c, b.id) - App.Test.quantiRisultati(c, a.id); })[0];
+      var r = { nome: c.nome, spostati: 0, diversi: 0, rimasti: [], rinominato: dest.nome !== nome };
+      dest.nome = nome;
+      App.SchedaTest.campi().forEach(function (x) { if (!dest[x.id] && tieni[x.id]) dest[x.id] = tieni[x.id]; });
+      if (!dest.tipologia && tieni.tipologia) dest.tipologia = tieni.tipologia;
+      var resto = ct.filter(function (t) { return t !== dest; });
+      if (resto.length) { var x = unisciInClasse(c, dest, resto); r.spostati = x.spostati; r.diversi = x.diversi; r.rimasti = x.rimasti; }
+      App.Test.ordina(c);
+      out.classi.push(r);
+    });
+    // elenco
+    var usato = [tieni].concat(altri).some(function (t) { return inElenco(t) && App.ElencoTest.inUso(t); });
+    var tieniE = inElenco(tieni) ? tieni : null;
+    if (!tieniE && delLibro(tieni)) tieniE = App.ElencoTest.usaDalLibro(tieni);
+    if (!tieniE && altri.some(inElenco)) {                    // test che c'era solo nelle classi
+      tieniE = App.U.copia(tieni); tieniE.id = App.U.nuovoId();
+      delete tieniE.fasciaVoti; delete tieniE.origine; elenco.push(tieniE);
+    }
+    altri.forEach(function (t) {
+      var i = elenco.indexOf(t);
+      if (i < 0 || t === tieniE) return;
+      if (tieniE) completa(tieniE, t);
+      elenco.splice(i, 1);
+      out.tolti.push(t.nome);
+    });
+    if (tieniE && usato) delete tieniE.inUso;
+    App.Test.ordina(App.ElencoTest.contenitore());
+    return out;
   }
+
+  function quanti() { return gruppiTutti().length; }
 
   // Unibili a mano: stesso tipo di misura e stessa direzione
   function compatibili(a, b) { return a !== b && a.tipo === b.tipo && a.migliore === b.migliore; }
 
   App.Doppioni = { simili: simili, compatibili: compatibili, gruppi: gruppi, proposto: proposto, unisciInClasse: unisciInClasse,
-    unisciInElenco: unisciInElenco, gruppiElenco: gruppiElenco, quanti: quanti };
+    voci: voci, nelleClassi: nelleClassi, risultatiTotali: risultatiTotali, gruppiTutti: gruppiTutti, unisci: unisci, inElenco: inElenco, delLibro: delLibro, quanti: quanti };
 })(window.App = window.App || {});
