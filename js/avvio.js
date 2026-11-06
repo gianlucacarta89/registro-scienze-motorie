@@ -18,6 +18,8 @@
       App.Test.riscriviTutti();
       App.UI.disegna();
       App.Pwa.avvia(App.UI.piede);
+      // App aperta anche in un'altra finestra: al ritorno in primo piano prende i dati più recenti
+      document.addEventListener('visibilitychange', function () { if (!document.hidden) App.Stato.controllaAltri(); });
     }).catch(function (e) {
       console.error(e);
       var main = document.getElementById('contenuto');

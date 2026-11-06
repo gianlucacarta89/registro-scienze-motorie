@@ -2,7 +2,11 @@
  * Cosa fa: tiene i dati in memoria, li carica all'avvio e li salva a ogni modifica.
  *          Tiene anche le "bozze": ciò che è stato scritto ma non è ancora valido,
  *          così non si perde quando la pagina si ridisegna.
- * Dipende da: App.Archivio, App.Avvisi (solo per segnalare un errore di salvataggio)
+ *          App aperta in due finestre (v6.9): prima di ogni salvataggio rilegge l'archivio; se un'altra
+ *          finestra ha salvato dopo (ultimaModifica diversa da quella che questa finestra conosce) NON
+ *          sovrascrive: carica i dati più recenti, ridisegna e avvisa. Lo stesso controllo si fa quando
+ *          l'app torna in primo piano (avvio.js) e quando un'altra finestra avvisa (BroadcastChannel).
+ * Dipende da: App.Archivio, App.Avvisi (avvisi), App.UI.disegna (dopo aver caricato dati più recenti)
  * Usato da: servizi, dati, ui, avvio
  */
 (function (App) {
@@ -62,6 +66,46 @@
     if (App.Avvisi) App.Avvisi.toast('⚠️ Non riesco a salvare nel browser. Esporta subito un backup.', 'errore', 6000);
   }
 
+  var base = null;          // ultimaModifica dei dati come li ha letti o scritti questa finestra
+  var coda = Promise.resolve();
+  var canale = null;
+  try { canale = new BroadcastChannel('registro-sm'); } catch (e) { canale = null; }
+
+  // Se nell'archivio ci sono dati salvati da un'altra finestra li carica. -> Promise<true se caricati>
+  function controllaAltri() {
+    return App.Archivio.leggi().then(function (letti) {
+      if (!letti || (letti.ultimaModifica || null) === base) return false;
+      App.Stato.dati = normalizza(letti);
+      App.Stato.bozze = {};
+      base = App.Stato.dati.ultimaModifica || null;
+      if (App.UI && App.UI.disegna) App.UI.disegna();
+      return true;
+    }).catch(function () { return false; });
+  }
+
+  // Scrive solo se nessun'altra finestra ha salvato nel frattempo (le scritture vanno in fila)
+  function scriviSicuro(dati) {
+    coda = coda.then(function () {
+      return controllaAltri().then(function (altri) {
+        if (altri) {
+          if (App.Avvisi) App.Avvisi.toast('⚠️ L\'app era aperta anche in un\'altra finestra: ho caricato i dati più recenti. Controlla e rifai l\'ultima modifica.', 'errore', 9000);
+          return;
+        }
+        return App.Archivio.scrivi(dati).then(function () {
+          base = dati.ultimaModifica || null;
+          if (canale) canale.postMessage({ ultimaModifica: base });
+        }).catch(errore);
+      });
+    });
+    return coda;
+  }
+
+  if (canale) canale.onmessage = function () {
+    if (App.Stato.dati) controllaAltri().then(function (si) {
+      if (si && App.Avvisi) App.Avvisi.toast('🔄 Dati aggiornati da un\'altra finestra dell\'app.', 'info', 5000);
+    });
+  };
+
   App.Stato = {
     dati: null,
     bozze: {},
@@ -70,18 +114,26 @@
       var self = this;
       return App.Archivio.apri()
         .then(function () { return App.Archivio.leggi(); })
-        .then(function (letti) { self.dati = normalizza(letti); return self.dati; });
+        .then(function (letti) { self.dati = normalizza(letti); base = self.dati.ultimaModifica || null; return self.dati; });
     },
 
     // Salva dopo una modifica dei dati (aggiorna la data dell'ultima modifica)
     salva: function () {
       this.dati.ultimaModifica = new Date().toISOString();
-      return App.Archivio.scrivi(this.dati).catch(errore);
+      return scriviSicuro(this.dati);
     },
 
     // Salva senza cambiare la data dell'ultima modifica (preferenze, backup)
     scrivi: function () {
-      return App.Archivio.scrivi(this.dati).catch(errore);
+      return scriviSicuro(this.dati);
+    },
+
+    // Quando l'app torna in primo piano: dati più recenti scritti da un'altra finestra?
+    controllaAltri: function () {
+      return coda.then(controllaAltri).then(function (si) {
+        if (si && App.Avvisi) App.Avvisi.toast('🔄 Dati aggiornati da un\'altra finestra dell\'app.', 'info', 5000);
+        return si;
+      });
     },
 
     sostituisci: function (d) {

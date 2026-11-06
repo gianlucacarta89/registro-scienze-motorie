@@ -1,7 +1,9 @@
 /* pagina-backup.js
  * Cosa fa: pagina 💾 Backup: spiega come passare i dati tra telefono, tablet e computer,
- *          esporta il file di backup e lo reimporta (con conferma prima di sostituire).
- * Dipende da: App.U, App.Backup, App.Stato, App.Avvisi, App.UI (disegna, piede, titoloPagina)
+ *          esporta il file di backup e lo reimporta scegliendo "➕ Unisci" (aggiunge solo ciò che manca,
+ *          non cancella nulla: dati/unisci-backup.js) oppure "⬆️ Sostituisci tutto" (con conferma).
+ * Dipende da: App.U, App.Backup, App.UnisciBackup, App.Stato, App.Avvisi, App.Finestra,
+ *             App.UI (disegna, piede, titoloPagina)
  * Usato da: ui/pagina.js (menu e avviso nel piè di pagina)
  */
 (function (App) {
@@ -10,26 +12,69 @@
   App.UI = App.UI || {};
   var el = function () { return App.U.el.apply(null, arguments); };
 
+  function n(x, uno, tanti) { return x + ' ' + (x === 1 ? uno : tanti); }
+
+  // ➕ Unisci: aggiunge dal backup solo ciò che manca, poi mostra cosa è stato aggiunto
+  function unisci(b) {
+    var r = App.UnisciBackup.unisci(b);
+    if (r.niente) {
+      App.Avvisi.toast('✓ Niente da aggiungere: in questo backup non c\'è nulla che manchi qui.', 'info', 6000);
+      return;
+    }
+    App.Stato.salva().then(function () {
+      App.UI.disegna();
+      var righe = [];
+      if (r.giust) righe.push('📋 ' + n(r.giust, 'giustificazione', 'giustificazioni'));
+      if (r.risultati) righe.push('⏱️ ' + n(r.risultati, 'risultato', 'risultati'));
+      if (r.classi) righe.push('🏫 ' + n(r.classi, 'classe', 'classi'));
+      if (r.alunni) righe.push('🧑‍🎓 ' + n(r.alunni, 'alunno', 'alunni'));
+      if (r.test) righe.push('📚 ' + n(r.test, 'test nelle classi', 'test nelle classi'));
+      if (r.testElenco) righe.push('📚 ' + n(r.testElenco, 'test nell\'elenco', 'test nell\'elenco'));
+      App.Finestra.apri({
+        titolo: 'Backup unito', icona: '➕',
+        corpo: el('div', {},
+          el('p', { text: 'Aggiunti dal backup del ' + App.U.dataOraIT(b.esportato) + ':' }),
+          el('ul', {}, righe.map(function (t) { return el('li', { text: t }); })),
+          r.diversi ? el('p', { class: 'piccolo', text: 'ℹ️ ' + n(r.diversi, 'risultato è diverso', 'risultati sono diversi') + ' tra il backup e questo dispositivo: ho lasciato quelli di questo dispositivo.' }) : null,
+          el('p', { class: 'piccolo', text: 'Non è stato cancellato né cambiato nulla. Se hai altri backup puoi unire anche quelli.' })),
+        pulsanti: [{ testo: 'OK', tipo: 'ok' }]
+      });
+    });
+  }
+
+  // ⬆️ Sostituisci: tutti i dati diventano quelli del backup (con conferma)
+  function sostituisci(b) {
+    App.Avvisi.conferma({
+      titolo: 'Sostituire tutti i dati?', pericolo: true, testoOk: '⬆️ Sostituisci tutto',
+      testo: [
+        '⚠️ Tutti i dati di questo dispositivo saranno cancellati e sostituiti da quelli del backup.',
+        App.Backup.localiPiuRecenti(b) ? '⚠️ Su questo dispositivo ci sono modifiche fatte DOPO questo backup: andranno perse. Se non sei sicuro usa "➕ Unisci".' : ''
+      ]
+    }).then(function (si) {
+      if (!si) return;
+      return App.Backup.applica(b).then(function () {
+        App.UI.disegna();
+        App.Avvisi.toast('✔ Backup importato.', 'ok');
+      });
+    });
+  }
+
   function importa(file) {
     App.Backup.leggi(file).then(function (r) {
       if (r.errore) { App.Avvisi.toast('❌ ' + r.errore, 'errore', 6000); return; }
-      var b = r.backup, n = App.Backup.riepilogo(b.dati);
-      return App.Avvisi.conferma({
-        titolo: 'Importare il backup?', pericolo: true, testoOk: '⬆️ Sostituisci i dati',
-        testo: [
-          'Backup del ' + App.U.dataOraIT(b.esportato) + ': ' + n.classi + ' classi, ' + n.alunni + ' alunni, ' +
-            n.test + ' test, ' + n.giust + ' giustificazioni.',
-          '⚠️ Tutti i dati di questo dispositivo saranno sostituiti da quelli del backup.',
-          App.Backup.localiPiuRecenti(b)
-            ? '⚠️ Attenzione: su questo dispositivo ci sono modifiche fatte DOPO questo backup. Importandolo andranno perse.'
-            : ''
+      var b = r.backup, x = App.Backup.riepilogo(b.dati);
+      App.Finestra.apri({
+        titolo: 'Importare il backup', icona: '⬆️', fuoco: false,
+        corpo: el('div', {},
+          el('p', { text: 'Backup del ' + App.U.dataOraIT(b.esportato) + ': ' + n(x.classi, 'classe', 'classi') + ', ' + n(x.alunni, 'alunno', 'alunni') + ', ' +
+            n(x.test, 'test', 'test') + ', ' + n(x.giust, 'giustificazione', 'giustificazioni') + '.' }),
+          el('p', {}, el('b', { text: '➕ Unisci (consigliato): ' }), 'aggiunge solo ciò che qui manca (giustificazioni, risultati nelle caselle vuote, alunni, classi, test). Non cancella e non cambia nulla.'),
+          el('p', {}, el('b', { text: '⬆️ Sostituisci tutto: ' }), 'cancella i dati di questo dispositivo e mette quelli del backup.')),
+        pulsanti: [
+          { testo: '⬆️ Sostituisci tutto', tipo: 'pericolo', azione: function () { setTimeout(function () { sostituisci(b); }, 0); } },
+          { testo: 'Annulla', tipo: 'neutro' },
+          { testo: '➕ Unisci', tipo: 'ok', azione: function () { unisci(b); } }
         ]
-      }).then(function (si) {
-        if (!si) return;
-        return App.Backup.applica(b).then(function () {
-          App.UI.disegna();
-          App.Avvisi.toast('✔ Backup importato.', 'ok');
-        });
       });
     });
   }

@@ -1,4 +1,4 @@
-# MAPPA — Registro S.Mot (Registro Scienze Motorie) v6.8
+# MAPPA — Registro S.Mot (Registro Scienze Motorie) v6.9
 
 Indice dei file: cosa c'è dentro e quale parte dell'app ne dipende.
 Tutti i moduli stanno nell'oggetto globale `App`. Ordine di caricamento in `index.html`:
@@ -52,7 +52,7 @@ Nome, versione, nome dell'archivio, **tipologie dei test (menu a tendina, e ordi
 |---|---|---|
 | `utils.js` | `App.U` | `el`, `svuota`, `esc`, `nuovoId`, `oggiISO`, `dataIT`, `dataOraIT`, `spazi`, `chiaveNome`, `confronta`, `scarica`, `copia` |
 | `archivio.js` | `App.Archivio` | `apri`, `leggi`, `scrivi`, `tipo` — IndexedDB con riserva localStorage |
-| `stato.js` | `App.Stato` | `dati`, `bozze`, `carica`, `salva` (aggiorna ultimaModifica), `scrivi` (preferenze), `sostituisci`, `classe`, `daSalvareInBackup` |
+| `stato.js` | `App.Stato` | `dati`, `bozze`, `carica`, `salva` (aggiorna ultimaModifica), `scrivi` (preferenze), `sostituisci`, `classe`, `daSalvareInBackup`; v6.9: protezione "app aperta in due finestre" — prima di ogni salvataggio rilegge l'archivio e, se un'altra finestra ha salvato dopo, non sovrascrive ma carica i dati recenti e avvisa; `controllaAltri` (al ritorno in primo piano), avviso tra finestre con BroadcastChannel `registro-sm` |
 | `finestra.js` | `App.Finestra` | `apri({titolo, icona, corpo, pulsanti})` — finestre sovrapponibili, Esc chiude |
 | `avvisi.js` | `App.Avvisi` | `toast`, `conferma` |
 | `pwa.js` | `App.Pwa` | `avvia` (registra sw.js, dati persistenti), `puoInstallare`, `installa`, `cercaAggiornamenti` (controlla all'avvio e al ritorno in primo piano, ricarica da sola alla nuova versione) — pulsante 📲 Installa l'app nel piè di pagina |
@@ -88,6 +88,7 @@ Nome, versione, nome dell'archivio, **tipologie dei test (menu a tendina, e ordi
 | `leggi-file.js` | `App.LeggiFile` | `righe(file)` — Excel (primo foglio), Word (paragrafi, tabelle, a capo), PDF, csv/txt |
 | `zip-scrivi.js` | `App.ZipScrivi` | `crea` (ZIP senza compressione: più schede PDF in un file), `crc32` |
 | `backup.js` | `App.Backup` | `esporta`, `leggi`, `riepilogo`, `localiPiuRecenti`, `applica` |
+| `unisci-backup.js` | `App.UnisciBackup` | `unisci(backup)`: ➕ Unisci senza cancellare né cambiare nulla — aggiunge classi, alunni, test (anche dell'elenco) mancanti (stesso id o nome = già presente), risultati solo nelle caselle vuote, giustificazioni mancanti (stesso id o stesso giorno = già presente); conta cosa ha aggiunto e i risultati diversi |
 
 ## js/ui/ (interfaccia: una pagina, sottoscheda o finestra per file)
 Menu (config.menu): 🏠 Home · 🏫 Classi · 📚 Test · 📖 Libro · ⏱️ Sessioni · 📋 Giustificazioni · 📄 Riepilogo · 💾 Backup.

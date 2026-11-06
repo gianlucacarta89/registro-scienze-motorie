@@ -9,7 +9,7 @@
 
   App.Config = {
     nome: 'Registro S.Mot',          // nome mostrato (l'archivio dei dati qui sotto NON va cambiato)
-    versione: '6.8',
+    versione: '6.9',
 
     // Menu principale: una pagina per voce (ui/pagina.js). "corto" = etichetta sul telefono
     menu: [
@@ -200,14 +200,14 @@
       // Passaggio dei dati tra dispositivi con una cartella di Google Drive
       backupPassi: [
         'Finito di lavorare: tocca "⬇️ Esporta backup" e salva il file nella cartella "Registro SM" del tuo Google Drive.',
-        'Prima di lavorare su un altro dispositivo: tocca "⬆️ Importa backup", scegli Google Drive e apri il file più recente (il nome contiene data e ora).'
+        'Prima di lavorare su un altro dispositivo: tocca "⬆️ Importa backup", scegli Google Drive, apri il file più recente (il nome contiene data e ora) e tocca "➕ Unisci": si aggiunge ciò che manca e non si perde nulla.'
       ],
       backupDispositivi: [
         'iPhone / iPad: al salvataggio scegli "Salva su File" → Google Drive. Per importare: Sfoglia → Google Drive.',
         'Android: il file finisce in Download; aprilo dalla notifica → Condividi → Drive. Per importare: nel selettore tocca ☰ → Drive.',
         'Computer: con "Google Drive per desktop" salva direttamente nella cartella di Drive; altrimenti trascina il file su drive.google.com.'
       ],
-      backupNota: 'I dati restano sul dispositivo e l\'app funziona anche senza connessione. Serve internet solo nel momento in cui il file passa da Google Drive. L\'importazione sostituisce tutti i dati: lavora su un dispositivo alla volta.',
+      backupNota: 'I dati restano sul dispositivo e l\'app funziona anche senza connessione. Serve internet solo nel momento in cui il file passa da Google Drive. Con "➕ Unisci" non si cancella nulla; "⬆️ Sostituisci tutto" invece cancella i dati del dispositivo. Tieni l\'app aperta in una sola finestra per volta.',
       notaPrivacy: 'Per rispetto della privacy degli alunni usa il simbolo e, se serve, una nota generica: evita diagnosi o dettagli sanitari.'
     }
   };

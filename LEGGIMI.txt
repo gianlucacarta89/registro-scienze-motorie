@@ -1,4 +1,4 @@
-REGISTRO S.MOT (Registro Scienze Motorie) — v6.8
+REGISTRO S.MOT (Registro Scienze Motorie) — v6.9
 ================================================
 
 PUBBLICAZIONE SU GITHUB PAGES (una volta sola, dal computer)
@@ -125,10 +125,17 @@ BACKUP E PASSAGGIO TRA TELEFONO, TABLET E COMPUTER (con Google Drive)
    - Computer: con "Google Drive per desktop" salva nella cartella di Drive,
      altrimenti trascina il file su drive.google.com.
 2. Sull'altro dispositivo: 💾 Backup → ⬆️ Importa backup → Google Drive
-   e apri il file più recente (il nome è "registro-sm_backup_DATA_ORA.json").
+   e apri il file più recente (il nome è "registro-sm_backup_DATA_ORA.json"), poi tocca
+   "➕ Unisci".
 - Il backup contiene i DATI (classi, alunni, test, risultati, tabelle dei voti, note,
   giustificazioni, elenco 📚), non l'app: l'app è su GitHub e si aggiorna da sola.
-- L'importazione SOSTITUISCE tutti i dati: lavora su un dispositivo alla volta.
+- All'importazione scegli: "➕ Unisci" (consigliato) aggiunge solo ciò che manca
+  (giustificazioni, risultati nelle caselle vuote, alunni, classi, test) senza cancellare
+  né cambiare nulla; si possono unire più backup per recuperare dati persi.
+  "⬆️ Sostituisci tutto" cancella i dati del dispositivo e mette quelli del backup.
+- App aperta in due finestre (app installata + scheda di Chrome): prima di salvare l'app
+  controlla se l'altra ha salvato dopo; in quel caso non sovrascrive, carica i dati più
+  recenti e avvisa. Meglio comunque tenerla aperta in un posto solo.
 - L'app funziona senza connessione: internet serve solo per passare il file da Drive.
 - iPhone/iPad: usa l'app installata sulla Home, non la pagina in Safari: Safari può
   cancellare i dati dei siti non usati per qualche settimana, l'app installata no.
