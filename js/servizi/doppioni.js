@@ -9,6 +9,7 @@
  *          Si unisce una volta sola, dall'elenco 📚: i doppioni si tolgono dall'elenco e IN OGNI CLASSE
  *          i test con quei nomi diventano uno, con il nome del test tenuto e tutti i risultati.
  *          Si confrontano anche i test che ci sono solo nelle classi (non nell'elenco).
+ *          Parole di almeno 5 lettere con una lettera diversa valgono uguali (Sergent = Sargent).
  * Dipende da: App.LibroVoti (parole, converti), App.ElencoTest, App.Test, App.Voti, App.SchedaTest, App.U
  *          Si può anche unire "a mano" (compatibili: stesso tipo di misura e stessa direzione).
  * Usato da: ui/finestra-doppioni.js, ui/lista-test.js
