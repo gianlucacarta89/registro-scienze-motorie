@@ -82,7 +82,11 @@
     }
     function aggiornaUnire() {
       var t = tutti[tieni.value];
-      opzioni(unire, t ? tutti.filter(function (x) { return !D().delLibro(x) && App.Doppioni.compatibili(t, x); }) : [], t ? '— scegli il test da unire —' : '— prima scegli quello da tenere —');
+      opzioni(unire, t ? tutti.filter(function (x) { return !D().delLibro(x) && x !== t; }) : [], t ? '— scegli il test da unire —' : '— prima scegli quello da tenere —');
+      if (t) [].forEach.call(unire.options, function (o) {         // non unibili: visibili ma spenti, con il motivo
+        var x = tutti[o.value], m = x && D().perche(t, x);
+        if (m) { o.disabled = true; o.textContent = x.nome + ' – non unibile: ' + m; }
+      });
     }
     opzioni(tieni, tutti, '— scegli il test da tenere —');
     tieni.addEventListener('change', aggiornaUnire);
@@ -94,6 +98,7 @@
       el('div', { class: 'riga-btn' }, el('button', { type: 'button', class: 'btn btn-ok piccolo-btn', text: '🔗 Unisci', onclick: function () {
         var a = tutti[tieni.value], b = tutti[unire.value];
         if (!a || !b) { App.Avvisi.toast('Scegli il test da tenere e quello da unire.', 'info'); return; }
+        if (D().perche(a, b)) { App.Avvisi.toast('Non si possono unire: ' + D().perche(a, b) + '. Correggi prima uno dei due test (✏️ in 📚 Test).', 'errore', 7000); return; }
         unisci(a, [b], rifai);
       } })));
   }

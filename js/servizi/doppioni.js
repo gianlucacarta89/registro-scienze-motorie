@@ -19,7 +19,8 @@
   var VUOTE = ['con', 'dei', 'del', 'della', 'delle', 'dal', 'dalla', 'alla', 'per', 'tra', 'sul', 'sui', 'test', 'prova'];
 
   function parole(n) {
-    n = String(n || '').replace(/([0-9])([a-zA-Z])/g, '$1 $2').replace(/([a-zA-Z])([0-9])/g, '$1 $2');   // 3kg = 3 kg
+    n = String(n || '').replace(/([0-9]+(?:[.,][0-9]+)?)\s*km\b/gi, function (x, v) { return Math.round(parseFloat(v.replace(',', '.')) * 1000) + ' m'; })   // 1 km = 1000 m
+      .replace(/([0-9])([a-zA-Z])/g, '$1 $2').replace(/([a-zA-Z])([0-9])/g, '$1 $2');   // 3kg = 3 kg
     return App.LibroVoti.parole(n).filter(function (w) { return VUOTE.indexOf(w) < 0; });
   }
   function contenuto(a, b) { return a.every(function (w) { return b.indexOf(w) >= 0; }); }
@@ -185,9 +186,16 @@
 
   function quanti() { return gruppiTutti().length; }
 
-  // Unibili a mano: stesso tipo di misura e stessa direzione
-  function compatibili(a, b) { return a !== b && a.tipo === b.tipo && a.migliore === b.migliore; }
+  // Unibili a mano: stesso tipo di misura, stessa direzione, unità uguale (o non scritta)
+  function perche(a, b) {
+    var ua = k(a.unita), ub = k(b.unita);
+    if (a.tipo !== b.tipo) return 'uno è ' + (a.tipo === 'tempo' ? 'un tempo' : 'una misura') + ', l\'altro ' + (b.tipo === 'tempo' ? 'un tempo' : 'una misura');
+    if (a.migliore !== b.migliore) return 'in uno è meglio ' + (a.migliore === 'alto' ? 'più alto' : 'più basso') + ', nell\'altro il contrario';
+    if (a.tipo !== 'tempo' && ua && ub && ua !== ub) return 'unità diverse (' + a.unita + ' e ' + b.unita + ')';
+    return '';
+  }
+  function compatibili(a, b) { return a !== b && !perche(a, b); }
 
   App.Doppioni = { simili: simili, compatibili: compatibili, gruppi: gruppi, proposto: proposto, unisciInClasse: unisciInClasse,
-    voci: voci, nelleClassi: nelleClassi, risultatiTotali: risultatiTotali, gruppiTutti: gruppiTutti, unisci: unisci, inElenco: inElenco, delLibro: delLibro, quanti: quanti };
+    perche: perche, voci: voci, nelleClassi: nelleClassi, risultatiTotali: risultatiTotali, gruppiTutti: gruppiTutti, unisci: unisci, inElenco: inElenco, delLibro: delLibro, quanti: quanti };
 })(window.App = window.App || {});
