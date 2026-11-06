@@ -1,4 +1,4 @@
-# MAPPA — Registro S.Mot (Registro Scienze Motorie) v7.0
+# MAPPA — Registro S.Mot (Registro Scienze Motorie) v7.1
 
 Indice dei file: cosa c'è dentro e quale parte dell'app ne dipende.
 Tutti i moduli stanno nell'oggetto globale `App`. Ordine di caricamento in `index.html`:
@@ -73,7 +73,7 @@ Nome, versione, nome dell'archivio, **tipologie dei test (menu a tendina, e ordi
 | `scheda-test.js` | `App.SchedaTest` | Scheda del test (`campi`, `imposta`, `errore`, `haScheda`) e tabelle per fascia (`fasciaDiClasse` dal nome della classe, `applicaFascia`, `haFasce`) |
 | `test-derivati.js` | `App.TestDerivati` | `aggiungi` (all'avvio: test ricavati da uno del libro, es. 60 m ♀ / 80 m ♂ dallo Sprint 30 m, soglie × coefficiente per sesso; regole in `config.testDerivati`), `scala` |
 | `parametri-test.js` | `App.ParametriTest` | `regola`, `coefficiente`, `scalaValore`, `scalaTabella`, `nome`, `valori`, `applica` (cambia distanza/peso ♂/♀ di un test del libro: nome, strumento e soglie ricalcolate sempre dalla tabella originale del libro; sprint ×(1+k·Δd/base), lancio ×(base/peso)^e, corsa ×(d/base)^e; dati in `test.parametro`) |
-| `doppioni.js` | `App.Doppioni` | `simili`, `gruppi`, `proposto`, `unisciInClasse`, `unisciInElenco`, `gruppiElenco`, `quanti` — test con nomi simili (stesso tipo, direzione, unità e numeri nel nome; parole uguali o contenute, con sinonimi); unione nella classe: risultati nelle caselle vuote, il doppione si toglie solo se non ha valori diversi; nell'elenco i doppioni si tolgono |
+| `doppioni.js` | `App.Doppioni` | `simili`, `gruppi`, `proposto`, `unisciInClasse`, `unisciInElenco`, `gruppiElenco`, `quanti` — test con nomi simili (stesso tipo, direzione, unità o non scritta, stessi numeri nel nome o numeri in un nome solo; parole uguali o contenute, con sinonimi; mai numeri diversi nello stesso gruppo, test senza numeri ambigui esclusi), `compatibili` (unione a mano); unione nella classe: risultati nelle caselle vuote, il doppione si toglie solo se non ha valori diversi; nell'elenco i doppioni si tolgono |
 | `libro-voti.js` | `App.LibroVoti` | `compatibili`, `proposto` (test del libro equivalente: nome con sinonimi + tipologia), `applica` (tabella della fascia + scheda nei campi vuoti, `test.daLibro`), `togli`, `modello` (copia nell'elenco o libro), `sostituisci` (il test diventa quello del libro, risultati riscritti con `converti`, unione se già presente) |
 | `profilo.js` | `App.Profilo` | `alunno` — media dei voti per capacità in una prova (capacità e tipologie in `config.capacita`), `capacitaClasse`, `capacitaDi` |
 | `giustificazioni.js` | `App.Giust` | `errore` (mese, doppioni, simbolo), `ammetteCertificato`, `conCertificato`, `aggiungi`, `modifica`, `elimina`, `delMese`, `totaleAnno`, `contaClasse` |
@@ -111,7 +111,7 @@ Ogni pagina è `App.UI.Pagine[id].disegna(cont)`; la pagina aperta è `preferenz
 | `finestra-test.js` | `App.UI.FinestraTest` | Nuovo test e ✏️ intestazione colonna: nome, tipologia (menu da config + Altro…), strumento (uno o ♂/♀), tipo, unità, migliore, 📖 scheda, ◀ ▶ sposta, 🗑️ |
 | `finestra-voti-classe.js` | `App.UI.FinestraVotiClasse` | 📏 Tabelle dei voti della classe: fascia (proposta dal nome, ricordata in `classe.fascia`), per ogni test il test del libro proposto e lo stato, 📖 Applica / 🗑️ Togli / 🔄 Sostituisci con il test del libro sui test spuntati |
 | `finestra-parametri.js` | `App.UI.FinestraParametri` | ⚙️ Parametri del test: menu ♂/♀ dei valori, anteprima delle soglie libro → nuovo con i coefficienti, avviso se ci sono già risultati, ✔ Applica |
-| `finestra-doppioni.js` | `App.UI.FinestraDoppioni` | 🔗 Test doppioni (pulsante in 📚 Test se ce ne sono): gruppi per elenco e per classe, "Tieni" (proposto: libro / con voti / più risultati) e "Unisci", 🔗 Unisci per gruppo |
+| `finestra-doppioni.js` | `App.UI.FinestraDoppioni` | 🔗 Test doppioni (pulsante in 📚 Test se ce ne sono): gruppi per elenco e per classe, "Tieni" (proposto: libro / con voti / più risultati) e "Unisci", 🔗 Unisci per gruppo; ✋ Unisci a mano (dove, test da tenere, test da unire compatibile) |
 | `finestra-voti.js` | `App.UI.FinestraVoti` | 📏 Tabella dei voti: una riga per voto, soglia ♂ e ♀, ➕ riga, controllo dell'ordine; 📖 Riempi dal libro (test compatibili, il più simile per primo, fascia della classe; al salvataggio anche la scheda) |
 | `finestra-copia-test.js` | `App.UI.FinestraCopiaTest` | 📋 Copia test in un'altra classe |
 | `statistiche.js` | `App.UI.Statistiche` | 📈 Statistiche (pagina Test): per test e prova, andamento, miglioramenti, media voti per test, 🏅 primi 3, 🕸️ profilo |

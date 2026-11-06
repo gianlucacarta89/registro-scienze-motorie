@@ -1,13 +1,14 @@
 /* doppioni.js
  * Cosa fa: trova i test "doppioni" (nomi simili) nell'elenco 📚 e nelle classi e li unisce in uno.
- *          Simili = stesso tipo di misura, stessa direzione (meglio alto/basso), stessa unità, stessi
- *          numeri nel nome (Sprint 30 ≠ Sprint 60, palla 3 kg ≠ 4 kg) e parole uguali o una contenuta
- *          nell'altra (con i sinonimi di libro-voti.js: m = metri, medball = palla medica…).
+ *          Simili = stesso tipo di misura, stessa direzione (meglio alto/basso), stessa unità (o non
+ *          scritta), stessi numeri nel nome (Sprint 30 ≠ Sprint 60, palla 3 kg ≠ 4 kg; numeri in un nome
+ *          solo = va bene) e parole uguali o una contenuta nell'altra (con i sinonimi di libro-voti.js: m = metri, medball = palla medica…).
  *          Unione in una classe: i risultati degli altri test passano a quello tenuto nelle caselle
  *          vuote; se una casella è già piena con un valore diverso NON si perde nulla: quel test resta
  *          con i soli valori diversi. Scheda e tabella dei voti: si riempiono solo i campi vuoti.
  *          Unione nell'elenco: i test non tenuti si tolgono (non hanno risultati).
  * Dipende da: App.LibroVoti (parole, converti), App.ElencoTest, App.Test, App.Voti, App.SchedaTest, App.U
+ *          Si può anche unire "a mano" (compatibili: stesso tipo di misura e stessa direzione).
  * Usato da: ui/finestra-doppioni.js, ui/lista-test.js
  */
 (function (App) {
@@ -23,27 +24,39 @@
 
   function simili(a, b) {
     if (a.tipo !== b.tipo || a.migliore !== b.migliore) return false;
-    if (a.tipo !== 'tempo' && App.U.chiaveNome(a.unita || '') !== App.U.chiaveNome(b.unita || '')) return false;
+    var ua = App.U.chiaveNome(a.unita || ''), ub = App.U.chiaveNome(b.unita || '');
+    if (a.tipo !== 'tempo' && ua && ub && ua !== ub) return false;      // unità non scritta: va bene
     var pa = parole(a.nome), pb = parole(b.nome);
     var na = pa.filter(function (w) { return /^[0-9]+$/.test(w); }).sort().join(' ');
     var nb = pb.filter(function (w) { return /^[0-9]+$/.test(w); }).sort().join(' ');
-    if (na !== nb) return false;
+    if (na && nb && na !== nb) return false;                            // numeri solo in un nome: va bene
     pa = pa.filter(function (w) { return !/^[0-9]+$/.test(w); });
     pb = pb.filter(function (w) { return !/^[0-9]+$/.test(w); });
     if (!pa.length || !pb.length) return App.U.chiaveNome(a.nome) === App.U.chiaveNome(b.nome);
     return contenuto(pa, pb) || contenuto(pb, pa);
   }
 
-  // Gruppi di test simili (almeno 2) -> [[t, t…], …]
+  function numeri(t) { return parole(t.nome).filter(function (w) { return /^[0-9]+$/.test(w); }).sort().join(' '); }
+
+  // Gruppi di test simili (almeno 2) -> [[t, t…], …]. In un gruppo non finiscono mai test con numeri
+  // diversi (Sprint 30 e Velocità 60/80); un test senza numeri simile a test con numeri diversi
+  // (es. "Velocità mt piani") è ambiguo: resta fuori, si unisce a mano.
   function gruppi(lista) {
-    var capo = lista.map(function (x, i) { return i; });
-    function radice(i) { while (capo[i] !== i) i = capo[i] = capo[capo[i]]; return i; }
-    lista.forEach(function (a, i) {
-      for (var j = i + 1; j < lista.length; j++) if (simili(a, lista[j])) capo[radice(j)] = radice(i);
+    var ambigui = lista.filter(function (t) {
+      if (numeri(t)) return false;
+      var n = {};
+      lista.forEach(function (x) { if (x !== t && numeri(x) && simili(t, x)) n[numeri(x)] = true; });
+      return Object.keys(n).length > 1;
     });
-    var g = {};
-    lista.forEach(function (x, i) { var r = radice(i); (g[r] = g[r] || []).push(x); });
-    return Object.keys(g).map(function (k) { return g[k]; }).filter(function (x) { return x.length > 1; });
+    var l = lista.filter(function (t) { return ambigui.indexOf(t) < 0; }), gr = [];
+    l.forEach(function (t) {
+      var g = gr.filter(function (g) {
+        return g.some(function (x) { return simili(t, x); }) &&
+          g.every(function (x) { return !numeri(x) || !numeri(t) || numeri(x) === numeri(t); });
+      })[0];
+      if (g) g.push(t); else gr.push([t]);
+    });
+    return gr.filter(function (g) { return g.length > 1; });
   }
 
   // Il test da tenere proposto: del libro, con la tabella dei voti, con più risultati, nome più lungo
@@ -130,6 +143,9 @@
     return n;
   }
 
-  App.Doppioni = { simili: simili, gruppi: gruppi, proposto: proposto, unisciInClasse: unisciInClasse,
+  // Unibili a mano: stesso tipo di misura e stessa direzione
+  function compatibili(a, b) { return a !== b && a.tipo === b.tipo && a.migliore === b.migliore; }
+
+  App.Doppioni = { simili: simili, compatibili: compatibili, gruppi: gruppi, proposto: proposto, unisciInClasse: unisciInClasse,
     unisciInElenco: unisciInElenco, gruppiElenco: gruppiElenco, quanti: quanti };
 })(window.App = window.App || {});
