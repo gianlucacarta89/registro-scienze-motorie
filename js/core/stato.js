@@ -59,6 +59,7 @@
     n.ultimaModifica = d.ultimaModifica || null;
     n.ultimoBackup = d.ultimoBackup || null;
     n.archivio = { test: d.archivio && Array.isArray(d.archivio.test) ? d.archivio.test : [] };
+    if (App.MigraSprint) App.MigraSprint.applica(n);       // v7.5: "Sprint" al posto di Sprint 30 metri e Velocità 60/80
     return n;
   }
 

@@ -10,6 +10,7 @@
  *          i test con quei nomi diventano uno, con il nome del test tenuto e tutti i risultati.
  *          Si confrontano anche i test che ci sono solo nelle classi (non nell'elenco).
  *          Parole di almeno 5 lettere con una lettera diversa valgono uguali (Sergent = Sargent).
+ *          Se il nome non ha numeri conta lo strumento ("Sprint" con "30 m" = Sprint 30 metri).
  * Dipende da: App.LibroVoti (parole, converti), App.ElencoTest, App.Test, App.Voti, App.SchedaTest, App.U
  *          Si può anche unire "a mano" (compatibili: stesso tipo di misura e stessa direzione).
  * Usato da: ui/finestra-doppioni.js, ui/lista-test.js
@@ -42,7 +43,7 @@
     if (a.tipo !== b.tipo || a.migliore !== b.migliore) return false;
     var ua = App.U.chiaveNome(a.unita || ''), ub = App.U.chiaveNome(b.unita || '');
     if (a.tipo !== 'tempo' && ua && ub && ua !== ub) return false;      // unità non scritta: va bene
-    var pa = parole(a.nome), pb = parole(b.nome);
+    var pa = parole(App.LibroVoti.nomeConfronto(a)), pb = parole(App.LibroVoti.nomeConfronto(b));
     var na = pa.filter(function (w) { return /^[0-9]+$/.test(w); }).sort().join(' ');
     var nb = pb.filter(function (w) { return /^[0-9]+$/.test(w); }).sort().join(' ');
     if (na && nb && na !== nb) return false;                            // numeri solo in un nome: va bene
@@ -52,7 +53,7 @@
     return contenuto(pa, pb) || contenuto(pb, pa);
   }
 
-  function numeri(t) { return parole(t.nome).filter(function (w) { return /^[0-9]+$/.test(w); }).sort().join(' '); }
+  function numeri(t) { return parole(App.LibroVoti.nomeConfronto(t)).filter(function (w) { return /^[0-9]+$/.test(w); }).sort().join(' '); }
 
   // Gruppi di test simili (almeno 2) -> [[t, t…], …]. In un gruppo non finiscono mai test con numeri
   // diversi (Sprint 30 e Velocità 60/80); un test senza numeri simile a test con numeri diversi

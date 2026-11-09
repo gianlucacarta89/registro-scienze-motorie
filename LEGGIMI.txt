@@ -1,4 +1,4 @@
-REGISTRO S.MOT (Registro Scienze Motorie) — v7.4
+REGISTRO S.MOT (Registro Scienze Motorie) — v7.5
 ================================================
 
 PUBBLICAZIONE SU GITHUB PAGES (una volta sola, dal computer)
@@ -64,9 +64,7 @@ COSA FA — il menu (in alto sul computer, in basso sul telefono)
   📈 Statistiche (sottoscheda): per classe, test e prova (1ª, 2ª, 3ª): andamento, media,
   migliore, peggiore, alunni/alunne, quanti per ogni voto, migliorati, media voti per test,
   🏅 primi 3 alunni e alunne di ogni test (giochi studenteschi).
-- 📖 Libro: i test del libro da consultare (più "Velocità 60 m ♀ / 80 m ♂", con la tabella
-  calcolata dallo Sprint 30 metri: 60 m = 30 m × 1,8; 80 m = 30 m × 2,33; i coefficienti sono
-  in config.js > testDerivati), per tipologia, con caratteristiche, scheda
+- 📖 Libro: i test del libro da consultare, per tipologia, con caratteristiche, scheda
   (a che cosa serve, materiale, come si fa, come si misura, differenze alunni/alunne) e tabella
   di valutazione ♂/♀ della fascia scelta (1° biennio, 2° biennio, quinto anno). Ricerca per nome.
 - 🔗 Doppioni (in 📚 Test): test con nomi simili. Scegli quale tenere e tocca "🔗 Unisci": si
@@ -74,7 +72,8 @@ COSA FA — il menu (in alto sul computer, in basso sul telefono)
   risultati restano tutti; se un alunno ha
   due valori diversi nella stessa prova, il doppione resta con quel valore da controllare.
   In fondo "✋ Unisci a mano" per i test che l'app non riconosce da sola.
-- ⚙️ Parametri modificabili: Sprint 30 metri (30–100 m), Lancio avanti palla medica 3 kg e
+- ⚙️ Parametri modificabili: Sprint (libro: 30 m; 30–100 m, il nome resta "Sprint" e i metri
+  si vedono nella colonna, es. ♂ 80 m / ♀ 60 m), Lancio avanti palla medica 3 kg e
   Getto palla medica 2 kg da seduti (1–5 kg), Corsa di 1 km (800–3000 m). Apri il test (in 📚 Test
   o in ⏱️ Sessioni) e tocca "⚙️ Cambia distanza / peso della palla": valori anche diversi per
   alunni e alunne; nome, strumento e soglie dei voti si ricalcolano dalla tabella del libro

@@ -6,10 +6,11 @@
  *            sprint: tempo × (1 + k × (d − base) / base)   lancio: distanza × (base / peso)^e
  *            corsa:  tempo × (d / base)^e  (Riegel)
  *          La soglia "di comodo" del voto più basso (999, 0, 99:59) resta com'è.
- * Dipende da: App.Config (parametri, testDerivati), App.LibroVoti, App.SchedaTest, App.Test, App.U
+ * Dipende da: App.Config (parametri), App.LibroVoti, App.SchedaTest, App.Test, App.U
  * Usato da: ui/finestra-parametri.js, ui/pagina-libro.js
  *
- * Dati: test.parametro = { libro: 'Sprint 30 metri', M: 80, F: 60 }
+ * Dati: test.parametro = { libro: 'Sprint', M: 80, F: 60 }  (lo Sprint si chiama sempre "Sprint": i metri
+ *       si vedono nello strumento, ♂ 80 m / ♀ 60 m)
  */
 (function (App) {
   'use strict';
@@ -19,7 +20,6 @@
   // Regola del test (o null): dal parametro già scelto, dal test del libro da cui viene o dal nome
   function regola(t) {
     var nomi = [t.parametro && t.parametro.libro, t.daLibro, t.nome];
-    (App.Config.testDerivati || []).forEach(function (d) { if (d.nome === t.nome) nomi.push(d.base); });
     return regole().filter(function (r) { return nomi.indexOf(r.libro) >= 0; })[0] || null;
   }
 
@@ -59,7 +59,7 @@
 
   function sostituisci(modello, v) { return modello.replace('{v}', String(v).replace('.', ',')); }
 
-  // Nome del test con i valori scelti ("Sprint 60 metri", "Sprint 80/60 metri" se ♂ e ♀ diversi)
+  // Nome del test con i valori scelti ("Corsa di 1500 m", "Corsa di 1500/1000 m" se ♂ e ♀ diversi; "Sprint" sempre uguale)
   function nome(r, val) { return sostituisci(r.titolo, val.M === val.F ? val.M : val.M + '/' + val.F); }
 
   function valori(t) {

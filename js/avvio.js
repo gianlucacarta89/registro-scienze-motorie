@@ -12,7 +12,6 @@
     document.getElementById('titolo-app').textContent = c.nome;
     App.Tema.pulsante(document.getElementById('tema'));   // ☀️/🌙 nella testata
 
-    App.TestDerivati.aggiungi();      // test ricavati da quelli del libro (es. 60 m / 80 m)
     App.Stato.carica().then(function () {
       App.Test.ordinaTutti();
       App.Test.riscriviTutti();

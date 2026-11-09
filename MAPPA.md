@@ -1,4 +1,4 @@
-# MAPPA — Registro S.Mot (Registro Scienze Motorie) v7.4
+# MAPPA — Registro S.Mot (Registro Scienze Motorie) v7.5
 
 Indice dei file: cosa c'è dentro e quale parte dell'app ne dipende.
 Tutti i moduli stanno nell'oggetto globale `App`. Ordine di caricamento in `index.html`:
@@ -30,7 +30,7 @@ La versione online (pagina privata su claude.ai) usa gli stessi file `css/` e `j
 | `telefono.css` | Adattamenti sotto 760 px e 480 px |
 
 ## js/config.js — `App.Config`
-Nome, versione, nome dell'archivio, **tipologie dei test (menu a tendina, e ordine delle colonne)**, **formati del tempo** (`formatiTempo`), **menu** (`menu`: voci, icone, etichette corte), **parametri modificabili dei test del libro** (`parametri`: distanza dello sprint e della corsa, peso della palla medica, valori possibili, modello di ricalcolo e coefficienti k/e), **test ricavati dal libro** (`testDerivati`: base, coefficienti ♂/♀, distanze, scheda), **capacità del grafico a ragnatela** (`capacita`), **fasce** delle tabelle del libro (`fasce`), **campi della scheda del test** (`schedaTest`), **♂/♀ dai nomi** (`sessoDaiNomi`: particelle dei cognomi, finali, eccezioni come Andrea e Luca), mesi (set–giu), prove, tipi di test, **simboli delle giustificazioni** (con `certificato: true` quelli che ammettono la spunta), **spunta del certificato medico** (`certificato`), limiti, parole d'intestazione, testi delle regole, passi del backup con Google Drive (`backupPassi`, `backupDispositivi`, `backupNota`) e nota privacy.
+Nome, versione, nome dell'archivio, **tipologie dei test (menu a tendina, e ordine delle colonne)**, **formati del tempo** (`formatiTempo`), **menu** (`menu`: voci, icone, etichette corte), **parametri modificabili dei test del libro** (`parametri`: distanza dello sprint e della corsa, peso della palla medica, valori possibili, modello di ricalcolo e coefficienti k/e), **capacità del grafico a ragnatela** (`capacita`), **fasce** delle tabelle del libro (`fasce`), **campi della scheda del test** (`schedaTest`), **♂/♀ dai nomi** (`sessoDaiNomi`: particelle dei cognomi, finali, eccezioni come Andrea e Luca), mesi (set–giu), prove, tipi di test, **simboli delle giustificazioni** (con `certificato: true` quelli che ammettono la spunta), **spunta del certificato medico** (`certificato`), limiti, parole d'intestazione, testi delle regole, passi del backup con Google Drive (`backupPassi`, `backupDispositivi`, `backupNota`) e nota privacy.
 → Per cambiare simboli, mesi o testi delle regole si tocca solo qui.
 
 ## lib/ (librerie in locale: funzionano offline, si caricano solo quando si crea un PDF)
@@ -71,7 +71,6 @@ Nome, versione, nome dell'archivio, **tipologie dei test (menu a tendina, e ordi
 | `statistiche-giust.js` | `App.StatGiust` | `perAlunno` (totale, per tipologia e con certificato, mese o anno), `perMese`, `totali` (anche ♂/♀) |
 | `nomi-sesso.js` | `App.NomiSesso` | `indovina` — ♂/♀ proposto dal nome di battesimo (elenchi di nomi + finale -a/-o, regole in `config.sessoDaiNomi`); '' se incerto |
 | `scheda-test.js` | `App.SchedaTest` | Scheda del test (`campi`, `imposta`, `errore`, `haScheda`) e tabelle per fascia (`fasciaDiClasse` dal nome della classe, `applicaFascia`, `haFasce`) |
-| `test-derivati.js` | `App.TestDerivati` | `aggiungi` (all'avvio: test ricavati da uno del libro, es. 60 m ♀ / 80 m ♂ dallo Sprint 30 m, soglie × coefficiente per sesso; regole in `config.testDerivati`), `scala` |
 | `parametri-test.js` | `App.ParametriTest` | `regola`, `coefficiente`, `scalaValore`, `scalaTabella`, `nome`, `valori`, `applica` (cambia distanza/peso ♂/♀ di un test del libro: nome, strumento e soglie ricalcolate sempre dalla tabella originale del libro; sprint ×(1+k·Δd/base), lancio ×(base/peso)^e, corsa ×(d/base)^e; dati in `test.parametro`) |
 | `doppioni.js` | `App.Doppioni` | `simili`, `gruppi`, `compatibili`, `proposto`, `voci` (elenco + libro + test solo nelle classi), `nelleClassi`, `risultatiTotali`, `gruppiTutti`, `unisci(tieni, altri)` (una volta sola: toglie i doppioni dall'elenco e in OGNI classe i test con quei nomi diventano uno, con il nome di quello tenuto e tutti i risultati), `unisciInClasse`, `quanti`, `perche` (motivo per cui due test non si possono unire) — 1 km = 1000 m nei nomi; parole con una lettera diversa uguali (Sergent = Sargent); mai numeri diversi nello stesso gruppo, test senza numeri ambigui esclusi |
 | `libro-voti.js` | `App.LibroVoti` | `compatibili`, `proposto` (test del libro equivalente: nome con sinonimi + tipologia), `applica` (tabella della fascia + scheda nei campi vuoti, `test.daLibro`), `togli`, `modello` (copia nell'elenco o libro), `sostituisci` (il test diventa quello del libro, risultati riscritti con `converti`, unione se già presente) |
@@ -90,6 +89,7 @@ Nome, versione, nome dell'archivio, **tipologie dei test (menu a tendina, e ordi
 | `zip-scrivi.js` | `App.ZipScrivi` | `crea` (ZIP senza compressione: più schede PDF in un file), `crc32` |
 | `backup.js` | `App.Backup` | `esporta`, `leggi`, `riepilogo`, `localiPiuRecenti`, `applica` |
 | `unisci-backup.js` | `App.UnisciBackup` | `unisci(backup)`: ➕ Unisci senza cancellare né cambiare nulla — aggiunge classi, alunni, test (anche dell'elenco) mancanti (stesso id o nome = già presente), risultati solo nelle caselle vuote, giustificazioni mancanti (stesso id o stesso giorno = già presente); conta cosa ha aggiunto e i risultati diversi |
+| `migra-sprint.js` | `App.MigraSprint` | `applica(dati)` (da `normalizza`, anche per i backup vecchi): "Sprint 30 metri" → "Sprint" (anche `daLibro`/`parametro.libro`); nelle classi "Velocità 60 m ♀ / 80 m ♂" → "Sprint" con ⚙️ ♂ 80 / ♀ 60 m, risultati e tabella invariati ("Sprint (♂ 80 m, ♀ 60 m)" se c'è già uno Sprint); nell'elenco la sua copia si toglie |
 
 ## js/ui/ (interfaccia: una pagina, sottoscheda o finestra per file)
 Menu (config.menu): 🏠 Home · 🏫 Classi · 📚 Test · 📖 Libro · ⏱️ Sessioni · 📋 Giustificazioni · 📄 Riepilogo · 💾 Backup.

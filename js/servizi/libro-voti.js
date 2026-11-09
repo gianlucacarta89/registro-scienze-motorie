@@ -1,7 +1,8 @@
 /* libro-voti.js
  * Cosa fa: collega i test di una classe ai test del libro (App.TestLibro) per le tabelle dei voti:
  *          trova i test del libro compatibili (stesso tipo e direzione), il più simile per primo
- *          (nome con qualche sinonimo + tipologia), applica a un test la tabella del libro della
+ *          (nome con qualche sinonimo + tipologia; se il nome non ha numeri conta anche lo strumento, es.
+ *          "Sprint" + "30 m"), applica a un test la tabella del libro della
  *          fascia scelta (e la scheda nei campi vuoti) oppure la toglie. I risultati non si toccano.
  *          "Sostituisci": il test della classe diventa del tutto il test del libro, con i suoi risultati.
  * Dipende da: App.TestLibro, App.SchedaTest, App.U, App.Test, App.Voti, App.ElencoTest
@@ -22,14 +23,20 @@
       .filter(function (w) { return w.length > 2 || /^[0-9]+$/.test(w); });
   }
 
+  // Nome da confrontare: se non ha numeri si aggiunge lo strumento ("Sprint" + "30 m", "♂ 80 m / ♀ 60 m")
+  function nomeConfronto(t) {
+    var n = String(t.nome || '');
+    return /[0-9]/.test(n) ? n : n + ' ' + [t.strumento, t.strumentoM, t.strumentoF].filter(Boolean).join(' ');
+  }
+
   // Test del libro compatibili con t (stesso tipo e direzione), il più simile per primo -> [{ p, punti }]
   function compatibili(t) {
-    var mie = parole(t.nome);
+    var mie = parole(nomeConfronto(t));
     return (App.TestLibro || []).filter(function (p) { return p.tipo === t.tipo && p.migliore === t.migliore; })
       .map(function (p) {
         var uguale = App.U.chiaveNome(p.nome) === App.U.chiaveNome(t.nome) || p.nome === t.daLibro;
         var punti = (uguale ? 100 : 0) +
-          parole(p.nome).filter(function (w) { return mie.some(function (m) { return m === w || (m.length > 4 && w.indexOf(m.slice(0, 5)) === 0); }); }).length * 2 +
+          parole(nomeConfronto(p)).filter(function (w) { return mie.some(function (m) { return m === w || (m.length > 4 && w.indexOf(m.slice(0, 5)) === 0); }); }).length * 2 +
           (App.U.chiaveNome(p.tipologia) === App.U.chiaveNome(t.tipologia || '') ? 1 : 0);
         return { p: p, punti: punti };
       })
@@ -118,6 +125,6 @@
     return out;
   }
 
-  App.LibroVoti = { parole: parole, compatibili: compatibili, proposto: proposto, trova: trova, modello: modello, tabella: tabella,
+  App.LibroVoti = { parole: parole, nomeConfronto: nomeConfronto, compatibili: compatibili, proposto: proposto, trova: trova, modello: modello, tabella: tabella,
     applica: applica, togli: togli, converti: converti, sostituisci: sostituisci };
 })(window.App = window.App || {});
