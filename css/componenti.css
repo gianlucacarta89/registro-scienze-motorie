@@ -308,3 +308,19 @@ textarea { resize: vertical; }
 .finestra-pdf .campo input[type=text], .finestra-pdf select { width: 100%; min-height: 40px; border: 1px solid var(--bordo-forte); border-radius: 8px; background: var(--campo); padding: 6px 10px; }
 .pdf-classe .scelta { justify-content: flex-start; }
 .pdf-classe .segmenti { order: 0; width: 100%; }
+
+/* ⚡ Appello rapido (giustificazioni di un giorno per tutta la classe) */
+.lista-appello .riga-appello { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 8px; align-items: center; padding: 6px 4px; border-bottom: 1px solid var(--bordo); }
+.riga-appello.con-scelta { background: var(--ok-chiaro); border-radius: 8px; }
+.riga-appello.gia { opacity: .7; }
+.appello-nome { min-width: 0; overflow-wrap: anywhere; }
+.appello-simboli { display: flex; flex-wrap: wrap; gap: 4px; justify-content: flex-end; }
+.simbolo-appello { min-width: 40px; min-height: 40px; font-size: 1.2rem; border: 2px solid var(--bordo); border-radius: 10px; background: var(--superficie, transparent); cursor: pointer; }
+.simbolo-appello.scelto { border-color: var(--ok); background: var(--ok-chiaro); }
+.appello-extra { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 6px 12px; align-items: center; }
+.appello-extra input[type=text] { flex: 1 1 180px; min-width: 0; }
+.conto-appello { font-weight: 700; margin-top: 8px; }
+@media (max-width: 420px) {
+  .lista-appello .riga-appello { grid-template-columns: 1fr; }
+  .appello-simboli { justify-content: flex-start; }
+}

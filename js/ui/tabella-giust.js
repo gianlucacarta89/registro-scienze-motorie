@@ -1,8 +1,9 @@
 /* tabella-giust.js
  * Cosa fa: modulo 2 "Giustificazioni": tabella alunni × mesi (settembre-giugno) con i simboli,
- *          totale per alunno, scelta dell'anno scolastico, legenda con i conteggi della classe.
+ *          totale per alunno, scelta dell'anno scolastico, legenda con i conteggi della classe,
+ *          "⚡ Appello rapido" per segnare in una volta le giustificazioni di un giorno.
  * Dipende da: App.U, App.UI.FinestraAlunno (tocco sul nome), App.Stato, App.Config, App.Calendario, App.Giust, App.UI.FinestraGiust,
- *             App.UI.FinestraImporta, App.UI.vuoto, App.UI.regole
+ *             App.UI.FinestraImporta, App.UI.FinestraAppello, App.UI.vuoto, App.UI.regole
  * Usato da: ui/pagina.js
  */
 (function (App) {
@@ -63,7 +64,9 @@
 
     disegna: function (cont, classe) {
       var anno = App.Calendario.annoAttivo(), mesi = App.Calendario.mesi(anno);
-      cont.appendChild(el('div', { class: 'strumenti' }, barraAnno(anno)));
+      cont.appendChild(el('div', { class: 'strumenti' }, barraAnno(anno),
+        classe.alunni.length ? el('button', { type: 'button', class: 'btn btn-ok', text: '⚡ Appello rapido',
+          title: 'Più giustificazioni dello stesso giorno in una volta', onclick: function () { App.UI.FinestraAppello.apri(classe); } }) : null));
 
       if (!classe.alunni.length) {
         cont.appendChild(App.UI.vuoto('👥', 'Nessun alunno in ' + classe.nome,

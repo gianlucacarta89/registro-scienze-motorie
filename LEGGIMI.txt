@@ -1,4 +1,4 @@
-REGISTRO S.MOT (Registro Scienze Motorie) — v7.5
+REGISTRO S.MOT (Registro Scienze Motorie) — v7.6
 ================================================
 
 PUBBLICAZIONE SU GITHUB PAGES (una volta sola, dal computer)
@@ -103,7 +103,8 @@ COSA FA — il menu (in alto sul computer, in basso sul telefono)
   della classe per ogni test; sotto, le tabelle dei voti di ogni test (♂ e ♀) da cui vengono.
 - 📋 Giustificazioni: Registro (tocca la casella di un alunno nel mese giusto: data, motivo,
   nota; per salute, infortunio e ciclo la spunta "📄 Con certificato medico"; per la
-  giustificazione generica il motivo va scritto nella nota) e 📈 Statistiche (per mese o
+  giustificazione generica il motivo va scritto nella nota; "⚡ Appello rapido": un giorno,
+  tutta la classe, un tocco sul motivo accanto a ogni alunno e un solo "✔ Salva") e 📈 Statistiche (per mese o
   tutto l'anno, per alunno e per tipologia, totali alunni/alunne, grafici).
 - 📄 Riepilogo: i PDF da inviare. Scegli classi e alunni, cosa includere (test e/o
   giustificazioni, tutto l'anno o un mese) e il tipo di documento:

@@ -7,7 +7,7 @@
  */
 'use strict';
 
-var VERSIONE = 'registro-sm-v7.5';
+var VERSIONE = 'registro-sm-v7.6';
 
 var FILE = [
   './',
@@ -80,6 +80,7 @@ var FILE = [
   'js/ui/finestra-elenco-test.js',
   'js/ui/tabella-giust.js',
   'js/ui/finestra-giust.js',
+  'js/ui/finestra-appello.js',
   'js/ui/finestra-alunno.js',
   'js/ui/finestra-alunni.js',
   'js/ui/finestra-importa.js',

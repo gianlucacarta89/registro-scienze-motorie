@@ -1,4 +1,4 @@
-# MAPPA — Registro S.Mot (Registro Scienze Motorie) v7.5
+# MAPPA — Registro S.Mot (Registro Scienze Motorie) v7.6
 
 Indice dei file: cosa c'è dentro e quale parte dell'app ne dipende.
 Tutti i moduli stanno nell'oggetto globale `App`. Ordine di caricamento in `index.html`:
@@ -121,6 +121,7 @@ Ogni pagina è `App.UI.Pagine[id].disegna(cont)`; la pagina aperta è `preferenz
 | `pagina-giust.js` | `App.UI.Pagine.giust` | 📋 Sottoschede "Registro" e "📈 Statistiche" (classe scelta in alto) |
 | `tabella-giust.js` | `App.UI.TabellaGiust` | Registro: ◀ anno ▶, alunni × mesi, Tot., legenda (nome alunno toccabile) |
 | `finestra-giust.js` | `App.UI.FinestraGiust` | Tocco su una casella del mese: elenco, ✏️, 🗑️, nuova giustificazione con spunta 📄 certificato medico (non per l'attrezzatura; con bozza) |
+| `finestra-appello.js` | `App.UI.FinestraAppello` | ⚡ Appello rapido: un giorno, tutta la classe; un tocco sul motivo per alunno (🌸 solo alunne o ♂/♀ non indicato), 📄 certificato e nota dove servono, chi è già giustificato quel giorno indicato e non toccato; ✔ Salva le aggiunge tutte dopo averle controllate tutte |
 | `statistiche-giust.js` | `App.UI.StatisticheGiust` | 📈 Statistiche giustificazioni: anno, mese o tutto l'anno, per alunno e tipologia, grafici |
 | `pagina-riepilogo.js` | `App.UI.Pagine.riepilogo` | 📄 PDF: classi, alunni, contenuto, periodo, tipo (tabella della classe / schede alunni, ZIP), docente |
 | `pagina-backup.js` | `App.UI.Pagine.backup` | 💾 Stato, passi con Google Drive, ⬇️ Esporta, ⬆️ Importa (con conferma) |
