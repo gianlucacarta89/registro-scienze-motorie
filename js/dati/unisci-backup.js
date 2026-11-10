@@ -42,7 +42,10 @@
     la.alunni.forEach(function (a) {
       var x = trova(qui.alunni, a);
       if (!x) { x = aggiungi(qui.alunni, a); r.alunni++; }
-      else if (!x.sesso && a.sesso) x.sesso = a.sesso;
+      else {
+        if (!x.sesso && a.sesso) x.sesso = a.sesso;
+        if (!x.partecipa && a.partecipa) x.partecipa = App.U.copia(a.partecipa);   // 🏐 🏅
+      }
       alunni[a.id] = x.id;
     });
     la.test.forEach(function (t) {

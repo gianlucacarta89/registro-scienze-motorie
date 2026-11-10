@@ -69,7 +69,7 @@
         ? el('ol', { class: 'alunni-classe' }, c.alunni.map(function (a) {
           return el('li', {}, el('button', { type: 'button', class: 'nome-alunno', title: 'Scheda dell\'alunno: voti e grafico a ragnatela',
             onclick: function () { App.UI.SchedaAlunno.apri(c, a); } },
-            a.nome, el('span', { class: 'sesso' + (a.sesso ? '' : ' manca'), text: ' ' + (a.sesso ? App.Config.sessi[a.sesso].icona : '♂/♀?') })));
+            a.nome, el('span', { class: 'sesso' + (a.sesso ? '' : ' manca'), text: ' ' + (a.sesso ? App.Config.sessi[a.sesso].icona : '♂/♀?') }), App.UI.iconePartecipa(a)));
         }))
         : el('p', { class: 'piccolo', text: 'Nessun alunno: tocca "📥 Carica alunni" per prenderli da Excel, Word, PDF o incollarli.' }));
     box.addEventListener('toggle', function () { aperte[c.id] = box.open; });

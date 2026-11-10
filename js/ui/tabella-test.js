@@ -166,7 +166,7 @@
           el('th', { class: 'col-nome', scope: 'row' },
             el('button', { type: 'button', class: 'nome-alunno', title: 'Correggi o togli', onclick: function () { App.UI.FinestraAlunno.apri(classe, a); } },
               el('span', { class: 'num', text: (r + 1) + '.' }), ' ' + a.nome,
-              a.sesso ? el('span', { class: 'sesso', text: ' ' + App.Config.sessi[a.sesso].icona }) : null)),
+              a.sesso ? el('span', { class: 'sesso', text: ' ' + App.Config.sessi[a.sesso].icona }) : null, App.UI.iconePartecipa(a))),
           classe.test.map(function (t, c) {
             return prova === 'c' ? casellaConfronto(classe, a, t) : casella(classe, a, t, prova, r, c);
           }),

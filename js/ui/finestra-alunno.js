@@ -70,6 +70,7 @@
         corpo: el('div', { class: 'modulo' },
           el('label', { class: 'campo' }, el('span', { text: 'Cognome e nome' }), nome),
           el('div', { class: 'campo' }, el('span', { text: 'Per le tabelle dei voti' }), sesso),
+          el('div', { class: 'campo' }, el('span', { text: 'Partecipazioni (promemoria, si salvano subito)' }), App.UI.spuntePartecipa(a)),
           el('p', { class: 'piccolo', text: 'Classe ' + classe.nome + ' · ' + d.risultati + ' risultati dei test · ' + d.giust + ' giustificazioni' })),
         pulsanti: [
           { testo: '🗑️ Togli', tipo: 'pericolo', azione: function (f) { togli(classe, a).then(function (ok) { if (ok) f.chiudi(); }); return false; } },

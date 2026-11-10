@@ -9,7 +9,7 @@
 
   App.Config = {
     nome: 'Registro S.Mot',          // nome mostrato (l'archivio dei dati qui sotto NON va cambiato)
-    versione: '7.6',
+    versione: '7.7',
 
     // Menu principale: una pagina per voce (ui/pagina.js). "corto" = etichetta sul telefono
     menu: [
@@ -120,6 +120,11 @@
     // Voti automatici dei test (tabelle del libro di testo)
     voti: { min: 4, max: 10, passo: 0.5, sufficienza: 6, righeIniziali: [10, 9, 8, 7, 6, 5, 4] },
     sessi: { M: { icona: '♂', nome: 'Alunno' }, F: { icona: '♀', nome: 'Alunna' } },
+    // Spunte per alunno (scheda dell'alunno, ✏️ Correggi): solo promemoria, nessun calcolo sui voti
+    partecipazioni: [
+      { id: 'torneo', icona: '🏐', nome: 'Partecipa al torneo scolastico' },
+      { id: 'giochi', icona: '🏅', nome: 'Partecipa ai giochi della gioventù' }
+    ],
     // ♂/♀ proposti dal nome quando si caricano gli alunni (servizi/nomi-sesso.js)
     sessoDaiNomi: {
       particelle: ['de', 'di', 'del', 'della', 'dello', 'dei', 'degli', 'da', 'dal', 'dalla', 'lo', 'la', 'li', 'le', 'el', 'al', 'van', 'von', 'mc', 'mac'],

@@ -324,3 +324,7 @@ textarea { resize: vertical; }
   .lista-appello .riga-appello { grid-template-columns: 1fr; }
   .appello-simboli { justify-content: flex-start; }
 }
+
+/* 🏐 🏅 Partecipazioni (promemoria per alunno) */
+.spunte-partecipa { display: flex; flex-direction: column; gap: 6px; }
+.icone-partecipa { white-space: nowrap; }

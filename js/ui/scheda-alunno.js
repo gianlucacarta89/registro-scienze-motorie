@@ -2,6 +2,7 @@
  * Cosa fa: finestra "👤 Scheda dell'alunno" (si apre toccando il nome in 🏫 Classi): per ogni test
  *          della classe il risultato e il voto in ogni prova svolta, la media dei voti di ogni prova
  *          e il grafico a ragnatela per capacità della prova scelta (ui/profilo-alunno.js).
+ *          Spunte 🏐 torneo scolastico / 🏅 giochi della gioventù (ui/spunte-partecipa.js).
  *          "✏️ Correggi" apre la finestra per correggere il nome, indicare ♂/♀ o togliere l'alunno.
  * Dipende da: App.U, App.Config (prove, sessi), App.Test, App.Voti, App.Finestra,
  *             App.UI.ProfiloAlunno, App.UI.FinestraAlunno
@@ -53,6 +54,8 @@
         App.U.svuota(zona);
         zona.appendChild(el('p', { class: 'piccolo' }, 'Classe ' + classe.nome + ' · ' +
           (a.sesso ? App.Config.sessi[a.sesso].icona + ' ' + (a.sesso === 'M' ? 'alunno' : 'alunna') : '♂/♀ non indicato: tocca "✏️ Correggi" per indicarlo (serve per i voti)')));
+        zona.appendChild(el('h4', { text: '🏆 Partecipazioni' }));
+        zona.appendChild(App.UI.spuntePartecipa(a));
         zona.appendChild(el('h4', { text: '🎯 Risultati e voti dei test' }));
         zona.appendChild(tabellaVoti(classe, a, prove));
         zona.appendChild(el('h4', { text: '🕸️ Profilo per capacità' }));

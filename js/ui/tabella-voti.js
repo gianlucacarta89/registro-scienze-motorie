@@ -88,7 +88,7 @@
           el('th', { class: 'col-nome', scope: 'row' },
             el('button', { type: 'button', class: 'nome-alunno', onclick: function () { App.UI.FinestraAlunno.apri(classe, a); } },
               el('span', { class: 'num', text: (i + 1) + '.' }), ' ' + a.nome,
-              a.sesso ? el('span', { class: 'sesso', text: ' ' + App.Config.sessi[a.sesso].icona } ) : el('span', { class: 'voto manca', text: ' ♂/♀?' }))),
+              a.sesso ? el('span', { class: 'sesso', text: ' ' + App.Config.sessi[a.sesso].icona } ) : el('span', { class: 'voto manca', text: ' ♂/♀?' }), App.UI.iconePartecipa(a))),
           voti.map(function (x, k) {
             var v = App.Test.valore(classe, a.id, conTab[k].id, prova);
             return el('td', { class: 'cella cella-voto', title: v ? 'Risultato: ' + App.Test.formatta(conTab[k], v) : 'Non svolto' }, etichetta(x.voto));
