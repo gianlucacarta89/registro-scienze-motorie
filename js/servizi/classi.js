@@ -113,6 +113,7 @@
       classe.alunni = classe.alunni.filter(function (a) { return a.id !== id; });
       delete classe.risultati[id];
       delete classe.giust[id];
+      if (App.Attivita) App.Attivita.togliAlunno(classe, id);
     },
 
     // Quanti dati ha un alunno (per avvisare prima di cancellarlo)

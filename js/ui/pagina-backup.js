@@ -29,6 +29,8 @@
       if (r.classi) righe.push('🏫 ' + n(r.classi, 'classe', 'classi'));
       if (r.alunni) righe.push('🧑‍🎓 ' + n(r.alunni, 'alunno', 'alunni'));
       if (r.test) righe.push('📚 ' + n(r.test, 'test nelle classi', 'test nelle classi'));
+      if (r.attivita) righe.push('📝 ' + n(r.attivita, 'attività', 'attività'));
+      if (r.votiAttivita) righe.push('📝 ' + n(r.votiAttivita, 'voto delle attività', 'voti delle attività'));
       if (r.testElenco) righe.push('📚 ' + n(r.testElenco, 'test nell\'elenco', 'test nell\'elenco'));
       App.Finestra.apri({
         titolo: 'Backup unito', icona: '➕',

@@ -9,7 +9,7 @@
 
   App.Config = {
     nome: 'Registro S.Mot',          // nome mostrato (l'archivio dei dati qui sotto NON va cambiato)
-    versione: '7.7',
+    versione: '7.8',
 
     // Menu principale: una pagina per voce (ui/pagina.js). "corto" = etichetta sul telefono
     menu: [
@@ -18,6 +18,7 @@
       { id: 'test', icona: '📚', nome: 'Test', corto: 'Test' },
       { id: 'libro', icona: '📖', nome: 'Libro', corto: 'Libro' },
       { id: 'sessioni', icona: '⏱️', nome: 'Sessioni', corto: 'Sessioni' },
+      { id: 'attivita', icona: '📝', nome: 'Attività', corto: 'Attività' },
       { id: 'giust', icona: '📋', nome: 'Giustificazioni', corto: 'Giustif.' },
       { id: 'riepilogo', icona: '📄', nome: 'Riepilogo', corto: 'Riepilogo' },
       { id: 'backup', icona: '💾', nome: 'Backup', corto: 'Backup' }
@@ -120,6 +121,8 @@
     // Voti automatici dei test (tabelle del libro di testo)
     voti: { min: 4, max: 10, passo: 0.5, sufficienza: 6, righeIniziali: [10, 9, 8, 7, 6, 5, 4] },
     sessi: { M: { icona: '♂', nome: 'Alunno' }, F: { icona: '♀', nome: 'Alunna' } },
+    // 📝 Attività valutate: voti da votoMin a votoMax, interi o con mezzo punto (passo); lunghezze massime
+    attivita: { votoMin: 1, votoMax: 10, passo: 0.5, titolo: 60, descrizione: 800 },
     // Spunte per alunno (scheda dell'alunno, ✏️ Correggi): solo promemoria, nessun calcolo sui voti
     partecipazioni: [
       { id: 'torneo', icona: '🏐', nome: 'Partecipa al torneo scolastico' },
