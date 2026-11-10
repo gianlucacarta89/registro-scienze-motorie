@@ -64,7 +64,7 @@
       }
 
       App.Finestra.apri({
-        titolo: att ? att.titolo : 'Nuova attività – ' + classe.nome, icona: '📝', larga: true, fuoco: !att,
+        titolo: att ? att.titolo : 'Nuova attività – ' + classe.nome, icona: '⛹️', larga: true, fuoco: !att,
         corpo: el('div', { class: 'modulo finestra-attivita' },
           el('div', { class: 'riga-att-testa' },
             el('label', { class: 'campo' }, el('span', { text: 'Data' }), data),

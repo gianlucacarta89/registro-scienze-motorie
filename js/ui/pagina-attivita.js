@@ -1,5 +1,5 @@
 /* pagina-attivita.js
- * Cosa fa: pagina 📝 Attività: per la classe scelta l'elenco delle attività valutate (più recenti prima)
+ * Cosa fa: pagina ⛹️ Attività: per la classe scelta l'elenco delle attività valutate (più recenti prima)
  *          con data, titolo, inizio della descrizione, alunni valutati e media; "➕ Nuova attività" e tocco
  *          su un'attività per aprirla (ui/finestra-attivita.js).
  * Dipende da: App.U, App.Stato, App.Attivita, App.Voti (testo, sufficiente), App.UI (titoloPagina,
@@ -27,14 +27,14 @@
 
   App.UI.Pagine.attivita = {
     disegna: function (cont) {
-      cont.appendChild(App.UI.titoloPagina('📝 Attività'));
+      cont.appendChild(App.UI.titoloPagina('⛹️ Attività'));
       if (App.UI.senzaClassi(cont)) return;
       var classe = App.Stato.classe();
       cont.appendChild(el('div', { class: 'strumenti' }, App.UI.sceltaClasse(),
         el('button', { type: 'button', class: 'btn btn-ok', text: '➕ Nuova attività', onclick: function () { App.UI.FinestraAttivita.apri(classe, null); } })));
       var l = App.Attivita.tutte(classe);
       if (!l.length) {
-        cont.appendChild(App.UI.vuoto('📝', 'Nessuna attività in ' + classe.nome,
+        cont.appendChild(App.UI.vuoto('⛹️', 'Nessuna attività in ' + classe.nome,
           'Un\'attività valutata: scrivi titolo, descrizione e note, poi dai il voto agli alunni (interi o con mezzo punto).',
           el('button', { type: 'button', class: 'btn btn-ok grande', text: '➕ Nuova attività', onclick: function () { App.UI.FinestraAttivita.apri(classe, null); } })));
         return;

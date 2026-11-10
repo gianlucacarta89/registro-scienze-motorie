@@ -1,5 +1,5 @@
 /* attivita.js
- * Cosa fa: attività valutate di una classe (pagina 📝 Attività): data, titolo, descrizione e note;
+ * Cosa fa: attività valutate di una classe (pagina ⛹️ Attività): data, titolo, descrizione e note;
  *          per ogni alunno un voto (intero o con mezzo punto, config.js > attivita) e una nota.
  *          Controlli, ordine per data (più recenti prima), media e numero di alunni valutati.
  * Dipende da: App.U, App.Config (attivita, limiti)

@@ -1,4 +1,4 @@
-# MAPPA — Registro S.Mot (Registro Scienze Motorie) v7.8
+# MAPPA — Registro S.Mot (Registro Scienze Motorie) v7.9
 
 Indice dei file: cosa c'è dentro e quale parte dell'app ne dipende.
 Tutti i moduli stanno nell'oggetto globale `App`. Ordine di caricamento in `index.html`:
@@ -74,7 +74,7 @@ Nome, versione, nome dell'archivio, **tipologie dei test (menu a tendina, e ordi
 | `parametri-test.js` | `App.ParametriTest` | `regola`, `coefficiente`, `scalaValore`, `scalaTabella`, `nome`, `valori`, `applica` (cambia distanza/peso ♂/♀ di un test del libro: nome, strumento e soglie ricalcolate sempre dalla tabella originale del libro; sprint ×(1+k·Δd/base), lancio ×(base/peso)^e, corsa ×(d/base)^e; dati in `test.parametro`) |
 | `doppioni.js` | `App.Doppioni` | `simili`, `gruppi`, `compatibili`, `proposto`, `voci` (elenco + libro + test solo nelle classi), `nelleClassi`, `risultatiTotali`, `gruppiTutti`, `unisci(tieni, altri)` (una volta sola: toglie i doppioni dall'elenco e in OGNI classe i test con quei nomi diventano uno, con il nome di quello tenuto e tutti i risultati), `unisciInClasse`, `quanti`, `perche` (motivo per cui due test non si possono unire) — 1 km = 1000 m nei nomi; parole con una lettera diversa uguali (Sergent = Sargent); mai numeri diversi nello stesso gruppo, test senza numeri ambigui esclusi |
 | `partecipazioni.js` | `App.Partecipa` | `voci`, `ha`, `imposta`, `icone`, `titolo` — spunte per alunno 🏐 torneo scolastico / 🏅 giochi della gioventù (`alunno.partecipa`, config `partecipazioni`); solo promemoria, nessun calcolo sui voti |
-| `attivita.js` | `App.Attivita` | `votiPossibili`, `errore`, `tutte`, `aggiungi`, `modifica`, `elimina`, `togliAlunno`, `valutati`, `media`, `quante` — 📝 attività valutate per classe (`classe.attivita`: data, titolo, descrizione, note, `voti[alunnoId] = { voto, nota }`; voti da config `attivita`, interi o mezzi punti) |
+| `attivita.js` | `App.Attivita` | `votiPossibili`, `errore`, `tutte`, `aggiungi`, `modifica`, `elimina`, `togliAlunno`, `valutati`, `media`, `quante` — ⛹️ attività valutate per classe (`classe.attivita`: data, titolo, descrizione, note, `voti[alunnoId] = { voto, nota }`; voti da config `attivita`, interi o mezzi punti) |
 | `libro-voti.js` | `App.LibroVoti` | `compatibili`, `proposto` (test del libro equivalente: nome con sinonimi + tipologia), `applica` (tabella della fascia + scheda nei campi vuoti, `test.daLibro`), `togli`, `modello` (copia nell'elenco o libro), `sostituisci` (il test diventa quello del libro, risultati riscritti con `converti`, unione se già presente) |
 | `profilo.js` | `App.Profilo` | `alunno` — media dei voti per capacità in una prova (capacità e tipologie in `config.capacita`), `capacitaClasse`, `capacitaDi` |
 | `giustificazioni.js` | `App.Giust` | `errore` (mese, doppioni, simbolo), `ammetteCertificato`, `conCertificato`, `aggiungi`, `modifica`, `elimina`, `delMese`, `totaleAnno`, `contaClasse` |
@@ -125,7 +125,7 @@ Ogni pagina è `App.UI.Pagine[id].disegna(cont)`; la pagina aperta è `preferenz
 | `finestra-giust.js` | `App.UI.FinestraGiust` | Tocco su una casella del mese: elenco, ✏️, 🗑️, nuova giustificazione con spunta 📄 certificato medico (non per l'attrezzatura; con bozza) |
 | `finestra-appello.js` | `App.UI.FinestraAppello` | ⚡ Appello rapido: un giorno, tutta la classe; un tocco sul motivo per alunno (🌸 solo alunne o ♂/♀ non indicato), 📄 certificato e nota dove servono, chi è già giustificato quel giorno indicato e non toccato; ✔ Salva le aggiunge tutte dopo averle controllate tutte |
 | `spunte-partecipa.js` | `App.UI.spuntePartecipa`, `App.UI.iconePartecipa` | spunte salvate subito (scheda dell'alunno, ✏️ Correggi) e icone 🏐🏅 accanto al nome (Classi, risultati, voti) |
-| `pagina-attivita.js` | `App.UI.Pagine.attivita` | 📝 Attività: classe, ➕ Nuova attività, elenco (data, titolo, descrizione, valutati, media) |
+| `pagina-attivita.js` | `App.UI.Pagine.attivita` | ⛹️ Attività: classe, ➕ Nuova attività, elenco (data, titolo, descrizione, valutati, media) |
 | `finestra-attivita.js` | `App.UI.FinestraAttivita` | attività nuova o da modificare: data, titolo, descrizione, note, voto (menu 10…1 con mezzi punti) e nota per alunno; ✔ Salva, 🗑️ Elimina con conferma |
 | `statistiche-giust.js` | `App.UI.StatisticheGiust` | 📈 Statistiche giustificazioni: anno, mese o tutto l'anno, per alunno e tipologia, grafici |
 | `pagina-riepilogo.js` | `App.UI.Pagine.riepilogo` | 📄 PDF: classi, alunni, contenuto, periodo, tipo (tabella della classe / schede alunni, ZIP), docente |

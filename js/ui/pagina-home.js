@@ -67,7 +67,7 @@
           nota: classi.length ? alunni + ' alunni · ♂ ' + maschi + ' · ♀ ' + femmine : 'Crea la prima classe' },
         { id: 'test', icona: '📚', titolo: 'Test', grande: String(inUso), nota: inUso ? 'in uso · elenco e statistiche' : 'Scegli i test che usi' },
         { id: 'sessioni', icona: '⏱️', titolo: 'Sessioni', grande: attiva ? attiva.nome : '–', nota: attiva ? 'Scrivi i risultati' : 'Serve una classe' },
-        { id: 'attivita', icona: '📝', titolo: 'Attività', grande: String(App.Attivita.quante(classi)), nota: 'valutate · voti e note' },
+        { id: 'attivita', icona: '⛹️', titolo: 'Attività', grande: String(App.Attivita.quante(classi)), nota: 'valutate · voti e note' },
         { id: 'giust', icona: '📋', titolo: 'Giustificazioni', grande: String(giustMese), nota: mese ? 'a ' + mese.nome.toLowerCase() : 'fuori dall\'anno scolastico' },
         { id: 'riepilogo', icona: '📄', titolo: 'Riepilogo', grande: 'PDF', nota: 'per famiglie e colleghi' },
         { id: 'backup', icona: '💾', titolo: 'Backup', grande: backupOk ? '✓' : '!', avviso: !backupOk && classi.length > 0,

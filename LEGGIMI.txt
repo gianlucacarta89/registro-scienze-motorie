@@ -1,4 +1,4 @@
-REGISTRO S.MOT (Registro Scienze Motorie) — v7.8
+REGISTRO S.MOT (Registro Scienze Motorie) — v7.9
 ================================================
 
 PUBBLICAZIONE SU GITHUB PAGES (una volta sola, dal computer)
@@ -102,7 +102,7 @@ COSA FA — il menu (in alto sul computer, in basso sul telefono)
   🎯 Voti (sottosezione di Sessioni): tabella alunni × test con i voti calcolati nella prova
   scelta (verdi i sufficienti, rossi gli insufficienti), media voti di ogni alunno e media
   della classe per ogni test; sotto, le tabelle dei voti di ogni test (♂ e ♀) da cui vengono.
-- 📝 Attività (menu e Home): per classe, attività valutate con data, titolo, descrizione e note;
+- ⛹️ Attività (menu e Home): per classe, attività valutate con data, titolo, descrizione e note;
   per ogni alunno un voto (da 1 a 10, interi o mezzi punti) e una nota. Nell'elenco: alunni
   valutati e media della classe.
 - 📋 Giustificazioni: Registro (tocca la casella di un alunno nel mese giusto: data, motivo,

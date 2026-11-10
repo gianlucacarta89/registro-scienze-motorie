@@ -7,7 +7,7 @@
  *            - test della classe e test dell'elenco 📚: stesso id o stesso nome; se manca si aggiunge
  *            - risultati: si scrivono solo nelle caselle vuote (se qui c'è già un valore resta questo)
  *            - giustificazioni: si aggiungono quelle che mancano (stesso id o stesso giorno = già presente)
- *            - 📝 attività: si aggiungono quelle che mancano (stesso id o stessa data e titolo); voti
+ *            - ⛹️ attività: si aggiungono quelle che mancano (stesso id o stessa data e titolo); voti
  *              degli alunni solo dove qui non ci sono
  *          Le preferenze e la data dell'ultimo backup non cambiano.
  * Dipende da: App.Stato (dati, normalizza), App.U (copia, chiaveNome, nuovoId), App.Classi, App.Test
@@ -86,7 +86,7 @@
         r.giust++;
       });
     });
-    // 📝 attività: stessa attività = stesso id o stessa data e titolo; voti solo dove mancano
+    // ⛹️ attività: stessa attività = stesso id o stessa data e titolo; voti solo dove mancano
     qui.attivita = qui.attivita || [];
     (la.attivita || []).forEach(function (x) {
       var y = qui.attivita.filter(function (z) { return z.id === x.id || (z.data === x.data && k(z.titolo) === k(x.titolo)); })[0];
