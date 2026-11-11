@@ -46,7 +46,7 @@
     var senza = classe.alunni.filter(function (a) { return !a.sesso; }).length;
     return sezione('🏅 Primi 3 di ogni test – alunni e alunne (giochi studenteschi)', el('div', {},
       el('p', { class: 'piccolo', text: 'Per ogni alunno conta il suo miglior risultato tra le prove svolte (1ª, 2ª, 3ª). A pari risultato stessa posizione.' }),
-      senza ? el('p', { class: 'piccolo avviso-riga', text: '⚠️ ' + senza + (senza === 1 ? ' alunno senza' : ' alunni senza') + ' ♂/♀ non ' + (senza === 1 ? 'compare' : 'compaiono') + ': indicalo in 👥 Alunni.' }) : null,
+      senza ? el('p', { class: 'piccolo avviso-riga', text: '⚠️ ' + senza + (senza === 1 ? ' alunno senza' : ' alunni senza') + ' ♂/♀ non ' + (senza === 1 ? 'compare' : 'compaiono') + ': indicalo in 🏫 Classi (tocca il nome → ✏️ Correggi).' }) : null,
       el('div', { class: 'primi-griglia' }, classe.test.map(function (t) {
         return el('div', { class: 'primi-test' },
           el('h4', { text: t.nome }, t.tipologia ? el('span', { class: 'piccolo', text: ' · ' + t.tipologia }) : null),
