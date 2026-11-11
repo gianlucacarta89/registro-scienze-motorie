@@ -43,7 +43,6 @@
       var mese = App.Calendario.meseDi(oggi, anno);
       var ora = new Date().getHours();
       var saluto = ora < 13 ? 'Buongiorno' : ora < 18 ? 'Buon pomeriggio' : 'Buonasera';
-      var docente = d.preferenze.docente !== null ? d.preferenze.docente : App.Config.pdf.docente;
 
       var alunni = 0, maschi = 0, femmine = 0, giustMese = 0;
       var perClasse = classi.map(function (c) {
@@ -58,7 +57,7 @@
       var attiva = App.Stato.classe();
 
       cont.appendChild(el('div', { class: 'home-saluto' },
-        el('h2', { text: saluto + (docente ? ', ' + docente : '') + '!' }),
+        el('h2', { text: saluto + ', Prof.!' }),       // senza nome: l'app si condivide con i colleghi
         el('p', { text: App.U.dataIT(oggi) + ' · anno scolastico ' + App.Calendario.etichetta(anno) })));
 
       // Tessere quadrate colorate: una per sezione, con i numeri dal vivo
