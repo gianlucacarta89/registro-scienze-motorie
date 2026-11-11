@@ -66,7 +66,8 @@
       var mese = el('select', { 'aria-label': 'Periodo delle giustificazioni' },
         el('option', { value: '', text: 'Tutto l\'anno ' + App.Calendario.etichetta(anno) }),
         App.Calendario.mesi(anno).map(function (m) { return el('option', { value: m.chiave, text: m.nome + ' ' + m.anno }); }));
-      var docente = el('input', { type: 'text', maxlength: 60, value: pref.docente !== null ? pref.docente : App.Config.pdf.docente, 'aria-label': 'Docente' });
+      var docente = el('input', { type: 'text', maxlength: 60, value: pref.docente !== null ? pref.docente : App.Config.pdf.docente, 'aria-label': 'Docente',
+        placeholder: 'il tuo nome, es. Prof. Mario Rossi (resta salvato)' });
 
       var corpo = el('div', { class: 'modulo finestra-pdf' },
         el('fieldset', { class: 'campo' }, el('legend', { text: '1. Classi e alunni' }), blocchiClassi),

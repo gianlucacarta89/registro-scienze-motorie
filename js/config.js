@@ -9,7 +9,7 @@
 
   App.Config = {
     nome: 'Registro S.Mot',          // nome mostrato (l'archivio dei dati qui sotto NON va cambiato)
-    versione: '7.11',
+    versione: '7.12',
 
     // Menu principale: una pagina per voce (ui/pagina.js). "corto" = etichetta sul telefono
     menu: [
@@ -152,7 +152,7 @@
 
     // PDF da consegnare a colleghi e famiglie
     pdf: {
-      docente: 'Prof. Gianluca Carta',      // proposto la prima volta; si cambia nella pagina 📄 Riepilogo
+      docente: '',      // vuoto: ogni docente scrive il suo nome una volta in 📄 Riepilogo (l'app si condivide)
       librerie: ['lib/jspdf-2.5.1.umd.min.js', 'lib/jspdf-autotable-3.8.2.min.js']
     },
 
