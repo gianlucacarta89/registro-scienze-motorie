@@ -3,7 +3,7 @@
  *          con data, titolo, inizio della descrizione, alunni valutati e media; "➕ Nuova attività" e tocco
  *          su un'attività per aprirla (ui/finestra-attivita.js).
  * Dipende da: App.U, App.Stato, App.Attivita, App.Voti (testo, sufficiente), App.UI (titoloPagina,
- *             sceltaClasse, senzaClassi, vuoto), App.UI.FinestraAttivita
+ *             sceltaClasse, senzaClassi, vuoto), App.UI.FinestraAttivita, App.UI.FinestraOsservazioni
  * Usato da: ui/pagina.js
  */
 (function (App) {
@@ -31,7 +31,8 @@
       if (App.UI.senzaClassi(cont)) return;
       var classe = App.Stato.classe();
       cont.appendChild(el('div', { class: 'strumenti' }, App.UI.sceltaClasse(),
-        el('button', { type: 'button', class: 'btn btn-ok', text: '➕ Nuova attività', onclick: function () { App.UI.FinestraAttivita.apri(classe, null); } })));
+        el('button', { type: 'button', class: 'btn btn-ok', text: '➕ Nuova attività', onclick: function () { App.UI.FinestraAttivita.apri(classe, null); } }),
+        classe.alunni.length ? el('button', { type: 'button', class: 'btn btn-neutro', text: '🗒️ Osservazioni della lezione', onclick: function () { App.UI.FinestraOsservazioni.apri(classe); } }) : null));
       var l = App.Attivita.tutte(classe);
       if (!l.length) {
         cont.appendChild(App.UI.vuoto('⛹️', 'Nessuna attività in ' + classe.nome,

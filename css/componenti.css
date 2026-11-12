@@ -328,3 +328,17 @@ textarea { resize: vertical; }
 /* 🏐 🏅 Partecipazioni (promemoria per alunno) */
 .spunte-partecipa { display: flex; flex-direction: column; gap: 6px; }
 .icone-partecipa { white-space: nowrap; }
+
+/* 🗒️ Osservazioni (👍/👎) */
+.simbolo-appello.oss-pos.scelto { border-color: var(--ok); }
+.simbolo-appello.oss-neg.scelto { border-color: var(--pericolo); background: var(--pericolo-chiaro, rgba(220, 38, 38, .12)); }
+.oss-gia { display: block; }
+.oss-conti { display: flex; flex-wrap: wrap; gap: 6px 16px; margin-bottom: 8px; }
+.oss-nuova { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-bottom: 8px; }
+.oss-nuova input[type=text] { flex: 1 1 160px; min-width: 0; }
+.oss-nuova .segmenti, .oss-nuova .segmenti:first-child { flex: 1 1 100%; order: 0; }
+.oss-riga { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 8px; align-items: center; padding: 4px 0; border-bottom: 1px solid var(--bordo); }
+.oss-riga.oss-pos { border-left: 4px solid var(--ok); padding-left: 6px; }
+.oss-riga.oss-neg { border-left: 4px solid var(--pericolo); padding-left: 6px; }
+.oss-data { font-size: .85rem; white-space: nowrap; }
+.oss-testo { overflow-wrap: anywhere; }

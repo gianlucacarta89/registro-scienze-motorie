@@ -33,7 +33,8 @@
       c.test = Array.isArray(c.test) ? c.test : [];
       c.risultati = c.risultati && typeof c.risultati === 'object' ? c.risultati : {};
       c.giust = c.giust && typeof c.giust === 'object' ? c.giust : {};
-      c.attivita = Array.isArray(c.attivita) ? c.attivita : [];          // ⛹️ v7.8
+      c.attivita = Array.isArray(c.attivita) ? c.attivita : [];
+      c.osservazioni = c.osservazioni && typeof c.osservazioni === 'object' ? c.osservazioni : {};   // 🗒️ v7.13          // ⛹️ v7.8
       // Fino alla v4.0 "Certificato medico" era un motivo: ora è una spunta (motivo: infortunio)
       Object.keys(c.giust).forEach(function (k) {
         (c.giust[k] || []).forEach(function (g) {

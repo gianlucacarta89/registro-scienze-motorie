@@ -5,7 +5,7 @@
  *          si rinomina o si cancella la classe;
  *          📏 Tabelle dei voti della classe (dal libro, per fascia).
  * Dipende da: App.U, App.Config (limiti, sessi), App.Classi, App.Stato, App.Avvisi,
- *             App.UI.FinestraImporta, App.UI.FinestraAlunni, App.UI.SchedaAlunno, App.UI (vai, titoloPagina, vuoto)
+ *             App.UI.FinestraImporta, App.UI.FinestraAlunni, App.UI.SchedaAlunno, App.UI.FinestraOsservazioni, App.UI (vai, titoloPagina, vuoto)
  * Usato da: ui/pagina.js
  */
 (function (App) {
@@ -62,6 +62,7 @@
         el('span', { class: 'piccolo conta', text: c.alunni.length + (c.alunni.length === 1 ? ' alunno' : ' alunni') + ' · ♂ ' + m + ' · ♀ ' + f + (senza ? ' · ' + senza + ' senza ♂/♀' : '') })),
       el('div', { class: 'riga-btn sinistra' },
         el('button', { type: 'button', class: 'btn btn-ok piccolo-btn', text: '📥 Carica alunni', onclick: function () { App.UI.FinestraImporta.apri(c); } }),
+        c.alunni.length ? el('button', { type: 'button', class: 'btn btn-ok piccolo-btn', text: '🗒️ Osservazioni', title: '👍/👎 della lezione per tutta la classe', onclick: function () { App.UI.FinestraOsservazioni.apri(c); } }) : null,
         el('button', { type: 'button', class: 'btn btn-neutro piccolo-btn', text: '👥 Gestisci alunni', onclick: function () { App.UI.FinestraAlunni.apri(c); } }),
         el('button', { type: 'button', class: 'btn btn-info piccolo-btn', text: '📏 Tabelle dei voti', onclick: function () { App.UI.FinestraVotiClasse.apri(c); } }),
         el('button', { type: 'button', class: 'btn btn-pericolo piccolo-btn', text: '🗑️ Cancella classe', onclick: function () { elimina(c); } })),
@@ -88,7 +89,7 @@
         cont.appendChild(App.UI.vuoto('🏫', 'Nessuna classe', 'Scrivi il nome (es. 1G) e tocca "➕ Crea classe": poi potrai caricare i nomi degli alunni.'));
         return;
       }
-      cont.appendChild(el('p', { class: 'piccolo', text: 'Tocca una classe per vedere i suoi alunni; tocca il nome di un alunno per aprire la sua scheda (voti dei test e grafico a ragnatela; da lì "✏️ Correggi" per nome, ♂/♀ o toglierlo). Il nome della classe si cambia scrivendo sopra.' }));
+      cont.appendChild(el('p', { class: 'piccolo', text: 'Tocca una classe per vedere i suoi alunni; tocca il nome di un alunno per aprire la sua scheda (osservazioni, voti dei test e grafico a ragnatela; da lì "✏️ Correggi" per nome, ♂/♀ o toglierlo). Il nome della classe si cambia scrivendo sopra.' }));
       cont.appendChild(el('div', { class: 'elenco-classi' }, classi.map(function (c) { return schedaClasse(c, attiva && attiva.id === c.id); })));
     }
   };

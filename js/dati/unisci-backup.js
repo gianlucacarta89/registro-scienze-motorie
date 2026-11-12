@@ -9,6 +9,7 @@
  *            - giustificazioni: si aggiungono quelle che mancano (stesso id o stesso giorno = già presente)
  *            - ⛹️ attività: si aggiungono quelle che mancano (stesso id o stessa data e titolo); voti
  *              degli alunni solo dove qui non ci sono
+ *            - 🗒️ osservazioni: si aggiungono quelle che mancano
  *          Le preferenze e la data dell'ultimo backup non cambiano.
  * Dipende da: App.Stato (dati, normalizza), App.U (copia, chiaveNome, nuovoId), App.Classi, App.Test
  * Usato da: ui/pagina-backup.js
@@ -97,6 +98,18 @@
         if (!y.voti[aq]) { y.voti[aq] = App.U.copia(x.voti[a]); r.votiAttivita++; }
       });
     });
+    // 🗒️ osservazioni: si aggiungono quelle mancanti (stesso id, o stesso giorno, tipo e nota = già presente)
+    qui.osservazioni = qui.osservazioni || {};
+    Object.keys(la.osservazioni || {}).forEach(function (a) {
+      var aq = alunni[a];
+      if (!aq) return;
+      (la.osservazioni[a] || []).forEach(function (o) {
+        var mie = qui.osservazioni[aq] || [];
+        if (mie.some(function (x) { return x.id === o.id || (x.data === o.data && x.tipo === o.tipo && x.testo === o.testo); })) return;
+        qui.osservazioni[aq] = mie.concat([App.U.copia(o)]);
+        r.osservazioni++;
+      });
+    });
     Object.keys(qui.giust).forEach(function (a) {
       qui.giust[a].sort(function (x, y) { return x.data < y.data ? -1 : x.data > y.data ? 1 : 0; });
     });
@@ -106,19 +119,20 @@
     // Unisce i dati del backup b ai dati attuali. -> { classi, alunni, test, testElenco, risultati, giust, diversi, niente }
     unisci: function (b) {
       var d = App.Stato.dati, la = App.Stato.normalizza(App.U.copia(b.dati));
-      var r = { classi: 0, alunni: 0, test: 0, testElenco: 0, risultati: 0, giust: 0, diversi: 0, attivita: 0, votiAttivita: 0 };
+      var r = { classi: 0, alunni: 0, test: 0, testElenco: 0, risultati: 0, giust: 0, diversi: 0, attivita: 0, votiAttivita: 0, osservazioni: 0 };
       la.classi.forEach(function (c) {
         var x = trova(d.classi, c);
         if (!x) {
           x = aggiungi(d.classi, c);
           r.classi++; r.alunni += x.alunni.length; r.test += x.test.length; r.giust += contaGiust(x); r.attivita += (x.attivita || []).length;
+          Object.keys(x.osservazioni || {}).forEach(function (a) { r.osservazioni += x.osservazioni[a].length; });
           Object.keys(x.risultati).forEach(function (a) { Object.keys(x.risultati[a] || {}).forEach(function (t) { r.risultati += Object.keys(x.risultati[a][t] || {}).length; }); });
           return;
         }
         unisciClasse(x, c, r);
       });
       la.archivio.test.forEach(function (t) { if (!trova(d.archivio.test, t)) { aggiungi(d.archivio.test, t); r.testElenco++; } });
-      r.niente = !(r.classi || r.alunni || r.test || r.testElenco || r.risultati || r.giust || r.attivita || r.votiAttivita);
+      r.niente = !(r.classi || r.alunni || r.test || r.testElenco || r.risultati || r.giust || r.attivita || r.votiAttivita || r.osservazioni);
       if (!r.niente) {
         App.Classi.ordinaClassi();
         d.classi.forEach(function (c) { App.Classi.ordina(c); });
