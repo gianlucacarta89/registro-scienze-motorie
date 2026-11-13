@@ -9,7 +9,7 @@
 
   App.Config = {
     nome: 'Registro S.Mot',          // nome mostrato (l'archivio dei dati qui sotto NON va cambiato)
-    versione: '7.13',
+    versione: '7.14',
 
     // Menu principale: una pagina per voce (ui/pagina.js). "corto" = etichetta sul telefono
     menu: [
@@ -123,6 +123,8 @@
     sessi: { M: { icona: '♂', nome: 'Alunno' }, F: { icona: '♀', nome: 'Alunna' } },
     // ⛹️ Attività valutate: voti da votoMin a votoMax, interi o con mezzo punto (passo); lunghezze massime
     attivita: { votoMin: 1, votoMax: 10, passo: 0.5, titolo: 60, descrizione: 800 },
+    // 📷 Foto delle attività: archivio a parte, lato lungo massimo in pixel, qualità JPEG, quante per attività
+    foto: { db: 'registro-scienze-motorie-foto', lato: 1280, qualita: 0.72, max: 6 },
     // 🗒️ Osservazioni quotidiane per alunno (👍/👎 + nota): solo promemoria per il voto
     osservazioni: { tipi: [{ id: 'pos', icona: '👍', nome: 'Positiva' }, { id: 'neg', icona: '👎', nome: 'Negativa' }], testo: 200 },
     // Quadrimestri: mese-giorno di inizio e fine (da settembre a gennaio il 1°); per i conteggi delle osservazioni

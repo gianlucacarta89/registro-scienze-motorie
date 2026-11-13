@@ -1,7 +1,8 @@
 /* backup.js
  * Cosa fa: esporta tutti i dati in un file .json e li reimporta, anche su un altro
  *          dispositivo (telefono, tablet, computer). L'importazione sostituisce i dati.
- * Dipende da: App.Stato, App.Config (backup, versione), App.U
+ *          Nel file ci sono anche le foto delle attività (campo "foto", da dati/foto.js).
+ * Dipende da: App.Stato, App.Config (backup, versione), App.U, App.Foto
  * Usato da: ui/pagina-backup.js
  */
 (function (App) {
@@ -24,7 +25,11 @@
       copia.ultimoBackup = adesso;
       if (!copia.ultimaModifica) copia.ultimaModifica = adesso;
       var contenuto = { app: cfg().backup.id, versioneApp: cfg().versione, esportato: adesso, dati: copia };
-      return App.U.scarica(nomeFile(), JSON.stringify(contenuto, null, 1), 'application/json').then(function (salvato) {
+      var ids = App.Foto ? App.Foto.idDelleAttivita(copia) : [];
+      return (ids.length ? App.Foto.leggiMolte(ids).catch(function () { return {}; }) : Promise.resolve({})).then(function (foto) {
+        if (Object.keys(foto).length) contenuto.foto = foto;            // 📷 foto delle attività
+        return App.U.scarica(nomeFile(), JSON.stringify(contenuto, null, 1), 'application/json');
+      }).then(function (salvato) {
         if (!salvato) return false;
         d.ultimoBackup = adesso;
         if (!d.ultimaModifica) d.ultimaModifica = adesso;
@@ -73,7 +78,7 @@
       if (!App.Classi.trova(d.preferenze.classeAttiva)) d.preferenze.classeAttiva = prefPrima.classeAttiva;
       App.Test.ordinaTutti();
       App.Test.riscriviTutti();
-      return App.Stato.scrivi();
+      return App.Stato.scrivi().then(function () { return App.Foto ? App.Foto.importa(b.foto) : 0; });
     }
   };
 })(window.App = window.App || {});

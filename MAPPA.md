@@ -1,4 +1,4 @@
-# MAPPA — Registro S.Mot (Registro Scienze Motorie) v7.13
+# MAPPA — Registro S.Mot (Registro Scienze Motorie) v7.14
 
 Indice dei file: cosa c'è dentro e quale parte dell'app ne dipende.
 Tutti i moduli stanno nell'oggetto globale `App`. Ordine di caricamento in `index.html`:
@@ -93,6 +93,7 @@ Nome, versione, nome dell'archivio, **tipologie dei test (menu a tendina, e ordi
 | `backup.js` | `App.Backup` | `esporta`, `leggi`, `riepilogo`, `localiPiuRecenti`, `applica` |
 | `unisci-backup.js` | `App.UnisciBackup` | `unisci(backup)`: ➕ Unisci senza cancellare né cambiare nulla — aggiunge classi, alunni, test (anche dell'elenco) mancanti (stesso id o nome = già presente), risultati solo nelle caselle vuote, giustificazioni mancanti (stesso id o stesso giorno = già presente); conta cosa ha aggiunto e i risultati diversi |
 | `migra-sprint.js` | `App.MigraSprint` | `applica(dati)` (da `normalizza`, anche per i backup vecchi): "Sprint 30 metri" → "Sprint" (anche `daLibro`/`parametro.libro`); nelle classi "Velocità 60 m ♀ / 80 m ♂" → "Sprint" con ⚙️ ♂ 80 / ♀ 60 m, risultati e tabella invariati ("Sprint (♂ 80 m, ♀ 60 m)" se c'è già uno Sprint); nell'elenco la sua copia si toglie |
+| `foto.js` | `App.Foto` | `riduci(file)` (lato max config `foto.lato`, JPEG), `salva`, `leggi`, `elimina`, `leggiMolte`, `importa(mappa)` (solo le mancanti), `idDelleAttivita` — 📷 foto delle attività in un archivio IndexedDB A PARTE (`registro-scienze-motorie-foto`; quello principale non si tocca); `attivita.foto = [id…]`; nel backup nel campo `foto` |
 
 ## js/ui/ (interfaccia: una pagina, sottoscheda o finestra per file)
 Menu (config.menu): 🏠 Home · 🏫 Classi · 📚 Test · 📖 Libro · ⏱️ Sessioni · 📋 Giustificazioni · 📄 Riepilogo · 💾 Backup.
@@ -128,6 +129,7 @@ Ogni pagina è `App.UI.Pagine[id].disegna(cont)`; la pagina aperta è `preferenz
 | `spunte-partecipa.js` | `App.UI.spuntePartecipa`, `App.UI.iconePartecipa` | spunte salvate subito (scheda dell'alunno, ✏️ Correggi) e icone 🏐🏅 accanto al nome (Classi, risultati, voti) |
 | `pagina-attivita.js` | `App.UI.Pagine.attivita` | ⛹️ Attività: classe, ➕ Nuova attività, elenco (data, titolo, descrizione, valutati, media) |
 | `finestra-attivita.js` | `App.UI.FinestraAttivita` | attività nuova o da modificare: data, titolo, descrizione, note, voto (menu 10…1 con mezzi punti) e nota per alunno; ✔ Salva, 🗑️ Elimina con conferma |
+| `foto-attivita.js` | `App.UI.FotoAttivita` | `crea(att)`: 📷 Scatta foto (fotocamera, `capture=environment`), 🖼️ Dalla galleria (più foto), anteprime con 🗑️ e foto grande; modifiche salvate solo con ✔ Salva dell'attività |
 | `finestra-osservazioni.js` | `App.UI.FinestraOsservazioni` | 🗒️ Osservazioni della lezione: un giorno, tutta la classe, 👍/👎 per alunno con nota facoltativa, quelle già scritte indicate; ✔ Salva tutte (da 🏫 Classi e ⛹️ Attività) |
 | `osservazioni-alunno.js` | `App.UI.OsservazioniAlunno` | sezione della scheda dell'alunno: 👍/👎 per quadrimestre, ➕ Aggiungi (tipo, giorno, nota), elenco con 🗑️ (conferma) |
 | `statistiche-giust.js` | `App.UI.StatisticheGiust` | 📈 Statistiche giustificazioni: anno, mese o tutto l'anno, per alunno e tipologia, grafici |

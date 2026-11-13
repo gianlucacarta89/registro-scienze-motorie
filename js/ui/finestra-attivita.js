@@ -1,9 +1,10 @@
 /* finestra-attivita.js
  * Cosa fa: finestra di un'attività valutata (nuova o da modificare): data, titolo, descrizione, note e,
- *          per ogni alunno, voto (menu: interi e mezzi punti, "–" = nessun voto) e nota. "✔ Salva" controlla
+ *          per ogni alunno, voto (menu: interi e mezzi punti, "–" = nessun voto) e nota; 📷 foto
+ *          (ui/foto-attivita.js). "✔ Salva" controlla
  *          e salva tutto; "🗑️ Elimina" (solo per un'attività già salvata) chiede conferma.
  * Dipende da: App.U, App.Config (sessi, attivita, limiti), App.Attivita, App.Voti, App.Stato, App.Avvisi,
- *             App.Finestra, App.UI.disegnaContenuto
+ *             App.Finestra, App.Foto, App.UI.FotoAttivita, App.UI.disegnaContenuto
  * Usato da: ui/pagina-attivita.js
  */
 (function (App) {
@@ -38,12 +39,15 @@
           menu, nota);
       });
 
-      function dati() { return { data: data.value, titolo: titolo.value, descrizione: descr.value, note: note.value, voti: voti }; }
+      var foto = App.UI.FotoAttivita.crea(att, att ? att.titolo : 'Foto');
+
+      function dati() { return { data: data.value, titolo: titolo.value, descrizione: descr.value, note: note.value, voti: voti, foto: foto.ids() }; }
 
       function salva() {
         var r = att ? App.Attivita.modifica(classe, att.id, dati()) : App.Attivita.aggiungi(classe, dati());
         if (r.errore) { App.Avvisi.toast('❌ ' + r.errore, 'errore', 6000); return false; }
         App.Stato.salva();
+        foto.salva().catch(function () { App.Avvisi.toast('⚠️ Non riesco a salvare le foto su questo dispositivo.', 'errore', 6000); });
         App.UI.disegnaContenuto();
         App.Avvisi.toast('✔ Attività "' + r.attivita.titolo + '" salvata: ' + App.Attivita.valutati(r.attivita) + ' alunni valutati.', 'ok', 5000);
       }
@@ -54,6 +58,7 @@
           testo: [n ? 'Si cancellano anche i ' + n + ' voti degli alunni.' : 'Non ha ancora voti.', 'Se poi ti serve: 💾 Backup → ⬆️ Importa il backup di prima.'] })
           .then(function (si) {
             if (!si) return;
+            (att.foto || []).forEach(function (id) { App.Foto.elimina(id).catch(function () {}); });
             App.Attivita.elimina(classe, att.id);
             App.Stato.salva();
             f.chiudi();
@@ -71,6 +76,7 @@
             el('label', { class: 'campo' }, el('span', { text: 'Titolo' }), titolo)),
           el('label', { class: 'campo' }, el('span', { text: 'Descrizione' }), descr),
           el('label', { class: 'campo' }, el('span', { text: 'Note' }), note),
+          el('h4', { text: '📷 Foto' }), foto.nodo,
           el('h4', { text: '🎯 Voti degli alunni (da ' + App.Voti.testo(cfg.votoMin) + ' a ' + App.Voti.testo(cfg.votoMax) + ', anche mezzi punti; "–" = non valutato)' }),
           classe.alunni.length ? el('ul', { class: 'lista lista-voti-attivita' }, righe) :
             el('p', { class: 'suggerimento', text: 'La classe non ha ancora alunni: caricali in 🏫 Classi.' })),

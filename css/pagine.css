@@ -137,3 +137,11 @@
   .riga-voto-attivita { grid-template-columns: minmax(0, 1fr) 76px; }
   .riga-voto-attivita input { grid-column: 1 / -1; }
 }
+
+/* 📷 Foto delle attività */
+.foto-griglia { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 8px; margin-bottom: 8px; }
+.foto-mini { position: relative; aspect-ratio: 1; border-radius: 10px; overflow: hidden; border: 1px solid var(--bordo); background: var(--sfondo); }
+.foto-apri { display: block; width: 100%; height: 100%; padding: 0; border: 0; background: none; cursor: zoom-in; }
+.foto-apri img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.foto-togli { position: absolute; top: 4px; right: 4px; min-width: 32px; min-height: 32px; border-radius: 8px; border: 0; background: rgba(255, 255, 255, .9); cursor: pointer; }
+.foto-grande { display: block; width: 100%; height: auto; max-height: 75vh; object-fit: contain; border-radius: 8px; }

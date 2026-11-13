@@ -92,6 +92,7 @@
     (la.attivita || []).forEach(function (x) {
       var y = qui.attivita.filter(function (z) { return z.id === x.id || (z.data === x.data && k(z.titolo) === k(x.titolo)); })[0];
       if (!y) { y = App.U.copia(x); y.voti = {}; if (qui.attivita.some(function (z) { return z.id === y.id; })) y.id = App.U.nuovoId(); qui.attivita.push(y); r.attivita++; }
+      else (x.foto || []).forEach(function (f) { y.foto = y.foto || []; if (y.foto.indexOf(f) < 0) { y.foto.push(f); r.fotoAttivita++; } });
       Object.keys(x.voti || {}).forEach(function (a) {
         var aq = alunni[a];
         if (!aq) return;
@@ -119,7 +120,7 @@
     // Unisce i dati del backup b ai dati attuali. -> { classi, alunni, test, testElenco, risultati, giust, diversi, niente }
     unisci: function (b) {
       var d = App.Stato.dati, la = App.Stato.normalizza(App.U.copia(b.dati));
-      var r = { classi: 0, alunni: 0, test: 0, testElenco: 0, risultati: 0, giust: 0, diversi: 0, attivita: 0, votiAttivita: 0, osservazioni: 0 };
+      var r = { classi: 0, alunni: 0, test: 0, testElenco: 0, risultati: 0, giust: 0, diversi: 0, attivita: 0, votiAttivita: 0, osservazioni: 0, fotoAttivita: 0 };
       la.classi.forEach(function (c) {
         var x = trova(d.classi, c);
         if (!x) {
@@ -132,7 +133,7 @@
         unisciClasse(x, c, r);
       });
       la.archivio.test.forEach(function (t) { if (!trova(d.archivio.test, t)) { aggiungi(d.archivio.test, t); r.testElenco++; } });
-      r.niente = !(r.classi || r.alunni || r.test || r.testElenco || r.risultati || r.giust || r.attivita || r.votiAttivita || r.osservazioni);
+      r.niente = !(r.classi || r.alunni || r.test || r.testElenco || r.risultati || r.giust || r.attivita || r.votiAttivita || r.osservazioni || r.fotoAttivita);
       if (!r.niente) {
         App.Classi.ordinaClassi();
         d.classi.forEach(function (c) { App.Classi.ordina(c); });

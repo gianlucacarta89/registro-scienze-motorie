@@ -18,10 +18,13 @@
   function unisci(b) {
     var r = App.UnisciBackup.unisci(b);
     if (r.niente) {
-      App.Avvisi.toast('✓ Niente da aggiungere: in questo backup non c\'è nulla che manchi qui.', 'info', 6000);
+      (App.Foto ? App.Foto.importa(b.foto) : Promise.resolve(0)).then(function (nf) {
+        App.Avvisi.toast(nf ? '✔ Aggiunte ' + nf + ' foto delle attività; il resto c\'era già.' : '✓ Niente da aggiungere: in questo backup non c\'è nulla che manchi qui.', nf ? 'ok' : 'info', 6000);
+      });
       return;
     }
-    App.Stato.salva().then(function () {
+    App.Stato.salva().then(function () { return App.Foto ? App.Foto.importa(b.foto) : 0; }).then(function (nf) {
+      if (nf) r.fotoNuove = nf;
       App.UI.disegna();
       var righe = [];
       if (r.giust) righe.push('📋 ' + n(r.giust, 'giustificazione', 'giustificazioni'));
@@ -31,6 +34,7 @@
       if (r.test) righe.push('📚 ' + n(r.test, 'test nelle classi', 'test nelle classi'));
       if (r.attivita) righe.push('⛹️ ' + n(r.attivita, 'attività', 'attività'));
       if (r.votiAttivita) righe.push('⛹️ ' + n(r.votiAttivita, 'voto delle attività', 'voti delle attività'));
+      if (r.fotoNuove) righe.push('📷 ' + n(r.fotoNuove, 'foto delle attività', 'foto delle attività'));
       if (r.osservazioni) righe.push('🗒️ ' + n(r.osservazioni, 'osservazione', 'osservazioni'));
       if (r.testElenco) righe.push('📚 ' + n(r.testElenco, 'test nell\'elenco', 'test nell\'elenco'));
       App.Finestra.apri({

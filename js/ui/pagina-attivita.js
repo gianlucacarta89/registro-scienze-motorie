@@ -20,7 +20,7 @@
       el('span', { class: 'att-testo' },
         el('b', { text: att.titolo }),
         att.descrizione ? el('span', { class: 'piccolo att-descr', text: att.descrizione }) : null,
-        el('span', { class: 'piccolo', text: n + ' / ' + classe.alunni.length + ' valutati' + (att.note ? ' · 🗒️ note' : '') })),
+        el('span', { class: 'piccolo', text: n + ' / ' + classe.alunni.length + ' valutati' + (att.note ? ' · 🗒️ note' : '') + ((att.foto || []).length ? ' · 📷 ' + att.foto.length : '') })),
       m === null ? el('span', { class: 'piccolo', text: '–' }) :
         el('span', { class: 'voto grande-voto ' + (App.Voti.sufficiente(m) ? 'suff' : 'insuff'), title: 'Media della classe', text: App.Voti.testo(m) })));
   }

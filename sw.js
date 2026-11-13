@@ -7,7 +7,7 @@
  */
 'use strict';
 
-var VERSIONE = 'registro-sm-v7.13';
+var VERSIONE = 'registro-sm-v7.14';
 
 var FILE = [
   './',
@@ -61,6 +61,7 @@ var FILE = [
   'js/dati/backup.js',
   'js/dati/unisci-backup.js',
   'js/dati/migra-sprint.js',
+  'js/dati/foto.js',
   'js/ui/pagina.js',
   'js/ui/menu.js',
   'js/ui/pagina-home.js',
@@ -85,6 +86,7 @@ var FILE = [
   'js/ui/finestra-giust.js',
   'js/ui/finestra-appello.js',
   'js/ui/spunte-partecipa.js',
+  'js/ui/foto-attivita.js',
   'js/ui/finestra-attivita.js',
   'js/ui/finestra-osservazioni.js',
   'js/ui/osservazioni-alunno.js',

@@ -7,7 +7,7 @@
  *           dati/unisci-backup.js
  *
  * Dati: classe.attivita = [{ id, data: 'AAAA-MM-GG', titolo, descrizione, note,
- *                             voti: { alunnoId: { voto: 7.5, nota: '' } } }]
+ *                             voti: { alunnoId: { voto: 7.5, nota: '' } }, foto: [id…] }]  (foto: dati/foto.js)
  */
 (function (App) {
   'use strict';
@@ -63,7 +63,7 @@
       var e = errore(classe, x);
       if (e) return { errore: e };
       var att = { id: App.U.nuovoId(), data: x.data, titolo: App.U.spazi(x.titolo), descrizione: App.U.spazi(x.descrizione),
-        note: App.U.spazi(x.note), voti: pulisci(x.voti) };
+        note: App.U.spazi(x.note), voti: pulisci(x.voti), foto: (x.foto || []).slice() };
       lista(classe).push(att);
       return { attivita: att };
     },
@@ -74,6 +74,7 @@
       var att = lista(classe).filter(function (y) { return y.id === id; })[0];
       att.data = x.data; att.titolo = App.U.spazi(x.titolo); att.descrizione = App.U.spazi(x.descrizione);
       att.note = App.U.spazi(x.note); att.voti = pulisci(x.voti);
+      if (x.foto) att.foto = x.foto.slice();
       return { attivita: att };
     },
 
