@@ -3,7 +3,7 @@
  *          per ogni alunno un voto (intero o con mezzo punto, config.js > attivita) e una nota.
  *          Controlli, ordine per data (più recenti prima), media e numero di alunni valutati.
  * Dipende da: App.U, App.Config (attivita, limiti)
- * Usato da: ui/pagina-attivita.js, ui/finestra-attivita.js, ui/pagina-home.js, servizi/classi.js,
+ * Usato da: ui/pagina-attivita.js, ui/finestra-attivita.js, ui/finestra-copia-attivita.js, ui/pagina-home.js, servizi/classi.js,
  *           dati/unisci-backup.js
  *
  * Dati: classe.attivita = [{ id, data: 'AAAA-MM-GG', titolo, descrizione, note,
@@ -76,6 +76,17 @@
       att.note = App.U.spazi(x.note); att.voti = pulisci(x.voti);
       if (x.foto) att.foto = x.foto.slice();
       return { attivita: att };
+    },
+
+    // Copia att nella classe dest con la data scelta: titolo, descrizione, note e foto (con id nuovi),
+    // senza voti. -> { errore } | { attivita, foto: [{ da, a }] } (le foto da duplicare: ui/finestra-copia-attivita.js)
+    copia: function (att, dest, data) {
+      var x = { data: data, titolo: att.titolo, descrizione: att.descrizione, note: att.note, voti: {} };
+      var e = errore(dest, x);
+      if (e) return { errore: e };
+      var foto = (att.foto || []).map(function (id) { return { da: id, a: App.U.nuovoId() }; });
+      x.foto = foto.map(function (f) { return f.a; });
+      return { attivita: App.Attivita.aggiungi(dest, x).attivita, foto: foto };
     },
 
     elimina: function (classe, id) { classe.attivita = lista(classe).filter(function (y) { return y.id !== id; }); },

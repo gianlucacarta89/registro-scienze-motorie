@@ -1,4 +1,4 @@
-# MAPPA — Registro S.Mot (Registro Scienze Motorie) v7.14
+# MAPPA — Registro S.Mot (Registro Scienze Motorie) v7.15
 
 Indice dei file: cosa c'è dentro e quale parte dell'app ne dipende.
 Tutti i moduli stanno nell'oggetto globale `App`. Ordine di caricamento in `index.html`:
@@ -130,6 +130,7 @@ Ogni pagina è `App.UI.Pagine[id].disegna(cont)`; la pagina aperta è `preferenz
 | `pagina-attivita.js` | `App.UI.Pagine.attivita` | ⛹️ Attività: classe, ➕ Nuova attività, elenco (data, titolo, descrizione, valutati, media) |
 | `finestra-attivita.js` | `App.UI.FinestraAttivita` | attività nuova o da modificare: data, titolo, descrizione, note, voto (menu 10…1 con mezzi punti) e nota per alunno; ✔ Salva, 🗑️ Elimina con conferma |
 | `foto-attivita.js` | `App.UI.FotoAttivita` | `crea(att)`: 📷 Scatta foto (fotocamera, `capture=environment`), 🖼️ Dalla galleria (più foto), anteprime con 🗑️ e foto grande; modifiche salvate solo con ✔ Salva dell'attività |
+| `finestra-copia-attivita.js` | `App.UI.FinestraCopiaAttivita` | 📋 Copia in altre classi: data e spunte delle classi (spente quelle con la stessa attività quel giorno); copia titolo, descrizione, note e foto (duplicate con id nuovi), senza voti (`App.Attivita.copia`) |
 | `finestra-osservazioni.js` | `App.UI.FinestraOsservazioni` | 🗒️ Osservazioni della lezione: un giorno, tutta la classe, 👍/👎 per alunno con nota facoltativa, quelle già scritte indicate; ✔ Salva tutte (da 🏫 Classi e ⛹️ Attività) |
 | `osservazioni-alunno.js` | `App.UI.OsservazioniAlunno` | sezione della scheda dell'alunno: 👍/👎 per quadrimestre, ➕ Aggiungi (tipo, giorno, nota), elenco con 🗑️ (conferma) |
 | `statistiche-giust.js` | `App.UI.StatisticheGiust` | 📈 Statistiche giustificazioni: anno, mese o tutto l'anno, per alunno e tipologia, grafici |

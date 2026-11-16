@@ -1,4 +1,4 @@
-REGISTRO S.MOT (Registro Scienze Motorie) — v7.14
+REGISTRO S.MOT (Registro Scienze Motorie) — v7.15
 ================================================
 
 PUBBLICAZIONE SU GITHUB PAGES (una volta sola, dal computer)
@@ -108,6 +108,8 @@ COSA FA — il menu (in alto sul computer, in basso sul telefono)
   per ogni alunno un voto (da 1 a 10, interi o mezzi punti) e una nota. Nell'elenco: alunni
   valutati e media della classe. 📷 Foto: "Scatta foto" apre la fotocamera del telefono (es. il
   campo), oppure "Dalla galleria"; max 6 per attività, rimpicciolite, anche nel backup.
+  "📋 Copia in altre classi" (nella finestra dell'attività): stessa attività in altre classi,
+  con testi e foto ma senza voti.
 - 📋 Giustificazioni: Registro (tocca la casella di un alunno nel mese giusto: data, motivo,
   nota; per salute, infortunio e ciclo la spunta "📄 Con certificato medico"; per la
   giustificazione generica il motivo va scritto nella nota; "⚡ Appello rapido": un giorno,

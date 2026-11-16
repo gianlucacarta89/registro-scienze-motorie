@@ -7,7 +7,7 @@
  */
 'use strict';
 
-var VERSIONE = 'registro-sm-v7.14';
+var VERSIONE = 'registro-sm-v7.15';
 
 var FILE = [
   './',
@@ -87,6 +87,7 @@ var FILE = [
   'js/ui/finestra-appello.js',
   'js/ui/spunte-partecipa.js',
   'js/ui/foto-attivita.js',
+  'js/ui/finestra-copia-attivita.js',
   'js/ui/finestra-attivita.js',
   'js/ui/finestra-osservazioni.js',
   'js/ui/osservazioni-alunno.js',

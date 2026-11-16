@@ -1,10 +1,10 @@
 /* finestra-attivita.js
  * Cosa fa: finestra di un'attività valutata (nuova o da modificare): data, titolo, descrizione, note e,
  *          per ogni alunno, voto (menu: interi e mezzi punti, "–" = nessun voto) e nota; 📷 foto
- *          (ui/foto-attivita.js). "✔ Salva" controlla
+ *          (ui/foto-attivita.js). "📋 Copia in altre classi" (ui/finestra-copia-attivita.js). "✔ Salva" controlla
  *          e salva tutto; "🗑️ Elimina" (solo per un'attività già salvata) chiede conferma.
  * Dipende da: App.U, App.Config (sessi, attivita, limiti), App.Attivita, App.Voti, App.Stato, App.Avvisi,
- *             App.Finestra, App.Foto, App.UI.FotoAttivita, App.UI.disegnaContenuto
+ *             App.Finestra, App.Foto, App.UI.FotoAttivita, App.UI.FinestraCopiaAttivita, App.UI.disegnaContenuto
  * Usato da: ui/pagina-attivita.js
  */
 (function (App) {
@@ -80,7 +80,8 @@
           el('h4', { text: '🎯 Voti degli alunni (da ' + App.Voti.testo(cfg.votoMin) + ' a ' + App.Voti.testo(cfg.votoMax) + ', anche mezzi punti; "–" = non valutato)' }),
           classe.alunni.length ? el('ul', { class: 'lista lista-voti-attivita' }, righe) :
             el('p', { class: 'suggerimento', text: 'La classe non ha ancora alunni: caricali in 🏫 Classi.' })),
-        pulsanti: (att ? [{ testo: '🗑️ Elimina', tipo: 'pericolo', azione: elimina }] : []).concat([
+        pulsanti: (att ? [{ testo: '🗑️ Elimina', tipo: 'pericolo', azione: elimina },
+          { testo: '📋 Copia in altre classi', tipo: 'info', azione: function () { App.UI.FinestraCopiaAttivita.apri(classe, att); return false; } }] : []).concat([
           { testo: 'Annulla', tipo: 'neutro' }, { testo: '✔ Salva', tipo: 'ok', azione: salva }])
       });
     }
