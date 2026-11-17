@@ -9,7 +9,7 @@
 
   App.Config = {
     nome: 'Registro S.Mot',          // nome mostrato (l'archivio dei dati qui sotto NON va cambiato)
-    versione: '7.16',
+    versione: '7.17',
 
     // Menu principale: una pagina per voce (ui/pagina.js). "corto" = etichetta sul telefono
     menu: [
@@ -119,7 +119,9 @@
     },
 
     // Voti automatici dei test (tabelle del libro di testo)
-    voti: { min: 4, max: 10, passo: 0.5, sufficienza: 6, righeIniziali: [10, 9, 8, 7, 6, 5, 4] },
+    voti: { min: 4, max: 10, passo: 0.5, sufficienza: 6, righeIniziali: [10, 9, 8, 7, 6, 5, 4],
+      // v7.17: tra due soglie il voto è in proporzione, arrotondato a "passo" (false = solo i voti della tabella)
+      proporzione: { attiva: true, passo: 0.5 } },
     sessi: { M: { icona: '♂', nome: 'Alunno' }, F: { icona: '♀', nome: 'Alunna' } },
     // ⛹️ Attività valutate: voti da votoMin a votoMax, interi o con mezzo punto (passo); lunghezze massime
     attivita: { votoMin: 1, votoMax: 10, passo: 0.5, titolo: 60, descrizione: 800 },

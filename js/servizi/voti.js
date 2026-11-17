@@ -75,7 +75,22 @@
     return { righe: pulite };
   }
 
-  // Voto di un risultato. -> { voto } | { voto: null, manca: 'risultato'|'sesso'|'tabella' }
+  // Soglie "di comodo" dell'ultima riga delle tabelle del libro (tutto il resto prende il voto più basso)
+  var COMODO = ['99:59', '999', '0', '-100'];
+
+  // Voto in proporzione tra la soglia superata (voto vSu) e quella prima (voto vGiu), al mezzo punto.
+  // Es. 1000 m: 8 fino a 3:55, 6 fino a 4:25 -> 4:10 = 7, 3:57 = 8, 4:20 = 6,5
+  function inMezzo(test, n, sopra, sotto, sesso) {
+    var a = App.Test.numero(test, sopra[sesso]), b = App.Test.numero(test, sotto[sesso]);
+    if (a === null || b === null || a === b) return sotto.voto;
+    var f = (n - b) / (a - b);                  // 0 sulla soglia di sotto, 1 su quella di sopra
+    f = Math.max(0, Math.min(1, f));
+    var v = sotto.voto + f * (sopra.voto - sotto.voto), p = (App.Config.voti.proporzione || {}).passo || 0.5;
+    return Math.round(v / p) * p;
+  }
+
+  // Voto di un risultato. Tra due soglie della tabella il voto è in proporzione (config.js > voti.proporzione),
+  // tranne verso la soglia "di comodo" dell'ultima riga. -> { voto } | { voto: null, manca: 'risultato'|'sesso'|'tabella' }
   function calcola(test, sesso, valore) {
     if (!valore) return { voto: null, manca: 'risultato' };
     if (!haTabella(test)) return { voto: null, manca: 'tabella' };
@@ -86,7 +101,12 @@
     if (n === null) return { voto: null, manca: 'risultato' };
     for (var i = 0; i < righe.length; i++) {
       var soglia = App.Test.numero(test, righe[i][sesso]);
-      if (test.migliore === 'alto' ? n >= soglia : n <= soglia) return { voto: righe[i].voto };
+      if (test.migliore === 'alto' ? n >= soglia : n <= soglia) {
+        var prop = App.Config.voti.proporzione && App.Config.voti.proporzione.attiva;
+        var comodo = i === righe.length - 1 && COMODO.indexOf(String(righe[i][sesso]).trim()) >= 0;
+        if (!prop || i === 0 || comodo) return { voto: righe[i].voto };
+        return { voto: inMezzo(test, n, righe[i - 1], righe[i], sesso) };
+      }
     }
     return { voto: righe[righe.length - 1].voto };          // sotto l'ultima fascia: voto più basso
   }

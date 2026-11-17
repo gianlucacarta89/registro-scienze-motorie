@@ -50,3 +50,13 @@
   .voce-corto { font-size: .6rem; letter-spacing: -.02em; text-overflow: clip; }
   .voce-icona { font-size: 1.15rem; }
 }
+
+/* v7.17: 9 voci nel menu in basso: scritte un po' più piccole sui telefoni stretti (360 px e meno) */
+@media (max-width: 380px) {
+  .voce-menu { padding-left: 0; padding-right: 0; }
+  .voce-corto { font-size: .54rem; letter-spacing: -.03em; }
+}
+@media (max-width: 335px) {
+  .voce-corto { font-size: .5rem; letter-spacing: -.04em; }
+  .voce-icona { font-size: 1.05rem; }
+}

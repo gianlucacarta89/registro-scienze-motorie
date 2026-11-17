@@ -38,7 +38,9 @@
         return el('tr', {}, el('th', {}, etichetta(r.voto)),
           el('td', { class: 'cella num-cella', text: testo('M') }),
           el('td', { class: 'cella num-cella', text: testo('F') }));
-      }))));
+      }))),
+      App.Config.voti.proporzione && App.Config.voti.proporzione.attiva ?
+        el('p', { class: 'piccolo', text: '↕️ Tra due soglie il voto è in proporzione, a mezzi punti (es. a metà strada tra l\'8 e il 6 = 7).' }) : null);
   }
 
   // Parametri di un test: una riga per voto, soglia per alunni e per alunne
