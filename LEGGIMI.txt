@@ -1,4 +1,4 @@
-REGISTRO S.MOT (Registro Scienze Motorie) — v7.17
+REGISTRO S.MOT (Registro Scienze Motorie) — v7.18
 ================================================
 
 PUBBLICAZIONE SU GITHUB PAGES (una volta sola, dal computer)
@@ -67,9 +67,10 @@ COSA FA — il menu (in alto sul computer, in basso sul telefono)
   📈 Statistiche (sottoscheda): per classe, test e prova (1ª, 2ª, 3ª): andamento, media,
   migliore, peggiore, alunni/alunne, quanti per ogni voto, migliorati, media voti per test,
   🏅 primi 3 alunni e alunne di ogni test (giochi studenteschi).
-- Voti dei test: tra due soglie della tabella il voto è in proporzione, a mezzi punti (es.
-  1000 m, 1° biennio ♂: 8 fino a 3:55 e 6 fino a 4:25 → 4:10 = 7, 4:20 = 6,5). Si spegne in
-  config.js > voti.proporzione.
+- Voti dei test: tra due soglie della tabella il voto è in proporzione, a mezzi punti,
+  arrotondando per difetto (le soglie del libro restano esatte). Es. 1000 m, 1° biennio ♂:
+  8 fino a 3:55, 7,5 fino a 4:02, 7 fino a 4:10, 6,5 fino a 4:17, 6 fino a 4:25. Le tabelle
+  (📖 Libro, 🎯 Voti) mostrano tutti i mezzi voti. Si spegne in config.js > voti.proporzione.
 - 📖 Libro: i test del libro da consultare, per tipologia, con caratteristiche, scheda
   (a che cosa serve, materiale, come si fa, come si misura, differenze alunni/alunne) e tabella
   di valutazione ♂/♀ della fascia scelta (1° biennio, 2° biennio, quinto anno). Ricerca per nome.

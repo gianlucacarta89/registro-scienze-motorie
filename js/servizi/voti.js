@@ -78,15 +78,42 @@
   // Soglie "di comodo" dell'ultima riga delle tabelle del libro (tutto il resto prende il voto più basso)
   var COMODO = ['99:59', '999', '0', '-100'];
 
-  // Voto in proporzione tra la soglia superata (voto vSu) e quella prima (voto vGiu), al mezzo punto.
-  // Es. 1000 m: 8 fino a 3:55, 6 fino a 4:25 -> 4:10 = 7, 3:57 = 8, 4:20 = 6,5
+  function passoProp() { return (App.Config.voti.proporzione || {}).passo || 0.5; }
+
+  // Voto in proporzione tra la soglia superata (sotto) e quella prima (sopra), arrotondato PER DIFETTO
+  // al mezzo punto (v7.18): le soglie del libro restano esatte. Es. 1000 m, 8 fino a 3:55 e 6 fino a 4:25:
+  // 3:55 = 8, 3:57 = 7,5, 4:10 = 7, 4:20 = 6
   function inMezzo(test, n, sopra, sotto, sesso) {
     var a = App.Test.numero(test, sopra[sesso]), b = App.Test.numero(test, sotto[sesso]);
     if (a === null || b === null || a === b) return sotto.voto;
     var f = (n - b) / (a - b);                  // 0 sulla soglia di sotto, 1 su quella di sopra
     f = Math.max(0, Math.min(1, f));
-    var v = sotto.voto + f * (sopra.voto - sotto.voto), p = (App.Config.voti.proporzione || {}).passo || 0.5;
-    return Math.round(v / p) * p;
+    var v = sotto.voto + f * (sopra.voto - sotto.voto), p = passoProp();
+    return Math.floor(v / p + 1e-9) * p;
+  }
+
+  // Tabella completa con i mezzi voti: per ogni voto, il risultato che serve (numero; già arrotondato
+  // come si scrive: per difetto se "meglio basso", per eccesso se "meglio alto").
+  // -> [{ voto, n, libro: true|false }] dal voto più alto all'ultimo vero, poi { voto, n, oltre: true }
+  function scalaCompleta(test, righe, sesso) {
+    var r = righe.filter(function (x) { return x[sesso] !== undefined && x[sesso] !== ''; });
+    if (r.length && COMODO.indexOf(String(r[r.length - 1][sesso]).trim()) >= 0) r = r.slice(0, -1);
+    var alto = test.migliore === 'alto', p = passoProp(), out = [];
+    var dec = test.tipo === 'tempo' ? (App.Test.formato(test) === 'min' ? 0 : 2) :
+      (r.some(function (x) { return /[.,]/.test(String(x[sesso])); }) ? 1 : 0), k = Math.pow(10, dec);
+    function arr(n) { return (alto ? Math.ceil(n * k - 1e-6) : Math.floor(n * k + 1e-6)) / k; }
+    r.forEach(function (x, i) {
+      var nx = App.Test.numero(test, x[sesso]);
+      out.push({ voto: x.voto, n: nx, libro: true });
+      var y = r[i + 1];
+      if (!y) return;
+      var ny = App.Test.numero(test, y[sesso]);
+      for (var v = x.voto - p; v > y.voto + 1e-9; v -= p) {
+        out.push({ voto: Math.round(v * 100) / 100, n: arr(ny + (v - y.voto) / (x.voto - y.voto) * (nx - ny)), libro: false });
+      }
+    });
+    if (r.length) out.push({ voto: righe[righe.length - 1].voto < r[r.length - 1].voto ? righe[righe.length - 1].voto : r[r.length - 1].voto, n: App.Test.numero(test, r[r.length - 1][sesso]), oltre: true });
+    return out;
   }
 
   // Voto di un risultato. Tra due soglie della tabella il voto è in proporzione (config.js > voti.proporzione),
@@ -125,6 +152,7 @@
 
   App.Voti = {
     scala: scala,
+    scalaCompleta: scalaCompleta,
     testo: testoVoto,
     haTabella: haTabella,
     controlla: controlla,

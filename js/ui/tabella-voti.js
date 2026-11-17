@@ -25,8 +25,11 @@
 
   // Tabella delle soglie: una riga per voto, ♂ e ♀; l'ultima riga (voto più basso) vale per tutto
   // ciò che è peggio della riga sopra ("meno di …" / "oltre …"). Usata anche dalla pagina 📖 Libro.
-  function tabellaSoglie(migliore, righe) {
-    var alto = migliore === 'alto';
+  // Con il test e i voti in proporzione (v7.18): tabella completa con tutti i mezzi voti; in grassetto
+  // le soglie della tabella (libro), le altre calcolate (App.Voti.scalaCompleta).
+  function tabellaSoglie(migliore, righe, test) {
+    var alto = migliore === 'alto', prop = App.Config.voti.proporzione && App.Config.voti.proporzione.attiva;
+    if (test && prop) return tabellaCompleta(test, righe);
     return el('div', { class: 'tabella-zona' }, el('table', { class: 'tabella tabella-parametri' },
       el('thead', {}, el('tr', {}, el('th', { text: 'Voto' }), el('th', { text: '♂ Alunni' }), el('th', { text: '♀ Alunne' }))),
       el('tbody', {}, righe.map(function (r, i, tutte) {
@@ -38,9 +41,32 @@
         return el('tr', {}, el('th', {}, etichetta(r.voto)),
           el('td', { class: 'cella num-cella', text: testo('M') }),
           el('td', { class: 'cella num-cella', text: testo('F') }));
+      }))));
+  }
+
+  function tabellaCompleta(test, righe) {
+    var alto = test.migliore === 'alto', per = {}, voti = [];
+    ['M', 'F'].forEach(function (sx) {
+      App.Voti.scalaCompleta(test, righe, sx).forEach(function (x) {
+        var k = (x.oltre ? 'o' : '') + x.voto;
+        if (!per[k]) { per[k] = { voto: x.voto, oltre: !!x.oltre }; voti.push(k); }
+        per[k][sx] = x;
+      });
+    });
+    function testo(x) {
+      if (!x || x.n === null || isNaN(x.n)) return '–';
+      var v = test.tipo === 'tempo' ? App.Test.formatta(test, x.n) : String(x.n).replace('.', ',');
+      return x.oltre ? (alto ? 'meno di ' : 'oltre ') + v : (alto ? 'da ' : 'fino a ') + v;
+    }
+    return el('div', { class: 'tabella-zona' }, el('table', { class: 'tabella tabella-parametri tabella-completa' },
+      el('thead', {}, el('tr', {}, el('th', { text: 'Voto' }), el('th', { text: '♂ Alunni' }), el('th', { text: '♀ Alunne' }))),
+      el('tbody', {}, voti.map(function (k) {
+        var r = per[k], libro = (r.M && r.M.libro) || (r.F && r.F.libro);
+        return el('tr', { class: libro ? 'soglia-libro' : 'soglia-calcolata' }, el('th', {}, etichetta(r.voto)),
+          el('td', { class: 'cella num-cella', text: testo(r.M) }),
+          el('td', { class: 'cella num-cella', text: testo(r.F) }));
       }))),
-      App.Config.voti.proporzione && App.Config.voti.proporzione.attiva ?
-        el('p', { class: 'piccolo', text: '↕️ Tra due soglie il voto è in proporzione, a mezzi punti (es. a metà strada tra l\'8 e il 6 = 7).' }) : null);
+      el('p', { class: 'piccolo', text: '↕️ In grassetto le soglie della tabella; le altre sono calcolate in proporzione, a mezzi punti (arrotondando per difetto: la soglia della tabella resta esatta).' }));
   }
 
   // Parametri di un test: una riga per voto, soglia per alunni e per alunne
@@ -52,7 +78,7 @@
       el('summary', {}, el('b', { text: t.nome }),
         el('span', { class: 'piccolo', text: ' · ' + (alto ? 'voto dal risultato minimo' : 'voto fino al risultato massimo') + (unita ? ' (' + unita + ')' : '') +
           (fascia ? ' · libro, ' + fascia.nome : '') })),
-      tabellaSoglie(t.migliore, t.voti.righe),
+      tabellaSoglie(t.migliore, t.voti.righe, t),
       el('button', { type: 'button', class: 'btn btn-info piccolo-btn', text: '📏 Modifica la tabella', onclick: function () { App.UI.FinestraVoti.apri(classe, t); } }));
   }
 

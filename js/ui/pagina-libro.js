@@ -40,7 +40,7 @@
           return el('p', {}, el('b', { text: c.nome + ': ' }), t[c.id]);
         }),
         el('h5', { text: '📏 Tabella di valutazione – ' + (t.fasce ? f.nome : 'uguale per tutte le classi') }),
-        tab ? App.UI.TabellaVoti.tabellaSoglie(t.migliore, tab.righe) : el('p', { class: 'piccolo', text: 'Nessuna tabella.' }),
+        tab ? App.UI.TabellaVoti.tabellaSoglie(t.migliore, tab.righe, t) : el('p', { class: 'piccolo', text: 'Nessuna tabella.' }),
         t.fonte ? el('p', { class: 'piccolo', text: 'Fonte: ' + t.fonte }) : null));
   }
 
