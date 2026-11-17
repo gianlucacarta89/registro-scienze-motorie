@@ -1,4 +1,4 @@
-REGISTRO S.MOT (Registro Scienze Motorie) — v7.15
+REGISTRO S.MOT (Registro Scienze Motorie) — v7.16
 ================================================
 
 PUBBLICAZIONE SU GITHUB PAGES (una volta sola, dal computer)
@@ -145,7 +145,7 @@ BACKUP E PASSAGGIO TRA TELEFONO, TABLET E COMPUTER (con Google Drive)
   giustificazioni, elenco 📚), non l'app: l'app è su GitHub e si aggiorna da sola.
 - All'importazione scegli: "➕ Unisci" (consigliato) aggiunge solo ciò che manca
   (giustificazioni, risultati nelle caselle vuote, alunni, classi, test) senza cancellare
-  né cambiare nulla; si possono unire più backup per recuperare dati persi.
+  nulla; per ♂/♀ vince la correzione fatta a mano più di recente; si possono unire più backup per recuperare dati persi.
   "⬆️ Sostituisci tutto" cancella i dati del dispositivo e mette quelli del backup.
 - App aperta in due finestre (app installata + scheda di Chrome): prima di salvare l'app
   controlla se l'altra ha salvato dopo; in quel caso non sovrascrive, carica i dati più

@@ -1,9 +1,10 @@
 /* unisci-backup.js
- * Cosa fa: "➕ Unisci" un file di backup ai dati di questo dispositivo SENZA cancellare né cambiare
- *          nulla: aggiunge solo ciò che manca. Serve per recuperare dati persi e per mettere insieme
+ * Cosa fa: "➕ Unisci" un file di backup ai dati di questo dispositivo SENZA cancellare nulla:
+ *          aggiunge ciò che manca (e aggiorna ♂/♀ se nel backup c'è una correzione più recente). Serve per recuperare dati persi e per mettere insieme
  *          il lavoro fatto su dispositivi diversi.
  *            - classi: stessa classe = stesso id o stesso nome; se manca si aggiunge intera
- *            - alunni: stesso id o stesso nome; se manca si aggiunge
+ *            - alunni: stesso id o stesso nome; se manca si aggiunge. ♂/♀: vince quello scelto a mano più
+ *              di recente (alunno.sessoMod); uno scelto a mano vale più di uno indovinato dai nomi
  *            - test della classe e test dell'elenco 📚: stesso id o stesso nome; se manca si aggiunge
  *            - risultati: si scrivono solo nelle caselle vuote (se qui c'è già un valore resta questo)
  *            - giustificazioni: si aggiungono quelle che mancano (stesso id o stesso giorno = già presente)
@@ -46,7 +47,11 @@
       var x = trova(qui.alunni, a);
       if (!x) { x = aggiungi(qui.alunni, a); r.alunni++; }
       else {
-        if (!x.sesso && a.sesso) x.sesso = a.sesso;
+        // ♂/♀: vince la scelta fatta a mano più recente; una scelta a mano vale più di una indovinata dai nomi
+        if ((a.sessoMod && (!x.sessoMod || a.sessoMod > x.sessoMod)) || (!x.sesso && a.sesso && !x.sessoMod)) {
+          if ((x.sesso || '') !== (a.sesso || '')) r.sessi++;
+          x.sesso = a.sesso || ''; if (a.sessoMod) x.sessoMod = a.sessoMod;
+        }
         if (!x.partecipa && a.partecipa) x.partecipa = App.U.copia(a.partecipa);   // 🏐 🏅
       }
       alunni[a.id] = x.id;
@@ -120,7 +125,7 @@
     // Unisce i dati del backup b ai dati attuali. -> { classi, alunni, test, testElenco, risultati, giust, diversi, niente }
     unisci: function (b) {
       var d = App.Stato.dati, la = App.Stato.normalizza(App.U.copia(b.dati));
-      var r = { classi: 0, alunni: 0, test: 0, testElenco: 0, risultati: 0, giust: 0, diversi: 0, attivita: 0, votiAttivita: 0, osservazioni: 0, fotoAttivita: 0 };
+      var r = { classi: 0, alunni: 0, test: 0, testElenco: 0, risultati: 0, giust: 0, diversi: 0, attivita: 0, votiAttivita: 0, osservazioni: 0, fotoAttivita: 0, sessi: 0 };
       la.classi.forEach(function (c) {
         var x = trova(d.classi, c);
         if (!x) {
@@ -133,7 +138,7 @@
         unisciClasse(x, c, r);
       });
       la.archivio.test.forEach(function (t) { if (!trova(d.archivio.test, t)) { aggiungi(d.archivio.test, t); r.testElenco++; } });
-      r.niente = !(r.classi || r.alunni || r.test || r.testElenco || r.risultati || r.giust || r.attivita || r.votiAttivita || r.osservazioni || r.fotoAttivita);
+      r.niente = !(r.classi || r.alunni || r.test || r.testElenco || r.risultati || r.giust || r.attivita || r.votiAttivita || r.osservazioni || r.fotoAttivita || r.sessi);
       if (!r.niente) {
         App.Classi.ordinaClassi();
         d.classi.forEach(function (c) { App.Classi.ordina(c); });

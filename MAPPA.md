@@ -1,4 +1,4 @@
-# MAPPA — Registro S.Mot (Registro Scienze Motorie) v7.15
+# MAPPA — Registro S.Mot (Registro Scienze Motorie) v7.16
 
 Indice dei file: cosa c'è dentro e quale parte dell'app ne dipende.
 Tutti i moduli stanno nell'oggetto globale `App`. Ordine di caricamento in `index.html`:
@@ -91,7 +91,7 @@ Nome, versione, nome dell'archivio, **tipologie dei test (menu a tendina, e ordi
 | `leggi-file.js` | `App.LeggiFile` | `righe(file)` — Excel (primo foglio), Word (paragrafi, tabelle, a capo), PDF, csv/txt |
 | `zip-scrivi.js` | `App.ZipScrivi` | `crea` (ZIP senza compressione: più schede PDF in un file), `crc32` |
 | `backup.js` | `App.Backup` | `esporta`, `leggi`, `riepilogo`, `localiPiuRecenti`, `applica` |
-| `unisci-backup.js` | `App.UnisciBackup` | `unisci(backup)`: ➕ Unisci senza cancellare né cambiare nulla — aggiunge classi, alunni, test (anche dell'elenco) mancanti (stesso id o nome = già presente), risultati solo nelle caselle vuote, giustificazioni mancanti (stesso id o stesso giorno = già presente); conta cosa ha aggiunto e i risultati diversi |
+| `unisci-backup.js` | `App.UnisciBackup` | `unisci(backup)`: ➕ Unisci senza cancellare né cambiare nulla — aggiunge classi, alunni, test (anche dell'elenco) mancanti (stesso id o nome = già presente), risultati solo nelle caselle vuote, giustificazioni mancanti (stesso id o stesso giorno = già presente); conta cosa ha aggiunto e i risultati diversi; ♂/♀: vince la scelta a mano più recente (`alunno.sessoMod`, scritto da `App.Classi.impostaSesso`), una scelta a mano vale più di una indovinata |
 | `migra-sprint.js` | `App.MigraSprint` | `applica(dati)` (da `normalizza`, anche per i backup vecchi): "Sprint 30 metri" → "Sprint" (anche `daLibro`/`parametro.libro`); nelle classi "Velocità 60 m ♀ / 80 m ♂" → "Sprint" con ⚙️ ♂ 80 / ♀ 60 m, risultati e tabella invariati ("Sprint (♂ 80 m, ♀ 60 m)" se c'è già uno Sprint); nell'elenco la sua copia si toglie |
 | `foto.js` | `App.Foto` | `riduci(file)` (lato max config `foto.lato`, JPEG), `salva`, `leggi`, `elimina`, `leggiMolte`, `importa(mappa)` (solo le mancanti), `idDelleAttivita` — 📷 foto delle attività in un archivio IndexedDB A PARTE (`registro-scienze-motorie-foto`; quello principale non si tocca); `attivita.foto = [id…]`; nel backup nel campo `foto` |
 

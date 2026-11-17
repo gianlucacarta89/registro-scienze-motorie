@@ -79,7 +79,8 @@
           text: '🗑️ Togli selezionati' + (n ? ' (' + n + ')' : ''), onclick: togliScelti }));
       }
 
-      // ♂ / ♀ con un tocco (serve per le tabelle dei voti); un secondo tocco lo toglie
+      // ♂ / ♀ con un tocco (serve per le tabelle dei voti). Toccare di nuovo quello già scelto NON lo
+      // toglie (v7.16: si perdeva per sbaglio); per "non indicato" si usa ✏️ Correggi
       function sceltaSesso(a) {
         var box = el('span', { class: 'sesso-scelta', role: 'group', 'aria-label': 'Alunno o alunna' });
         ['M', 'F'].forEach(function (k) {
@@ -87,7 +88,8 @@
           box.appendChild(el('button', { type: 'button', class: 'sesso-btn' + (a.sesso === k ? ' attivo' : ''),
             'aria-pressed': a.sesso === k ? 'true' : 'false', title: info.nome, text: info.icona,
             onclick: function () {
-              App.Classi.impostaSesso(classe, a.id, a.sesso === k ? '' : k);
+              if (a.sesso === k) return;
+              App.Classi.impostaSesso(classe, a.id, k);
               App.Stato.salva();
               Array.prototype.forEach.call(box.children, function (b, j) {
                 var on = a.sesso === ['M', 'F'][j];

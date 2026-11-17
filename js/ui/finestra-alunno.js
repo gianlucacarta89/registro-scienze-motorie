@@ -40,7 +40,7 @@
       var sesso = el('div', { class: 'segmenti sesso-segmenti', role: 'radiogroup', 'aria-label': 'Alunno o alunna' },
         [['M', '♂ Alunno'], ['F', '♀ Alunna'], ['', 'Non indicato']].map(function (x) {
           return el('label', { class: 'segmento' + ((a.sesso || '') === x[0] ? ' attivo' : '') },
-            el('input', { type: 'radio', name: 'sesso', value: x[0], checked: (a.sesso || '') === x[0], class: 'nascosto' }), x[1]);
+            el('input', { type: 'radio', name: 'sesso-' + a.id, value: x[0], checked: (a.sesso || '') === x[0], class: 'nascosto' }), x[1]);
         }));
       sesso.addEventListener('change', function () {
         Array.prototype.forEach.call(sesso.children, function (l) { l.classList.toggle('attivo', l.querySelector('input').checked); });

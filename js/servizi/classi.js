@@ -99,10 +99,14 @@
       return null;
     },
 
-    // Cancella l'alunno con i suoi risultati e le sue giustificazioni
     // Sesso dell'alunno: 'M', 'F' oppure '' (non indicato). Serve per le tabelle dei voti.
+    // a.sessoMod = quando l'ha scelto il docente (v7.16): nell'unione dei backup vince la scelta più recente
     impostaSesso: function (classe, id, sesso) {
-      classe.alunni.forEach(function (a) { if (a.id === id) a.sesso = sesso === 'M' || sesso === 'F' ? sesso : ''; });
+      classe.alunni.forEach(function (a) {
+        if (a.id !== id) return;
+        a.sesso = sesso === 'M' || sesso === 'F' ? sesso : '';
+        a.sessoMod = new Date().toISOString();
+      });
     },
 
     senzaSesso: function (classe) {

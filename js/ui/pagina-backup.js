@@ -35,6 +35,7 @@
       if (r.attivita) righe.push('⛹️ ' + n(r.attivita, 'attività', 'attività'));
       if (r.votiAttivita) righe.push('⛹️ ' + n(r.votiAttivita, 'voto delle attività', 'voti delle attività'));
       if (r.fotoNuove) righe.push('📷 ' + n(r.fotoNuove, 'foto delle attività', 'foto delle attività'));
+      if (r.sessi) righe.push('♂♀ ' + n(r.sessi, 'alunno con ♂/♀ corretto più di recente nel backup', 'alunni con ♂/♀ corretto più di recente nel backup'));
       if (r.osservazioni) righe.push('🗒️ ' + n(r.osservazioni, 'osservazione', 'osservazioni'));
       if (r.testElenco) righe.push('📚 ' + n(r.testElenco, 'test nell\'elenco', 'test nell\'elenco'));
       App.Finestra.apri({
@@ -43,7 +44,7 @@
           el('p', { text: 'Aggiunti dal backup del ' + App.U.dataOraIT(b.esportato) + ':' }),
           el('ul', {}, righe.map(function (t) { return el('li', { text: t }); })),
           r.diversi ? el('p', { class: 'piccolo', text: 'ℹ️ ' + n(r.diversi, 'risultato è diverso', 'risultati sono diversi') + ' tra il backup e questo dispositivo: ho lasciato quelli di questo dispositivo.' }) : null,
-          el('p', { class: 'piccolo', text: 'Non è stato cancellato né cambiato nulla. Se hai altri backup puoi unire anche quelli.' })),
+          el('p', { class: 'piccolo', text: 'Non è stato cancellato nulla. Se hai altri backup puoi unire anche quelli.' })),
         pulsanti: [{ testo: 'OK', tipo: 'ok' }]
       });
     });
@@ -75,7 +76,7 @@
         corpo: el('div', {},
           el('p', { text: 'Backup del ' + App.U.dataOraIT(b.esportato) + ': ' + n(x.classi, 'classe', 'classi') + ', ' + n(x.alunni, 'alunno', 'alunni') + ', ' +
             n(x.test, 'test', 'test') + ', ' + n(x.giust, 'giustificazione', 'giustificazioni') + '.' }),
-          el('p', {}, el('b', { text: '➕ Unisci (consigliato): ' }), 'aggiunge solo ciò che qui manca (giustificazioni, risultati nelle caselle vuote, alunni, classi, test). Non cancella e non cambia nulla.'),
+          el('p', {}, el('b', { text: '➕ Unisci (consigliato): ' }), 'aggiunge solo ciò che qui manca (giustificazioni, risultati nelle caselle vuote, alunni, classi, test) e prende i ♂/♀ corretti più di recente. Non cancella nulla.'),
           el('p', {}, el('b', { text: '⬆️ Sostituisci tutto: ' }), 'cancella i dati di questo dispositivo e mette quelli del backup.')),
         pulsanti: [
           { testo: '⬆️ Sostituisci tutto', tipo: 'pericolo', azione: function () { setTimeout(function () { sostituisci(b); }, 0); } },
