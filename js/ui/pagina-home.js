@@ -3,7 +3,7 @@
  *          (classi e alunni, test in uso, sessione, attività valutate, giustificazioni del mese, PDF, stato del backup), una scheda per ogni classe con i numeri principali e i
  *          collegamenti rapidi a Sessioni e Giustificazioni.
  * Dipende da: App.U, App.Stato, App.Config, App.Classi, App.ElencoTest, App.Giust, App.Calendario,
- *             App.Voti, App.Attivita, App.UI (vai, vuoto, titoloPagina)
+ *             App.Voti, App.Attivita, App.Segnapunti, App.UI (vai, vuoto, titoloPagina)
  * Usato da: ui/pagina.js
  */
 (function (App) {
@@ -69,6 +69,7 @@
         { id: 'attivita', icona: '⛹️', titolo: 'Attività', grande: String(App.Attivita.quante(classi)), nota: 'valutate · voti e note' },
         { id: 'giust', icona: '📋', titolo: 'Giustificazioni', grande: String(giustMese), nota: mese ? 'a ' + mese.nome.toLowerCase() : 'fuori dall\'anno scolastico' },
         { id: 'riepilogo', icona: '📄', titolo: 'Riepilogo', grande: 'PDF', nota: 'per famiglie e colleghi' },
+        { id: 'segnapunti', icona: '🏆', titolo: 'Segnapunti', grande: App.Segnapunti.riassunto(d) ? '▶' : '0–0', nota: App.Segnapunti.riassunto(d) || 'punti e set di una partita' },
         { id: 'backup', icona: '💾', titolo: 'Backup', grande: backupOk ? '✓' : '!', avviso: !backupOk && classi.length > 0,
           nota: d.ultimoBackup ? (backupOk ? 'aggiornato ' : 'modifiche dopo il ') + App.U.dataIT(d.ultimoBackup.slice(0, 10)) : 'mai fatto' }
       ];

@@ -1,4 +1,4 @@
-# MAPPA — Registro S.Mot (Registro Scienze Motorie) v7.18
+# MAPPA — Registro S.Mot (Registro Scienze Motorie) v7.19
 
 Indice dei file: cosa c'è dentro e quale parte dell'app ne dipende.
 Tutti i moduli stanno nell'oggetto globale `App`. Ordine di caricamento in `index.html`:
@@ -76,6 +76,7 @@ Nome, versione, nome dell'archivio, **tipologie dei test (menu a tendina, e ordi
 | `partecipazioni.js` | `App.Partecipa` | `voci`, `ha`, `imposta`, `icone`, `titolo` — spunte per alunno 🏐 torneo scolastico / 🏅 giochi della gioventù (`alunno.partecipa`, config `partecipazioni`); solo promemoria, nessun calcolo sui voti |
 | `attivita.js` | `App.Attivita` | `votiPossibili`, `errore`, `tutte`, `aggiungi`, `modifica`, `elimina`, `togliAlunno`, `valutati`, `media`, `quante` — ⛹️ attività valutate per classe (`classe.attivita`: data, titolo, descrizione, note, `voti[alunnoId] = { voto, nota }`; voti da config `attivita`, interi o mezzi punti) |
 | `osservazioni.js` | `App.Osservazioni` | `tipo`, `quadrimestri(anno)`, `di`, `delGiorno`, `errore`, `aggiungi`, `elimina`, `togliAlunno`, `conta(classe, alunno, periodo)` — 🗒️ osservazioni quotidiane per alunno (`classe.osservazioni[alunnoId] = [{ id, data, tipo: pos/neg, testo }]`; config `osservazioni`, `quadrimestri`); nessun calcolo sui voti |
+| `segnapunti.js` | `App.Segnapunti` | `stato`, `punto(d, i, ±1)`, `fineSet`, `annulla`, `scambia`, `nuova`, `rinomina`, `riassunto` — 🏆 tabellone (`dati.segnapunti`: nomi, punti, set, set finiti, azioni da annullare; config `segnapunti`) |
 | `libro-voti.js` | `App.LibroVoti` | `compatibili`, `proposto` (test del libro equivalente: nome con sinonimi + tipologia), `applica` (tabella della fascia + scheda nei campi vuoti, `test.daLibro`), `togli`, `modello` (copia nell'elenco o libro), `sostituisci` (il test diventa quello del libro, risultati riscritti con `converti`, unione se già presente) |
 | `profilo.js` | `App.Profilo` | `alunno` — media dei voti per capacità in una prova (capacità e tipologie in `config.capacita`), `capacitaClasse`, `capacitaDi` |
 | `giustificazioni.js` | `App.Giust` | `errore` (mese, doppioni, simbolo), `ammetteCertificato`, `conCertificato`, `aggiungi`, `modifica`, `elimina`, `delMese`, `totaleAnno`, `contaClasse` |
@@ -128,6 +129,7 @@ Ogni pagina è `App.UI.Pagine[id].disegna(cont)`; la pagina aperta è `preferenz
 | `finestra-appello.js` | `App.UI.FinestraAppello` | ⚡ Appello rapido: un giorno, tutta la classe; un tocco sul motivo per alunno (🌸 solo alunne o ♂/♀ non indicato), 📄 certificato e nota dove servono, chi è già giustificato quel giorno indicato e non toccato; ✔ Salva le aggiunge tutte dopo averle controllate tutte |
 | `spunte-partecipa.js` | `App.UI.spuntePartecipa`, `App.UI.iconePartecipa` | spunte salvate subito (scheda dell'alunno, ✏️ Correggi) e icone 🏐🏅 accanto al nome (Classi, risultati, voti) |
 | `pagina-attivita.js` | `App.UI.Pagine.attivita` | ⛹️ Attività: classe, ➕ Nuova attività, elenco (data, titolo, descrizione, valutati, media) |
+| `pagina-segnapunti.js` | `App.UI.Pagine.segnapunti` | 🏆 Segnapunti (solo dalla Home, non nel menu): due squadre a colori, tocco = +1, −1, set vinti, set finiti, 🏁 Fine set, ↩️ Annulla, ⇄ Cambia campo, ⛶ Schermo intero, 🔄 Nuova partita |
 | `finestra-attivita.js` | `App.UI.FinestraAttivita` | attività nuova o da modificare: data, titolo, descrizione, note, voto (menu 10…1 con mezzi punti) e nota per alunno; ✔ Salva, 🗑️ Elimina con conferma |
 | `foto-attivita.js` | `App.UI.FotoAttivita` | `crea(att)`: 📷 Scatta foto (fotocamera, `capture=environment`), 🖼️ Dalla galleria (più foto), anteprime con 🗑️ e foto grande; modifiche salvate solo con ✔ Salva dell'attività |
 | `finestra-copia-attivita.js` | `App.UI.FinestraCopiaAttivita` | 📋 Copia in altre classi: data e spunte delle classi (spente quelle con la stessa attività quel giorno); copia titolo, descrizione, note e foto (duplicate con id nuovi), senza voti (`App.Attivita.copia`) |

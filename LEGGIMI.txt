@@ -1,4 +1,4 @@
-REGISTRO S.MOT (Registro Scienze Motorie) — v7.18
+REGISTRO S.MOT (Registro Scienze Motorie) — v7.19
 ================================================
 
 PUBBLICAZIONE SU GITHUB PAGES (una volta sola, dal computer)
@@ -114,6 +114,9 @@ COSA FA — il menu (in alto sul computer, in basso sul telefono)
   campo), oppure "Dalla galleria"; max 6 per attività, rimpicciolite, anche nel backup.
   "📋 Copia in altre classi" (nella finestra dell'attività): stessa attività in altre classi,
   con testi e foto ma senza voti.
+- 🏆 Segnapunti (riquadro della Home): tabellone con due squadre (nomi modificabili), un tocco
+  sul punteggio = +1, "−1" per correggere, 🏁 Fine set, ↩️ Annulla, ⇄ Cambia campo,
+  ⛶ Schermo intero, 🔄 Nuova partita. Resta salvato anche chiudendo l'app.
 - 📋 Giustificazioni: Registro (tocca la casella di un alunno nel mese giusto: data, motivo,
   nota; per salute, infortunio e ciclo la spunta "📄 Con certificato medico"; per la
   giustificazione generica il motivo va scritto nella nota; "⚡ Appello rapido": un giorno,

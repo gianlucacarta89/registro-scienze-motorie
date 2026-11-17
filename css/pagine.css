@@ -90,6 +90,7 @@
 .t-sessioni { --c1: #10b981; --c2: #047857; }
 .t-giust { --c1: #f97316; --c2: #c2410c; }
 .t-attivita { --c1: #ec4899; --c2: #be185d; }
+.t-segnapunti { --c1: #eab308; --c2: #a16207; }
 .t-riepilogo { --c1: #06b6d4; --c2: #0e7490; }
 .t-backup { --c1: #64748b; --c2: #334155; }
 .t-backup.t-avviso { --c1: #ef4444; --c2: #b91c1c; animation: tessera-entra .45s cubic-bezier(.2, .8, .3, 1.2) backwards, tessera-pulsa 2.4s ease-in-out 1s infinite; animation-delay: calc(var(--i) * 60ms), 1s; }
@@ -149,3 +150,19 @@
 /* v7.18: tabella completa dei voti (mezzi voti): soglie del libro in grassetto */
 .tabella-completa tr.soglia-libro td { font-weight: 700; }
 .tabella-completa tr.soglia-calcolata td { color: var(--testo-tenue, inherit); }
+
+/* 🏆 Segnapunti */
+.segnapunti { background: var(--sfondo); padding: 4px 0; }
+.segnapunti:fullscreen { padding: 16px; overflow: auto; }
+.sp-campo { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.sp-squadra { border-radius: 18px; padding: 10px; display: flex; flex-direction: column; align-items: center; gap: 8px; color: #fff; }
+.sp-0 { background: linear-gradient(160deg, #2563eb, #1e3a8a); }
+.sp-1 { background: linear-gradient(160deg, #dc2626, #7f1d1d); }
+.sp-nome { width: 100%; text-align: center; font-weight: 800; font-size: 1.1rem; color: #fff; background: rgba(255, 255, 255, .15); border: 1px solid rgba(255, 255, 255, .35); border-radius: 10px; padding: 6px; }
+.sp-punti { width: 100%; min-height: 34vh; font-size: clamp(4.5rem, 22vw, 11rem); font-weight: 900; line-height: 1; color: #fff; background: rgba(0, 0, 0, .12); border: 0; border-radius: 14px; cursor: pointer; font-variant-numeric: tabular-nums; touch-action: manipulation; }
+.sp-punti:active { transform: scale(.98); background: rgba(0, 0, 0, .22); }
+.sp-riga { display: flex; width: 100%; justify-content: space-between; align-items: center; gap: 8px; }
+.sp-meno { min-width: 56px; min-height: 44px; font-size: 1.1rem; font-weight: 700; color: #fff; background: rgba(0, 0, 0, .25); border: 1px solid rgba(255, 255, 255, .35); border-radius: 10px; cursor: pointer; }
+.sp-set { font-size: 1.4rem; font-weight: 800; }
+.sp-storico { text-align: center; font-weight: 600; margin: 10px 0 0; }
+.sp-comandi { justify-content: center; flex-wrap: wrap; margin-top: 12px; }
