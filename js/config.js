@@ -9,7 +9,7 @@
 
   App.Config = {
     nome: 'Registro S.Mot',          // nome mostrato (l'archivio dei dati qui sotto NON va cambiato)
-    versione: '7.19',
+    versione: '7.20',
 
     // Menu principale: una pagina per voce (ui/pagina.js). "corto" = etichetta sul telefono
     menu: [
@@ -140,10 +140,9 @@
       { id: 'giochi', icona: '🏅', nome: 'Partecipa ai giochi della gioventù' }
     ],
     // ♂/♀ proposti dal nome quando si caricano gli alunni (servizi/nomi-sesso.js)
+    // v7.20: ♂/♀ solo dal nome di battesimo conosciuto (elenchi in servizi/nomi-sesso.js), mai dal cognome
     sessoDaiNomi: {
       particelle: ['de', 'di', 'del', 'della', 'dello', 'dei', 'degli', 'da', 'dal', 'dalla', 'lo', 'la', 'li', 'le', 'el', 'al', 'van', 'von', 'mc', 'mac'],
-      finaliF: ['a'], finaliM: ['o'],
-      eccezioniM: ['andrea', 'luca', 'nicola', 'mattia', 'elia', 'tobia', 'enea', 'gianluca', 'battista', 'zaccaria', 'geremia', 'isaia', 'giona']
     },
 
     // Modulo Giustificazioni: legenda dei simboli

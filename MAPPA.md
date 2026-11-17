@@ -1,4 +1,4 @@
-# MAPPA — Registro S.Mot (Registro Scienze Motorie) v7.19
+# MAPPA — Registro S.Mot (Registro Scienze Motorie) v7.20
 
 Indice dei file: cosa c'è dentro e quale parte dell'app ne dipende.
 Tutti i moduli stanno nell'oggetto globale `App`. Ordine di caricamento in `index.html`:
@@ -69,7 +69,7 @@ Nome, versione, nome dell'archivio, **tipologie dei test (menu a tendina, e ordi
 | `statistiche.js` | `App.Statistiche` | `test` (svolti, media, migliore, peggiore, ♂/♀, quanti per voto), `miglioramenti`, `mediaVotiPerTest`, `primi` (primi 3 ♂ o ♀ di un test, miglior risultato tra le prove, pari merito), `testoValore` |
 | `elenco-test.js` | `App.ElencoTest` | `contenitore` (l'elenco con la forma di una classe), `tutti`, `registra` (test nuovo di classe → elenco, collegato con `origine`), `aggiorna` (copia collegata allineata), `stacca` (modifica fatta nell'elenco), `aggiungiAClasse`, `prendiDaClasse` |
 | `statistiche-giust.js` | `App.StatGiust` | `perAlunno` (totale, per tipologia e con certificato, mese o anno), `perMese`, `totali` (anche ♂/♀) |
-| `nomi-sesso.js` | `App.NomiSesso` | `indovina` — ♂/♀ proposto dal nome di battesimo (elenchi di nomi + finale -a/-o, regole in `config.sessoDaiNomi`); '' se incerto |
+| `nomi-sesso.js` | `App.NomiSesso` | `indovina(nome completo)`: ♂/♀ SOLO dal nome di battesimo conosciuto (elenchi di nomi italiani, sardi e stranieri comuni), con "Cognome Nome", "Nome Cognome" e particelle ("De Luca Sara", "Sara De Luca"); il cognome non conta mai; nome sconosciuto → '' (da indicare) |
 | `scheda-test.js` | `App.SchedaTest` | Scheda del test (`campi`, `imposta`, `errore`, `haScheda`) e tabelle per fascia (`fasciaDiClasse` dal nome della classe, `applicaFascia`, `haFasce`) |
 | `parametri-test.js` | `App.ParametriTest` | `regola`, `coefficiente`, `scalaValore`, `scalaTabella`, `nome`, `valori`, `applica` (cambia distanza/peso ♂/♀ di un test del libro: nome, strumento e soglie ricalcolate sempre dalla tabella originale del libro; sprint ×(1+k·Δd/base), lancio ×(base/peso)^e, corsa ×(d/base)^e; dati in `test.parametro`) |
 | `doppioni.js` | `App.Doppioni` | `simili`, `gruppi`, `compatibili`, `proposto`, `voci` (elenco + libro + test solo nelle classi), `nelleClassi`, `risultatiTotali`, `gruppiTutti`, `unisci(tieni, altri)` (una volta sola: toglie i doppioni dall'elenco e in OGNI classe i test con quei nomi diventano uno, con il nome di quello tenuto e tutti i risultati), `unisciInClasse`, `quanti`, `perche` (motivo per cui due test non si possono unire) — 1 km = 1000 m nei nomi; parole con una lettera diversa uguali (Sergent = Sargent); mai numeri diversi nello stesso gruppo, test senza numeri ambigui esclusi |
