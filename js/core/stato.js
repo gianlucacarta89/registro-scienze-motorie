@@ -95,9 +95,13 @@
           if (App.Avvisi) App.Avvisi.toast('⚠️ L\'app era aperta anche in un\'altra finestra: ho caricato i dati più recenti. Controlla e rifai l\'ultima modifica.', 'errore', 9000);
           return;
         }
-        return App.Archivio.scrivi(dati).then(function () {
-          base = dati.ultimaModifica || null;
-          if (canale) canale.postMessage({ ultimaModifica: base });
+        // v7.20: fotografia dei dati in QUESTO momento: così "base" corrisponde esattamente a ciò che è
+        // scritto anche se nel frattempo arrivano altre modifiche (prima scritture veloci una dietro
+        // l'altra potevano sembrare di un'altra finestra e l'ultima modifica si perdeva)
+        var foto = JSON.parse(JSON.stringify(dati)), marca = foto.ultimaModifica || null;
+        return App.Archivio.scrivi(foto).then(function () {
+          base = marca;
+          if (canale) canale.postMessage({ ultimaModifica: marca });
         }).catch(errore);
       });
     });
