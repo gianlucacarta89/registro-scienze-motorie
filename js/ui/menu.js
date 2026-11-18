@@ -10,9 +10,10 @@
 
   App.UI = App.UI || {};
 
-  // Apre una pagina del menu (e una sua sottoscheda: 'stat' per Test o Giustificazioni, 'voti' per Sessioni)
+  // Apre una pagina del menu (e una sua sottoscheda: 'libro' o 'stat' per Test o Giustificazioni, 'voti' per Sessioni)
   App.UI.vai = function (pagina, sotto) {
     var p = App.Stato.dati.preferenze;
+    if (pagina === 'libro') { pagina = 'test'; sotto = 'libro'; }     // v7.25: il Libro sta dentro 📚 Test
     p.pagina = pagina;
     if (sotto && pagina === 'test') p.sottoTest = sotto;
     if (sotto && pagina === 'giust') p.sottoGiust = sotto;

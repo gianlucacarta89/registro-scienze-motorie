@@ -1,4 +1,4 @@
-REGISTRO S.MOT (Registro Scienze Motorie) — v7.24
+REGISTRO S.MOT (Registro Scienze Motorie) — v7.25
 ================================================
 
 PUBBLICAZIONE SU GITHUB PAGES (una volta sola, dal computer)
@@ -71,12 +71,12 @@ COSA FA — il menu (in alto sul computer, in basso sul telefono)
   arrotondando per difetto (le soglie del libro restano esatte). Es. 1000 m, 1° biennio ♂:
   8 fino a 3:55, 7,5 fino a 4:02, 7 fino a 4:10, 6,5 fino a 4:17, 6 fino a 4:25. Le tabelle
   (📖 Libro, 🎯 Voti) mostrano tutti i mezzi voti. Si spegne in config.js > voti.proporzione.
-- 📖 Libro: più libri di testo. Il libro d'Istituto (e quelli che il programmatore prepara dai
+- 📚 Test → 📖 Libri (fino alla v7.24 era la voce 📖 Libro del menu): più libri di testo. Il libro d'Istituto (e quelli che il programmatore prepara dai
   PDF) si consultano; con "➕ Nuovo libro" se ne creano di propri e si aggiungono i test (nome,
   misura, scheda e tabelle dei voti per fascia: bastano le soglie del 10, 8, 6 e 5), anche
   copiandoli da un altro libro (📋). Ogni classe sceglie il suo libro in 🏫 Classi (📖 Libro):
   da lì arrivano le tabelle proposte in 📏 Tabelle dei voti.
-- 📥 Importa test (in un tuo libro, oppure "📥 Crea e importa i test" quando crei il libro):
+- 📥 Importa test (📚 Test → 📖 Libri, in un tuo libro, oppure "📥 Crea e importa i test" quando crei il libro):
   📂 File (Excel, Word, PDF con testo, .csv/.txt, .json), 📷 Fotografa / 🖼️ Foto dalla galleria
   (le pagine del libro), 📋 Incolla testo. L'app riconosce nome del test, misura, fasce, soglie
   ♂/♀ (livelli Ottimo/Buono/Medio… o voti, intervalli "190-213", "> 214", tempi 3'55") e la

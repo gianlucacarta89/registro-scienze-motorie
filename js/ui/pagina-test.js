@@ -1,8 +1,9 @@
 /* pagina-test.js
- * Cosa fa: pagina 📚 Test con due sottoschede: "Elenco dei test" (libro + miei, spunta "Lo uso")
- *          e "Statistiche" della classe scelta (per test e prova, primi 3).
+ * Cosa fa: pagina 📚 Test con tre sottoschede: "Elenco dei test" (libro + miei, spunta "Lo uso"),
+ *          "📖 Libri" (i libri di testo con schede e tabelle, nuovi libri, 📥 Importa test: ui/pagina-libro.js;
+ *          fino alla v7.24 era una voce del menu) e "Statistiche" della classe scelta (per test e prova, primi 3).
  * Dipende da: App.U, App.Stato, App.UI (titoloPagina, sottoSchede, sceltaClasse, senzaClassi),
- *             App.UI.ListaTest, App.UI.Statistiche
+ *             App.UI.ListaTest, App.UI.Statistiche, App.UI.Pagine.libro
  * Usato da: ui/pagina.js
  */
 (function (App) {
@@ -16,7 +17,7 @@
     disegna: function (cont) {
       var pref = App.Stato.dati.preferenze, sotto = pref.sottoTest;
       cont.appendChild(App.UI.titoloPagina('📚 Test'));
-      cont.appendChild(App.UI.sottoSchede([['elenco', '📚 Elenco dei test'], ['stat', '📈 Statistiche']], sotto, function (s) {
+      cont.appendChild(App.UI.sottoSchede([['elenco', '📚 Elenco dei test'], ['libro', '📖 Libri'], ['stat', '📈 Statistiche']], sotto, function (s) {
         pref.sottoTest = s; App.Stato.scrivi(); App.UI.disegnaContenuto();
       }));
       if (sotto === 'stat') {
@@ -25,6 +26,7 @@
         App.UI.Statistiche.disegna(cont, App.Stato.classe());
         return;
       }
+      if (sotto === 'libro') { App.UI.Pagine.libro.disegna(cont, true); return; }
       App.UI.ListaTest.disegna(cont);
     }
   };

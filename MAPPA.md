@@ -1,4 +1,4 @@
-# MAPPA — Registro S.Mot (Registro Scienze Motorie) v7.24
+# MAPPA — Registro S.Mot (Registro Scienze Motorie) v7.25
 
 Indice dei file: cosa c'è dentro e quale parte dell'app ne dipende.
 Tutti i moduli stanno nell'oggetto globale `App`. Ordine di caricamento in `index.html`:
@@ -100,7 +100,7 @@ Nome, versione, nome dell'archivio, **tipologie dei test (menu a tendina, e ordi
 | `foto.js` | `App.Foto` | `riduci(file)` (lato max config `foto.lato`, JPEG), `salva`, `leggi`, `elimina`, `leggiMolte`, `importa(mappa)` (solo le mancanti), `idDelleAttivita` — 📷 foto delle attività in un archivio IndexedDB A PARTE (`registro-scienze-motorie-foto`; quello principale non si tocca); `attivita.foto = [id…]`; nel backup nel campo `foto` |
 
 ## js/ui/ (interfaccia: una pagina, sottoscheda o finestra per file)
-Menu (config.menu): 🏠 Home · 🏫 Classi · 📚 Test · 📖 Libro · ⏱️ Sessioni · 📋 Giustificazioni · 📄 Riepilogo · 💾 Backup.
+Menu (config.menu): 🏠 Home · 🏫 Classi · 📚 Test (con 📖 Libri) · ⏱️ Sessioni · 📋 Giustificazioni · 📄 Riepilogo · 💾 Backup.
 Ogni pagina è `App.UI.Pagine[id].disegna(cont)`; la pagina aperta è `preferenze.pagina`.
 
 | File | Modulo | Cosa disegna |
@@ -109,9 +109,9 @@ Ogni pagina è `App.UI.Pagine[id].disegna(cont)`; la pagina aperta è `preferenz
 | `menu.js` | `App.UI.Menu`, `App.UI.vai(pagina, sotto)` | Menu principale |
 | `pagina-home.js` | `App.UI.Pagine.home` | 🏠 Saluto, tessere quadrate colorate (una per sezione, con i numeri dal vivo; Backup rossa se va fatto), schede delle classi |
 | `pagina-classi.js` | `App.UI.Pagine.classi` | 🏫 Crea classe; per ogni classe: nome modificabile, ♂/♀, 📥 Carica alunni, 👥 Gestisci alunni, 🗑️, elenco degli alunni (tocco = correggi) |
-| `pagina-test.js` | `App.UI.Pagine.test` | 📚 Sottoschede "Elenco dei test" e "📈 Statistiche" (classe scelta in alto) |
+| `pagina-test.js` | `App.UI.Pagine.test` | 📚 Sottoschede "Elenco dei test", "📖 Libri" (v7.25: prima voce di menu; `preferenze.sottoTest = 'libro'`, la vecchia pagina 'libro' e `App.UI.vai('libro')` portano qui) e "📈 Statistiche" (classe scelta in alto) |
 | `lista-test.js` | `App.UI.ListaTest` | Elenco unico: test del libro + miei, per tipologia, spunta "Lo uso", filtri Tutti / In uso / Libro / Miei, ➕ Nuovo test, 📥 Prendi i test della classe, ✏️ |
-| `pagina-libro.js` | `App.UI.Pagine.libro` | 📖 Libro: scelta del libro (📘 incorporati, 📗 del docente), classi che lo usano, ➕ Nuovo libro; nei libri del docente ➕ Nuovo test, ✏️/🗑️ test, ✏️ Rinomina, 🗑️ Elimina libro; negli incorporati 📋 Copia in un mio libro; test per tipologia con scheda e tabella completa della fascia |
+| `pagina-libro.js` | `App.UI.Pagine.libro` | `disegna(cont, dentroTest)` — sottoscheda 📖 Libri di 📚 Test: scelta del libro (📘 incorporati, 📗 del docente), classi che lo usano, ➕ Nuovo libro; nei libri del docente ➕ Nuovo test, ✏️/🗑️ test, ✏️ Rinomina, 🗑️ Elimina libro; negli incorporati 📋 Copia in un mio libro; test per tipologia con scheda e tabella completa della fascia |
 | `finestra-importa-test.js` | `App.UI.FinestraImportaTest` | `apri(libro)`: 📥 Importa test — 📂 File, 📷 Fotografa, 🖼️ Foto dalla galleria (più foto), 📋 Incolla testo; poi una scheda per test con avvisi, righe non capite e anteprima delle tabelle: ✏️ Controlla e salva (`FinestraTestLibro.rivedi`), ✔ Salva così (`App.ImportaTest.prepara`), 🗑️ Scarta; stesso nome nel libro = sostituito (con avviso) |
 | `finestra-test-libro.js` | `App.UI.FinestraTestLibro` | `apri(libro, test)`, `rivedi(libro, test, vecchio, dopo)` (test importato), `copia(test)`: editor di un test di un libro del docente (nome, tipologia, misura, unità, meglio, strumento, scheda, fonte, tabelle per fascia o unica con soglie 10…5 ♂/♀, riga del 4 aggiunta da sola) |
 | `pagina-sessioni.js` | `App.UI.Pagine.sessioni` | ⏱️ Parte operativa: sottosezioni "✏️ Risultati" e "🎯 Voti" della classe scelta |

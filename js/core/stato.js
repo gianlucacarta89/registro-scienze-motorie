@@ -46,7 +46,9 @@
     n.preferenze.classeAttiva = p.classeAttiva || null;
     // Dalla v5.0 il menu ha pagine (config.menu); le vecchie schede ("modulo") non servono più
     n.preferenze.pagina = App.Config.menu.some(function (m) { return m.id === p.pagina; }) || p.pagina === 'segnapunti' ? p.pagina : 'home';
-    n.preferenze.sottoTest = p.sottoTest === 'stat' ? 'stat' : 'elenco';
+    n.preferenze.sottoTest = p.sottoTest === 'stat' || p.sottoTest === 'libro' ? p.sottoTest : 'elenco';
+    // v7.25: 📖 Libro non è più una voce del menu ma una sottoscheda di 📚 Test
+    if (p.pagina === 'libro') { n.preferenze.pagina = 'test'; n.preferenze.sottoTest = 'libro'; }
     n.preferenze.sottoGiust = p.sottoGiust === 'stat' ? 'stat' : 'registro';
     n.preferenze.sottoSessioni = p.sottoSessioni === 'voti' ? 'voti' : 'risultati';
     n.preferenze.libroAperto = typeof p.libroAperto === 'string' ? p.libroAperto : null;

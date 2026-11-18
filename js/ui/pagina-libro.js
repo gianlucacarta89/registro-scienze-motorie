@@ -1,5 +1,5 @@
 /* pagina-libro.js
- * Cosa fa: pagina 📖 Libro: i libri di testo (App.Libri: quello d'Istituto e gli altri incorporati, solo
+ * Cosa fa: sottoscheda 📖 Libri della pagina 📚 Test (v7.25; prima era la pagina 📖 Libro del menu): i libri di testo (App.Libri: quello d'Istituto e gli altri incorporati, solo
  *          lettura, più quelli creati dal docente) con i loro test da consultare, divisi per tipologia.
  *          Per ogni test: caratteristiche, scheda e tabella di valutazione completa ♂/♀ della fascia
  *          scelta. Ricerca per nome. Scelta del libro (proposto quello della classe attiva), classi che
@@ -9,7 +9,7 @@
  * Dipende da: App.U, App.Stato, App.Config (fasce, tipologie), App.Libri, App.SchedaTest, App.Test,
  *             App.ParametriTest, App.Avvisi, App.Finestra, App.UI (titoloPagina), App.UI.TabellaVoti,
  *             App.UI.FinestraTestLibro, App.UI.FinestraImportaTest
- * Usato da: ui/pagina.js
+ * Usato da: ui/pagina-test.js (disegna(cont, true) = senza titolo, dentro 📚 Test)
  */
 (function (App) {
   'use strict';
@@ -100,13 +100,13 @@
   }
 
   App.UI.Pagine.libro = {
-    disegna: function (cont) {
+    disegna: function (cont, dentroTest) {
       var pref = App.Stato.dati.preferenze;
       if (!App.SchedaTest.fascia(pref.fasciaLibro)) pref.fasciaLibro = App.SchedaTest.fasciaDiClasse(App.Stato.classe()) || 'b1';
       var fascia = pref.fasciaLibro;
       var libro = (pref.libroAperto && App.Libri.trova(pref.libroAperto)) || App.Libri.trova(App.Libri.diClasse(App.Stato.classe()));
       var lista = libro.test;
-      cont.appendChild(App.UI.titoloPagina('📖 Libro – test e tabelle di valutazione'));
+      if (!dentroTest) cont.appendChild(App.UI.titoloPagina('📖 Libro – test e tabelle di valutazione'));
 
       var scelta = el('select', { 'aria-label': 'Libro' }, App.Libri.tutti().map(function (l) {
         return el('option', { value: l.id, text: (l.incorporato ? '📘 ' : '📗 ') + l.nome + ' (' + l.test.length + ' test)' });
@@ -135,7 +135,7 @@
         campo,
         el('button', { type: 'button', class: 'btn btn-neutro piccolo-btn', text: tuttiAperti ? '▲ Chiudi tutti' : '▼ Apri tutti',
           onclick: function () { tuttiAperti = !tuttiAperti; App.UI.disegnaContenuto(); } })));
-      cont.appendChild(el('p', { class: 'piccolo', text: lista.length + ' test in "' + libro.nome + '". Tocca un test per leggere la scheda e la tabella di valutazione della fascia scelta. Per usarli: 📚 Test → "Lo uso".' }));
+      cont.appendChild(el('p', { class: 'piccolo', text: lista.length + ' test in "' + libro.nome + '". Tocca un test per leggere la scheda e la tabella di valutazione della fascia scelta. Per usarli: sottoscheda 📚 Elenco dei test → "Lo uso".' }));
       cont.appendChild(zona);
 
       function disegnaElenco() {

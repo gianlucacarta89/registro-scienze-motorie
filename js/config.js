@@ -9,14 +9,13 @@
 
   App.Config = {
     nome: 'Registro S.Mot',          // nome mostrato (l'archivio dei dati qui sotto NON va cambiato)
-    versione: '7.24',
+    versione: '7.25',
 
     // Menu principale: una pagina per voce (ui/pagina.js). "corto" = etichetta sul telefono
     menu: [
       { id: 'home', icona: '🏠', nome: 'Home', corto: 'Home' },
       { id: 'classi', icona: '🏫', nome: 'Classi', corto: 'Classi' },
       { id: 'test', icona: '📚', nome: 'Test', corto: 'Test' },
-      { id: 'libro', icona: '📖', nome: 'Libro', corto: 'Libro' },
       { id: 'sessioni', icona: '⏱️', nome: 'Sessioni', corto: 'Sessioni' },
       { id: 'attivita', icona: '⛹️', nome: 'Attività', corto: 'Attività' },
       { id: 'giust', icona: '📋', nome: 'Giustificazioni', corto: 'Giustif.' },
