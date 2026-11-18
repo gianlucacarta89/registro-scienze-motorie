@@ -1,5 +1,6 @@
 /* finestra-voti-classe.js
- * Cosa fa: finestra "📏 Tabelle dei voti della classe": le tabelle del libro si mettono per CLASSE.
+ * Cosa fa: finestra "📏 Tabelle dei voti della classe": le tabelle del libro DELLA CLASSE (📖 scelto in
+ *          🏫 Classi, v7.22) si mettono per CLASSE.
  *          Fascia della classe proposta dal nome (1G = 1° biennio, 3G = 2° biennio, 5N = quinto anno),
  *          modificabile e ricordata; per ogni test della classe il test del libro proposto (il più
  *          simile) e lo stato della tabella attuale. Sui test spuntati: "📖 Applica le tabelle del libro"
@@ -27,7 +28,7 @@
       if (!classe.test.length) { App.Avvisi.toast('La classe ' + classe.nome + ' non ha ancora test: sceglili in ⏱️ Sessioni.', 'info', 5000); return; }
       var fin, scelte = {};          // testId -> { si: bool, libro: nome }
       classe.test.forEach(function (t) {
-        var p = App.LibroVoti.proposto(t);
+        var p = App.LibroVoti.proposto(t, classe);
         scelte[t.id] = { si: !!p, libro: p ? p.nome : '' };
       });
       var fascia = el('select', { 'aria-label': 'Fascia della classe' },
@@ -41,7 +42,7 @@
           var sc = scelte[t.id], st = stato(t);
           var cb = el('input', { type: 'checkbox', checked: sc.si, 'aria-label': 'Scegli ' + t.nome });
           cb.addEventListener('change', function () { sc.si = cb.checked; });
-          var comp = App.LibroVoti.compatibili(t);
+          var comp = App.LibroVoti.compatibili(t, classe);
           var menu = el('select', { 'aria-label': 'Test del libro per ' + t.nome },
             el('option', { value: '', text: '— nessun test del libro —' }),
             comp.map(function (x) { return el('option', { value: x.p.nome, text: x.p.nome + (x.p.fasce ? '' : ' (uguale per tutte le classi)') }); }));
@@ -66,7 +67,7 @@
         if (!lista.length) { App.Avvisi.toast('Spunta almeno un test.', 'info'); return false; }
         classe.fascia = f;                                   // la classe ricorda la sua fascia
         lista.forEach(function (t) {
-          var p = scelte[t.id].libro && App.LibroVoti.trova(scelte[t.id].libro);
+          var p = scelte[t.id].libro && App.LibroVoti.trova(scelte[t.id].libro, classe);
           if (p && App.LibroVoti.applica(t, p, f)) { fatti.push(t.nome); App.ElencoTest.aggiorna(classe, t); } else saltati.push(t.nome);
         });
         App.Stato.salva();
@@ -96,7 +97,7 @@
       // Sostituisce i test spuntati con il test del libro scelto (dall'elenco 📚), risultati compresi
       function sostituisci() {
         var f = fascia.value;
-        var coppie = spuntati().map(function (t) { return { t: t, p: scelte[t.id].libro && App.LibroVoti.modello(scelte[t.id].libro) }; })
+        var coppie = spuntati().map(function (t) { return { t: t, p: scelte[t.id].libro && App.LibroVoti.modello(scelte[t.id].libro, classe) }; })
           .filter(function (x) { return x.p && x.p.nome !== x.t.nome; });
         if (!coppie.length) { App.Avvisi.toast('Spunta i test da sostituire e scegli per ognuno il test del libro.', 'info', 5000); return false; }
         App.Avvisi.conferma({ titolo: 'Sostituire ' + coppie.length + (coppie.length === 1 ? ' test' : ' test') + ' con quelli del libro?', testoOk: '🔄 Sostituisci',
@@ -112,7 +113,7 @@
               tot += r.spostati; non += r.nonConvertiti; if (r.unito) uniti++;
               delete scelte[x.t.id];
             });
-            classe.test.forEach(function (t) { if (!scelte[t.id]) { var p = App.LibroVoti.proposto(t); scelte[t.id] = { si: false, libro: p ? p.nome : '' }; } });
+            classe.test.forEach(function (t) { if (!scelte[t.id]) { var p = App.LibroVoti.proposto(t, classe); scelte[t.id] = { si: false, libro: p ? p.nome : '' }; } });
             App.Stato.salva();
             App.UI.disegnaContenuto();
             disegna();

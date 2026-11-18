@@ -14,10 +14,12 @@
   App.UI = App.UI || {};
   var el = function () { return App.U.el.apply(null, arguments); };
 
-  function compatibili(t) { return App.LibroVoti.compatibili(t); }
+  var classeAperta = null;          // classe della finestra: il suo libro (v7.22)
+  function compatibili(t) { return App.LibroVoti.compatibili(t, classeAperta); }
 
   App.UI.FinestraVoti = {
     apri: function (classe, t) {
+      classeAperta = classe;
       var corpo = el('tbody');
       var esistenti = (t.voti && t.voti.righe) || [];
       var iniziali = esistenti.length ? esistenti : App.Config.voti.righeIniziali.map(function (v) { return { voto: v, M: '', F: '' }; });

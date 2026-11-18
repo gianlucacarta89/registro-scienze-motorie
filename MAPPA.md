@@ -1,4 +1,4 @@
-# MAPPA — Registro S.Mot (Registro Scienze Motorie) v7.21
+# MAPPA — Registro S.Mot (Registro Scienze Motorie) v7.22
 
 Indice dei file: cosa c'è dentro e quale parte dell'app ne dipende.
 Tutti i moduli stanno nell'oggetto globale `App`. Ordine di caricamento in `index.html`:
@@ -78,6 +78,7 @@ Nome, versione, nome dell'archivio, **tipologie dei test (menu a tendina, e ordi
 | `osservazioni.js` | `App.Osservazioni` | `tipo`, `quadrimestri(anno)`, `di`, `delGiorno`, `errore`, `aggiungi`, `elimina`, `togliAlunno`, `conta(classe, alunno, periodo)` — 🗒️ osservazioni quotidiane per alunno (`classe.osservazioni[alunnoId] = [{ id, data, tipo: pos/neg, testo }]`; config `osservazioni`, `quadrimestri`); nessun calcolo sui voti |
 | `segnapunti.js` | `App.Segnapunti` | `stato`, `punto(d, i, ±1)`, `fineSet`, `annulla`, `scambia`, `nuova`, `rinomina`, `riassunto` — 🏆 tabellone (`dati.segnapunti`: nomi, punti, set, set finiti, azioni da annullare; config `segnapunti`) |
 | `libro-voti.js` | `App.LibroVoti` | `compatibili`, `proposto` (test del libro equivalente: nome con sinonimi + tipologia), `applica` (tabella della fascia + scheda nei campi vuoti, `test.daLibro`), `togli`, `modello` (copia nell'elenco o libro), `sostituisci` (il test diventa quello del libro, risultati riscritti con `converti`, unione se già presente) |
+| `libri.js` | `App.Libri` | `ISTITUTO`, `tutti`, `miei`, `trova`, `diClasse`, `testDi(classe|id)`, `tuttiITest`, `libroDelTest`, `imposta(classe, id)`, `nuovo`, `rinomina`, `elimina`, `classiCon`, `salvaTest`, `eliminaTest` — più libri: incorporati (`App.LibriIncorporati`, il libro d'Istituto = `App.TestLibro`; solo lettura) e del docente (`dati.libri`); libro per classe (`classe.libro`, se manca = Istituto) |
 | `profilo.js` | `App.Profilo` | `alunno` — media dei voti per capacità in una prova (capacità e tipologie in `config.capacita`), `capacitaClasse`, `capacitaDi` |
 | `giustificazioni.js` | `App.Giust` | `errore` (mese, doppioni, simbolo), `ammetteCertificato`, `conCertificato`, `aggiungi`, `modifica`, `elimina`, `delMese`, `totaleAnno`, `contaClasse` |
 
@@ -108,7 +109,8 @@ Ogni pagina è `App.UI.Pagine[id].disegna(cont)`; la pagina aperta è `preferenz
 | `pagina-classi.js` | `App.UI.Pagine.classi` | 🏫 Crea classe; per ogni classe: nome modificabile, ♂/♀, 📥 Carica alunni, 👥 Gestisci alunni, 🗑️, elenco degli alunni (tocco = correggi) |
 | `pagina-test.js` | `App.UI.Pagine.test` | 📚 Sottoschede "Elenco dei test" e "📈 Statistiche" (classe scelta in alto) |
 | `lista-test.js` | `App.UI.ListaTest` | Elenco unico: test del libro + miei, per tipologia, spunta "Lo uso", filtri Tutti / In uso / Libro / Miei, ➕ Nuovo test, 📥 Prendi i test della classe, ✏️ |
-| `pagina-libro.js` | `App.UI.Pagine.libro` | 📖 Test del libro da consultare: per tipologia, caratteristiche, scheda e tabella di valutazione ♂/♀ della fascia scelta (`preferenze.fasciaLibro`), ricerca, Apri/Chiudi tutti |
+| `pagina-libro.js` | `App.UI.Pagine.libro` | 📖 Libro: scelta del libro (📘 incorporati, 📗 del docente), classi che lo usano, ➕ Nuovo libro; nei libri del docente ➕ Nuovo test, ✏️/🗑️ test, ✏️ Rinomina, 🗑️ Elimina libro; negli incorporati 📋 Copia in un mio libro; test per tipologia con scheda e tabella completa della fascia |
+| `finestra-test-libro.js` | `App.UI.FinestraTestLibro` | `apri(libro, test)`, `copia(test)`: editor di un test di un libro del docente (nome, tipologia, misura, unità, meglio, strumento, scheda, fonte, tabelle per fascia o unica con soglie 10…5 ♂/♀, riga del 4 aggiunta da sola) |
 | `pagina-sessioni.js` | `App.UI.Pagine.sessioni` | ⏱️ Parte operativa: sottosezioni "✏️ Risultati" e "🎯 Voti" della classe scelta |
 | `tabella-voti.js` | `App.UI.TabellaVoti` (anche `tabellaSoglie`) | 🎯 Voti: alunni × test con voto calcolato, media alunno, media classe per test; tabelle dei voti (♂/♀) dei test; `tabellaSoglie(migliore, righe, test)`: con il test, tabella completa a mezzi voti (soglie del libro in grassetto) |
 | `tabella-test.js` | `App.UI.TabellaTest` | Tabella alunni × test: Classe, 📚 Scegli i test, 1ª / 2ª / 3ª prova, Confronto, 📋 Copia test, voto e media voti |

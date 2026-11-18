@@ -1,4 +1,4 @@
-REGISTRO S.MOT (Registro Scienze Motorie) — v7.21
+REGISTRO S.MOT (Registro Scienze Motorie) — v7.22
 ================================================
 
 PUBBLICAZIONE SU GITHUB PAGES (una volta sola, dal computer)
@@ -71,9 +71,11 @@ COSA FA — il menu (in alto sul computer, in basso sul telefono)
   arrotondando per difetto (le soglie del libro restano esatte). Es. 1000 m, 1° biennio ♂:
   8 fino a 3:55, 7,5 fino a 4:02, 7 fino a 4:10, 6,5 fino a 4:17, 6 fino a 4:25. Le tabelle
   (📖 Libro, 🎯 Voti) mostrano tutti i mezzi voti. Si spegne in config.js > voti.proporzione.
-- 📖 Libro: i test del libro da consultare, per tipologia, con caratteristiche, scheda
-  (a che cosa serve, materiale, come si fa, come si misura, differenze alunni/alunne) e tabella
-  di valutazione ♂/♀ della fascia scelta (1° biennio, 2° biennio, quinto anno). Ricerca per nome.
+- 📖 Libro: più libri di testo. Il libro d'Istituto (e quelli che il programmatore prepara dai
+  PDF) si consultano; con "➕ Nuovo libro" se ne creano di propri e si aggiungono i test (nome,
+  misura, scheda e tabelle dei voti per fascia: bastano le soglie del 10, 8, 6 e 5), anche
+  copiandoli da un altro libro (📋). Ogni classe sceglie il suo libro in 🏫 Classi (📖 Libro):
+  da lì arrivano le tabelle proposte in 📏 Tabelle dei voti.
 - 🔗 Doppioni (in 📚 Test): test con nomi simili. Scegli quale tenere e tocca "🔗 Unisci": si
   uniscono nell'elenco e in TUTTE le classi, dove il test prende il nome di quello tenuto e i
   risultati restano tutti; se un alunno ha

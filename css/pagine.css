@@ -166,3 +166,16 @@
 .sp-set { font-size: 1.4rem; font-weight: 800; }
 .sp-storico { text-align: center; font-weight: 600; margin: 10px 0 0; }
 .sp-comandi { justify-content: center; flex-wrap: wrap; margin-top: 12px; }
+
+/* 📖 Editor dei test dei libri del docente */
+.finestra-test-libro .riga-campi { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px; }
+.finestra-test-libro select, .finestra-test-libro input[type=text], .finestra-test-libro textarea { width: 100%; box-sizing: border-box; }
+.tabelle-libro { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 10px; }
+.tabelle-libro .tabella-zona { overflow: visible; }
+.tabelle-libro table { width: 100%; table-layout: fixed; }
+.tabelle-libro th:first-child { width: 48px; }
+.tabelle-libro td input.soglia { width: 100%; min-width: 0; box-sizing: border-box; text-align: center; }
+.tabelle-libro caption { text-align: left; font-weight: 700; padding: 4px 0; }
+.scelta-libro .campo { flex: 1 1 220px; }
+.scelta-libro select { width: 100%; }
+.libro-classe { margin: 6px 0; }

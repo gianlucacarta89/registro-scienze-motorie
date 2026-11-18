@@ -1,11 +1,11 @@
 /* libro-voti.js
- * Cosa fa: collega i test di una classe ai test del libro (App.TestLibro) per le tabelle dei voti:
+ * Cosa fa: collega i test di una classe ai test del SUO libro (App.Libri) per le tabelle dei voti:
  *          trova i test del libro compatibili (stesso tipo e direzione), il più simile per primo
  *          (nome con qualche sinonimo + tipologia; se il nome non ha numeri conta anche lo strumento, es.
  *          "Sprint" + "30 m"), applica a un test la tabella del libro della
  *          fascia scelta (e la scheda nei campi vuoti) oppure la toglie. I risultati non si toccano.
  *          "Sostituisci": il test della classe diventa del tutto il test del libro, con i suoi risultati.
- * Dipende da: App.TestLibro, App.SchedaTest, App.U, App.Test, App.Voti, App.ElencoTest
+ * Dipende da: App.Libri (libro della classe attiva), App.TestLibro, App.SchedaTest, App.U, App.Test, App.Voti, App.ElencoTest
  * Usato da: ui/finestra-voti.js, ui/finestra-voti-classe.js
  *
  * Dati: test.daLibro = nome del test del libro da cui viene la tabella; test.fasciaVoti = 'b1'|'b2'|'q'
@@ -30,9 +30,10 @@
   }
 
   // Test del libro compatibili con t (stesso tipo e direzione), il più simile per primo -> [{ p, punti }]
-  function compatibili(t) {
+  // classe: di quale classe usare il libro (se manca, la classe attiva)
+  function compatibili(t, classe) {
     var mie = parole(nomeConfronto(t));
-    return (App.TestLibro || []).filter(function (p) { return p.tipo === t.tipo && p.migliore === t.migliore; })
+    return libroAttivo(classe).filter(function (p) { return p.tipo === t.tipo && p.migliore === t.migliore; })
       .map(function (p) {
         var uguale = App.U.chiaveNome(p.nome) === App.U.chiaveNome(t.nome) || p.nome === t.daLibro;
         var punti = (uguale ? 100 : 0) +
@@ -44,12 +45,19 @@
   }
 
   // Il test del libro proposto per t (o null se nessuno è compatibile o somigliante)
-  function proposto(t) {
-    var l = compatibili(t);
+  function proposto(t, classe) {
+    var l = compatibili(t, classe);
     return l.length && l[0].punti > 1 ? l[0].p : null;
   }
 
-  function trova(nome) { return (App.TestLibro || []).filter(function (p) { return p.nome === nome; })[0] || null; }
+  // Test del libro della classe attiva (v7.22: più libri, uno per classe)
+  function libroAttivo(classe) { return App.Libri ? App.Libri.testDi(classe || App.Stato.classe()) : (App.TestLibro || []); }
+
+  // Test del libro per nome: prima nel libro della classe, poi negli altri libri
+  function trova(nome, classe) {
+    var tra = function (l) { return l.filter(function (p) { return p.nome === nome; })[0] || null; };
+    return tra(libroAttivo(classe)) || (App.Libri ? tra(App.Libri.tuttiITest()) : null);
+  }
 
   // Tabella del libro per una fascia (o quella unica)
   function tabella(p, fascia) { return p.fasce ? (p.fasce[fascia] || null) : (p.voti || null); }
@@ -73,10 +81,10 @@
   var CAMPI_TEST = ['nome', 'tipologia', 'tipo', 'formatoTempo', 'unita', 'migliore', 'perSesso', 'strumento', 'strumentoM', 'strumentoF', 'negativi', 'fonte'];
 
   // Il test del libro da usare: la copia nell'elenco 📚 (se c'è, magari ritoccata) o quella del libro
-  function modello(nome) {
+  function modello(nome, classe) {
     var k = App.U.chiaveNome(nome);
     var e = App.ElencoTest.tutti().filter(function (x) { return App.U.chiaveNome(x.nome) === k; })[0];
-    return e && (e.fasce || e.voti) ? e : trova(nome);
+    return e && (e.fasce || e.voti) ? e : trova(nome, classe);
   }
 
   // Un risultato del vecchio test riscritto per il nuovo ('' se non si può)

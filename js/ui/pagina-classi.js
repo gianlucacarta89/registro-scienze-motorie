@@ -5,7 +5,7 @@
  *          si rinomina o si cancella la classe;
  *          📏 Tabelle dei voti della classe (dal libro, per fascia).
  * Dipende da: App.U, App.Config (limiti, sessi), App.Classi, App.Stato, App.Avvisi,
- *             App.UI.FinestraImporta, App.UI.FinestraAlunni, App.UI.SchedaAlunno, App.UI.FinestraOsservazioni, App.UI (vai, titoloPagina, vuoto)
+ *             App.UI.FinestraImporta, App.UI.FinestraAlunni, App.UI.SchedaAlunno, App.UI.FinestraOsservazioni, App.Libri, App.UI (vai, titoloPagina, vuoto)
  * Usato da: ui/pagina.js
  */
 (function (App) {
@@ -57,6 +57,14 @@
     var f = c.alunni.filter(function (a) { return a.sesso === 'F'; }).length;
     var senza = c.alunni.length - m - f;
     var aperta = aperte[c.id] !== undefined ? aperte[c.id] : attiva;
+    // 📖 libro della classe (v7.22): da qui arrivano le tabelle proposte in "📏 Tabelle dei voti"
+    var libro = el('select', { 'aria-label': 'Libro della classe ' + c.nome }, App.Libri.tutti().map(function (l) { return el('option', { value: l.id, text: l.nome }); }));
+    libro.value = App.Libri.diClasse(c);
+    libro.addEventListener('change', function () {
+      App.Libri.imposta(c, libro.value);
+      App.Stato.salva();
+      App.Avvisi.toast('📖 ' + c.nome + ': libro "' + App.Libri.trova(App.Libri.diClasse(c)).nome + '". Le tabelle già messe non cambiano; per quelle nuove: 📏 Tabelle dei voti.', 'ok', 6000);
+    });
     var box = el('details', { class: 'classe-box' + (attiva ? ' attiva' : ''), open: aperta },
       el('summary', {}, nome,
         el('span', { class: 'piccolo conta', text: c.alunni.length + (c.alunni.length === 1 ? ' alunno' : ' alunni') + ' · ♂ ' + m + ' · ♀ ' + f + (senza ? ' · ' + senza + ' senza ♂/♀' : '') })),
@@ -66,6 +74,7 @@
         el('button', { type: 'button', class: 'btn btn-neutro piccolo-btn', text: '👥 Gestisci alunni', onclick: function () { App.UI.FinestraAlunni.apri(c); } }),
         el('button', { type: 'button', class: 'btn btn-info piccolo-btn', text: '📏 Tabelle dei voti', onclick: function () { App.UI.FinestraVotiClasse.apri(c); } }),
         el('button', { type: 'button', class: 'btn btn-pericolo piccolo-btn', text: '🗑️ Cancella classe', onclick: function () { elimina(c); } })),
+      App.Libri.tutti().length > 1 ? el('label', { class: 'campo libro-classe' }, el('span', { text: '📖 Libro' }), libro) : null,
       c.alunni.length
         ? el('ol', { class: 'alunni-classe' }, c.alunni.map(function (a) {
           return el('li', {}, el('button', { type: 'button', class: 'nome-alunno', title: 'Scheda dell\'alunno: voti e grafico a ragnatela',

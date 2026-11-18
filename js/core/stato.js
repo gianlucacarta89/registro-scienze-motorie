@@ -49,6 +49,7 @@
     n.preferenze.sottoTest = p.sottoTest === 'stat' ? 'stat' : 'elenco';
     n.preferenze.sottoGiust = p.sottoGiust === 'stat' ? 'stat' : 'registro';
     n.preferenze.sottoSessioni = p.sottoSessioni === 'voti' ? 'voti' : 'risultati';
+    n.preferenze.libroAperto = typeof p.libroAperto === 'string' ? p.libroAperto : null;
     n.preferenze.fasciaLibro = ['b1', 'b2', 'q'].indexOf(p.fasciaLibro) >= 0 ? p.fasciaLibro : null;
     n.preferenze.filtroTest = ['uso', 'libro', 'miei'].indexOf(p.filtroTest) >= 0 ? p.filtroTest : 'tutti';
     n.preferenze.statgMese = p.statgMese || '';
@@ -60,6 +61,7 @@
     n.preferenze.annoInizio = typeof p.annoInizio === 'number' ? p.annoInizio : null;
     n.ultimaModifica = d.ultimaModifica || null;
     n.ultimoBackup = d.ultimoBackup || null;
+    n.libri = Array.isArray(d.libri) ? d.libri : [];                 // 📖 libri del docente (v7.22)
     n.segnapunti = d.segnapunti && typeof d.segnapunti === 'object' ? d.segnapunti : null;   // 🏆 v7.19 (servizi/segnapunti.js)
     n.archivio = { test: d.archivio && Array.isArray(d.archivio.test) ? d.archivio.test : [] };
     if (App.MigraSprint) App.MigraSprint.applica(n);       // v7.5: "Sprint" al posto di Sprint 30 metri e Velocità 60/80

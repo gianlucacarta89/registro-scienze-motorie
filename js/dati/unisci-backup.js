@@ -42,6 +42,7 @@
 
   function unisciClasse(qui, la, r) {
     if (!qui.fascia && la.fascia) qui.fascia = la.fascia;
+    if (!qui.libro && la.libro) qui.libro = la.libro;
     var alunni = {}, test = {};            // id nel backup -> id qui
     la.alunni.forEach(function (a) {
       var x = trova(qui.alunni, a);
@@ -125,7 +126,7 @@
     // Unisce i dati del backup b ai dati attuali. -> { classi, alunni, test, testElenco, risultati, giust, diversi, niente }
     unisci: function (b) {
       var d = App.Stato.dati, la = App.Stato.normalizza(App.U.copia(b.dati));
-      var r = { classi: 0, alunni: 0, test: 0, testElenco: 0, risultati: 0, giust: 0, diversi: 0, attivita: 0, votiAttivita: 0, osservazioni: 0, fotoAttivita: 0, sessi: 0 };
+      var r = { classi: 0, alunni: 0, test: 0, testElenco: 0, risultati: 0, giust: 0, diversi: 0, attivita: 0, votiAttivita: 0, osservazioni: 0, fotoAttivita: 0, sessi: 0, libri: 0, testLibri: 0 };
       la.classi.forEach(function (c) {
         var x = trova(d.classi, c);
         if (!x) {
@@ -138,7 +139,14 @@
         unisciClasse(x, c, r);
       });
       la.archivio.test.forEach(function (t) { if (!trova(d.archivio.test, t)) { aggiungi(d.archivio.test, t); r.testElenco++; } });
-      r.niente = !(r.classi || r.alunni || r.test || r.testElenco || r.risultati || r.giust || r.attivita || r.votiAttivita || r.osservazioni || r.fotoAttivita || r.sessi);
+      // 📖 libri del docente: stesso id o stesso nome; i test che mancano si aggiungono
+      d.libri = d.libri || [];
+      (la.libri || []).forEach(function (l) {
+        var x = trova(d.libri, l);
+        if (!x) { x = aggiungi(d.libri, l); r.libri++; return; }
+        (l.test || []).forEach(function (t) { if (!x.test.some(function (y) { return k(y.nome) === k(t.nome); })) { x.test.push(App.U.copia(t)); r.testLibri++; } });
+      });
+      r.niente = !(r.classi || r.alunni || r.test || r.testElenco || r.risultati || r.giust || r.attivita || r.votiAttivita || r.osservazioni || r.fotoAttivita || r.sessi || r.libri || r.testLibri);
       if (!r.niente) {
         App.Classi.ordinaClassi();
         d.classi.forEach(function (c) { App.Classi.ordina(c); });

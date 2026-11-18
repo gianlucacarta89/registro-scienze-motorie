@@ -1,5 +1,5 @@
 /* lista-test.js
- * Cosa fa: elenco unico dei test della pagina 📚 Test: quelli del libro (App.TestLibro) e quelli
+ * Cosa fa: elenco unico dei test della pagina 📚 Test: quelli del libro della classe attiva (App.Libri) e quelli
  *          creati dal docente, divisi per tipologia, con la spunta "Lo uso". Solo i test in uso
  *          si scelgono poi in ⏱️ Sessioni. Filtri: tutti, in uso, del libro, miei.
  *          Spuntando un test del libro lo si copia nell'elenco 📚 (dove si può modificare).
@@ -30,7 +30,7 @@
   // Tutte le voci: test dell'elenco + test del libro non ancora nell'elenco
   function voci() {
     var lista = App.ElencoTest.tutti().map(function (t) { return { t: t, elenco: true, libro: deLibro(t), uso: App.ElencoTest.inUso(t) }; });
-    (App.TestLibro || []).forEach(function (p) {
+    (App.Libri ? App.Libri.testDi(App.Stato.classe()) : (App.TestLibro || [])).forEach(function (p) {
       if (!App.ElencoTest.nellElenco(p.nome)) lista.push({ t: p, elenco: false, libro: true, uso: false });
     });
     return lista;

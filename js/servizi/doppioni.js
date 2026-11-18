@@ -125,14 +125,14 @@
   }
 
   function inElenco(t) { return App.ElencoTest.tutti().indexOf(t) >= 0; }
-  function delLibro(t) { return (App.TestLibro || []).indexOf(t) >= 0; }
+  function delLibro(t) { return (App.Libri ? App.Libri.tuttiITest() : (App.TestLibro || [])).indexOf(t) >= 0; }
 
   // Voci da confrontare: test dell'elenco, test del libro non ancora nell'elenco e test che ci sono
   // solo nelle classi (uno per nome)
   function voci() {
     var l = App.ElencoTest.tutti().slice(), visti = {};
     l.forEach(function (t) { visti[k(t.nome)] = true; });
-    (App.TestLibro || []).forEach(function (p) { if (!visti[k(p.nome)]) { l.push(p); visti[k(p.nome)] = true; } });
+    (App.Libri ? App.Libri.testDi(App.Stato.classe()) : (App.TestLibro || [])).forEach(function (p) { if (!visti[k(p.nome)]) { l.push(p); visti[k(p.nome)] = true; } });
     App.Stato.dati.classi.forEach(function (c) {
       c.test.forEach(function (t) { if (!visti[k(t.nome)]) { l.push(t); visti[k(t.nome)] = true; } });
     });
