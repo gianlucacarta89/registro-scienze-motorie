@@ -9,7 +9,7 @@
 
   App.Config = {
     nome: 'Registro S.Mot',          // nome mostrato (l'archivio dei dati qui sotto NON va cambiato)
-    versione: '7.23',
+    versione: '7.24',
 
     // Menu principale: una pagina per voce (ui/pagina.js). "corto" = etichetta sul telefono
     menu: [
@@ -187,6 +187,20 @@
 
     // File accettati per caricare i nomi
     fileNomi: '.xlsx,.docx,.pdf,.csv,.txt',
+
+    // 📥 Importa test in un proprio libro (servizi/importa-test.js, dati/ocr.js, ui/finestra-importa-test.js)
+    importaTest: {
+      file: '.xlsx,.docx,.pdf,.csv,.txt,.json,image/*',
+      // Livelli scritti nei libri -> voto (si prova in quest'ordine: prima le frasi più lunghe).
+      // Il 4 (scarso) non diventa una soglia: vale da solo per tutto ciò che sta oltre l'ultima.
+      livelli: [
+        ['^gravemente insuff', 4], ['^molto scars', 4], ['^non suff', 5], ['^insuff', 5],
+        ['^eccellen', 10], ['^ottim', 10], ['^distint', 9], ['^buon', 8], ['^discret', 7],
+        ['^suff', 6], ['^medi[oa]$', 6], ['^mediocr', 5], ['^debol', 5], ['^scars', 4]
+      ],
+      // Lettura delle foto (OCR) sul dispositivo: la libreria si scarica da internet la prima volta
+      ocr: { script: 'https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js', lingua: 'ita', lato: 2400 }
+    },
 
     testi: {
       regoleTest: [

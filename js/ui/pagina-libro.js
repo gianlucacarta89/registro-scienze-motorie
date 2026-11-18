@@ -4,10 +4,11 @@
  *          Per ogni test: caratteristiche, scheda e tabella di valutazione completa ♂/♀ della fascia
  *          scelta. Ricerca per nome. Scelta del libro (proposto quello della classe attiva), classi che
  *          lo usano, "➕ Nuovo libro"; nei libri del docente ➕ Nuovo test, ✏️ / 🗑️ test, ✏️ Rinomina,
- *          🗑️ Elimina libro; nei libri incorporati "📋 Copia in un mio libro". ✏️ Rinomina vale per tutti i libri.
+ *          🗑️ Elimina libro, 📥 Importa test (da file, foto o testo, con revisione); nei libri incorporati
+ *          "📋 Copia in un mio libro". ✏️ Rinomina vale per tutti i libri.
  * Dipende da: App.U, App.Stato, App.Config (fasce, tipologie), App.Libri, App.SchedaTest, App.Test,
  *             App.ParametriTest, App.Avvisi, App.Finestra, App.UI (titoloPagina), App.UI.TabellaVoti,
- *             App.UI.FinestraTestLibro
+ *             App.UI.FinestraTestLibro, App.UI.FinestraImportaTest
  * Usato da: ui/pagina.js
  */
 (function (App) {
@@ -68,12 +69,15 @@
   function nuovoLibro() {
     var nome = el('input', { type: 'text', maxlength: 80, 'aria-label': 'Nome del libro', placeholder: 'es. Più movimento – Marietti' });
     App.Finestra.apri({ titolo: 'Nuovo libro', icona: '📖', corpo: el('label', { class: 'campo' }, el('span', { text: 'Nome del libro' }), nome),
-      pulsanti: [{ testo: 'Annulla', tipo: 'neutro' }, { testo: '✔ Crea', tipo: 'ok', azione: function () {
-        var r = App.Libri.nuovo(nome.value);
-        if (r.errore) { App.Avvisi.toast('❌ ' + r.errore, 'errore', 5000); return false; }
-        App.Stato.dati.preferenze.libroAperto = r.libro.id;
-        salvaEDisegna('✔ Libro "' + r.libro.nome + '" creato: ora aggiungi i suoi test.');
-      } }] });
+      pulsanti: [{ testo: 'Annulla', tipo: 'neutro' }, { testo: '✔ Crea', tipo: 'ok', azione: function () { return crea(false); } },
+        { testo: '📥 Crea e importa i test', tipo: 'ok', azione: function () { return crea(true); } }] });
+    function crea(importa) {
+      var r = App.Libri.nuovo(nome.value);
+      if (r.errore) { App.Avvisi.toast('❌ ' + r.errore, 'errore', 5000); return false; }
+      App.Stato.dati.preferenze.libroAperto = r.libro.id;
+      salvaEDisegna('✔ Libro "' + r.libro.nome + '" creato: ora aggiungi i suoi test.');
+      if (importa) setTimeout(function () { App.UI.FinestraImportaTest.apri(r.libro); }, 0);
+    }
   }
 
   function rinomina(libro) {
@@ -114,6 +118,8 @@
         el('label', { class: 'campo' }, el('span', { text: 'Libro' }), scelta),
         el('button', { type: 'button', class: 'btn btn-ok', text: '➕ Nuovo libro', onclick: nuovoLibro }),
         libro.incorporato ? null : el('button', { type: 'button', class: 'btn btn-ok', text: '➕ Nuovo test', onclick: function () { App.UI.FinestraTestLibro.apri(libro, null); } }),
+        libro.incorporato ? null : el('button', { type: 'button', class: 'btn btn-ok', text: '📥 Importa test', title: 'Da file, foto o testo incollato',
+          onclick: function () { App.UI.FinestraImportaTest.apri(libro); } }),
         el('button', { type: 'button', class: 'btn btn-neutro', text: '✏️ Rinomina', onclick: function () { rinomina(libro); } }),
         libro.incorporato ? null : el('button', { type: 'button', class: 'btn btn-pericolo', text: '🗑️ Elimina libro', onclick: function () { elimina(libro); } })));
       cont.appendChild(el('p', { class: 'piccolo', text: (usato.length ? 'Usato dalle classi: ' + usato.join(', ') + '.' : 'Nessuna classe usa questo libro.') +
@@ -134,7 +140,7 @@
 
       function disegnaElenco() {
         App.U.svuota(zona);
-        if (!lista.length) { zona.appendChild(el('p', { class: 'suggerimento', text: libro.incorporato ? 'Nessun test.' : 'Il libro è vuoto: tocca "➕ Nuovo test" oppure copia un test da un altro libro (📋).' })); return; }
+        if (!lista.length) { zona.appendChild(el('p', { class: 'suggerimento', text: libro.incorporato ? 'Nessun test.' : 'Il libro è vuoto: tocca "📥 Importa test" (da file, foto o testo), "➕ Nuovo test", oppure copia un test da un altro libro (📋).' })); return; }
         var kk = App.U.chiaveNome(cerca);
         var trovati = lista.filter(function (t) { return !kk || App.U.chiaveNome(t.nome + ' ' + (t.tipologia || '')).indexOf(kk) >= 0; });
         if (!trovati.length) { zona.appendChild(el('p', { class: 'suggerimento', text: 'Nessun test trovato.' })); return; }

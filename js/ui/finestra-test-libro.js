@@ -6,6 +6,7 @@
  *          (10…5) la soglia ♂ e ♀; le righe vuote non contano; il voto più basso (4) vale per chi sta
  *          oltre l'ultima soglia. Controlla le tabelle con App.Voti.controlla.
  *          copia(t): un test di un altro libro come base per un proprio libro.
+ *          rivedi(libro, test, vecchio, dopo): test letto da 📥 Importa test, da controllare e salvare.
  * Dipende da: App.U, App.Config (tipologie, fasce, schedaTest, voti), App.Libri, App.Voti, App.Stato,
  *             App.Avvisi, App.Finestra, App.UI.disegnaContenuto
  * Usato da: ui/pagina-libro.js
@@ -20,8 +21,10 @@
   // Soglia "di comodo" dell'ultima riga (voto più basso per tutto il resto)
   function comodo(t) { return t.migliore === 'alto' ? (t.negativi ? '-100' : '0') : (t.tipo === 'tempo' ? (t.formatoTempo === 'min' ? '99:59' : '999') : '999'); }
 
-  function apri(libro, vecchio, base) {
-    var t = App.U.copia(vecchio || base || { nome: '', tipologia: '', tipo: 'tempo', formatoTempo: 'sec', migliore: 'basso', unita: '' });
+  // vecchio = test del libro da cambiare; base = contenuto di partenza (copia o test importato);
+  // dopo(test) = chiamata dopo il salvataggio (finestra 📥 Importa test)
+  function apri(libro, vecchio, base, dopo) {
+    var t = App.U.copia(base || vecchio || { nome: '', tipologia: '', tipo: 'tempo', formatoTempo: 'sec', migliore: 'basso', unita: '' });
     var perFascia = !!t.fasce || !t.voti;
     var tabelle = {};                                  // fascia (o 'unica') -> { voto: { M, F } }
     function carica(chiave, tab) {
@@ -112,10 +115,11 @@
       App.Stato.dati.preferenze.libroAperto = libroDest.id;
       App.UI.disegnaContenuto();
       App.Avvisi.toast('✔ "' + r.test.nome + '" salvato in "' + libroDest.nome + '".', 'ok', 4000);
+      if (dopo) dopo(r.test);
     }
 
     App.Finestra.apri({
-      titolo: (vecchio ? 'Modifica – ' + vecchio.nome : 'Nuovo test') + ' · ' + libro.nome, icona: '📖', larga: true, fuoco: !vecchio,
+      titolo: (dopo ? 'Controlla – ' + (t.nome || 'test') : vecchio ? 'Modifica – ' + vecchio.nome : 'Nuovo test') + ' · ' + libro.nome, icona: '📖', larga: true, fuoco: !vecchio,
       corpo: el('div', { class: 'modulo finestra-test-libro' },
         el('label', { class: 'campo' }, el('span', { text: 'Nome' }), nome),
         el('div', { class: 'riga-campi' },
@@ -136,6 +140,8 @@
 
   App.UI.FinestraTestLibro = {
     apri: function (libro, t) { apri(libro, t, null); },
+    // Test importato da controllare: si apre con i valori letti; "vecchio" = test con lo stesso nome già nel libro
+    rivedi: function (libro, base, vecchio, dopo) { apri(libro, vecchio || null, base, dopo); },
     // Copia di un test (di un altro libro) in un libro del docente: si sceglie il libro se sono più d'uno
     copia: function (t) {
       var miei = App.Libri.miei();

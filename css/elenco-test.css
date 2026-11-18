@@ -36,3 +36,21 @@ input[type=search] { min-height: 40px; border: 1px solid var(--bordo-forte); bor
 .gruppo-doppioni { margin: 8px 0; padding: 8px; }
 .riga-doppione.tenuto { background: var(--ok-chiaro, rgba(46, 160, 67, .12)); border-radius: 8px; }
 .gruppo-doppioni .riga-btn { margin-top: 6px; }
+
+/* 📥 Importa test (ui/finestra-importa-test.js) */
+.finestra-importa-test textarea { width: 100%; font-family: inherit; }
+.importa-aiuto { margin: 6px 0; }
+.importa-aiuto ul { margin: 4px 0 0 18px; }
+.importa-stato:empty { display: none; }
+.importa-carta { background: var(--carta); border: 1px solid var(--bordo); border-left: 4px solid var(--info); border-radius: var(--raggio); padding: 8px 12px; margin: 8px 0; }
+.importa-carta.salvato { border-left-color: var(--ok); background: var(--ok-chiaro); }
+.importa-carta.scartato { border-left-color: var(--bordo); opacity: .6; }
+.importa-carta h4 { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 0 0 2px; }
+.importa-avvisi { margin: 4px 0 6px 18px; font-size: .88rem; color: var(--avviso); }
+.importa-noncapite { margin: 0 0 6px; }
+.importa-noncapite ul { margin: 2px 0 0 18px; color: var(--tenue); }
+.importa-tabelle { display: flex; flex-wrap: wrap; gap: 8px; margin: 6px 0; }
+.importa-tabelle .importa-tabella { min-width: 0; width: auto; font-size: .85rem; }
+.importa-tabella caption { text-align: left; font-weight: 600; font-size: .8rem; padding-bottom: 2px; }
+.importa-tabella th, .importa-tabella td { padding: 2px 8px; text-align: center; }
+.importa-tabella td.manca { color: var(--avviso); }
