@@ -4,7 +4,7 @@
  *          Per ogni test: caratteristiche, scheda e tabella di valutazione completa ♂/♀ della fascia
  *          scelta. Ricerca per nome. Scelta del libro (proposto quello della classe attiva), classi che
  *          lo usano, "➕ Nuovo libro"; nei libri del docente ➕ Nuovo test, ✏️ / 🗑️ test, ✏️ Rinomina,
- *          🗑️ Elimina libro; nei libri incorporati "📋 Copia in un mio libro".
+ *          🗑️ Elimina libro; nei libri incorporati "📋 Copia in un mio libro". ✏️ Rinomina vale per tutti i libri.
  * Dipende da: App.U, App.Stato, App.Config (fasce, tipologie), App.Libri, App.SchedaTest, App.Test,
  *             App.ParametriTest, App.Avvisi, App.Finestra, App.UI (titoloPagina), App.UI.TabellaVoti,
  *             App.UI.FinestraTestLibro
@@ -78,7 +78,8 @@
 
   function rinomina(libro) {
     var nome = el('input', { type: 'text', maxlength: 80, value: libro.nome, 'aria-label': 'Nome del libro' });
-    App.Finestra.apri({ titolo: 'Rinomina il libro', icona: '✏️', corpo: el('label', { class: 'campo' }, el('span', { text: 'Nome del libro' }), nome),
+    App.Finestra.apri({ titolo: 'Rinomina il libro', icona: '✏️', corpo: el('div', {}, el('label', { class: 'campo' }, el('span', { text: 'Nome del libro' }), nome),
+        libro.incorporato ? el('p', { class: 'piccolo', text: 'Cambia solo il nome che vedi: test e tabelle restano gli stessi. Lascia vuoto per tornare a "' + libro.nomeOriginale + '".' }) : null),
       pulsanti: [{ testo: 'Annulla', tipo: 'neutro' }, { testo: '✔ Salva', tipo: 'ok', azione: function () {
         var r = App.Libri.rinomina(libro.id, nome.value);
         if (r.errore) { App.Avvisi.toast('❌ ' + r.errore, 'errore', 5000); return false; }
@@ -113,7 +114,7 @@
         el('label', { class: 'campo' }, el('span', { text: 'Libro' }), scelta),
         el('button', { type: 'button', class: 'btn btn-ok', text: '➕ Nuovo libro', onclick: nuovoLibro }),
         libro.incorporato ? null : el('button', { type: 'button', class: 'btn btn-ok', text: '➕ Nuovo test', onclick: function () { App.UI.FinestraTestLibro.apri(libro, null); } }),
-        libro.incorporato ? null : el('button', { type: 'button', class: 'btn btn-neutro', text: '✏️ Rinomina', onclick: function () { rinomina(libro); } }),
+        el('button', { type: 'button', class: 'btn btn-neutro', text: '✏️ Rinomina', onclick: function () { rinomina(libro); } }),
         libro.incorporato ? null : el('button', { type: 'button', class: 'btn btn-pericolo', text: '🗑️ Elimina libro', onclick: function () { elimina(libro); } })));
       cont.appendChild(el('p', { class: 'piccolo', text: (usato.length ? 'Usato dalle classi: ' + usato.join(', ') + '.' : 'Nessuna classe usa questo libro.') +
         ' Il libro di ogni classe si sceglie in 🏫 Classi.' + (libro.incorporato ? '' : ' Questo è un tuo libro: i test si aggiungono e si modificano qui.') }));

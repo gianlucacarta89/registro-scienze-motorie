@@ -61,7 +61,8 @@
     n.preferenze.annoInizio = typeof p.annoInizio === 'number' ? p.annoInizio : null;
     n.ultimaModifica = d.ultimaModifica || null;
     n.ultimoBackup = d.ultimoBackup || null;
-    n.libri = Array.isArray(d.libri) ? d.libri : [];                 // 📖 libri del docente (v7.22)
+    n.libri = Array.isArray(d.libri) ? d.libri : [];
+    n.nomiLibri = d.nomiLibri && typeof d.nomiLibri === 'object' ? d.nomiLibri : {};   // nomi dati ai libri incorporati                 // 📖 libri del docente (v7.22)
     n.segnapunti = d.segnapunti && typeof d.segnapunti === 'object' ? d.segnapunti : null;   // 🏆 v7.19 (servizi/segnapunti.js)
     n.archivio = { test: d.archivio && Array.isArray(d.archivio.test) ? d.archivio.test : [] };
     if (App.MigraSprint) App.MigraSprint.applica(n);       // v7.5: "Sprint" al posto di Sprint 30 metri e Velocità 60/80

@@ -139,6 +139,8 @@
         unisciClasse(x, c, r);
       });
       la.archivio.test.forEach(function (t) { if (!trova(d.archivio.test, t)) { aggiungi(d.archivio.test, t); r.testElenco++; } });
+      d.nomiLibri = d.nomiLibri || {};
+      Object.keys(la.nomiLibri || {}).forEach(function (id) { if (!d.nomiLibri[id]) d.nomiLibri[id] = la.nomiLibri[id]; });
       // 📖 libri del docente: stesso id o stesso nome; i test che mancano si aggiungono
       d.libri = d.libri || [];
       (la.libri || []).forEach(function (l) {

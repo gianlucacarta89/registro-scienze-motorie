@@ -1,7 +1,8 @@
 /* libri.js
  * Cosa fa: più libri di testo (pagina 📖 Libro). Libri "incorporati" nell'app (App.LibriIncorporati:
  *          il libro d'Istituto e quelli preparati dai PDF, solo lettura) e libri creati dal docente
- *          (dati.libri: si aggiungono, rinominano, eliminano, con i loro test). Ogni classe sceglie il suo
+ *          (dati.libri: si aggiungono, rinominano, eliminano, con i loro test). Anche quelli incorporati
+ *          si possono rinominare (dati.nomiLibri: solo il nome mostrato). Ogni classe sceglie il suo
  *          libro (classe.libro; se manca = libro d'Istituto): da lì arrivano le tabelle proposte.
  * Dipende da: App.U, App.Stato, App.LibriIncorporati, App.TestLibro
  * Usato da: ui/pagina-libro.js, ui/finestra-test-libro.js, ui/lista-test.js, ui/pagina-classi.js,
@@ -18,7 +19,8 @@
   function incorporati() {
     var l = (App.LibriIncorporati || []).slice();
     if (!l.some(function (x) { return x.id === ISTITUTO; })) l.unshift({ id: ISTITUTO, nome: 'Libro di testo d\'Istituto', test: App.TestLibro || [] });
-    return l.map(function (x) { return { id: x.id, nome: x.nome, test: x.test, incorporato: true }; });
+    var nomi = (App.Stato.dati && App.Stato.dati.nomiLibri) || {};          // nomi scelti dal docente (v7.23)
+    return l.map(function (x) { return { id: x.id, nome: nomi[x.id] || x.nome, nomeOriginale: x.nome, test: x.test, incorporato: true }; });
   }
   function miei() { var d = App.Stato.dati; d.libri = d.libri || []; return d.libri; }
 
@@ -59,13 +61,22 @@
       miei().push(l);
       return { libro: l };
     },
+    // Rinomina: i libri del docente cambiano nome; per quelli incorporati si ricorda il nome scelto
+    // (dati.nomiLibri), test e tabelle restano gli stessi. Nome vuoto = torna quello originale.
     rinomina: function (id, nome) {
-      var l = miei().filter(function (x) { return x.id === id; })[0];
-      if (!l) return { errore: 'Questo libro non si può rinominare.' };
+      var l = trova(id);
+      if (!l) return { errore: 'Libro non trovato.' };
+      if (l.incorporato && !App.U.spazi(nome)) { delete (App.Stato.dati.nomiLibri || {})[id]; return { libro: trova(id) }; }
       var e = errNome(tutti(), nome, id, 'del libro');
       if (e) return { errore: e };
-      l.nome = App.U.spazi(nome);
-      return { libro: l };
+      if (l.incorporato) {
+        App.Stato.dati.nomiLibri = App.Stato.dati.nomiLibri || {};
+        App.Stato.dati.nomiLibri[id] = App.U.spazi(nome);
+        return { libro: trova(id) };
+      }
+      var mio = miei().filter(function (x) { return x.id === id; })[0];
+      mio.nome = App.U.spazi(nome);
+      return { libro: mio };
     },
     // Elimina un libro del docente; le classi che lo usavano tornano al libro d'Istituto
     elimina: function (id) {
