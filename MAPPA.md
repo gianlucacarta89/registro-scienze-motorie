@@ -1,4 +1,4 @@
-# MAPPA — Registro S.Mot (Registro Scienze Motorie) v7.25
+# MAPPA — Registro S.Mot (Registro Scienze Motorie) v7.26
 
 Indice dei file: cosa c'è dentro e quale parte dell'app ne dipende.
 Tutti i moduli stanno nell'oggetto globale `App`. Ordine di caricamento in `index.html`:
@@ -80,6 +80,7 @@ Nome, versione, nome dell'archivio, **tipologie dei test (menu a tendina, e ordi
 | `libro-voti.js` | `App.LibroVoti` | `compatibili`, `proposto` (test del libro equivalente: nome con sinonimi + tipologia), `applica` (tabella della fascia + scheda nei campi vuoti, `test.daLibro`), `togli`, `modello` (copia nell'elenco o libro), `sostituisci` (il test diventa quello del libro, risultati riscritti con `converti`, unione se già presente) |
 | `importa-test.js` | `App.ImportaTest` | `daRighe(righe, { posizionale })`, `daTesto`, `daJson`, `prepara` — 📥 riconosce test e tabelle dei voti da righe di celle (Excel/Word per posizione delle colonne, PDF, testo, OCR): titoli, scheda con etichette (Obiettivo:, Materiale:…), fasce (righe o colonne), ♂/♀ (colonne, righe o sulla stessa riga), livelli → voto (`config.importaTest.livelli`, il 4 non è una soglia), voti in numero, un test per riga sotto i livelli; intervalli (bordo giusto secondo "meglio"), "> 214", "oltre", tempi 3'55"; deduce misura, unità, meglio alto/basso, tipologia, con gli avvisi per la revisione. Niente si salva qui |
 | `libri.js` | `App.Libri` | `ISTITUTO`, `tutti`, `miei`, `trova`, `diClasse`, `testDi(classe|id)`, `tuttiITest`, `libroDelTest`, `imposta(classe, id)`, `nuovo`, `rinomina`, `elimina`, `classiCon`, `salvaTest`, `eliminaTest` — più libri: incorporati (`App.LibriIncorporati`, il libro d'Istituto = `App.TestLibro`; solo lettura) e del docente (`dati.libri`); libro per classe (`classe.libro`, se manca = Istituto) |
+| `cambia-test.js` | `App.CambiaTest` | `affini(classe, t)` (stessa tipologia, dall'elenco 📚 e dal libro della classe, non già nella classe; prima quelli con la stessa misura), `stessaMisura`, `cambia(classe, vecchio, scelto)`: il nuovo prende lo stesso posto; risultati con la stessa misura passano (riscritti), con misura diversa il vecchio resta con i suoi risultati; senza risultati il vecchio si toglie |
 | `profilo.js` | `App.Profilo` | `alunno` — media dei voti per capacità in una prova (capacità e tipologie in `config.capacita`), `capacitaClasse`, `capacitaDi` |
 | `giustificazioni.js` | `App.Giust` | `errore` (mese, doppioni, simbolo), `ammetteCertificato`, `conCertificato`, `aggiungi`, `modifica`, `elimina`, `delMese`, `totaleAnno`, `contaClasse` |
 
@@ -121,6 +122,7 @@ Ogni pagina è `App.UI.Pagine[id].disegna(cont)`; la pagina aperta è `preferenz
 | `finestra-test.js` | `App.UI.FinestraTest` | Nuovo test e ✏️ intestazione colonna: nome, tipologia (menu da config + Altro…), strumento (uno o ♂/♀), tipo, unità, migliore, 📖 scheda, ◀ ▶ sposta, 🗑️ |
 | `finestra-voti-classe.js` | `App.UI.FinestraVotiClasse` | 📏 Tabelle dei voti della classe: fascia (proposta dal nome, ricordata in `classe.fascia`), per ogni test il test del libro proposto e lo stato, 📖 Applica / 🗑️ Togli / 🔄 Sostituisci con il test del libro sui test spuntati |
 | `finestra-parametri.js` | `App.UI.FinestraParametri` | ⚙️ Parametri del test: menu ♂/♀ dei valori, anteprima delle soglie libro → nuovo con i coefficienti, avviso se ci sono già risultati, ✔ Applica |
+| `finestra-cambia-test.js` | `App.UI.FinestraCambiaTest` | 🔄 Cambia (dalla finestra del test in ⏱️ Sessioni): scelta del test affine con misura e provenienza, spiegazione di cosa succede ai risultati, 🔄 Cambia |
 | `finestra-doppioni.js` | `App.UI.FinestraDoppioni` | 🔗 Test doppioni: gruppi unici (non per classe) con "Tieni"/"Unisci" e in che classi c'è ogni test; 🔗 Unisci vale per elenco e tutte le classi; ✋ Unisci a mano tra tutti i test (elenco, libro, classi) |
 | `finestra-voti.js` | `App.UI.FinestraVoti` | 📏 Tabella dei voti: una riga per voto, soglia ♂ e ♀, ➕ riga, controllo dell'ordine; 📖 Riempi dal libro (test compatibili, il più simile per primo, fascia della classe; al salvataggio anche la scheda) |
 | `finestra-copia-test.js` | `App.UI.FinestraCopiaTest` | 📋 Copia test in un'altra classe |

@@ -7,7 +7,7 @@
  */
 'use strict';
 
-var VERSIONE = 'registro-sm-v7.25';
+var VERSIONE = 'registro-sm-v7.26';
 
 var FILE = [
   './',
@@ -34,6 +34,7 @@ var FILE = [
   'js/servizi/nomi-sesso.js',
   'js/servizi/scheda-test.js',
   'js/servizi/libri.js',
+  'js/servizi/cambia-test.js',
   'js/servizi/importa-test.js',
   'js/servizi/libro-voti.js',
   'js/servizi/parametri-test.js',
@@ -85,6 +86,7 @@ var FILE = [
   'js/ui/finestra-voti.js',
   'js/ui/finestra-voti-classe.js',
   'js/ui/finestra-parametri.js',
+  'js/ui/finestra-cambia-test.js',
   'js/ui/finestra-doppioni.js',
   'js/ui/finestra-copia-test.js',
   'js/ui/finestra-elenco-test.js',

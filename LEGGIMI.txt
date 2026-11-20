@@ -1,4 +1,4 @@
-REGISTRO S.MOT (Registro Scienze Motorie) — v7.25
+REGISTRO S.MOT (Registro Scienze Motorie) — v7.26
 ================================================
 
 PUBBLICAZIONE SU GITHUB PAGES (una volta sola, dal computer)
@@ -97,6 +97,10 @@ COSA FA — il menu (in alto sul computer, in basso sul telefono)
   risultati restano tutti; se un alunno ha
   due valori diversi nella stessa prova, il doppione resta con quel valore da controllare.
   In fondo "✋ Unisci a mano" per i test che l'app non riconosce da sola.
+- 🔄 Cambia (tocca il nome del test in ⏱️ Sessioni): sostituisce il test della classe con uno
+  della stessa tipologia (es. Corsa di 1 km → Corsa 6 minuti), dall'elenco 📚 o dal libro della
+  classe. Stessa misura: i risultati passano al nuovo; misura diversa: il vecchio test resta con
+  i suoi risultati accanto al nuovo (lo togli tu); nessun risultato: il vecchio si toglie.
 - ⚙️ Parametri modificabili: Sprint (libro: 30 m; 30–100 m, il nome resta "Sprint" e i metri
   si vedono nella colonna, es. ♂ 80 m / ♀ 60 m), Lancio avanti palla medica 3 kg e
   Getto palla medica 2 kg da seduti (1–5 kg), Corsa di 1 km (800–3000 m). Apri il test (in 📚 Test

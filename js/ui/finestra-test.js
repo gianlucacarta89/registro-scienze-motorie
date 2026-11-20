@@ -3,7 +3,7 @@
  *          con la scheda del test (a che cosa serve, materiale, come si fa, come si misura, differenze ♂/♀)
  *          e "⚙️ Cambia distanza/peso" per i test del libro che hanno parametri (finestra-parametri.js).
  * Dipende da: App.U, App.Config (tipiTest, schedaTest), App.Test, App.SchedaTest, App.Voti, App.ElencoTest, App.UI.FinestraVoti, App.Stato, App.Avvisi, App.Finestra,
- *             App.UI.disegnaContenuto
+ *             App.UI.disegnaContenuto, App.UI.FinestraCambiaTest (🔄 Cambia con un test affine)
  * Usato da: ui/tabella-test.js (pulsante ➕ Nuovo test e intestazioni delle colonne),
  *           ui/finestra-elenco-test.js (test dell'elenco: "classe" = App.ElencoTest.contenitore())
  */
@@ -242,6 +242,7 @@
         pulsanti.push({ testo: '🗑️ Cancella', tipo: 'pericolo', azione: function (fin) { chiedi(classe, t, fin); return false; } });
         pulsanti.push({ testo: '◀', tipo: 'neutro', azione: function () { sposta(-1); return false; } });
         pulsanti.push({ testo: '▶', tipo: 'neutro', azione: function () { sposta(1); return false; } });
+        if (!classe.elenco) pulsanti.push({ testo: '🔄 Cambia', tipo: 'info', azione: function () { setTimeout(function () { App.UI.FinestraCambiaTest.apri(classe, t); }, 0); } });
       }
       pulsanti.push({ testo: 'Annulla', tipo: 'neutro' });
       pulsanti.push({
