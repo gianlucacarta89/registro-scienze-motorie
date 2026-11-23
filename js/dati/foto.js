@@ -88,6 +88,7 @@
     idDelleAttivita: function (dati) {
       var l = [];
       dati.classi.forEach(function (c) { (c.attivita || []).forEach(function (a) { l = l.concat(a.foto || []); }); });
+      (dati.archivioAttivita || []).forEach(function (a) { l = l.concat(a.foto || []); });     // 📚 archivio
       return l;
     }
   };

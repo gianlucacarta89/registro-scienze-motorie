@@ -71,8 +71,8 @@
       stato = el('span', { class: 'stato-backup avviso', text: '⚠️ Questo browser non permette di salvare: esporta il backup prima di chiudere' });
     } else if (!d.classi.length) {
       stato = null;
-    } else if (App.Stato.daSalvareInBackup()) {
-      stato = el('button', { type: 'button', class: 'stato-backup avviso', text: '⚠️ Modifiche non ancora nel backup',
+    } else if (!d.ultimoBackup || App.Stato.daSalvareInBackup()) {
+      stato = el('button', { type: 'button', class: 'stato-backup avviso', text: d.ultimoBackup ? '⚠️ Modifiche non ancora nel backup' : '⚠️ Nessun backup ancora',
         onclick: function () { App.UI.vai('backup'); } });
     } else {
       stato = el('span', { class: 'stato-backup ok', text: '✓ Backup aggiornato (' + App.U.dataOraIT(d.ultimoBackup) + ')' });

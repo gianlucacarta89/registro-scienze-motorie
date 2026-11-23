@@ -179,3 +179,8 @@
 .scelta-libro .campo { flex: 1 1 220px; }
 .scelta-libro select { width: 100%; }
 .libro-classe { margin: 6px 0; }
+
+/* 📚 Archivio delle attività */
+.riga-archivio { grid-template-columns: minmax(0, 1fr) auto; cursor: default; }
+.att-apri { text-align: left; background: none; border: 0; padding: 0; font: inherit; color: inherit; cursor: pointer; }
+@media (max-width: 480px) { .riga-archivio { grid-template-columns: minmax(0, 1fr) auto; } .riga-archivio .att-data { display: none; } }

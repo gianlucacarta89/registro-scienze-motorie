@@ -4,7 +4,7 @@
  *          (ui/foto-attivita.js). "📋 Copia in altre classi" (ui/finestra-copia-attivita.js). "✔ Salva" controlla
  *          e salva tutto; "🗑️ Elimina" (solo per un'attività già salvata) chiede conferma.
  * Dipende da: App.U, App.Config (sessi, attivita, limiti), App.Attivita, App.Voti, App.Stato, App.Avvisi,
- *             App.Finestra, App.Foto, App.UI.FotoAttivita, App.UI.FinestraCopiaAttivita, App.UI.disegnaContenuto
+ *             App.Finestra, App.Foto, App.UI.FotoAttivita, App.UI.FinestraCopiaAttivita, App.ArchivioAttivita, App.UI.disegnaContenuto
  * Usato da: ui/pagina-attivita.js
  */
 (function (App) {
@@ -81,7 +81,15 @@
           classe.alunni.length ? el('ul', { class: 'lista lista-voti-attivita' }, righe) :
             el('p', { class: 'suggerimento', text: 'La classe non ha ancora alunni: caricali in 🏫 Classi.' })),
         pulsanti: (att ? [{ testo: '🗑️ Elimina', tipo: 'pericolo', azione: elimina },
-          { testo: '📋 Copia in altre classi', tipo: 'info', azione: function () { App.UI.FinestraCopiaAttivita.apri(classe, att); return false; } }] : []).concat([
+          { testo: '📋 Copia in altre classi', tipo: 'info', azione: function () { App.UI.FinestraCopiaAttivita.apri(classe, att); return false; } },
+          { testo: '📚 Nell\'archivio', tipo: 'neutro', azione: function () {
+            var r = App.ArchivioAttivita.daAttivita(att);
+            if (r.errore) { App.Avvisi.toast('❌ ' + r.errore, 'errore', 5000); return false; }
+            App.Stato.salva();
+            Promise.all(r.foto.map(function (f) { return App.Foto.leggi(f.da).then(function (u) { if (u) return App.Foto.salva(f.a, u); }); })).catch(function () {});
+            App.Avvisi.toast('📚 "' + att.titolo + '" salvata nell\'archivio: da lì la assegni ad altre classi.', 'ok', 5000);
+            return false;
+          } }] : []).concat([
           { testo: 'Annulla', tipo: 'neutro' }, { testo: '✔ Salva', tipo: 'ok', azione: salva }])
       });
     }

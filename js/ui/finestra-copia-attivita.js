@@ -5,7 +5,8 @@
  *          Le classi che hanno già la stessa attività quel giorno sono indicate e non si possono spuntare.
  * Dipende da: App.U, App.Stato, App.Classi, App.Attivita, App.Foto, App.Avvisi, App.Finestra,
  *             App.UI.disegnaContenuto
- * Usato da: ui/finestra-attivita.js
+ *          Con classe = null la usa l'📚 Archivio delle attività per assegnarle alle classi.
+ * Usato da: ui/finestra-attivita.js, ui/finestra-archivio-attivita.js
  */
 (function (App) {
   'use strict';
@@ -15,9 +16,10 @@
 
   App.UI.FinestraCopiaAttivita = {
     apri: function (classe, att) {
-      var altre = App.Classi.tutte().filter(function (c) { return c.id !== classe.id; });
-      if (!altre.length) { App.Avvisi.toast('Non ci sono altre classi: creale in 🏫 Classi.', 'info', 4000); return; }
-      var scelte = {}, data = el('input', { type: 'date', 'aria-label': 'Data nelle altre classi', value: att.data });
+      // classe = null: dall'📚 Archivio, tutte le classi (v7.27)
+      var altre = App.Classi.tutte().filter(function (c) { return !classe || c.id !== classe.id; });
+      if (!altre.length) { App.Avvisi.toast(classe ? 'Non ci sono altre classi: creale in 🏫 Classi.' : 'Non ci sono classi: creale in 🏫 Classi.', 'info', 4000); return; }
+      var scelte = {}, data = el('input', { type: 'date', 'aria-label': 'Data nelle altre classi', value: att.data || App.U.oggiISO() });
       var lista = el('ul', { class: 'lista lista-copia' });
 
       function gia(c) { return App.Attivita.errore(c, { data: data.value, titolo: att.titolo }) !== null; }
@@ -52,12 +54,12 @@
       }
 
       App.Finestra.apri({
-        titolo: 'Copia "' + att.titolo + '"', icona: '📋', fuoco: false,
+        titolo: (classe ? 'Copia "' : 'Assegna "') + att.titolo + '"', icona: classe ? '📋' : '📌', fuoco: false,
         corpo: el('div', { class: 'modulo' },
           el('p', { class: 'piccolo', text: 'Si copiano titolo, descrizione, note e foto (come sono salvati). I voti no: li darai nella classe nuova.' }),
           el('label', { class: 'campo' }, el('span', { text: 'Data' }), data),
           el('h4', { text: 'In quali classi?' }), lista),
-        pulsanti: [{ testo: 'Annulla', tipo: 'neutro' }, { testo: '📋 Copia', tipo: 'ok', azione: copia }]
+        pulsanti: [{ testo: 'Annulla', tipo: 'neutro' }, { testo: classe ? '📋 Copia' : '📌 Assegna', tipo: 'ok', azione: copia }]
       });
     }
   };

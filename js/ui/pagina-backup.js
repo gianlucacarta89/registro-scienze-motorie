@@ -36,6 +36,7 @@
       if (r.votiAttivita) righe.push('⛹️ ' + n(r.votiAttivita, 'voto delle attività', 'voti delle attività'));
       if (r.fotoNuove) righe.push('📷 ' + n(r.fotoNuove, 'foto delle attività', 'foto delle attività'));
       if (r.sessi) righe.push('♂♀ ' + n(r.sessi, 'alunno con ♂/♀ corretto più di recente nel backup', 'alunni con ♂/♀ corretto più di recente nel backup'));
+      if (r.archivio) righe.push('📚 ' + n(r.archivio, 'attività nell\'archivio', 'attività nell\'archivio'));
       if (r.libri) righe.push('📖 ' + n(r.libri, 'libro', 'libri'));
       if (r.testLibri) righe.push('📖 ' + n(r.testLibri, 'test nei libri', 'test nei libri'));
       if (r.osservazioni) righe.push('🗒️ ' + n(r.osservazioni, 'osservazione', 'osservazioni'));

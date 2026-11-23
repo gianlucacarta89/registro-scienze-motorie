@@ -50,6 +50,7 @@
     // v7.25: 📖 Libro non è più una voce del menu ma una sottoscheda di 📚 Test
     if (p.pagina === 'libro') { n.preferenze.pagina = 'test'; n.preferenze.sottoTest = 'libro'; }
     n.preferenze.sottoGiust = p.sottoGiust === 'stat' ? 'stat' : 'registro';
+    n.preferenze.sottoAttivita = p.sottoAttivita === 'archivio' ? 'archivio' : 'classe';
     n.preferenze.sottoSessioni = p.sottoSessioni === 'voti' ? 'voti' : 'risultati';
     n.preferenze.libroAperto = typeof p.libroAperto === 'string' ? p.libroAperto : null;
     n.preferenze.fasciaLibro = ['b1', 'b2', 'q'].indexOf(p.fasciaLibro) >= 0 ? p.fasciaLibro : null;
@@ -64,6 +65,7 @@
     n.ultimaModifica = d.ultimaModifica || null;
     n.ultimoBackup = d.ultimoBackup || null;
     n.libri = Array.isArray(d.libri) ? d.libri : [];
+    n.archivioAttivita = Array.isArray(d.archivioAttivita) ? d.archivioAttivita : [];   // 📚 archivio delle attività (v7.27)
     n.nomiLibri = d.nomiLibri && typeof d.nomiLibri === 'object' ? d.nomiLibri : {};   // nomi dati ai libri incorporati                 // 📖 libri del docente (v7.22)
     n.segnapunti = d.segnapunti && typeof d.segnapunti === 'object' ? d.segnapunti : null;   // 🏆 v7.19 (servizi/segnapunti.js)
     n.archivio = { test: d.archivio && Array.isArray(d.archivio.test) ? d.archivio.test : [] };

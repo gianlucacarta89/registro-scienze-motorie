@@ -3,7 +3,9 @@
  *          con data, titolo, inizio della descrizione, alunni valutati e media; "➕ Nuova attività" e tocco
  *          su un'attività per aprirla (ui/finestra-attivita.js).
  * Dipende da: App.U, App.Stato, App.Attivita, App.Voti (testo, sufficiente), App.UI (titoloPagina,
- *             sceltaClasse, senzaClassi, vuoto), App.UI.FinestraAttivita, App.UI.FinestraOsservazioni
+ *             sceltaClasse, senzaClassi, vuoto), App.UI.FinestraAttivita, App.UI.FinestraOsservazioni, App.ArchivioAttivita,
+ *             App.UI.FinestraArchivioAttivita, App.UI.FinestraCopiaAttivita, App.UI.sottoSchede
+ *          Sottoscheda 📚 Archivio (v7.27): attività da assegnare alle classi (servizi/archivio-attivita.js).
  * Usato da: ui/pagina.js
  */
 (function (App) {
@@ -25,9 +27,36 @@
         el('span', { class: 'voto grande-voto ' + (App.Voti.sufficiente(m) ? 'suff' : 'insuff'), title: 'Media della classe', text: App.Voti.testo(m) })));
   }
 
+  // 📚 Archivio: attività scritte una volta, da assegnare alle classi (v7.27)
+  function archivio(cont) {
+    var l = App.ArchivioAttivita.tutte();
+    cont.appendChild(el('div', { class: 'strumenti' },
+      el('button', { type: 'button', class: 'btn btn-ok', text: '➕ Nuova attività nell\'archivio', onclick: function () { App.UI.FinestraArchivioAttivita.apri(null); } })));
+    if (!l.length) {
+      cont.appendChild(App.UI.vuoto('📚', 'L\'archivio è vuoto',
+        'Scrivi qui le attività che usi spesso (titolo, descrizione, note, foto) e assegnale alle classi con una data. Puoi anche salvare nell\'archivio un\'attività già fatta in una classe (📚 Nell\'archivio).',
+        el('button', { type: 'button', class: 'btn btn-ok grande', text: '➕ Nuova attività nell\'archivio', onclick: function () { App.UI.FinestraArchivioAttivita.apri(null); } })));
+      return;
+    }
+    cont.appendChild(el('ul', { class: 'lista lista-attivita' }, l.map(function (v) {
+      var usata = App.ArchivioAttivita.usataIn(v);
+      return el('li', {}, el('div', { class: 'riga-attivita riga-archivio' },
+        el('button', { type: 'button', class: 'att-testo att-apri', onclick: function () { App.UI.FinestraArchivioAttivita.apri(v); } },
+          el('b', { text: v.titolo }),
+          v.descrizione ? el('span', { class: 'piccolo att-descr', text: v.descrizione }) : null,
+          el('span', { class: 'piccolo', text: (usata.length ? 'Assegnata a: ' + usata.join(', ') : 'Non ancora assegnata') + ((v.foto || []).length ? ' · 📷 ' + v.foto.length : '') })),
+        el('button', { type: 'button', class: 'btn btn-ok piccolo-btn', text: '📌 Assegna', onclick: function () { App.UI.FinestraCopiaAttivita.apri(null, v); } })));
+    })));
+    cont.appendChild(el('p', { class: 'piccolo', text: l.length + ' attività nell\'archivio. "📌 Assegna": scegli classi e data; in ogni classe nasce l\'attività pronta per i voti.' }));
+  }
+
   App.UI.Pagine.attivita = {
     disegna: function (cont) {
+      var pref = App.Stato.dati.preferenze;
       cont.appendChild(App.UI.titoloPagina('⛹️ Attività'));
+      cont.appendChild(App.UI.sottoSchede([['classe', '🏫 Classe'], ['archivio', '📚 Archivio']], pref.sottoAttivita || 'classe',
+        function (id) { pref.sottoAttivita = id; App.Stato.scrivi(); App.UI.disegnaContenuto(); }));
+      if (pref.sottoAttivita === 'archivio') { archivio(cont); return; }
       if (App.UI.senzaClassi(cont)) return;
       var classe = App.Stato.classe();
       cont.appendChild(el('div', { class: 'strumenti' }, App.UI.sceltaClasse(),
