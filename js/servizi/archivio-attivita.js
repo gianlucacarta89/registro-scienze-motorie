@@ -8,7 +8,7 @@
  * Usato da: ui/pagina-attivita.js, ui/finestra-archivio-attivita.js, ui/finestra-attivita.js,
  *           ui/finestra-copia-attivita.js, dati/foto.js, dati/unisci-backup.js
  *
- * Dati: dati.archivioAttivita = [{ id, titolo, descrizione, note, foto: [id…] }]; dati.archivioEsclusi = [titoli tolti]
+ * Dati: dati.archivioAttivita = [{ id, titolo, descrizione, note, foto: [id…], tag: [...] }]; dati.archivioEsclusi = [titoli tolti]
  */
 (function (App) {
   'use strict';
@@ -35,7 +35,7 @@
       var e = errore(x, id);
       if (e) return { errore: e };
       var v = id ? App.ArchivioAttivita.trova(id) : { id: App.U.nuovoId() };
-      v.titolo = App.U.spazi(x.titolo); v.descrizione = App.U.spazi(x.descrizione); v.note = App.U.spazi(x.note); v.foto = (x.foto || []).slice();
+      v.titolo = App.U.spazi(x.titolo); v.descrizione = App.U.spazi(x.descrizione); v.note = App.U.spazi(x.note); v.foto = (x.foto || []).slice(); v.tag = (x.tag || []).slice();
       if (!id) lista().push(v);
       return { voce: v };
     },
@@ -76,7 +76,7 @@
     // Da un'attività di una classe: copia nell'archivio (foto con id nuovi). -> { errore } | { voce, foto: [{ da, a }] }
     daAttivita: function (att) {
       var foto = (att.foto || []).map(function (id) { return { da: id, a: App.U.nuovoId() }; });
-      var r = App.ArchivioAttivita.salva({ titolo: att.titolo, descrizione: att.descrizione, note: att.note, foto: foto.map(function (f) { return f.a; }) });
+      var r = App.ArchivioAttivita.salva({ titolo: att.titolo, descrizione: att.descrizione, note: att.note, tag: att.tag, foto: foto.map(function (f) { return f.a; }) });
       return r.errore ? r : { voce: r.voce, foto: foto };
     }
   };

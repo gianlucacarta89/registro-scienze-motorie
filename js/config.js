@@ -9,7 +9,7 @@
 
   App.Config = {
     nome: 'Registro S.Mot',          // nome mostrato (l'archivio dei dati qui sotto NON va cambiato)
-    versione: '7.28',
+    versione: '7.29',
 
     // Menu principale: una pagina per voce (ui/pagina.js). "corto" = etichetta sul telefono
     menu: [
@@ -125,6 +125,12 @@
     sessi: { M: { icona: '♂', nome: 'Alunno' }, F: { icona: '♀', nome: 'Alunna' } },
     // 🏆 Segnapunti (dalla Home): nomi iniziali, quante azioni si possono annullare, lunghezza dei nomi
     segnapunti: { nomi: ['Squadra A', 'Squadra B'], annulla: 100, lunghezzaNome: 24 },
+    // ⛹️ Tag delle attività (v7.29): si scelgono nella finestra dell'attività e filtrano gli elenchi
+    tagAttivita: [
+      { id: 'forza', icona: '💪', nome: 'Forza' }, { id: 'velocita', icona: '⚡', nome: 'Velocità' },
+      { id: 'resistenza', icona: '🫀', nome: 'Resistenza' }, { id: 'coordinazione', icona: '🤸', nome: 'Coordinazione' },
+      { id: 'sport', icona: '⚽', nome: 'Sport' }
+    ],
     // ⛹️ Attività valutate: voti da votoMin a votoMax, interi o con mezzo punto (passo); lunghezze massime
     attivita: { votoMin: 1, votoMax: 10, passo: 0.5, titolo: 60, descrizione: 800 },
     // 📷 Foto delle attività: archivio a parte, lato lungo massimo in pixel, qualità JPEG, quante per attività

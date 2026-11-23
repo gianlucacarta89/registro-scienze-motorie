@@ -7,7 +7,7 @@
  *           dati/unisci-backup.js
  *
  * Dati: classe.attivita = [{ id, data: 'AAAA-MM-GG', titolo, descrizione, note,
- *                             voti: { alunnoId: { voto: 7.5, nota: '' } }, foto: [id…] }]  (foto: dati/foto.js)
+ *                             voti: { alunnoId: { voto: 7.5, nota: '' } }, foto: [id…], tag: ['forza', …] }]  (foto: dati/foto.js; tag: config tagAttivita)
  */
 (function (App) {
   'use strict';
@@ -63,7 +63,7 @@
       var e = errore(classe, x);
       if (e) return { errore: e };
       var att = { id: App.U.nuovoId(), data: x.data, titolo: App.U.spazi(x.titolo), descrizione: App.U.spazi(x.descrizione),
-        note: App.U.spazi(x.note), voti: pulisci(x.voti), foto: (x.foto || []).slice() };
+        note: App.U.spazi(x.note), voti: pulisci(x.voti), foto: (x.foto || []).slice(), tag: (x.tag || []).slice() };
       lista(classe).push(att);
       return { attivita: att };
     },
@@ -75,13 +75,14 @@
       att.data = x.data; att.titolo = App.U.spazi(x.titolo); att.descrizione = App.U.spazi(x.descrizione);
       att.note = App.U.spazi(x.note); att.voti = pulisci(x.voti);
       if (x.foto) att.foto = x.foto.slice();
+      if (x.tag) att.tag = x.tag.slice();
       return { attivita: att };
     },
 
     // Copia att nella classe dest con la data scelta: titolo, descrizione, note e foto (con id nuovi),
     // senza voti. -> { errore } | { attivita, foto: [{ da, a }] } (le foto da duplicare: ui/finestra-copia-attivita.js)
     copia: function (att, dest, data) {
-      var x = { data: data, titolo: att.titolo, descrizione: att.descrizione, note: att.note, voti: {} };
+      var x = { data: data, titolo: att.titolo, descrizione: att.descrizione, note: att.note, voti: {}, tag: (att.tag || []).slice() };
       var e = errore(dest, x);
       if (e) return { errore: e };
       var foto = (att.foto || []).map(function (id) { return { da: id, a: App.U.nuovoId() }; });

@@ -1,4 +1,4 @@
-REGISTRO S.MOT (Registro Scienze Motorie) — v7.28
+REGISTRO S.MOT (Registro Scienze Motorie) — v7.29
 ================================================
 
 PUBBLICAZIONE SU GITHUB PAGES (una volta sola, dal computer)
@@ -143,6 +143,9 @@ COSA FA — il menu (in alto sul computer, in basso sul telefono)
   "📌 Assegna" a una o più classi con la data (in ogni classe nasce l'attività pronta per i voti).
   Le attività create nelle classi entrano nell'archivio da sole (una per titolo); se ne togli
   una dall'archivio non ci torna.
+- 🏷️ Tag delle attività: 💪 Forza, ⚡ Velocità, 🫀 Resistenza, 🤸 Coordinazione, ⚽ Sport (anche
+  più di uno), nella finestra dell'attività e nell'archivio; sopra gli elenchi il filtro per tag.
+  L'elenco dei tag è in config.js > tagAttivita.
 - 📋 Giustificazioni: Registro (tocca la casella di un alunno nel mese giusto: data, motivo,
   nota; per salute, infortunio e ciclo la spunta "📄 Con certificato medico"; per la
   giustificazione generica il motivo va scritto nella nota; "⚡ Appello rapido": un giorno,

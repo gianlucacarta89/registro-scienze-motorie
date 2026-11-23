@@ -4,7 +4,7 @@
  *          (ui/foto-attivita.js). "📋 Copia in altre classi" (ui/finestra-copia-attivita.js). "✔ Salva" controlla
  *          e salva tutto; "🗑️ Elimina" (solo per un'attività già salvata) chiede conferma.
  * Dipende da: App.U, App.Config (sessi, attivita, limiti), App.Attivita, App.Voti, App.Stato, App.Avvisi,
- *             App.Finestra, App.Foto, App.UI.FotoAttivita, App.UI.FinestraCopiaAttivita, App.ArchivioAttivita (raccogli), App.UI.disegnaContenuto
+ *             App.Finestra, App.Foto, App.UI.FotoAttivita, App.UI.TagAttivita, App.UI.FinestraCopiaAttivita, App.ArchivioAttivita (raccogli), App.UI.disegnaContenuto
  * Usato da: ui/pagina-attivita.js
  */
 (function (App) {
@@ -41,7 +41,8 @@
 
       var foto = App.UI.FotoAttivita.crea(att, att ? att.titolo : 'Foto');
 
-      function dati() { return { data: data.value, titolo: titolo.value, descrizione: descr.value, note: note.value, voti: voti, foto: foto.ids() }; }
+      var tag = App.UI.TagAttivita.scelta(att && att.tag);
+      function dati() { return { data: data.value, titolo: titolo.value, descrizione: descr.value, note: note.value, voti: voti, foto: foto.ids(), tag: tag.valori() }; }
 
       function salva() {
         var r = att ? App.Attivita.modifica(classe, att.id, dati()) : App.Attivita.aggiungi(classe, dati());
@@ -76,6 +77,7 @@
             el('label', { class: 'campo' }, el('span', { text: 'Data' }), data),
             el('label', { class: 'campo' }, el('span', { text: 'Titolo' }), titolo)),
           el('label', { class: 'campo' }, el('span', { text: 'Descrizione' }), descr),
+          el('div', { class: 'campo' }, el('span', { text: 'Tag (anche più di uno)' }), tag.nodo),
           el('label', { class: 'campo' }, el('span', { text: 'Note' }), note),
           el('h4', { text: '📷 Foto' }), foto.nodo,
           el('h4', { text: '🎯 Voti degli alunni (da ' + App.Voti.testo(cfg.votoMin) + ' a ' + App.Voti.testo(cfg.votoMax) + ', anche mezzi punti; "–" = non valutato)' }),

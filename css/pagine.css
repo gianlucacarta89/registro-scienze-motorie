@@ -184,3 +184,12 @@
 .riga-archivio { grid-template-columns: minmax(0, 1fr) auto; cursor: default; }
 .att-apri { text-align: left; background: none; border: 0; padding: 0; font: inherit; color: inherit; cursor: pointer; }
 @media (max-width: 480px) { .riga-archivio { grid-template-columns: minmax(0, 1fr) auto; } .riga-archivio .att-data { display: none; } }
+
+/* 🏷️ Tag delle attività */
+.tag-scelta { display: flex; flex-wrap: wrap; gap: 6px; }
+.tag-btn { border: 2px solid var(--bordo); background: var(--carta); color: inherit; border-radius: 999px; padding: 6px 12px; min-height: 38px; font: inherit; font-size: .9rem; cursor: pointer; }
+.tag-btn.attivo { border-color: var(--ok); background: var(--ok-chiaro); font-weight: 700; }
+.tag-filtro { margin: 4px 0 10px; }
+.tag-filtro .tag-btn { min-height: 34px; padding: 4px 10px; font-size: .85rem; }
+.tag-etichette { display: flex; flex-wrap: wrap; gap: 4px; margin: 2px 0; }
+.tag-mini { font-size: .75rem; padding: 1px 8px; border-radius: 999px; background: var(--sfondo); border: 1px solid var(--bordo); white-space: nowrap; }

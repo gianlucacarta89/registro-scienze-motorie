@@ -1,6 +1,6 @@
 /* finestra-archivio-attivita.js
  * Cosa fa: finestra di un'attività dell'📚 Archivio (nuova o da modificare): titolo, descrizione, note e
- *          📷 foto; "📌 Assegna alle classi" (classi e data: ui/finestra-copia-attivita.js) e "🗑️ Elimina"
+ *          🏷️ tag, 📷 foto; "📌 Assegna alle classi" (classi e data: ui/finestra-copia-attivita.js) e "🗑️ Elimina"
  *          (con conferma: le attività già assegnate alle classi restano).
  * Dipende da: App.U, App.Config (attivita), App.ArchivioAttivita, App.Foto, App.Stato, App.Avvisi,
  *             App.Finestra, App.UI.FotoAttivita, App.UI.FinestraCopiaAttivita, App.UI.disegnaContenuto
@@ -21,9 +21,10 @@
       var note = el('textarea', { rows: 2, maxlength: cfg.descrizione, 'aria-label': 'Note', placeholder: 'facoltative (criteri, materiale…)' });
       note.value = voce ? voce.note : '';
       var foto = App.UI.FotoAttivita.crea(voce, voce ? voce.titolo : 'Foto');
+      var tag = App.UI.TagAttivita.scelta(voce && voce.tag);
 
       function salva(dopo) {
-        var r = App.ArchivioAttivita.salva({ titolo: titolo.value, descrizione: descr.value, note: note.value, foto: foto.ids() }, voce && voce.id);
+        var r = App.ArchivioAttivita.salva({ titolo: titolo.value, descrizione: descr.value, note: note.value, foto: foto.ids(), tag: tag.valori() }, voce && voce.id);
         if (r.errore) { App.Avvisi.toast('❌ ' + r.errore, 'errore', 5000); return false; }
         App.Stato.salva();
         foto.salva().then(function () { if (dopo) dopo(r.voce); }).catch(function () { App.Avvisi.toast('⚠️ Non riesco a salvare le foto su questo dispositivo.', 'errore', 6000); if (dopo) dopo(r.voce); });
@@ -58,6 +59,7 @@
         corpo: el('div', { class: 'modulo finestra-attivita' },
           el('label', { class: 'campo' }, el('span', { text: 'Titolo' }), titolo),
           el('label', { class: 'campo' }, el('span', { text: 'Descrizione' }), descr),
+          el('div', { class: 'campo' }, el('span', { text: 'Tag (anche più di uno)' }), tag.nodo),
           el('label', { class: 'campo' }, el('span', { text: 'Note' }), note),
           el('h4', { text: '📷 Foto' }), foto.nodo,
           el('p', { class: 'piccolo', text: 'Con "📌 Salva e assegna" scegli le classi e la data: in ognuna nasce l\'attività, pronta per i voti.' })),
