@@ -141,7 +141,10 @@
       la.archivio.test.forEach(function (t) { if (!trova(d.archivio.test, t)) { aggiungi(d.archivio.test, t); r.testElenco++; } });
       // 📚 archivio delle attività: stesso id o stesso titolo = già presente
       d.archivioAttivita = d.archivioAttivita || [];
+      d.archivioEsclusi = d.archivioEsclusi || [];
+      (la.archivioEsclusi || []).forEach(function (t) { if (d.archivioEsclusi.indexOf(t) < 0) d.archivioEsclusi.push(t); });
       (la.archivioAttivita || []).forEach(function (a) {
+        if (d.archivioEsclusi.indexOf(k(a.titolo)) >= 0) return;
         if (d.archivioAttivita.some(function (x) { return x.id === a.id || k(x.titolo) === k(a.titolo); })) return;
         d.archivioAttivita.push(App.U.copia(a)); r.archivio++;
       });

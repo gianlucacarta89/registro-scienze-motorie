@@ -34,7 +34,7 @@
       var pulsanti = [];
       if (voce) pulsanti.push({ testo: '🗑️ Elimina', tipo: 'pericolo', azione: function (f) {
         App.Avvisi.conferma({ titolo: 'Togliere "' + voce.titolo + '" dall\'archivio?', pericolo: true, testoOk: '🗑️ Elimina',
-          testo: ['Le attività già assegnate alle classi, con i loro voti, restano.'] })
+          testo: ['Le attività già assegnate alle classi, con i loro voti, restano. Non tornerà nell\'archivio da sola: se la vuoi di nuovo, ricreala qui.'] })
           .then(function (si) {
             if (!si) return;
             (voce.foto || []).forEach(function (id) { App.Foto.elimina(id).catch(function () {}); });

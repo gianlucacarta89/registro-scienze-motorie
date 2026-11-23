@@ -34,7 +34,7 @@
       el('button', { type: 'button', class: 'btn btn-ok', text: '➕ Nuova attività nell\'archivio', onclick: function () { App.UI.FinestraArchivioAttivita.apri(null); } })));
     if (!l.length) {
       cont.appendChild(App.UI.vuoto('📚', 'L\'archivio è vuoto',
-        'Scrivi qui le attività che usi spesso (titolo, descrizione, note, foto) e assegnale alle classi con una data. Puoi anche salvare nell\'archivio un\'attività già fatta in una classe (📚 Nell\'archivio).',
+        'Scrivi qui le attività che usi spesso (titolo, descrizione, note, foto) e assegnale alle classi con una data. Le attività che crei nelle classi entrano qui da sole.',
         el('button', { type: 'button', class: 'btn btn-ok grande', text: '➕ Nuova attività nell\'archivio', onclick: function () { App.UI.FinestraArchivioAttivita.apri(null); } })));
       return;
     }
@@ -47,7 +47,7 @@
           el('span', { class: 'piccolo', text: (usata.length ? 'Assegnata a: ' + usata.join(', ') : 'Non ancora assegnata') + ((v.foto || []).length ? ' · 📷 ' + v.foto.length : '') })),
         el('button', { type: 'button', class: 'btn btn-ok piccolo-btn', text: '📌 Assegna', onclick: function () { App.UI.FinestraCopiaAttivita.apri(null, v); } })));
     })));
-    cont.appendChild(el('p', { class: 'piccolo', text: l.length + ' attività nell\'archivio. "📌 Assegna": scegli classi e data; in ogni classe nasce l\'attività pronta per i voti.' }));
+    cont.appendChild(el('p', { class: 'piccolo', text: l.length + ' attività nell\'archivio. "📌 Assegna": scegli classi e data; in ogni classe nasce l\'attività pronta per i voti. Le attività create nelle classi entrano qui da sole.' }));
   }
 
   App.UI.Pagine.attivita = {

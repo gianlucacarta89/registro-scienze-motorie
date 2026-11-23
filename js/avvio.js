@@ -1,6 +1,6 @@
 /* avvio.js — SEMPRE l'ultimo file caricato
  * Cosa fa: fa partire l'app: carica i dati salvati e poi disegna la pagina.
- * Dipende da: tutti i moduli (App.Config, App.Stato, App.UI, App.Pwa, App.Tema)
+ * Dipende da: tutti i moduli (App.Config, App.Stato, App.UI, App.Pwa, App.Tema, App.ArchivioAttivita)
  * Usato da: index.html
  */
 (function (App) {
@@ -15,6 +15,9 @@
     App.Stato.carica().then(function () {
       App.Test.ordinaTutti();
       App.Test.riscriviTutti();
+      // ⛹️ le attività delle classi che non sono ancora nell'📚 archivio ci entrano (v7.28)
+      var arc = App.ArchivioAttivita.raccogli();
+      if (arc.aggiunte) { App.Stato.salva(); App.ArchivioAttivita.copiaFoto(arc.foto); }
       App.UI.disegna();
       App.Pwa.avvia(App.UI.piede);
       // App aperta anche in un'altra finestra: al ritorno in primo piano prende i dati più recenti

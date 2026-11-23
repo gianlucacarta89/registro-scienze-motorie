@@ -65,7 +65,8 @@
     n.ultimaModifica = d.ultimaModifica || null;
     n.ultimoBackup = d.ultimoBackup || null;
     n.libri = Array.isArray(d.libri) ? d.libri : [];
-    n.archivioAttivita = Array.isArray(d.archivioAttivita) ? d.archivioAttivita : [];   // 📚 archivio delle attività (v7.27)
+    n.archivioAttivita = Array.isArray(d.archivioAttivita) ? d.archivioAttivita : [];
+    n.archivioEsclusi = Array.isArray(d.archivioEsclusi) ? d.archivioEsclusi : [];   // titoli tolti dall'archivio (v7.28)   // 📚 archivio delle attività (v7.27)
     n.nomiLibri = d.nomiLibri && typeof d.nomiLibri === 'object' ? d.nomiLibri : {};   // nomi dati ai libri incorporati                 // 📖 libri del docente (v7.22)
     n.segnapunti = d.segnapunti && typeof d.segnapunti === 'object' ? d.segnapunti : null;   // 🏆 v7.19 (servizi/segnapunti.js)
     n.archivio = { test: d.archivio && Array.isArray(d.archivio.test) ? d.archivio.test : [] };
